@@ -1,0 +1,29 @@
+# SECURITY (CVE-FCA-02, High): fca-config.json can hold a plaintext
+# email/password/2FA secret, apiKey, and remoteControl.token. Without this
+# file, a `git add .` in a fresh clone silently stages real credentials.
+# Never remove these lines to "just get it committed" — copy
+# fca-config.example.json instead and keep the real file local-only.
+fca-config.json
+
+# Session/auth material — equivalent to account credentials.
+appstate.json
+appState.json
+*.appstate.json
+.fca-safety-store.json
+.session-store.json
+.device-profile.json
+.fca-session.lock
+
+# Local data stores created by the JSON-store DB backend.
+Fca_Database/
+
+# Standard Node.js ignores.
+node_modules/
+npm-debug.log*
+.env
+.env.*
+!.env.example
+
+# Editor/OS noise.
+.DS_Store
+*.log
