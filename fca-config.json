@@ -1,0 +1,35 @@
+{
+  "_warning": "Do NOT put FB_EMAIL / FB_PASSWORD here — use environment variables only",
+  "autoLogin": false,
+  "loginTimeoutMs": 20000,
+  "processErrorHandlers": false,
+  "apiServer": "",
+  "apiKey": "",
+  "checkUpdate": {
+    "enabled": false,
+    "install": false,
+    "allowInstall": false,
+    "notifyIfCurrent": false,
+    "packageName": "fca-unofficial",
+    "registryUrl": "https://registry.npmjs.org",
+    "timeoutMs": 10000
+  },
+  "mqtt": {
+    "enabled": true,
+    "reconnectInterval": 3600
+  },
+  "remoteControl": {
+    "enabled": false,
+    "url": "",
+    "token": "",
+    "autoReconnect": true
+  },
+  "antiGetInfo": {
+    "AntiGetThreadInfo": true,
+    "AntiGetUserInfo": true
+  },
+  "antiDetection": {
+    "requestDelay": 350,
+    "userAgentPool": true
+  }
+}

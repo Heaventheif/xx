@@ -1,0 +1,248 @@
+ import fs   from "fs-extra";
+import path from "path";
+import os   from "os";
+import { translateToEnglish } from "../utils/translator.js";
+
+const MODELS = {
+  flux:           "flux",
+  "flux-realism": "flux-realism",
+  turbo:          "turbo",
+  gptimage:       "gptimage",
+  fast:           "turbo",
+  real:           "flux-realism",
+};
+
+const RATIOS = {
+  "1:1":  { w: 1024, h: 1024 },
+  "16:9": { w: 1344, h: 768  },
+  "9:16": { w: 768,  h: 1344 },
+  "4:3":  { w: 1152, h: 864  },
+  "3:4":  { w: 864,  h: 1152 },
+  "21:9": { w: 1536, h: 640  },
+  "3:2":  { w: 1216, h: 832  },
+  "2:3":  { w: 832,  h: 1216 },
+};
+
+const STYLES = {
+  anime:      "anime illustration, vibrant colors, detailed linework, Studio Ghibli",
+  realistic:  "photorealistic, cinematic 4k, sharp focus, natural lighting",
+  cyberpunk:  "cyberpunk, neon lights, rain-soaked streets, futuristic dystopia",
+  fantasy:    "epic fantasy art, magical atmosphere, dramatic lighting",
+  portrait:   "professional portrait photography, studio lighting, shallow depth of field",
+  sketch:     "pencil sketch, fine line art, hand-drawn, crosshatching, monochrome",
+  watercolor: "watercolor painting, soft edges, pastel tones, fluid brushstrokes",
+  oil:        "oil painting, textured brushstrokes, museum quality, renaissance style",
+  pixel:      "pixel art, retro 16-bit game style, limited color palette",
+  dark:       "dark moody atmosphere, dramatic shadows, cinematic noir",
+};
+
+const SEEDS          = [42, 137, 512, 999];
+const FALLBACK_SEEDS = [1337, 2048, 7777, 31415];
+const DELAY          = (ms) => new Promise((r) => setTimeout(r, ms));
+
+const FETCH_HEADERS = {
+  "User-Agent":    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/137.0.0.0",
+  "Accept":        "image/webp,image/apng,image/*,*/*;q=0.8",
+  "Cache-Control": "no-cache",
+};
+
+// ── بناء الرابط ──────────────────────────────────────────────────────────────
+function buildUrl(prompt, model, dims, seed) {
+  return (
+    `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}` +
+    `?model=${model}&width=${dims.w}&height=${dims.h}&seed=${seed}` +
+    `&nologo=true&enhance=true&nofeed=true`
+  );
+}
+
+// ── تنزيل صورة واحدة مع retry عند 429/timeout ────────────────────────────────
+async function downloadImage(prompt, model, dims, seed, idx, maxRetries = 4) {
+  let url = buildUrl(prompt, model, dims, seed);
+  let lastErr;
+
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 120_000);
+
+    try {
+      const res = await fetch(url, {
+        signal:   controller.signal,
+        headers:  FETCH_HEADERS,
+        redirect: "follow",
+      }).finally(() => clearTimeout(timer));
+
+      // حالات تستوجب retry
+      if (res.status === 429 || res.status === 502 || res.status === 503) {
+        const e    = new Error(`HTTP ${res.status}`);
+        e.status   = res.status;
+        e.retriable = true;
+        throw e;
+      }
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const ct  = res.headers.get("content-type") ?? "";
+      const buf = await res.arrayBuffer();
+
+      if (!ct.includes("image") && buf.byteLength < 5_000) {
+        throw new Error(`non-image response (${ct})`);
+      }
+
+      const f = path.join(os.tmpdir(), `draw_${Date.now()}_${idx}.jpg`);
+      await fs.writeFile(f, Buffer.from(buf));
+      return f;
+
+    } catch (err) {
+      clearTimeout(timer);
+      lastErr = err;
+
+      const isTimeout   = err.name === "AbortError";
+      const isRetriable = err.retriable || isTimeout;
+
+      if (!isRetriable) throw err;
+
+      const wait = 4_000 * Math.pow(2, attempt);
+      console.warn(
+        `[DRAW] ${err.status ?? "timeout"} seed=${seed} attempt=${attempt + 1} — waiting ${wait / 1000}s`
+      );
+      await DELAY(wait);
+
+      // بعد المحاولة الثانية: seed بديل لتجنب cache/rate-limit نفسه
+      if (attempt === 1) {
+        seed = FALLBACK_SEEDS[idx] ?? seed + 1111;
+        url  = buildUrl(prompt, model, dims, seed);
+        console.warn(`[DRAW] switching to fallback seed=${seed}`);
+      }
+    }
+  }
+  throw lastErr;
+}
+
+// ── تنزيل الصور بشكل تسلسلي مع تأخير بين كل صورة ───────────────────────────
+async function downloadAllSequential(prompt, model, dims, onProgress) {
+  const files = [];
+  for (let i = 0; i < SEEDS.length; i++) {
+    onProgress(i);
+    if (i > 0) await DELAY(1_500);
+    const f = await downloadImage(prompt, model, dims, SEEDS[i], i);
+    files.push(f);
+  }
+  return files;
+}
+
+// ── parse arguments ──────────────────────────────────────────────────────────
+function parseArgs(args) {
+  const rest = [...args];
+  let model = "flux", ratio = "1:1", styleTag = null;
+
+  if (MODELS[rest[0]?.toLowerCase()])  model    = MODELS[rest.shift().toLowerCase()];
+  if (RATIOS[rest[0]])                 ratio    = rest.shift();
+  if (STYLES[rest[0]?.toLowerCase()])  styleTag = rest.shift().toLowerCase();
+
+  return { model, ratio, styleTag, rawPrompt: rest.join(" ").trim() };
+}
+
+// ── Command ──────────────────────────────────────────────────────────────────
+export default {
+  config: {
+    name:        "draw",
+    aliases:     ["flux"],
+    version:     "2.1.0",
+    role:        0,
+    countDown:   20,
+    category:    "ذكاء اصطناعي",
+    description: "توليد 4 صور بـ FLUX عبر Pollinations.ai — مجاني تماماً بلا إعداد",
+    usage: [
+      "{pn}draw <وصف>",
+      "{pn}draw flux-realism <وصف>",
+      "{pn}draw turbo <وصف>",
+      "{pn}draw 16:9 <وصف>",
+      "{pn}draw anime <وصف>",
+      "{pn}draw help",
+    ],
+  },
+
+  onStart: async ({ api, event, args, message }) => {
+    const { threadID, messageID } = event;
+
+    if (!args[0] || args[0].toLowerCase() === "help") {
+      return message.reply(
+        "🖼️ FLUX — Pollinations.ai\n" +
+        "━━━━━━━━━━━━━━━━━\n\n" +
+        "🤖 النماذج:\n" +
+        "  flux          — الافتراضي\n" +
+        "  flux-realism  — أكثر واقعية\n" +
+        "  turbo         — الأسرع\n" +
+        "  gptimage      — نمط GPT-4o\n\n" +
+        "📐 النسب:\n  " + Object.keys(RATIOS).join(" · ") + "\n\n" +
+        "🎭 الأنماط:\n  " + Object.keys(STYLES).join(" · ") + "\n\n" +
+        "📝 أمثلة:\n" +
+        "  draw dragon over neon city\n" +
+        "  draw flux-realism 16:9 mountain at sunrise\n" +
+        "  draw anime فتاة تحت المطر في طوكيو\n\n" +
+        "🆓 مجاني — لا تسجيل ولا API key"
+      );
+    }
+
+    const { model, ratio, styleTag, rawPrompt } = parseArgs(args);
+    if (!rawPrompt) return message.reply("❓ اكتب وصف الصورة بعد الأمر.");
+
+    const dims = RATIOS[ratio];
+
+    let englishPrompt = await translateToEnglish(rawPrompt).catch(() => rawPrompt);
+    if (styleTag) englishPrompt = `${englishPrompt}, ${STYLES[styleTag]}`;
+
+    const statusMsg = await new Promise((res, rej) =>
+      global.safeSend(api,
+        `🎨 جاري التوليد (${model} · ${ratio})...\n` +
+        `📝 ${rawPrompt.substring(0, 60)}\n` +
+        `⏳ صورة 1/4 — يستغرق 30–60 ثانية`,
+        threadID, (e, i) => e ? rej(e) : res(i), messageID)
+    ).catch(() => null);
+
+    const editStatus = (text) => {
+      try { if (statusMsg?.messageID) api.editMessage(text, statusMsg.messageID); }
+      catch (_) {}
+    };
+
+    let tmpFiles = [];
+    try {
+      tmpFiles = await downloadAllSequential(
+        englishPrompt, model, dims,
+        (i) => editStatus(
+          `🎨 جاري التوليد (${model} · ${ratio})...\n` +
+          `📝 ${rawPrompt.substring(0, 60)}\n` +
+          `⏳ صورة ${i + 1}/4...`
+        )
+      );
+
+      if (statusMsg?.messageID) api.unsendMessage(statusMsg.messageID, threadID).catch(() => {});
+
+      const caption = [
+        `🖼️ FLUX (${model}) · ${ratio}`,
+        `📝 ${rawPrompt.substring(0, 80)}`,
+        englishPrompt.trim().toLowerCase() !== rawPrompt.trim().toLowerCase()
+          ? `🌐 ${englishPrompt.substring(0, 80)}`
+          : null,
+        styleTag ? `🎭 ${styleTag}` : null,
+      ].filter(Boolean).join("\n");
+
+      await new Promise((resolve, reject) =>
+        global.safeSend(api,
+          { body: caption, attachment: tmpFiles.map(f => fs.createReadStream(f)) },
+          threadID, err => err ? reject(err) : resolve(), messageID)
+      );
+
+    } catch (err) {
+      console.error("[DRAW]", err.message);
+      if (statusMsg?.messageID) api.unsendMessage(statusMsg.messageID, threadID).catch(() => {});
+      const errMsg = err?.status === 429
+        ? "❌ الخادم مشغول (429) — انتظر دقيقة وحاول مجدداً."
+        : `❌ فشل التوليد: ${err.message?.substring(0, 100)}\nحاول مجدداً.`;
+      message.reply(errMsg);
+
+    } finally {
+      await Promise.allSettled(tmpFiles.map(f => fs.remove(f)));
+    }
+  },
+};
