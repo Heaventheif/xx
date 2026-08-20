@@ -147,7 +147,7 @@ async function handleSearch(api, event, query) {
 export default {
   config: {
     name: "gemini",
-    aliases: ["Ai2", "search"],
+    aliases: ["بوت"],
     version: "11.0.0",
     author: "Sunken",
     countDown: 5,
