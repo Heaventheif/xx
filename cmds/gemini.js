@@ -5,6 +5,9 @@ import { loadCtx, saveCtx, clearCtx } from "../utils/sharedSession";
 
 const COLLECTION = "gemini_sessions";
 
+// صيغ الصور المدعومة في مرفقات الميسنجر
+const IMAGE_EXTS = ["jpg", "jpeg", "png", "webp", "gif", "heic", "bmp"];
+
 // Sanitize a display name for use in the API payload.
 function sanitizeName(name) {
   if (!name) return "مستخدم";
@@ -17,18 +20,55 @@ function sanitizeName(name) {
   return clean || "مستخدم";
 }
 
-// Call the Gemini proxy endpoint with the conversation messages.
-async function callHF(endpoint, messages) {
+// اكتشف مرفق صورة في الرسالة أو الرسالة المُرد عليها.
+function detectImageAttachment(event) {
+  const sources = [
+    ...(event.attachments || []),
+    ...(event.messageReply?.attachments || []),
+  ];
+  for (const att of sources) {
+    if (!att) continue;
+    const type = (att.type || att.attachmentType || "").toLowerCase();
+
+    // صورة صريحة
+    if (type === "photo" || type === "image" || type === "sticker") {
+      const url = att.url || att.previewUrl || att.uri;
+      if (url) return { url, ext: "jpg" };
+    }
+
+    // ملف بامتداد صورة
+    if (type === "file" || type === "document") {
+      const ext = (att.filename || att.name || "").split(".").pop().toLowerCase();
+      const url = att.url || att.uri;
+      if (url && IMAGE_EXTS.includes(ext)) return { url, ext };
+    }
+  }
+  return null;
+}
+
+// Call the Gemini chat proxy endpoint.
+async function callHF(messages) {
   const { data } = await http.post(
-    `${getHfBase()}/${endpoint}`,
+    `${getHfBase()}/gemini`,
     { messages },
     { timeout: 30000, headers: { "Content-Type": "application/json", "X-Internal-Token": getInternalToken() } }
   );
   if (!data.reply) throw new Error("استجابة فارغة");
-  return data; // نُعيد data كاملةً لنستخرج sources أيضاً
+  return data;
 }
 
-// Call the /gemini/search endpoint — بحث مباشر بالإنترنت بدون جلسة.
+// Call the /gemini/vision endpoint — تحليل الصورة.
+async function callVision(imageUrl, ext, prompt) {
+  const { data } = await http.post(
+    `${getHfBase()}/gemini/vision`,
+    { image_url: imageUrl, ext: ext || "jpg", prompt: prompt || "" },
+    { timeout: 45000, headers: { "Content-Type": "application/json", "X-Internal-Token": getInternalToken() } }
+  );
+  if (!data.reply) throw new Error(data?.error || "استجابة فارغة");
+  return data;
+}
+
+// Call the /gemini/search endpoint — بحث مباشر بالإنترنت.
 async function callSearch(query) {
   const { data } = await http.post(
     `${getHfBase()}/gemini/search`,
@@ -39,87 +79,56 @@ async function callSearch(query) {
   return data;
 }
 
-// Format sources list into a readable footer (إن وُجدت مصادر بحث).
+// Format grounding sources into a readable footer.
 function formatSources(sources) {
   if (!Array.isArray(sources) || sources.length === 0) return "";
   const list = sources.slice(0, 5).map((s, i) => `${i + 1}. ${s}`).join("\n");
   return `\n\n📎 المصادر:\n${list}`;
 }
 
-// Handle a Gemini chat request and reply with the model's answer.
-async function handle(api, event, prompt, registerReply) {
+// ─── معالج الصور ───────────────────────────────────────────────────
+
+async function handleVision(api, event, prompt, registerReply) {
   const { threadID, messageID, senderID } = event;
-  const sessionKey = threadID;
 
-  // أوامر المسح
-  if (["clear", "مسح", "reset"].includes(prompt.trim().toLowerCase())) {
-    await clearCtx(COLLECTION, sessionKey);
-    return global.safeSend(api, "🧹 تم مسح ذاكرة المجموعة.", threadID, null, messageID);
-  }
-
-  // رسالة المساعدة
-  if (!prompt.trim()) {
-    return global.safeSend(api,
-      "🤖 Gemini AI (مع بحث فعلي بالإنترنت)\n\n" +
-      "أرسل سؤالك مع الأمر:\n" +
-      ".gemini <سؤال> — محادثة ذكية بذاكرة\n" +
-      ".gemini مسح — مسح ذاكرة المحادثة\n\n" +
-      "🔍 للبحث الفوري بالإنترنت:\n" +
-      ".search <سؤال> — بحث مباشر بدون ذاكرة",
-      threadID, null, messageID
-    );
+  const att = detectImageAttachment(event);
+  if (!att) {
+    // لا توجد صورة — تابع كمحادثة عادية
+    return handle(api, event, prompt, registerReply);
   }
 
   let senderDisplayName = senderID;
   try {
     const userInfo = await new Promise((res, rej) =>
-      api.getUserInfo(senderID, (err, data) => err ? rej(err) : res(data))
+      api.getUserInfo(senderID, (err, d) => err ? rej(err) : res(d))
     );
     senderDisplayName = userInfo?.[senderID]?.name || senderID;
   } catch (_) {}
   senderDisplayName = sanitizeName(senderDisplayName);
 
-  const ctx = await loadCtx(COLLECTION, sessionKey);
-  const userContent = `[${senderDisplayName}]: ${prompt.trim()}`;
-
-  const messages = [
-    ...ctx,
-    { role: "user", content: userContent },
-  ];
+  const question = prompt.trim() || "صف هذه الصورة بالتفصيل";
 
   let result;
   try {
-    result = await callHF("gemini", messages);
+    result = await callVision(att.url, att.ext, `[${senderDisplayName}]: ${question}`);
   } catch (e) {
-    console.error("[GEMINI→HF]", e.response?.status, e.message?.substring(0, 60));
-    const msg = e.message?.includes("HF_SPACE_URL")
-      ? "❌ HF_SPACE_URL غير مضبوط في متغيرات البيئة."
-      : "❌ الخادم غير متاح حالياً، حاول لاحقاً.";
-    return global.safeSend(api, msg, threadID, null, messageID);
+    console.error("[VISION→HF]", e.response?.status, e.message?.substring(0, 100));
+    return global.safeSend(api, `❌ فشل تحليل الصورة: ${e.message}`, threadID, null, messageID);
   }
 
-  const reply = result.reply;
-  // أضف مصادر البحث إن وُجدت (Google Search Grounding)
   const sources = formatSources(result.sources);
-  const fullReply = reply + sources;
+  const fullReply = `🖼️ ${result.reply}${sources}`;
 
   global.safeSend(api, fullReply, threadID, (err, info) => {
-    if (err || !info) return;
-    if (registerReply) {
-      registerReply(info.messageID, {}, async ({ api, event }) => {
-        await handle(api, event, event.body?.trim() || "", registerReply);
-      });
-    }
+    if (err || !info || !registerReply) return;
+    // يمكن متابعة النقاش عن الصورة بعد الرد
+    registerReply(info.messageID, {}, async ({ api, event }) => {
+      await handle(api, event, event.body?.trim() || "", registerReply);
+    });
   }, messageID);
-
-  await saveCtx(COLLECTION, sessionKey, [
-    ...ctx,
-    { role: "user",      content: userContent },
-    { role: "assistant", content: reply },
-  ]);
 }
 
-// ─── أمر البحث المباشر بالإنترنت ──────────────────────────────────
+// ─── معالج البحث ───────────────────────────────────────────────────
 
 async function handleSearch(api, event, query) {
   const { threadID, messageID } = event;
@@ -140,40 +149,118 @@ async function handleSearch(api, event, query) {
   }
 
   const sources = formatSources(result.sources);
-  const fullReply = `🔍 ${result.reply}${sources}`;
-  return global.safeSend(api, fullReply, threadID, null, messageID);
+  return global.safeSend(api, `🔍 ${result.reply}${sources}`, threadID, null, messageID);
 }
+
+// ─── معالج الدردشة العادي ──────────────────────────────────────────
+
+async function handle(api, event, prompt, registerReply) {
+  const { threadID, messageID, senderID } = event;
+  const sessionKey = threadID;
+
+  if (["clear", "مسح", "reset"].includes(prompt.trim().toLowerCase())) {
+    await clearCtx(COLLECTION, sessionKey);
+    return global.safeSend(api, "🧹 تم مسح ذاكرة المجموعة.", threadID, null, messageID);
+  }
+
+  if (!prompt.trim()) {
+    return global.safeSend(api,
+      "🤖 Gemini AI\n\n" +
+      ".gemini <سؤال> — محادثة بذاكرة\n" +
+      ".gemini مسح — مسح الذاكرة\n" +
+      "📷 أرسل صورة مع سؤالك — يحللها تلقائياً\n" +
+      "🔍 .search <سؤال> — بحث فوري بالإنترنت",
+      threadID, null, messageID
+    );
+  }
+
+  let senderDisplayName = senderID;
+  try {
+    const userInfo = await new Promise((res, rej) =>
+      api.getUserInfo(senderID, (err, d) => err ? rej(err) : res(d))
+    );
+    senderDisplayName = userInfo?.[senderID]?.name || senderID;
+  } catch (_) {}
+  senderDisplayName = sanitizeName(senderDisplayName);
+
+  const ctx = await loadCtx(COLLECTION, sessionKey);
+  const userContent = `[${senderDisplayName}]: ${prompt.trim()}`;
+  const messages = [...ctx, { role: "user", content: userContent }];
+
+  let result;
+  try {
+    result = await callHF(messages);
+  } catch (e) {
+    console.error("[GEMINI→HF]", e.response?.status, e.message?.substring(0, 60));
+    const msg = e.message?.includes("HF_SPACE_URL")
+      ? "❌ HF_SPACE_URL غير مضبوط في متغيرات البيئة."
+      : "❌ الخادم غير متاح حالياً، حاول لاحقاً.";
+    return global.safeSend(api, msg, threadID, null, messageID);
+  }
+
+  const reply = result.reply;
+  const sources = formatSources(result.sources);
+  const fullReply = reply + sources;
+
+  global.safeSend(api, fullReply, threadID, (err, info) => {
+    if (err || !info || !registerReply) return;
+    registerReply(info.messageID, {}, async ({ api, event }) => {
+      await handle(api, event, event.body?.trim() || "", registerReply);
+    });
+  }, messageID);
+
+  await saveCtx(COLLECTION, sessionKey, [
+    ...ctx,
+    { role: "user",      content: userContent },
+    { role: "assistant", content: reply },
+  ]);
+}
+
+// ─── Export ────────────────────────────────────────────────────────
 
 export default {
   config: {
     name: "gemini",
-    aliases: ["بوت"],
-    version: "11.0.0",
+    aliases: ["Ai2", "search"],
+    version: "12.0.0",
     author: "Sunken",
     countDown: 5,
     role: 0,
     category: "ذكاء اصطناعي",
-    description: "محادثة ذكية جماعية بذاكرة محفوظة + بحث فعلي بالإنترنت — Gemini 2.5 Flash",
+    description: "دردشة ذكية + تحليل صور + بحث فعلي بالإنترنت — Gemini 2.5 Flash",
     usage: [
-      "{pn}gemini <سؤال> — إرسال سؤال مع ذاكرة المجموعة",
-      "{pn}gemini مسح — مسح ذاكرة المحادثة الجماعية",
-      "{pn}search <سؤال> — بحث فوري بالإنترنت بدون ذاكرة",
+      "{pn}gemini <سؤال> — محادثة بذاكرة جماعية",
+      "{pn}gemini مسح — مسح ذاكرة المحادثة",
+      "{pn}gemini (+ صورة) — تحليل الصورة والإجابة",
+      "{pn}gemini <سؤال> (+ صورة) — سؤال محدد عن الصورة",
+      "{pn}search <سؤال> — بحث فوري بالإنترنت",
     ],
   },
 
   onStart: async ({ api, event, args, message }) => {
-    const cmdName = event.command?.toLowerCase() || "";
+    const cmdName = (event.command || "").toLowerCase();
     const prompt = args.join(" ").trim() || event.messageReply?.body || "";
 
-    // إذا استُدعي كـ .search
     if (cmdName === "search") {
       return handleSearch(api, event, prompt);
+    }
+
+    // تحقق من وجود صورة أولاً
+    if (detectImageAttachment(event)) {
+      return handleVision(api, event, prompt, message?.registerReply);
     }
 
     await handle(api, event, prompt, message?.registerReply);
   },
 
   onReply: async ({ api, event, message }) => {
-    await handle(api, event, event.body?.trim() || "", message?.registerReply);
+    const prompt = event.body?.trim() || "";
+
+    // إذا جاء الرد مع صورة
+    if (detectImageAttachment(event)) {
+      return handleVision(api, event, prompt, message?.registerReply);
+    }
+
+    await handle(api, event, prompt, message?.registerReply);
   },
 };
