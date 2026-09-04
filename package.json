@@ -1,0 +1,33 @@
+{
+  "name": "SunkenBot",
+  "version": "3.0.0",
+  "description": "SunkenBot - Messenger Bot v3 (Fully Upgraded)",
+  "main": "main.js",
+  "type": "module",
+  "engines": {
+    "bun": ">=1.3.4"
+  },
+  "scripts": {
+    "build": "bun install --production",
+    "start": "bun --smol main.js",
+    "dev": "bun --watch main.js"
+  },
+  "dependencies": {
+    "@vreden/youtube_scraper": "^1.2.9",
+    "@tobyg74/tiktok-api-dl": "latest",
+    "bing-translate-api": "^4.2.0",
+    "chalk": "^5.6.2",
+    "cheerio": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "fca-unofficial": "https://github.com/Heaventheif/fca",
+    "fs-extra": "^11.3.6",
+    "google-translate-api-x": "^10.7.3",
+    "mongoose": "^9.7.4",
+    "pg": "^8.13.1",
+    "youtube-sr": "^4.3.12"
+  },
+  "overrides": {
+    "bson": "7.2.0"
+  }
+}
