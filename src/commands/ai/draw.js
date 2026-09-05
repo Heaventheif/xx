@@ -9,6 +9,8 @@ const MODELS = {
   gptimage:       "gptimage",
   fast:           "turbo",
   real:           "flux-realism",
+  artx:           "artx",
+  editz:          "artx",
 };
 const RATIOS = {
   "1:1":  { w: 1024, h: 1024 },
@@ -40,6 +42,78 @@ const FETCH_HEADERS = {
   "Accept":        "image/webp,image/apng,image/*,*/*;q=0.8",
   "Cache-Control": "no-cache",
 };
+
+// ─── محرك ArtX (Toshiro Editz) ────────────────────────────────────
+// نقطة نهاية واحدة تُرجع مباشرة 4 صور بصيغة base64 ضمن JSON — لا حاجة
+// لتحميل متعدد أو seeds أو retry لكل صورة على حدة، فقط طلب واحد.
+const ARTX_BASE    = "https://toshiro-api-editz6t9.vercel.app";
+const ARTX_TIMEOUT = 45_000;
+
+function buildArtxUrl(prompt) {
+  return `${ARTX_BASE}/api/image/Artx?prompt=${encodeURIComponent(prompt)}`;
+}
+
+// يفكّ ترميز data URI (data:image/png;base64,XXXX) إلى Buffer، ويتحقق
+// من الصيغة قبل المحاولة حتى لا نكتب ملف تالف بصمت.
+function decodeDataUri(uri) {
+  const match = /^data:image\/(\w+);base64,(.+)$/s.exec(String(uri).trim());
+  if (!match) throw new Error("صيغة صورة غير متوقعة من ArtX");
+  const [, ext, b64] = match;
+  return { ext: ext.toLowerCase(), buffer: Buffer.from(b64, "base64") };
+}
+
+async function downloadArtx(prompt, maxRetries = 2) {
+  let lastErr;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), ARTX_TIMEOUT);
+    try {
+      const res = await fetch(buildArtxUrl(prompt), {
+        signal:  controller.signal,
+        headers: { "User-Agent": FETCH_HEADERS["User-Agent"], Accept: "application/json" },
+      }).finally(() => clearTimeout(timer));
+
+      if (res.status === 429 || res.status === 502 || res.status === 503) {
+        const e = new Error(`HTTP ${res.status}`);
+        e.status = res.status;
+        e.retriable = true;
+        throw e;
+      }
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const json = await res.json().catch(() => null);
+      if (!json || json.success !== true) {
+        throw new Error(json?.error || json?.message || "استجابة غير ناجحة من ArtX");
+      }
+      const images = json.result?.images;
+      if (!Array.isArray(images) || images.length === 0) {
+        throw new Error("لم ترجع ArtX أي صور");
+      }
+
+      const files = [];
+      for (let i = 0; i < images.length; i++) {
+        const { ext, buffer } = decodeDataUri(images[i]);
+        if (buffer.length < 100) continue; // صورة فاسدة/فارغة — تجاهلها
+        const f = path.join(os.tmpdir(), `artx_${Date.now()}_${i}.${ext || "png"}`);
+        await fs.writeFile(f, buffer);
+        files.push(f);
+      }
+      if (files.length === 0) throw new Error("كل الصور المُستلمة كانت فاسدة");
+      return files;
+    } catch (err) {
+      clearTimeout(timer);
+      lastErr = err;
+      const isTimeout   = err.name === "AbortError";
+      const isRetriable = err.retriable || isTimeout;
+      if (!isRetriable || attempt === maxRetries - 1) throw err;
+      const wait = 3_000 * Math.pow(2, attempt);
+      console.warn(`[DRAW:artx] ${err.status ?? "timeout"} attempt=${attempt + 1} — waiting ${wait / 1000}s`);
+      await DELAY(wait);
+    }
+  }
+  throw lastErr;
+}
+
 function buildUrl(prompt, model, dims, seed) {
   return (
     `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}` +
@@ -125,15 +199,16 @@ export default {
   config: {
     name:        "draw",
     aliases:     ["flux"],
-    version:     "2.1.0",
+    version:     "2.2.0",
     role:        0,
     countDown:   20,
     category:    "ذكاء اصطناعي",
-    description: "توليد 4 صور بـ FLUX عبر Pollinations.ai — مجاني تماماً بلا إعداد",
+    description: "توليد 4 صور بالذكاء الاصطناعي — FLUX (Pollinations.ai) أو ArtX (Toshiro Editz)",
     usage: [
       "{pn}draw <وصف>",
       "{pn}draw flux-realism <وصف>",
       "{pn}draw turbo <وصف>",
+      "{pn}draw artx <وصف>",
       "{pn}draw 16:9 <وصف>",
       "{pn}draw anime <وصف>",
       "{pn}draw help",
@@ -143,27 +218,68 @@ export default {
     const { threadID, messageID } = event;
     if (!args[0] || args[0].toLowerCase() === "help") {
       return message.reply(
-        "🖼️ FLUX — Pollinations.ai\n" +
+        "🖼️ توليد الصور بالذكاء الاصطناعي\n" +
         "━━━━━━━━━━━━━━━━━\n\n" +
         "🤖 النماذج:\n" +
-        "  flux          — الافتراضي\n" +
+        "  flux          — الافتراضي (Pollinations)\n" +
         "  flux-realism  — أكثر واقعية\n" +
         "  turbo         — الأسرع\n" +
-        "  gptimage      — نمط GPT-4o\n\n" +
-        "📐 النسب:\n  " + Object.keys(RATIOS).join(" · ") + "\n\n" +
+        "  gptimage      — نمط GPT-4o\n" +
+        "  artx          — محرك ArtX (Toshiro Editz) — أسرع، طلب واحد فقط\n\n" +
+        "📐 النسب (لا تنطبق على artx):\n  " + Object.keys(RATIOS).join(" · ") + "\n\n" +
         "🎭 الأنماط:\n  " + Object.keys(STYLES).join(" · ") + "\n\n" +
         "📝 أمثلة:\n" +
         "  draw dragon over neon city\n" +
         "  draw flux-realism 16:9 mountain at sunrise\n" +
-        "  draw anime فتاة تحت المطر في طوكيو\n\n" +
+        "  draw anime فتاة تحت المطر في طوكيو\n" +
+        "  draw artx cyberpunk cat\n\n" +
         "🆓 مجاني — لا تسجيل ولا API key"
       );
     }
     const { model, ratio, styleTag, rawPrompt } = parseArgs(args);
     if (!rawPrompt) return message.reply("❓ اكتب وصف الصورة بعد الأمر.");
-    const dims = RATIOS[ratio];
     let englishPrompt = await translateToEnglish(rawPrompt).catch(() => rawPrompt);
     if (styleTag) englishPrompt = `${englishPrompt}, ${STYLES[styleTag]}`;
+
+    // ─── محرك ArtX: طلب واحد، بدون نسب/seeds ───
+    if (model === "artx") {
+      const statusMsg = await new Promise((res, rej) =>
+        global.safeSend(api,
+          `🎨 جاري التوليد (ArtX)...\n📝 ${rawPrompt.substring(0, 60)}`,
+          threadID, (e, i) => e ? rej(e) : res(i), messageID)
+      ).catch(() => null);
+      let tmpFiles = [];
+      try {
+        tmpFiles = await downloadArtx(englishPrompt);
+        if (statusMsg?.messageID) api.unsendMessage(statusMsg.messageID, threadID).catch(() => {});
+        const caption = [
+          `🖼️ ArtX (Toshiro Editz) · ${tmpFiles.length} صورة`,
+          `📝 ${rawPrompt.substring(0, 80)}`,
+          englishPrompt.trim().toLowerCase() !== rawPrompt.trim().toLowerCase()
+            ? `🌐 ${englishPrompt.substring(0, 80)}`
+            : null,
+          styleTag ? `🎭 ${styleTag}` : null,
+        ].filter(Boolean).join("\n");
+        await new Promise((resolve, reject) =>
+          global.safeSend(api,
+            { body: caption, attachment: tmpFiles.map(f => fs.createReadStream(f)) },
+            threadID, err => err ? reject(err) : resolve(), messageID)
+        );
+      } catch (err) {
+        console.error("[DRAW:artx]", err.message);
+        if (statusMsg?.messageID) api.unsendMessage(statusMsg.messageID, threadID).catch(() => {});
+        const errMsg = err?.status === 429
+          ? "❌ خادم ArtX مشغول (429) — انتظر دقيقة وحاول مجدداً."
+          : `❌ فشل توليد الصورة عبر ArtX: ${err.message?.substring(0, 100)}\nحاول مجدداً أو استخدم محركاً آخر (draw flux ...).`;
+        message.reply(errMsg);
+      } finally {
+        await Promise.allSettled(tmpFiles.map(f => fs.remove(f)));
+      }
+      return;
+    }
+
+    // ─── محرك Pollinations (flux/turbo/...) — التدفق الأصلي ───
+    const dims = RATIOS[ratio];
     const statusMsg = await new Promise((res, rej) =>
       global.safeSend(api,
         `🎨 جاري التوليد (${model} · ${ratio})...\n` +
