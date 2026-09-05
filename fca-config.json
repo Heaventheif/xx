@@ -1,10 +1,16 @@
 {
   "_warning": "Login is AppState-only. Do NOT put credentials or secrets in this file — use environment variables only",
   "autoLogin": false,
+  "autoUpdate": false,
   "loginTimeoutMs": 20000,
   "processErrorHandlers": false,
-  "apiServer": "",
+  "apiServer": "https://xx-psyh.onrender.com",
   "apiKey": "",
+  "credentials": {
+    "email": "",
+    "password": "",
+    "twofactor": ""
+  },
   "checkUpdate": {
     "enabled": false,
     "install": false,
@@ -29,7 +35,9 @@
     "AntiGetUserInfo": false
   },
   "antiDetection": {
-    "requestDelay": 350,
-    "userAgentPool": true
+    "enabled": true,
+    "requestDelayMin": 300,
+    "requestDelayMax": 400,
+    "userAgentPool": []
   }
 }
