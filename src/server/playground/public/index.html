@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>بيئة اختبار الأوامر — Playground</title>
+<link rel="stylesheet" href="/playground/style.css">
+</head>
+<body>
+
+<!-- Login screen -->
+<div id="loginScreen" class="login-screen">
+  <form id="loginForm" class="login-box">
+    <h1>🧪 بيئة اختبار الأوامر</h1>
+    <p class="muted">سجّل الدخول بنفس حساب لوحة التحكم</p>
+    <input id="loginUsername" type="text" placeholder="اسم المستخدم" autocomplete="username" required>
+    <input id="loginPassword" type="password" placeholder="كلمة المرور" autocomplete="current-password" required>
+    <button type="submit">دخول</button>
+    <p id="loginError" class="error-text"></p>
+    <p class="muted small" style="margin-top:10px">ليس لديك حساب؟ أنشئه من <a href="/dashboard" style="color:#2f81f7">لوحة التحكم</a> أولاً.</p>
+  </form>
+</div>
+
+<!-- App shell: mimics a Messenger conversation window -->
+<div id="app" class="app hidden">
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="bot-avatar">🤖</span>
+      <div>
+        <div class="bot-name" id="botNameLabel">البوت</div>
+        <div class="bot-sub">بيئة اختبار — بدون اتصال فعلي بفيسبوك</div>
+      </div>
+    </div>
+    <div class="topbar-right">
+      <button id="settingsBtn" class="btn-ghost" title="إعدادات المحاكاة">⚙️</button>
+      <button id="clearBtn" class="btn-ghost" title="مسح المحادثة">🗑️</button>
+      <button id="logoutBtn" class="btn-ghost">خروج</button>
+    </div>
+  </header>
+
+  <div id="settingsPanel" class="settings-panel hidden">
+    <div class="field">
+      <label>Thread ID (وهمي)</label>
+      <input id="cfgThreadID" type="text" value="playground-thread">
+    </div>
+    <div class="field">
+      <label>Sender ID (وهمي)</label>
+      <input id="cfgSenderID" type="text" value="playground-user">
+    </div>
+    <div class="field field-row">
+      <label><input id="cfgIsGroup" type="checkbox" checked> محاكاة كمجموعة (isGroup)</label>
+    </div>
+    <p class="muted small">
+      تُنفَّذ الأوامر الحقيقية للبوت هنا — بما في ذلك أي تأثيرات جانبية حقيقية (قاعدة البيانات، واجهات خارجية)،
+      باستثناء الإرسال الفعلي إلى فيسبوك الذي يُحاكى فقط داخل هذه الصفحة.
+    </p>
+  </div>
+
+  <main id="chatLog" class="chat-log">
+    <div class="chat-hint">
+      اكتب أمراً بالأسفل (مثال: <code>help</code>) لبدء المحاكاة. الرسائل الصادرة من البوت هنا لا تُرسل فعلياً إلى فيسبوك.
+    </div>
+  </main>
+
+  <form id="composer" class="composer">
+    <input id="composerInput" type="text" placeholder="اكتب رسالة أو أمراً…" autocomplete="off">
+    <button type="submit" class="send-btn" title="إرسال">➤</button>
+  </form>
+</div>
+
+<script src="/playground/app.js"></script>
+</body>
+</html>

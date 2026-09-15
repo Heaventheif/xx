@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>لوحة تحكم البوت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/dashboard/style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- Header -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;color:var(--accent)"><rect x="4" y="7" width="16" height="13" rx="3"/><path d="M9 7V5a3 3 0 0 1 6 0v2"/><circle cx="9.5" cy="13" r="1"/><circle cx="14.5" cy="13" r="1"/><path d="M9 17h6"/></svg>
+      <span>لوحة التحكم</span>
+    </div>
+    <div id="globalStatus" class="status-pill">
+      <span class="status-dot"></span>
+      <span class="status-text" id="statusText">جاري التحميل...</span>
+    </div>
+  </header>
+
+  <main class="content">
+
+    <!-- Accounts list -->
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">الحسابات المتصلة</h2>
+          <p class="muted small">كل حساب فيسبوك مربوط بالبوت</p>
+        </div>
+        <button class="btn-secondary" id="refreshBtn">تحديث</button>
+      </div>
+      <div id="accountsList"></div>
+    </section>
+
+    <!-- Add new AppState -->
+    <section class="section">
+      <h2 class="section-title">إضافة حساب جديد</h2>
+      <div class="card-form">
+        <div class="field-group">
+          <label>معرّف المطوّر (Facebook ID)</label>
+          <input id="adminFbId" type="text" placeholder="مثال: 100012345678901" autocomplete="off">
+          <p class="muted small" style="margin:4px 0 0">UID فيسبوك الخاص بك — يُمنح دور المطوّر تلقائياً</p>
+        </div>
+        <div class="field-group">
+          <label>AppState (JSON)</label>
+          <textarea id="appstateJson" rows="7" placeholder="الصق محتوى appstate.json هنا (مصفوفة JSON)"></textarea>
+        </div>
+        <button class="btn-primary" id="saveBtn">حفظ واتصال</button>
+        <div id="saveResult" class="result-box"></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+<script src="/dashboard/app.js"></script>
+</body>
+</html>
