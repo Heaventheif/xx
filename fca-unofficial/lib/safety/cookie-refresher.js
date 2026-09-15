@@ -8,7 +8,6 @@ import {
 
 const WARMUP_URLS = [
   'https://www.facebook.com/',
-  'https://www.facebook.com/messages/',
   'https://www.facebook.com/notifications/',
   'https://www.facebook.com/?sk=nf',
   'https://www.facebook.com/?sk=h_chr',
@@ -27,7 +26,6 @@ export class CookieRefresher {
     this.options = {
       enabled: opts.enabled !== false,
       intervalMs: opts.intervalMs ?? 18_000_000, 
-      expiryDays: opts.expiryDays ?? 60,
       backupEnabled: opts.backupEnabled !== false,
       maxBackups: opts.maxBackups ?? 5,
       appStatePath: opts.appStatePath ?? null,
@@ -93,7 +91,6 @@ export class CookieRefresher {
     }
 
     if (ok) {
-      if (this.options.expiryDays > 0) this._extendExpiry();
       this.refreshCount++;
       this.lastRefreshAt = Date.now();
       logger(`CookieRefresher: تجديد #${this.refreshCount} ✓`, 'info');
@@ -126,18 +123,6 @@ export class CookieRefresher {
       this._schedule(); 
     }, wait);
     if (this._timer?.unref) this._timer.unref();
-  }
-
-  _extendExpiry() {
-    try {
-      const jar = this._ctx?.jar;
-      if (!jar || typeof jar.getCookiesSync !== 'function') return;
-      const exp = new Date(Date.now() + this.options.expiryDays * 86_400_000);
-      const cookies = jar.getCookiesSync('https://www.facebook.com');
-      for (const c of cookies) if (c.expires && c.expires !== 'Infinity') c.expires = exp;
-    } catch {
-      
-    }
   }
 
   _publishAppState() {

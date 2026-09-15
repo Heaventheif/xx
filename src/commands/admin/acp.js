@@ -1,6 +1,53 @@
 var M = Object.defineProperty;
 var u = (e, a) => M(e, "name", { value: a, configurable: !0 });
 import acpUserFactory from "../../../fca-unofficial/lib/external-apis/action/acpUser.js";
+
+const ACP_DEV = String(process.env.DEV || "").trim().toLowerCase() === "on";
+function acpDebug(message, details = {}) {
+  if (!ACP_DEV) return;
+  const safe = { ...details };
+  delete safe.raw;
+  delete safe.body;
+  delete safe.response;
+  delete safe.token;
+  delete safe.cookie;
+  console.error(`[ACP-DEV] ${message}`, safe);
+}
+
+function parseFacebookResponse(raw) {
+  if (raw && typeof raw === "object") return raw;
+  const text = String(raw ?? "")
+    .replace(/^for \(;;\);/, "")
+    .replace(/^\s*throw[^;]+;/, "")
+    .trim();
+  try { return JSON.parse(text); } catch {}
+  // Some GraphQL responses are newline-delimited JSON records.
+  const records = text.split(/\r?\n/).map((line) => {
+    try { return JSON.parse(line); } catch { return null; }
+  }).filter(Boolean);
+  if (records.length === 1) return records[0];
+  if (records.length > 1) return { __records: records };
+  throw new Error("Facebook returned a non-JSON response");
+}
+
+function collectFriendNodes(value, output = [], seen = new Set()) {
+  if (!value || typeof value !== "object" || seen.has(value)) return output;
+  seen.add(value);
+  if (Array.isArray(value)) {
+    for (const item of value) collectFriendNodes(item, output, seen);
+    return output;
+  }
+  const id = value.id ?? value.userID ?? value.user_id ?? value.uid;
+  const name = value.name ?? value.full_name ?? value.title;
+  if (id && name && !String(id).includes(":")) output.push(value);
+  for (const child of Object.values(value)) collectFriendNodes(child, output, seen);
+  return output;
+}
+
+function getAuthContext(api) {
+  const botIndex = api?.__botIndex ?? api?.botIndex ?? 1;
+  return api?._ctx || api?.ctx || global.__fcaContexts?.get(botIndex) || global.__fcaContexts?.[botIndex] || null;
+}
 const ACCEPT_EMOJI = "✅";
 const REJECT_EMOJI = "❌";
 const TIMEOUT_MS   = 3e5;
@@ -65,8 +112,10 @@ u(fetchAllPendingRequests, "fetchAllPendingRequests");
  */
 async function fetchFriendRequests(api) {
   try {
-    const ctx = api._ctx;
-    if (!ctx?.fb_dtsg || !ctx?.userID) return [];
+    const ctx = getAuthContext(api);
+    if (!ctx?.fb_dtsg || !ctx?.userID) {
+      throw new Error("Missing authenticated fb_dtsg/userID context");
+    }
 
     const form = {
       av:                          ctx.userID,
@@ -74,7 +123,7 @@ async function fetchFriendRequests(api) {
       __a:                         "1",
       fb_dtsg:                     ctx.fb_dtsg,
       jazoest:                     ctx.ttstamp  || "",
-      lsd:                         ctx.fb_dtsg,
+      lsd:                         ctx.lsd || ctx.lsdToken || ctx.fb_dtsg,
       fb_api_caller_class:         "RelayModern",
       fb_api_req_friendly_name:    "FriendingCometFriendRequestsRootQueryRelayPreloader",
       variables:                   JSON.stringify({ count: 30, scale: 1 }),
@@ -96,9 +145,18 @@ async function fetchFriendRequests(api) {
       const text = typeof raw === "string" ? raw : JSON.stringify(raw);
       // Strip for_big_pipe / throw-on-error prefix
       const cleaned = text.replace(/^for \(;;\);/, "").replace(/^\s*throw[^;]+;/, "").trim();
-      json = JSON.parse(cleaned);
-    } catch {
-      return [];
+      json = parseFacebookResponse(cleaned);
+    } catch (error) {
+      acpDebug("response parse failed", { error: error.message });
+      throw error;
+    }
+
+    const errors = json?.errors || json?.__records?.flatMap((r) => r?.errors || []) || [];
+    if (errors.length) {
+      const error = new Error(String(errors[0]?.message || "Facebook GraphQL error"));
+      error.code = errors[0]?.code;
+      acpDebug("Facebook rejected friend-request query", { code: error.code, message: error.message });
+      throw error;
     }
 
     // Response structure: data.viewer.friending_possibilities.edges
@@ -109,17 +167,22 @@ async function fetchFriendRequests(api) {
       json?.data?.viewer?.friend_requests?.edges ||
       [];
 
-    return edges.map(e => {
-      const node = e?.node ?? e;
-      return {
-        userID:      String(node?.id ?? node?.userID ?? ""),
-        name:        node?.name ?? node?.profile_picture?.label ?? "مجهول",
+    const candidates = edges.length ? edges.map((e) => e?.node ?? e) : collectFriendNodes(json);
+    const unique = new Map();
+    for (const node of candidates) {
+      const userID = String(node?.id ?? node?.userID ?? node?.user_id ?? node?.uid ?? "");
+      if (!userID || unique.has(userID)) continue;
+      unique.set(userID, {
+        userID,
+        name: node?.name ?? node?.full_name ?? node?.profile_picture?.label ?? "مجهول",
         mutualCount: node?.mutual_friends?.count ?? node?.mutualFriendCount ?? 0,
-      };
-    }).filter(r => r.userID);
-
-  } catch {
-    return [];
+      });
+    }
+    acpDebug("friend-request query completed", { explicitEdges: edges.length, candidateCount: unique.size });
+    return [...unique.values()];
+  } catch (error) {
+    acpDebug("friend-request query failed", { code: error?.code, message: error?.message || String(error) });
+    throw error;
   }
 }
 u(fetchFriendRequests, "fetchFriendRequests");
@@ -129,7 +192,7 @@ u(fetchFriendRequests, "fetchFriendRequests");
  * يستخدم acpUser factory إذا كان متاحاً، وإلا يتراجع لـ handleFriendRequest
  */
 async function acceptFriendRequest(api, userID) {
-  const ctx = api._ctx;
+  const ctx = getAuthContext(api);
 
   // Prefer the maintained FCA mutation implementation. It includes the
   // requester UID; the legacy handleFriendRequest fallback does not.
@@ -151,7 +214,7 @@ async function acceptFriendRequest(api, userID) {
         __a:                         "1",
         fb_dtsg:                     ctx.fb_dtsg,
         jazoest:                     ctx.ttstamp || "",
-        lsd:                         ctx.fb_dtsg,
+        lsd:                         ctx.lsd || ctx.lsdToken || ctx.fb_dtsg,
         fb_api_caller_class:         "RelayModern",
         fb_api_req_friendly_name:    "FriendingCometFriendRequestConfirmMutation",
         variables: JSON.stringify({
@@ -234,30 +297,10 @@ export default {
 
       // ── acp قبول/رفض <threadID> — طلبات المراسلة ──────────────────
       if (sub === "قبول" || sub === "accept") {
-        const tid = args[1]?.trim();
-        if (!tid) return message.reply("❌ حدد معرف الخيط: acp قبول <threadID>");
-        try {
-          await api.handleMessageRequest(tid, true);
-          return message.reply(`✅ تم قبول طلب المراسلة للخيط: ${tid}`);
-        } catch (e) {
-          const code = e?.error ?? e?.error_code;
-          if (code === 1357031)
-            return message.reply(`⚠️ فيسبوك رافض القبول لأن المحتوى لم يعد موجودًا من ناحيته — الطلب عالق بشكل دائم.`);
-          return message.reply(`❌ فشل القبول: ${safeStringify(e)}`);
-        }
+        return message.reply("🚫 قبول طلبات الرسائل الخاصة معطّل: البوت يعمل في المجموعات فقط.");
       }
       if (sub === "رفض" || sub === "reject") {
-        const tid = args[1]?.trim();
-        if (!tid) return message.reply("❌ حدد معرف الخيط: acp رفض <threadID>");
-        try {
-          await api.handleMessageRequest(tid, false);
-          return message.reply(`🚫 تم رفض طلب المراسلة للخيط: ${tid}`);
-        } catch (e) {
-          const code = e?.error ?? e?.error_code;
-          if (code === 1357031)
-            return message.reply(`⚠️ فيسبوك رافض الرفض لأن المحتوى لم يعد موجودًا — الطلب عالق بشكل دائم.`);
-          return message.reply(`❌ فشل الرفض: ${safeStringify(e)}`);
-        }
+        return message.reply("🚫 رفض طلبات الرسائل الخاصة معطّل: البوت يعمل في المجموعات فقط.");
       }
 
       // ── acp صديق قبول/رفض <userID> — طلبات الصداقة ──────────────
@@ -284,17 +327,20 @@ export default {
         return message.reply("❌ الأمر غير معروف. استخدم: acp صديق قبول/رفض <userID>");
       }
 
-      // ── عرض جميع الطلبات ───────────────────────────────────────────
-      // جلب طلبات المراسلة وطلبات الصداقة بالتوازي
-      const [msgRequests, friendRequests] = await Promise.all([
-        fetchAllPendingRequests(api).catch(() => []),
-        fetchFriendRequests(api).catch(() => []),
-      ]);
+      // ── عرض طلبات الصداقة فقط ─────────────────────────────────────
+      // لا نستعلم عن PENDING/OTHER/SPAM لأنها صناديق رسائل خاصة.
+      const friendResult = await Promise.allSettled([fetchFriendRequests(api)]);
+      const msgRequests = [];
+      const friendRequests = friendResult[0].status === "fulfilled" ? friendResult[0].value : [];
+      const friendQueryError = friendResult[0].status === "rejected" ? friendResult[0].reason : null;
 
       const totalMsg    = msgRequests.length;
       const totalFriend = friendRequests.length;
       const total       = totalMsg + totalFriend;
 
+      if (total === 0 && friendQueryError) {
+        return message.reply(`⚠️ تعذر جلب طلبات الصداقة من Facebook: ${safeStringify(friendQueryError)}\nفعّل DEV=on للتشخيص الآمن.`);
+      }
       if (total === 0) {
         return message.reply("✨ لا توجد طلبات معلقة (لا مراسلة ولا صداقة).");
       }

@@ -22,11 +22,7 @@
     "postgres": "^3.4.7",
     "socks-proxy-agent": "^8.0.4",
     "tough-cookie": "^6.0.1",
-    "ws": "^8.21.0",
-    "@signalapp/libsignal-client": "^0.56.0",
-    "protobufjs": "^7.4.0",
-    "@noble/curves": "^1.6.0",
-    "@noble/hashes": "^1.5.0"
+    "ws": "^8.21.0"
   },
   "keywords": [
     "facebook",
@@ -55,7 +51,5 @@
   "optionalDependencies": {
     "mime": "^3.0.0"
   },
-  "scripts": {
-    "install:e2ee": "npm install @signalapp/libsignal-client protobufjs @noble/curves @noble/hashes"
-  }
+  "scripts": {}
 }

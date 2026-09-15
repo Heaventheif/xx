@@ -99,22 +99,8 @@ export const handleMessage = async (rawApi, event) => {
   if (!body?.trim() && !hasAttachment) return;
   const api         = global.wrapApiForSafety(rawApi);
   const messageText = body?.trim() ?? "";
-  // ─── دعم DM (الرسائل الخاصة) ────────────────────────────────────
-  // dmEnabled=false في config.json → نُبلّغ فقط ونخرج
-  // dmEnabled=true (الافتراضي) → نُكمل معالجة الأوامر في الخاص
-  if (!event.isGroup) {
-    if (global.config?.dmEnabled === false) {
-      api.sendMessage(
-        "🤖 مرحباً!\n\n" +
-        "عذراً، هذا البوت يعمل في المجموعات فقط ولا يدعم المحادثات الخاصة.\n\n" +
-        "➕ أضف البوت إلى مجموعتك وابدأ الاستمتاع بالميزات!\n\n" +
-        "📩 للتواصل مع المطوّر:\nhttps://www.facebook.com/Zezeerrerree",
-        threadID
-      );
-      return;
-    }
-    // dmEnabled=true → نُكمل التنفيذ (الأوامر تعمل في الرسائل الخاصة)
-  }
+  // Group-only policy: do not read, answer, or otherwise process direct messages.
+  if (!event.isGroup) return;
   if (messageReply && global.Kagenou.replies?.[messageReply.messageID]) {
     const replyData = global.Kagenou.replies[messageReply.messageID];
     if (!replyData.author || replyData.author === senderID) {
@@ -219,6 +205,7 @@ export const handleReaction = (api, event) => {
     .catch(e => console.error("[REACTION ERR]", e.message));
 };
 export const handleEvent = async (rawApi, event) => {
+  if (!event.isGroup) return;
   const api       = global.wrapApiForSafety(rawApi);
   const firstWord = event.body?.trim().split(/ +/)[0]?.toLowerCase();
   // نحسب مرة واحدة هل firstWord يُحيل إلى أيّ أمر (سواء باسمه أو alias)

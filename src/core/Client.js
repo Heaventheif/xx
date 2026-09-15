@@ -7,16 +7,18 @@ import cache from "../utils/cache.js";
 import { dispatchMqttEvent } from "../events/onMessage.js";
 import { startCleanupInterval } from "../events/onReady.js";
 import { bugLog, readAppStateFromEnv, updateAppStateInMemory } from "../utils/runtimeEnv.js";
+import {
+  saveAppStateToMongo,
+  resolveAppState,
+  checkAppStateExpiry,
+} from "../utils/appStatePersist.js";
+import { createSessionExtender } from "../safety/session-extender.js";
+import { createMqttConnectionManager } from "./MqttConnectionManager.js";
 if (typeof Bun === "undefined" || !Bun.version?.startsWith?.("1.")) {
   console.error("[FATAL] هذا البوت يتطلب Bun 1.4 أو أحدث — https://bun.sh");
   process.exit(1);
 }
 const PROJECT_ROOT = path.join(import.meta.dir, "..", "..");
-const _require = createRequire(import.meta.url);
-let E2EEBridge = null;
-try { E2EEBridge = _require("../../fca-unofficial/lib/e2ee/bridge.js").E2EEBridge; } catch (error) {
-  bugLog("E2EE", "Bridge unavailable; normal MQTT remains enabled", { error: error.message });
-}
 import * as fcaModule from "fca-unofficial";
 const loginAsync = fcaModule.loginAsync;
 const {
@@ -84,8 +86,23 @@ function parseEnvAppState() {
 
 function saveAppStateForBot(state, _botIndex = 1) {
   try {
+    if (!Array.isArray(state) || state.length === 0) {
+      throw new Error("AppState فارغ أو ليس مصفوفة");
+    }
+    const names = new Set(state.map((cookie) => String(cookie?.key ?? cookie?.name ?? "")));
+    if (!names.has("c_user") || !names.has("xs")) {
+      throw new Error("AppState يفتقد cookies أساسية (c_user أو xs)");
+    }
+
+    // 1. حفظ في الذاكرة (process.env) — فوري ومتزامن
     updateAppStateInMemory(state);
-    console.log("[APPSTATE] Updated process.env.APPSTATE in memory; persist it in the environment configuration if required.");
+    console.log(`[APPSTATE] تم تحديث الحالة الحية للحساب ${_botIndex}.`);
+
+    // 2. حفظ في MongoDB — غير متزامن (fire-and-forget مع تسجيل الأخطاء)
+    saveAppStateToMongo(state, _botIndex, "runtime").catch((err) => {
+      console.warn(`[APPSTATE] ⚠️ فشل الحفظ في MongoDB (تأجيل): ${err.message}`);
+    });
+
     return true;
   } catch (error) {
     bugLog("APPSTATE", "Rejected refreshed state", error);
@@ -95,9 +112,12 @@ function saveAppStateForBot(state, _botIndex = 1) {
 }
 
 function loadAllAppStates() {
+  // القراءة من البيئة فقط — متزامن وسريع.
+  // المقارنة مع MongoDB تحدث لاحقاً داخل loginBotWithAppState()
+  // لأن connectDB() غير متزامن وقد لا يكون انتهى بعد في هذه المرحلة.
   const state = parseEnvAppState();
   if (!state) return [];
-  bugLog("APPSTATE", "Selected environment session", { botIndex: 1 });
+  bugLog("APPSTATE", "Pre-login env state loaded", { botIndex: 1 });
   return [{ state, filePath: null, index: 1, source: "APPSTATE", uid: null, freshness: Date.now() }];
 }
 
@@ -123,235 +143,46 @@ function stopMqttListener(listener, label) {
 
 function startListening(api, botIndex, botSessionGuard) {
   const label = `Bot-${botIndex}`;
-
-  // ── [FIX #1] SINGLETON GUARD ────────────────────────────────────────────────
-  // منع إنشاء نسخ متعددة من الـ watchdog/ping/sweep عند استدعاء startListening()
-  // أكثر من مرة (مثلاً من onStale). كل استدعاء إضافي يُحوَّل إلى __forceReconnect.
-  if (api.__listenerActive) {
-    console.warn(`[MQTT:${label}] ⚠️ startListening() استُدعي مرة ثانية — إعادة اتصال فقط بلا timers جديدة.`);
-    api.__forceReconnect?.();
-    return;
-  }
-  api.__listenerActive = true;
-
-  // ── Sweep PENDING/OTHER inboxes ──────────────────────────────────────────────
-  const sweptThreads = new Set();
-  if (typeof api.getThreadList === "function") {
-    const sweepPendingInboxes = async () => {
-      if (!global.botApis?.includes(api)) {
-        api.__stopSweep?.();
-        return;
-      }
-      try {
-        for (const tag of ["PENDING", "OTHER"]) {
-          let list;
-          try { list = await api.getThreadList(30, null, [tag]); }
-          catch (e) {
-            const msg = e?.message || (typeof e === "object" ? JSON.stringify(e) : String(e));
-            const isFatalLogin = /Facebook blocked the login|login_blocked|FB_AUTH.INVALID|1357001/i.test(msg);
-            if (isFatalLogin) {
-              console.error(`[PENDING] 🛑 ${label}: AppState منتهي الصلاحية — إيقاف مسح PENDING/OTHER نهائياً.`);
-              api.__sweepFatalError = true;
-              api.__stopSweep?.();
-              (async () => {
-                try {
-                  const { default: fsExtra } = await import("fs-extra");
-                  const { default: pathMod } = await import("path");
-                  const suffix = botIndex === 1 ? "" : String(botIndex);
-                  const idx = global.botApis?.indexOf(api);
-                  if (idx !== -1) global.botApis?.splice(idx, 1);
-                  console.log(`[DEAD-APPSTATE] ✅ ${label}: تم تنظيف AppState الميت.`);
-                } catch (cleanupErr) {
-                  console.error(`[DEAD-APPSTATE] ❌ ${label}: فشل التنظيف:`, cleanupErr.message);
-                }
-              })();
-              return;
-            }
-            console.warn(`[PENDING] ⚠️ getThreadList(${tag}) فشل: ${msg}`);
-            continue;
-          }
-          if (!Array.isArray(list) || list.length === 0) continue;
-          const ids = list.map(t => t.threadID).filter(Boolean).filter(id => !sweptThreads.has(id));
-          if (ids.length === 0) continue;
-          for (let i = 0; i < ids.length; i += 10) {
-            const batch = ids.slice(i, i + 10);
-            await new Promise(res => {
-              api.handleMessageRequest(batch, true, err => {
-                if (err) {
-                  const errCode = err?.error_code || err?.code || 0;
-                  const isPermanent = errCode === 1357031 || /already handled/i.test(err?.message || "");
-                  if (isPermanent) batch.forEach(id => sweptThreads.add(id));
-                  console.warn(
-                    `[PENDING] ⚠️ batch accept error (${isPermanent ? "permanent – skip" : "transient – will retry"}): ${safeStringify(err)}`
-                  );
-                } else {
-                  batch.forEach(id => sweptThreads.add(id));
-                }
-                res();
-              });
-            });
-          }
-        }
-      } catch (e) {
-        console.warn(`[PENDING] ⚠️ sweep error: ${safeStringify(e)}`);
-      }
-    };
-    let _sweepTimer = null;
-    api.__stopSweep = () => {
-      if (_sweepTimer) { clearTimeout(_sweepTimer); _sweepTimer = null; }
-    };
-    _sweepTimer = setTimeout(function doSweepLoop() {
-      sweepPendingInboxes().finally(() => {
-        if (!api.__stopSweep) return;
-        if (api.__sweepFatalError) {
-          console.error(`[PENDING] 🔴 ${label}: مسح PENDING/OTHER مُوقف نهائياً (AppState منتهي).`);
-          return;
-        }
-        const nextMs = (4 + Math.random() * 4) * 60 * 1000;
-        _sweepTimer = setTimeout(doSweepLoop, nextMs);
-      });
-    }, 15_000 + Math.random() * 25_000);
+  if (api.__mqttManager) {
+    console.warn(`[MQTT:${label}] manager موجود؛ سيتم طلب إعادة اتصال single-flight.`);
+    return api.__mqttManager.reconnect("duplicate_start");
   }
 
-  // ── _acceptedThreads: محفوظة على api لضمان بقائها عند إعادة الاتصال ─────────
-  const _acceptedThreads = api._acceptedThreads || (api._acceptedThreads = new Set());
-
-  // ── MQTT Watchdog constants ──────────────────────────────────────────────────
-  const DEAD_THRESHOLD_MS = 4 * 60 * 1000;
-  const WATCHDOG_TICK_MS  = 60 * 1000;
-  const PING_INTERVAL_MS  = 2 * 60 * 1000;
-  const MAX_RECONNECTS    = 10;
-  const RECONNECT_BACKOFF = [5, 10, 20, 30, 60];
-
-  let _lastEventAt    = Date.now();
-  let _reconnectCount = 0;
-  let _listening      = false;
-  // ── [FIX #2] نحتفظ بمرجع المستمع لنتمكن من إيقافه قبل إنشاء مستمع جديد ───
-  let _mqttListener   = null;
-  let _watchdogTimer  = null;
-  let _pingTimer      = null;
-
-  // ── [FIX #3] listen() تُوقف المستمع القديم قبل إنشاء مستمع جديد ─────────────
-  const listen = () => {
-    if (_listening) return;
-    _listening = true;
-    // أوقف المستمع القديم إن وُجد قبل أي شيء آخر
-    stopMqttListener(_mqttListener, label);
-    _mqttListener = null;
-
-    _mqttListener = api.listenMqtt(async (err, event) => {
-      if (err) {
-        console.error(`[MQTT:${label}] خطأ:`, err.message || err);
-        _listening = false;
-        // لا نتصل مجدداً هنا — الـ watchdog هو المسؤول عن إعادة الاتصال
-        return;
-      }
-      _lastEventAt    = Date.now();
-      _reconnectCount = 0;
-      // ── [FIX #4] نُحيي SessionGuard عند كل event لمنع onStale الكاذب ─────
+  const acceptedThreads = api._acceptedThreads || (api._acceptedThreads = new Set());
+  const manager = createMqttConnectionManager(api, {
+    label,
+    botIndex,
+    onState: (health) => {
+      api.__mqttHealth = health;
+      global._mqttHealthByBot = global._mqttHealthByBot || new Map();
+      global._mqttHealthByBot.set(botIndex, health);
+      if (health.state === "CONNECTED") botSessionGuard?.heartbeat();
+    },
+    onEvent: (event) => {
       botSessionGuard?.heartbeat();
       if (global._pausedBots?.has(botIndex)) return;
       try {
-        dispatchMqttEvent(api, event, label, _acceptedThreads);
-      } catch (e) { console.error(`[EVENT ERR:${label}]`, e.message); }
-    });
-  };
-
-  // ── [FIX #5] __forceReconnect: إعادة اتصال MQTT فقط بدون timers جديدة ──────
-  // هذا ما يجب أن يستدعيه onStale بدلاً من startListening()
-  api.__forceReconnect = () => {
-    console.log(`[MQTT:${label}] 🔄 __forceReconnect: إعادة اتصال MQTT...`);
-    _listening    = false;
-    _lastEventAt  = Date.now(); // إعادة تعيين الساعة لمنع الـ watchdog من الإطلاق فوراً
-    stopMqttListener(_mqttListener, label);
-    _mqttListener = null;
-    listen();
-  };
-
-  // ── [FIX #6] Liveness ping: يُحيي كلاً من الـ watchdog والـ SessionGuard ────
-  // يتحقق من أن MQTT socket حيّ فعلاً (ليس فقط الـ session في الذاكرة)
-  const startPing = () => {
-    _pingTimer = setInterval(() => {
-      try {
-        const mqttClient  = api._mqttClient
-          ?? api._ctx?.mqttClient
-          ?? api._ctx?.mqtt
-          ?? api._mqtt
-          ?? null;
-        const isMqttAlive = mqttClient?.connected === true;
-
-        if (isMqttAlive && api.getCurrentUserID?.()) {
-          // MQTT حيّ + الجلسة صالحة: أعِد تعيين ساعتَي الـ watchdog والـ SessionGuard
-          _lastEventAt = Date.now();
-          botSessionGuard?.heartbeat(); // ← مهم: يمنع onStale الكاذب أثناء فترات الهدوء
-        }
-        // إذا لم يكن MQTT حيّاً نتعمّد عدم إعادة التعيين حتى يُطلق الـ watchdog
-      } catch (_) {}
-    }, PING_INTERVAL_MS);
-  };
-
-  // ── Watchdog: يُعيد الاتصال عند انقطاع MQTT مع backoff ─────────────────────
-  const startWatchdog = () => {
-    _watchdogTimer = setInterval(async () => {
-      const silenceMs = Date.now() - _lastEventAt;
-      if (silenceMs < DEAD_THRESHOLD_MS) return;
-
-      if (_reconnectCount >= MAX_RECONNECTS) {
-        console.error(
-          `[WATCHDOG:${label}] ❌ وصل لحد ${MAX_RECONNECTS} محاولة — توقّف. أعد تشغيل الخدمة يدوياً.`
-        );
-        clearInterval(_watchdogTimer);
-        clearInterval(_pingTimer);
-        return;
+        dispatchMqttEvent(api, event, label, acceptedThreads);
+      } catch (error) {
+        console.error(`[EVENT ERR:${label}]`, error.message || error);
       }
+    },
+  });
 
-      const backoffSec = RECONNECT_BACKOFF[Math.min(_reconnectCount, RECONNECT_BACKOFF.length - 1)];
-      _reconnectCount++;
-
-      console.warn(
-        `[WATCHDOG:${label}] ⚠️ صمت ${Math.round(silenceMs / 1000)}ث — ` +
-        `إعادة اتصال #${_reconnectCount} بعد ${backoffSec}ث...`
-      );
-
-      await new Promise(r => setTimeout(r, backoffSec * 1000));
-
-      // ── [FIX #7] إيقاف المستمع القديم قبل إنشاء الجديد ──────────────────
-      _listening = false;
-      stopMqttListener(_mqttListener, label);
-      _mqttListener = null;
-      _lastEventAt  = Date.now();
-      listen();
-      console.log(`[WATCHDOG:${label}] 🔄 أُعيد تشغيل MQTT (محاولة #${_reconnectCount}).`);
-    }, WATCHDOG_TICK_MS);
-  };
-
-  // ── [FIX #8] __stopWatchdog: يُوقف المستمع الفعلي أيضاً، ليس فقط الـ timers ─
-  api.__stopWatchdog = () => {
-    clearInterval(_watchdogTimer);
-    clearInterval(_pingTimer);
-    stopMqttListener(_mqttListener, label); // ← الإضافة المهمة
-    _watchdogTimer = null;
-    _pingTimer     = null;
-    _listening     = false;
-    _mqttListener  = null;
-    console.log(`[WATCHDOG:${label}] ⏸ watchdog أُوقف (إيقاف مؤقت).`);
-  };
-  api.__restartWatchdog = () => {
-    if (_watchdogTimer || _pingTimer) return;
-    _lastEventAt    = Date.now();
-    _reconnectCount = 0;
-    startPing();
-    startWatchdog();
-    console.log(`[WATCHDOG:${label}] ▶ watchdog أُعيد تشغيله (استئناف).`);
-  };
-
-  listen();
-  startPing();
-  startWatchdog();
-  console.log(
-    `[SUCCESS] ${label} يستمع عبر MQTT... ` +
-    `(watchdog نشط — عتبة ${DEAD_THRESHOLD_MS / 60000} دقيقة، backoff حتى ${RECONNECT_BACKOFF.at(-1)}ث)`
-  );
+  api.__mqttManager = manager;
+  api.__forceReconnect = (reason = "manual") => manager.reconnect(reason);
+  api.__stopWatchdog = () => manager.stop();
+  api.__restartWatchdog = () => manager.start();
+  api.__mqttHealth = manager.health();
+  manager.on("auth_failed", (health) => {
+    console.error(`[MQTT:${label}] AppState مرفوض؛ لن تتم إعادة المصادقة تلقائياً.`, health.lastError || "auth failed");
+  });
+  manager.on("cooldown", (health) => {
+    console.warn(`[MQTT:${label}] دخل cooldown حتى ${health.cooldownUntil}`);
+  });
+  manager.start();
+  console.log(`[SUCCESS] ${label} مدير MQTT مرن نشط مع single-flight وhealth metrics.`);
+  return manager;
 }
 
 async function onBotReady(api, botIndex) {
@@ -419,15 +250,17 @@ async function onBotReady(api, botIndex) {
     }
     console.log(`[PERF:${label}] ✅ PerformanceManager جاهز`);
   }
+  let _cookieRefresherRef = null;
   if (typeof createCookieRefresher === "function" && api._ctx && api._defaultFuncs) {
     const cookieRefresher = createCookieRefresher({
       intervalMs:     30 * 60 * 1000,
-      expiryDays:     60,
       backupEnabled:  false,
       appStatePath: null,
       onAppStateUpdate: (state) => saveAppStateForBot(state, botIndex),
     });
     cookieRefresher.attach(api._ctx, api._defaultFuncs);
+    _cookieRefresherRef = cookieRefresher;
+    api._cookieRefresher = cookieRefresher;
     console.log(`[SESSION:${label}] ✅ CookieRefresher نشط (كل 30 دقيقة)`);
   }
   let sessionGuard = null;
@@ -459,6 +292,30 @@ async function onBotReady(api, botIndex) {
     api._sessionGuard = sessionGuard;
     if (isFirstBot) global.sessionGuard = sessionGuard;
     console.log(`[SESSION:${label}] ✅ SessionGuard نشط`);
+  }
+
+  // ── SessionExtender: تمديد الجلسة الاستباقي ─────────────────────────────
+  {
+    const extender = createSessionExtender({
+      api,
+      botIndex,
+      cookieRefresher: _cookieRefresherRef,
+      sessionGuard,
+      checkIntervalMs: 60 * 60 * 1_000,       // فحص كل ساعة
+      refreshThresholdMs: 6 * 24 * 60 * 60 * 1_000, // جدِّد إذا < 6 أيام
+      onExtended: ({ count }) => {
+        // احفظ الحالة الجديدة في الذاكرة + MongoDB بعد كل تجديد
+        try {
+          const refreshed = api.getAppState?.();
+          if (refreshed?.length) saveAppStateForBot(refreshed, botIndex);
+        } catch (_) {}
+        console.log(`[EXTENDER:${label}] 📦 تمديد #${count} — AppState محفوظ في MongoDB`);
+      },
+    });
+    extender.start();
+    api._sessionExtender = extender;
+    if (isFirstBot) global.sessionExtender = extender;
+    console.log(`[EXTENDER:${label}] ✅ SessionExtender نشط (فحص كل 60 دقيقة)`);
   }
   if (typeof StealthMode === "function") {
     api.__stealth = new StealthMode({
@@ -513,24 +370,7 @@ async function onBotReady(api, botIndex) {
     }, delayMs);
   })();
   startListening(api, botIndex, sessionGuard);
-  if (String(process.env.E2EE_AUTO ?? "on").toLowerCase() !== "off" && E2EEBridge) {
-    try {
-      const bridge = new E2EEBridge(api._ctx ?? api, api);
-      bridge.onMessage((error, event) => {
-        if (error) {
-          console.warn(`[E2EE:${label}] message error:`, error.message || error);
-          return;
-        }
-        if (event) dispatchMqttEvent(api, event, `${label}:E2EE`, _acceptedThreads);
-      });
-      const devicePath = path.join(PROJECT_ROOT, ".fca_e2ee", `.device-${botIndex}.json`);
-      await bridge.connect(devicePath, api.getCurrentUserID?.());
-      api.e2ee = bridge;
-      console.log(`[E2EE:${label}] ✅ E2EE bridge متصل تلقائياً`);
-    } catch (error) {
-      console.warn(`[E2EE:${label}] ⚠️ تعذر التفعيل التلقائي؛ يستمر MQTT:`, error.message || error);
-    }
-  }
+  // E2EE intentionally disabled: only ordinary group events are processed.
   if (isFirstBot) {
     startCleanupInterval();
   }
@@ -555,13 +395,33 @@ function loginBotWithAppState(account, onFallback) {
   return (async () => {
     let loginSucceeded = false;
     try {
+      // ── [MONGO RESOLVE] قارن AppState من البيئة مع MongoDB → استخدم الأحدث ──
+      let resolvedState = state;
+      try {
+        const { state: best, source } = await resolveAppState(state, index);
+        if (best) {
+          resolvedState = best;
+          if (source === "mongo") {
+            console.log(`[LOGIN:${label}] 🔄 AppState المُحدَّث من MongoDB هو الأحدث — استخدامه`);
+          }
+        }
+      } catch (resolveErr) {
+        console.warn(`[LOGIN:${label}] ⚠️ تعذّر المقارنة مع MongoDB: ${resolveErr.message} — استمرار بـ AppState البيئة`);
+      }
+
       const deviceManager = new DeviceManager({
         filePath: path.join(PROJECT_ROOT, `.device-profile${suffix}.json`),
       });
       await deviceManager.init();
-      const ctx = await loginAsync({ appState: state }, { userAgent: deviceManager.userAgent });
+      const ctx = await loginAsync({ appState: resolvedState }, { userAgent: deviceManager.userAgent });
       const api = ctx.api;
       api._ctx = ctx;
+      // Keep a private per-bot context registry. Some safety/API wrappers hide
+      // underscore properties before commands run, so ACP can still access the
+      // live fb_dtsg/userID without exposing secrets in events or logs.
+      global.__fcaContexts = global.__fcaContexts || new Map();
+      global.__fcaContexts.set(index, ctx);
+      api.__botIndex = index;
       api.__sessionLock = sessionLock;
       api.__deviceManager = deviceManager;
       try {

@@ -76,20 +76,8 @@ function detectFriendEvent(event) {
 export function dispatchMqttEvent(api, event, label, acceptedThreads) {
   if (global.isBanned(event.threadID, event.senderID ?? event.userID)) return;
 
-  // Auto-accept message requests from unknown threads
-  if (
-    event.threadID &&
-    ["message", "message_reply"].includes(event.type) &&
-    !acceptedThreads.has(event.threadID) &&
-    typeof api.handleMessageRequest === "function"
-  ) {
-    acceptedThreads.add(event.threadID);
-    api.handleMessageRequest([event.threadID], true, (err) => {
-      if (err) {
-        acceptedThreads.delete(event.threadID);
-      }
-    });
-  }
+  // Group-only policy: ignore DMs and message requests without replying or accepting them.
+  if (!event.isGroup) return;
 
   // [FIX ADMIN CACHE] إبطال cache المجموعة فوراً عند تغيير المشرفين
   if (event.logMessageType === "change_thread_admins" && event.threadID) {

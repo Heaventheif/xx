@@ -52,11 +52,27 @@ const DashboardUserSchema = new Schema(
   },
   { timestamps: true, collection: "dashboard_users" }
 );
+/**
+ * AppStateSchema — يخزِّن جلسة Facebook (مصفوفة الكوكيز) لكل bot.
+ * مفتاح التفرُّد: botIndex (رقم الحساب).
+ * يُحدَّث بـ upsert في كل مرة تُجدَّد الجلسة، لذا سيبقى دائماً سجل واحد لكل bot.
+ */
+const AppStateSchema = new Schema(
+  {
+    botIndex: { type: Number, required: true, unique: true, index: true },
+    appState: { type: Schema.Types.Mixed, required: true },
+    savedAt:  { type: Date, default: Date.now },
+    source:   { type: String, default: "runtime" }, // "runtime" | "manual" | "startup"
+  },
+  { timestamps: true, collection: "app_states" }
+);
+
 const UserModel          = mongoose.models.User          || mongoose.model("User", UserSchema);
 const GlobalDataModel    = mongoose.models.GlobalData    || mongoose.model("GlobalData", GlobalDataSchema);
 const BanModel           = mongoose.models.Ban           || mongoose.model("Ban", BanSchema);
 const DashboardUserModel = mongoose.models.DashboardUser || mongoose.model("DashboardUser", DashboardUserSchema);
-export { UserModel, GlobalDataModel, BanModel, DashboardUserModel };
+const AppStateModel      = mongoose.models.AppState      || mongoose.model("AppState", AppStateSchema);
+export { UserModel, GlobalDataModel, BanModel, DashboardUserModel, AppStateModel };
 
 // ─── Plugin Descriptor ──────────────────────────────────────────
 /** @type {import('../plugin-provider.js').XxPlugin} */
