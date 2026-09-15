@@ -1,5 +1,6 @@
 var M = Object.defineProperty;
 var u = (e, a) => M(e, "name", { value: a, configurable: !0 });
+import acpUserFactory from "../../../fca-unofficial/lib/external-apis/action/acpUser.js";
 const ACCEPT_EMOJI = "✅";
 const REJECT_EMOJI = "❌";
 const TIMEOUT_MS   = 3e5;
@@ -129,6 +130,17 @@ u(fetchFriendRequests, "fetchFriendRequests");
  */
 async function acceptFriendRequest(api, userID) {
   const ctx = api._ctx;
+
+  // Prefer the maintained FCA mutation implementation. It includes the
+  // requester UID; the legacy handleFriendRequest fallback does not.
+  if (typeof api._defaultFuncs?.post === "function" && ctx?.userID) {
+    try {
+      const acpUser = acpUserFactory(api._defaultFuncs, api, ctx);
+      return await acpUser(String(userID));
+    } catch (_) {
+      // Continue to the local GraphQL/fallback paths for compatibility.
+    }
+  }
 
   // محاولة 1: GraphQL mutation (أدق)
   if (ctx?.fb_dtsg && ctx?.userID) {

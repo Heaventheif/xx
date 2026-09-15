@@ -190,7 +190,7 @@ function X(S) {
         n.subscribe(i, (o) => {
           if (!l(n)) return;
           if (o) {
-            u();
+            cleanup(n);
             const m = o?.message ?? String(o);
             r(`mqtt subscribe error: ${m}`, 'error');
             try {
@@ -224,7 +224,9 @@ function X(S) {
               return;
             }
             if (l(n)) {
-              (devMqttLog(r, 'keepalive_timeout', { timeoutMs: Q }), r('mqtt t_ms timeout, cycling', 'warn'), u());
+              // The previous `u()` call referenced a removed helper and caused
+              // an uncaught ReferenceError, stopping all later friend events.
+              (devMqttLog(r, 'keepalive_timeout', { timeoutMs: Q }), r('mqtt t_ms timeout, cycling', 'warn'), cleanup(n));
               try {
                 n?.connected && (n.end?.(true), n.stream?.destroy?.());
               } catch {}
