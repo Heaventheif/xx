@@ -1,21 +1,17 @@
 "use strict";
 /**
- * session-extender.js
+ * session-extender.js — v2.0  (تحسين إطالة AppState)
  * ─────────────────────────────────────────────────────────────────────────────
- * مُمدِّد الجلسة الاستباقي — يُراقب صحة AppState ويُجدِّده قبل انتهائه.
+ * مُمدِّد الجلسة الاستباقي المُحسَّن — يُراقب صحة AppState ويُجدِّده مبكراً
+ * لضمان أطول عمر ممكن للجلسة.
  *
- * ما يفعله:
- *  1. كل HEALTH_CHECK_INTERVAL يفحص:
- *     - هل تقترب كوكيز AppState من الانتهاء؟   → يُطلق refresh فوري
- *     - هل fb_dtsg لا يزال صالحاً؟              → يُجدِّده إذا لزم
- *     - هل CookieRefresher لا يزال يعمل؟        → يُعيد تشغيله إذا توقف
- *  2. يُحدِّث heartbeat لـ SessionGuard و CookieRefresher بانتظام.
- *  3. يُسجِّل حدث "extended" ويتصل بـ onExtended callback عند كل تجديد.
- *
- * الاستخدام (في onBotReady داخل Client.js):
- *   const extender = new SessionExtender({ api, botIndex, cookieRefresher });
- *   extender.start();
- *   api._sessionExtender = extender;
+ * التحسينات الرئيسية في v2.0:
+ *  1. keep-alive loop كل 6 ساعات (بدلاً من صفر) — يُبقي الكوكيز حيّة
+ *  2. عتبة التجديد المبكر رُفعت من 6 أيام → 14 يوم
+ *  3. warmup متعدد الـ endpoints لتجديد جميع الكوكيز دفعة واحدة
+ *  4. حفظ AppState بعد كل keep-alive ناجح تلقائياً
+ *  5. فحص الصحة كل 30 دقيقة (بدلاً من 60) لاكتشاف المشاكل أبكر
+ *  6. تأخير عشوائي بين الطلبات لمحاكاة السلوك البشري
  */
 
 import { EventEmitter }     from "node:events";
@@ -27,11 +23,14 @@ import {
 
 // ── ثوابت ────────────────────────────────────────────────────────────────────
 
-/** فاصل فحص الصحة (كل ساعة) */
-const HEALTH_CHECK_INTERVAL = 60 * 60 * 1_000;
+/** فاصل فحص الصحة — كل 30 دقيقة (بدلاً من 60) */
+const HEALTH_CHECK_INTERVAL = 30 * 60 * 1_000;
 
-/** إذا كانت أقل من هذه المدة على الانتهاء → جدِّد فوراً (6 أيام) */
-const REFRESH_THRESHOLD_MS  = 6 * 24 * 60 * 60 * 1_000;
+/** إذا كانت أقل من 14 يوم على الانتهاء → جدِّد فوراً (أُضيفت 8 أيام إضافية) */
+const REFRESH_THRESHOLD_MS  = 14 * 24 * 60 * 60 * 1_000;
+
+/** فاصل الـ keep-alive — كل 6 ساعات لإبقاء الكوكيز نشطة */
+const KEEP_ALIVE_INTERVAL   = 6 * 60 * 60 * 1_000;
 
 /** الحد الأقصى لمحاولات التجديد المتتالية الفاشلة قبل التوقف المؤقت */
 const MAX_CONSECUTIVE_FAILS = 5;
@@ -39,18 +38,33 @@ const MAX_CONSECUTIVE_FAILS = 5;
 /** مدة التوقف المؤقت بعد فشل متكرر (30 دقيقة) */
 const BACKOFF_AFTER_FAILS_MS = 30 * 60 * 1_000;
 
+/**
+ * قائمة endpoints خفيفة لـ keep-alive.
+ * مُرتَّبة من الأخف إلى الأثقل — نستخدمها بالتسلسل لتجديد جميع الكوكيز.
+ */
+const KEEPALIVE_ENDPOINTS = [
+  // ping خفيف جداً — لا يظهر في activity log
+  "https://www.facebook.com/ajax/presence/reconnect.php",
+  // الصفحة الرئيسية — تُجدِّد c_user + xs + fr معاً
+  "https://www.facebook.com/",
+  // Messenger — يُجدِّد ws_sk وكوكيز المحادثة
+  "https://www.facebook.com/messages/",
+];
+
 // ─────────────────────────────────────────────────────────────────────────────
 
 export class SessionExtender extends EventEmitter {
   /**
    * @param {object}   opts
-   * @param {object}   opts.api             - FCA api object
-   * @param {number}   opts.botIndex        - رقم البوت
-   * @param {object}   [opts.cookieRefresher]  - مثيل CookieRefresher
-   * @param {object}   [opts.sessionGuard]     - مثيل SessionGuard
-   * @param {Function} [opts.onExtended]       - callback بعد كل تجديد ناجح
-   * @param {number}   [opts.checkIntervalMs]  - فاصل الفحص (default: 1h)
-   * @param {number}   [opts.refreshThresholdMs] - عتبة التجديد (default: 6d)
+   * @param {object}   opts.api               - FCA api object
+   * @param {number}   opts.botIndex          - رقم البوت
+   * @param {object}   [opts.cookieRefresher] - مثيل CookieRefresher
+   * @param {object}   [opts.sessionGuard]    - مثيل SessionGuard
+   * @param {Function} [opts.onExtended]      - callback بعد كل تجديد ناجح
+   * @param {Function} [opts.onAppStateSave]  - callback لحفظ AppState (يأخذ state)
+   * @param {number}   [opts.checkIntervalMs]       - فاصل الفحص (default: 30 min)
+   * @param {number}   [opts.refreshThresholdMs]    - عتبة التجديد (default: 14d)
+   * @param {number}   [opts.keepAliveIntervalMs]   - فاصل keep-alive (default: 6h)
    */
   constructor(opts = {}) {
     super();
@@ -58,15 +72,20 @@ export class SessionExtender extends EventEmitter {
     this._botIndex        = opts.botIndex ?? 1;
     this._cookieRefresher = opts.cookieRefresher ?? null;
     this._sessionGuard    = opts.sessionGuard    ?? null;
-    this._onExtended      = typeof opts.onExtended === "function" ? opts.onExtended : null;
-    this._checkInterval   = opts.checkIntervalMs   ?? HEALTH_CHECK_INTERVAL;
-    this._threshold       = opts.refreshThresholdMs ?? REFRESH_THRESHOLD_MS;
+    this._onExtended      = typeof opts.onExtended     === "function" ? opts.onExtended     : null;
+    this._onAppStateSave  = typeof opts.onAppStateSave === "function" ? opts.onAppStateSave : null;
+    this._checkInterval   = opts.checkIntervalMs     ?? HEALTH_CHECK_INTERVAL;
+    this._threshold       = opts.refreshThresholdMs  ?? REFRESH_THRESHOLD_MS;
+    this._keepAliveMs     = opts.keepAliveIntervalMs ?? KEEP_ALIVE_INTERVAL;
 
     this._label         = `Bot-${this._botIndex}`;
-    this._timer         = null;
+    this._healthTimer   = null;
+    this._keepAliveTimer= null;
     this._running       = false;
     this._extensions    = 0;
+    this._keepAlives    = 0;
     this._lastExtension = null;
+    this._lastKeepAlive = null;
     this._failCount     = 0;
     this._backoffUntil  = 0;
   }
@@ -76,17 +95,21 @@ export class SessionExtender extends EventEmitter {
   start() {
     if (this._running) return this;
     this._running = true;
-    this._schedule();
+    this._scheduleHealthCheck();
+    this._scheduleKeepAlive();
     console.log(
-      `[EXTENDER:${this._label}] ▶️ مُمدِّد الجلسة نشط ` +
-      `(فحص كل ${Math.round(this._checkInterval / 60_000)} دقيقة)`
+      `[EXTENDER:${this._label}] ▶️ مُمدِّد الجلسة v2 نشط ` +
+      `(فحص كل ${Math.round(this._checkInterval / 60_000)} دقيقة ` +
+      `| keep-alive كل ${Math.round(this._keepAliveMs / 3_600_000)} ساعة ` +
+      `| عتبة تجديد ${Math.round(this._threshold / 86_400_000)} يوم)`
     );
     return this;
   }
 
   stop() {
     this._running = false;
-    if (this._timer) { clearTimeout(this._timer); this._timer = null; }
+    if (this._healthTimer)    { clearTimeout(this._healthTimer);    this._healthTimer    = null; }
+    if (this._keepAliveTimer) { clearTimeout(this._keepAliveTimer); this._keepAliveTimer = null; }
     console.log(`[EXTENDER:${this._label}] ⏹️ مُمدِّد الجلسة متوقف`);
     return this;
   }
@@ -96,33 +119,55 @@ export class SessionExtender extends EventEmitter {
     return this._doHealthCheck(true);
   }
 
+  /** keep-alive فوري — يمكن استدعاؤه يدوياً */
+  async pingNow() {
+    return this._doKeepAlive(true);
+  }
+
   getStats() {
     return {
-      running:       this._running,
-      extensions:    this._extensions,
-      lastExtension: this._lastExtension,
-      failCount:     this._failCount,
+      running:        this._running,
+      extensions:     this._extensions,
+      keepAlives:     this._keepAlives,
+      lastExtension:  this._lastExtension,
+      lastKeepAlive:  this._lastKeepAlive,
+      failCount:      this._failCount,
+      thresholdDays:  Math.round(this._threshold / 86_400_000),
     };
   }
 
-  // ── داخلي ─────────────────────────────────────────────────────────────────
+  // ── جدولة فحص الصحة ───────────────────────────────────────────────────────
 
-  _schedule() {
+  _scheduleHealthCheck() {
     if (!this._running) return;
-    // تأخير عشوائي ±15% لتجنب التزامن
     const jitter = (Math.random() * 0.3 - 0.15) * this._checkInterval;
     const delay  = Math.max(60_000, Math.round(this._checkInterval + jitter));
-    this._timer  = setTimeout(() => {
-      this._doHealthCheck(false).finally(() => this._schedule());
+    this._healthTimer = setTimeout(() => {
+      this._doHealthCheck(false).finally(() => this._scheduleHealthCheck());
     }, delay);
-    this._timer?.unref?.();
+    this._healthTimer?.unref?.();
   }
+
+  // ── جدولة keep-alive ──────────────────────────────────────────────────────
+
+  _scheduleKeepAlive() {
+    if (!this._running) return;
+    // أول ping بعد 30 دقيقة من الإقلاع (وليس فوراً لتجنب الضغط عند البدء)
+    const initial = this._keepAlives === 0
+      ? 30 * 60 * 1_000
+      : this._keepAliveMs + (Math.random() * 20 - 10) * 60_000; // ±10 دقيقة jitter
+    this._keepAliveTimer = setTimeout(() => {
+      this._doKeepAlive(false).finally(() => this._scheduleKeepAlive());
+    }, initial);
+    this._keepAliveTimer?.unref?.();
+  }
+
+  // ── منطق فحص الصحة الرئيسي ───────────────────────────────────────────────
 
   async _doHealthCheck(manual = false) {
     const label = this._label;
     const now   = Date.now();
 
-    // تجاهل إذا كنا في فترة backoff
     if (!manual && now < this._backoffUntil) {
       const remaining = Math.round((this._backoffUntil - now) / 60_000);
       console.log(`[EXTENDER:${label}] ⏳ في فترة تهدئة — ${remaining} دقيقة متبقية`);
@@ -130,40 +175,38 @@ export class SessionExtender extends EventEmitter {
     }
 
     try {
-      // 1. اقرأ AppState الحالي
       let currentState = null;
-      try {
-        currentState = this._api?.getAppState?.();
-      } catch (_) {}
+      try { currentState = this._api?.getAppState?.(); } catch (_) {}
 
       if (!currentState?.length) {
         console.warn(`[EXTENDER:${label}] ⚠️ لا يمكن قراءة AppState الحالي`);
         return;
       }
 
-      // 2. فحص الانتهاء
       const { expiring, minTtlMs, expiresAt } = checkAppStateExpiry(currentState, this._threshold);
 
-      const daysLeft = isFinite(minTtlMs) ? (minTtlMs / 86_400_000).toFixed(1) : "∞";
+      const daysLeft = isFinite(minTtlMs)
+        ? (minTtlMs / 86_400_000).toFixed(1)
+        : "∞";
       console.log(
         `[EXTENDER:${label}] 🩺 فحص الجلسة — ` +
         `${isFinite(minTtlMs) ? `تنتهي خلال ${daysLeft} يوم` : "كوكيز دائمة"}` +
         `${manual ? " (يدوي)" : ""}`
       );
 
-      // 3. تجديد الكوكيز إذا كانت تقترب من الانتهاء
+      // تجديد مبكر إذا اقتربت الكوكيز من الانتهاء
       if (expiring || manual) {
         await this._refreshSession(expiresAt, manual);
       }
 
-      // 4. تجديد fb_dtsg في كل حالة (يبقى صالحاً لفترة قصيرة)
+      // تجديد fb_dtsg دائماً
       await this._refreshFbDtsg();
 
-      // 5. إرسال heartbeat لـ SessionGuard
+      // heartbeat
       this._sessionGuard?.heartbeat();
       this._cookieRefresher?.heartbeat?.();
 
-      this._failCount = 0; // إعادة ضبط عداد الفشل عند النجاح
+      this._failCount = 0;
 
     } catch (err) {
       this._failCount++;
@@ -180,6 +223,58 @@ export class SessionExtender extends EventEmitter {
     }
   }
 
+  // ── منطق keep-alive الرئيسي ───────────────────────────────────────────────
+
+  /**
+   * يُرسل طلبات خفيفة إلى Facebook لإبقاء الكوكيز حيّة.
+   * كل طلب ناجح يُجدِّد تلقائياً تاريخ انتهاء الكوكيز على خوادم Facebook.
+   */
+  async _doKeepAlive(manual = false) {
+    const label = this._label;
+    const ctx   = this._api?._ctx;
+    const fns   = this._api?._defaultFuncs;
+
+    if (!ctx || !fns?.get) {
+      console.warn(`[EXTENDER:${label}] ⚠️ keep-alive: ctx أو defaultFuncs غير متاح`);
+      return;
+    }
+
+    let successCount = 0;
+
+    for (const endpoint of KEEPALIVE_ENDPOINTS) {
+      try {
+        // تأخير عشوائي بين الطلبات (2-5 ثوانٍ) لمحاكاة التصفح الطبيعي
+        await _sleep(2_000 + Math.random() * 3_000);
+
+        await fns.get(endpoint, ctx.jar, {}, { noRef: false, _skipSessionInspect: true });
+        successCount++;
+      } catch (e) {
+        // فشل endpoint واحد لا يوقف الباقين
+        console.warn(`[EXTENDER:${label}] ⚠️ keep-alive ${endpoint}: ${e.message}`);
+      }
+    }
+
+    if (successCount > 0) {
+      this._keepAlives++;
+      this._lastKeepAlive = new Date().toISOString();
+      console.log(
+        `[EXTENDER:${label}] 💓 keep-alive #${this._keepAlives} — ` +
+        `${successCount}/${KEEPALIVE_ENDPOINTS.length} endpoints ` +
+        `${manual ? "(يدوي)" : ""}`
+      );
+
+      // احفظ AppState المُحدَّث بعد كل keep-alive ناجح
+      await this._saveCurrentAppState("keep-alive");
+
+      // heartbeat
+      this._sessionGuard?.heartbeat();
+    } else {
+      console.warn(`[EXTENDER:${label}] ❌ keep-alive: جميع الـ endpoints فشلت`);
+    }
+  }
+
+  // ── تجديد الكوكيز ─────────────────────────────────────────────────────────
+
   async _refreshSession(expiresAt, manual) {
     const label = this._label;
     const when  = expiresAt ? `(تنتهي: ${expiresAt.toISOString()})` : "";
@@ -188,8 +283,7 @@ export class SessionExtender extends EventEmitter {
     if (this._cookieRefresher) {
       await this._cookieRefresher.refresh();
     } else {
-      // إذا لم يكن CookieRefresher متاحاً، حاول مباشرة عبر http
-      await this._manualWarmup();
+      await this._fullWarmup();
     }
 
     this._extensions++;
@@ -198,6 +292,9 @@ export class SessionExtender extends EventEmitter {
     console.log(`[EXTENDER:${label}] ✅ تجديد #${this._extensions} — الجلسة مُمدَّدة`);
     this.emit("extended", { count: this._extensions, manual });
     this._onExtended?.({ count: this._extensions, manual });
+
+    // حفظ AppState بعد التجديد
+    await this._saveCurrentAppState("session-refresh");
   }
 
   async _refreshFbDtsg() {
@@ -206,23 +303,47 @@ export class SessionExtender extends EventEmitter {
         await this._api.refreshFbDtsg();
       }
     } catch (e) {
-      // fb_dtsg refresh فاشل لا يُوقف الفحص
       console.warn(`[EXTENDER:${this._label}] ⚠️ تجديد fb_dtsg: ${e.message}`);
     }
   }
 
-  /** warmup بسيط بدون CookieRefresher */
-  async _manualWarmup() {
+  /** warmup كامل بدون CookieRefresher */
+  async _fullWarmup() {
     const ctx = this._api?._ctx;
-    if (!ctx) return;
-
     const fns = this._api?._defaultFuncs;
-    if (!fns?.get) return;
+    if (!ctx || !fns?.get) return;
 
-    try {
-      await fns.get("https://www.facebook.com/", ctx.jar, {});
-    } catch (_) {}
+    for (const endpoint of KEEPALIVE_ENDPOINTS) {
+      try {
+        await _sleep(1_500 + Math.random() * 2_000);
+        await fns.get(endpoint, ctx.jar, {});
+      } catch (_) {}
+    }
   }
+
+  /** يحفظ AppState الحالي في الذاكرة + MongoDB */
+  async _saveCurrentAppState(reason = "auto") {
+    try {
+      const state = this._api?.getAppState?.();
+      if (!state?.length) return;
+
+      // استخدام callback المُمرَّر من Client.js إن وُجد
+      if (this._onAppStateSave) {
+        this._onAppStateSave(state);
+      } else {
+        // حفظ مباشر في MongoDB كـ fallback
+        await saveAppStateToMongo(state, this._botIndex, reason);
+      }
+    } catch (e) {
+      console.warn(`[EXTENDER:${this._label}] ⚠️ فشل حفظ AppState (${reason}): ${e.message}`);
+    }
+  }
+}
+
+// ── أداة مساعدة ──────────────────────────────────────────────────────────────
+
+function _sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // ── مصنع مختصر ───────────────────────────────────────────────────────────────

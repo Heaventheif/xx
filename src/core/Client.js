@@ -253,7 +253,7 @@ async function onBotReady(api, botIndex) {
   let _cookieRefresherRef = null;
   if (typeof createCookieRefresher === "function" && api._ctx && api._defaultFuncs) {
     const cookieRefresher = createCookieRefresher({
-      intervalMs:     30 * 60 * 1000,
+      intervalMs:     15 * 60 * 1000,   // ★ v2: كل 15 دقيقة (بدلاً من 30)
       backupEnabled:  false,
       appStatePath: null,
       onAppStateUpdate: (state) => saveAppStateForBot(state, botIndex),
@@ -301,8 +301,10 @@ async function onBotReady(api, botIndex) {
       botIndex,
       cookieRefresher: _cookieRefresherRef,
       sessionGuard,
-      checkIntervalMs: 60 * 60 * 1_000,       // فحص كل ساعة
-      refreshThresholdMs: 6 * 24 * 60 * 60 * 1_000, // جدِّد إذا < 6 أيام
+      checkIntervalMs:     30 * 60 * 1_000,          // ★ v2: فحص كل 30 دقيقة
+      refreshThresholdMs:  14 * 24 * 60 * 60 * 1_000, // ★ v2: جدِّد إذا < 14 يوم
+      keepAliveIntervalMs:  6 * 60 * 60 * 1_000,       // ★ v2: keep-alive كل 6 ساعات
+      onAppStateSave: (state) => saveAppStateForBot(state, botIndex), // ★ v2: حفظ تلقائي
       onExtended: ({ count }) => {
         // احفظ الحالة الجديدة في الذاكرة + MongoDB بعد كل تجديد
         try {
@@ -356,7 +358,7 @@ async function onBotReady(api, botIndex) {
     if (isFirstBot) global.appState = freshState;
   }
   (function scheduleAppStateSave() {
-    const delayMs = (90 + Math.random() * 60) * 60 * 1000;
+    const delayMs = (30 + Math.random() * 30) * 60 * 1000; // ★ v2: 30–60 دقيقة (بدلاً من 90–150)
     setTimeout(() => {
       try {
         const refreshed = api.getAppState();
