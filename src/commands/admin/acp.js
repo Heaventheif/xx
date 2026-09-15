@@ -109,81 +109,99 @@ u(fetchAllPendingRequests, "fetchAllPendingRequests");
 /**
  * جلب طلبات الصداقة المعلقة عبر GraphQL
  * يُعيد: [{ userID, name, mutualCount }]
+ *
+ * [FIX]: لا نبني auth headers يدوياً — api.httpPost يُضيفها تلقائياً.
+ *        نجرب doc_ids متعددة بالترتيب من الأحدث للأقدم.
  */
 async function fetchFriendRequests(api) {
-  try {
-    const ctx = getAuthContext(api);
-    if (!ctx?.fb_dtsg || !ctx?.userID) {
-      throw new Error("Missing authenticated fb_dtsg/userID context");
-    }
+  // قائمة doc_ids مرتبة من الأحدث للأقدم مع شكل variables المناسب لكل منها
+  const QUERY_VARIANTS = [
+    // ── النسخة المرجعية (الأعمل) ──
+    {
+      doc_id:    "4499164963466303",
+      variables: JSON.stringify({ input: { scale: 3 } }),
+    },
+    // ── بديل محدث ──
+    {
+      doc_id:    "7090570720997813",
+      variables: JSON.stringify({ count: 30, scale: 1 }),
+    },
+    // ── بديل قديم ──
+    {
+      doc_id:    "3948416105228884",
+      variables: JSON.stringify({ count: 20, scale: 1 }),
+    },
+  ];
 
-    const form = {
-      av:                          ctx.userID,
-      __user:                      ctx.userID,
-      __a:                         "1",
-      fb_dtsg:                     ctx.fb_dtsg,
-      jazoest:                     ctx.ttstamp  || "",
-      lsd:                         ctx.lsd || ctx.lsdToken || ctx.fb_dtsg,
-      fb_api_caller_class:         "RelayModern",
-      fb_api_req_friendly_name:    "FriendingCometFriendRequestsRootQueryRelayPreloader",
-      variables:                   JSON.stringify({ count: 30, scale: 1 }),
-      server_timestamps:           "true",
-      doc_id:                      "7090570720997813",
-    };
+  let lastError = null;
 
-    const raw = await new Promise((resolve, reject) => {
-      api.httpPost(
-        "https://www.facebook.com/api/graphql/",
-        form,
-        (err, res) => (err ? reject(err) : resolve(res))
-      );
-    });
-
-    // Facebook returns text; parse safely
-    let json;
+  for (const { doc_id, variables } of QUERY_VARIANTS) {
     try {
-      const text = typeof raw === "string" ? raw : JSON.stringify(raw);
-      // Strip for_big_pipe / throw-on-error prefix
-      const cleaned = text.replace(/^for \(;;\);/, "").replace(/^\s*throw[^;]+;/, "").trim();
-      json = parseFacebookResponse(cleaned);
-    } catch (error) {
-      acpDebug("response parse failed", { error: error.message });
-      throw error;
-    }
+      // ★ FIX: httpPost كـ Promise مباشر — FCA يُضيف fb_dtsg/auth تلقائياً
+      //        لا نحتاج ctx.fb_dtsg ولا __user ولا lsd يدوياً
+      const form = {
+        av:                       api.getCurrentUserID(),
+        fb_api_caller_class:      "RelayModern",
+        fb_api_req_friendly_name: "FriendingCometFriendRequestsRootQueryRelayPreloader",
+        variables,
+        server_timestamps:        "true",
+        doc_id,
+      };
 
-    const errors = json?.errors || json?.__records?.flatMap((r) => r?.errors || []) || [];
-    if (errors.length) {
-      const error = new Error(String(errors[0]?.message || "Facebook GraphQL error"));
-      error.code = errors[0]?.code;
-      acpDebug("Facebook rejected friend-request query", { code: error.code, message: error.message });
-      throw error;
-    }
+      // httpPost بدون callback = Promise (مثل النسخة المرجعية acp.ts)
+      const raw = typeof api.httpPost === "function"
+        ? await api.httpPost("https://www.facebook.com/api/graphql/", form)
+        : await (api._defaultFuncs?.post?.(
+            "https://www.facebook.com/api/graphql/",
+            getAuthContext(api)?.jar,
+            form
+          ) ?? Promise.reject(new Error("httpPost unavailable")));
 
-    // Response structure: data.viewer.friending_possibilities.edges
-    // OR data.viewer.friend_requests_v2.edges depending on FB version
-    const edges =
-      json?.data?.viewer?.friending_possibilities?.edges ||
-      json?.data?.viewer?.friend_requests_v2?.edges ||
-      json?.data?.viewer?.friend_requests?.edges ||
-      [];
+      const json = parseFacebookResponse(raw);
 
-    const candidates = edges.length ? edges.map((e) => e?.node ?? e) : collectFriendNodes(json);
-    const unique = new Map();
-    for (const node of candidates) {
-      const userID = String(node?.id ?? node?.userID ?? node?.user_id ?? node?.uid ?? "");
-      if (!userID || unique.has(userID)) continue;
-      unique.set(userID, {
-        userID,
-        name: node?.name ?? node?.full_name ?? node?.profile_picture?.label ?? "مجهول",
-        mutualCount: node?.mutual_friends?.count ?? node?.mutualFriendCount ?? 0,
-      });
+      const errors = json?.errors || json?.__records?.flatMap((r) => r?.errors || []) || [];
+      if (errors.length) {
+        const e = new Error(String(errors[0]?.message || "Facebook GraphQL error"));
+        e.code = errors[0]?.code;
+        acpDebug(`doc_id ${doc_id} rejected`, { code: e.code, message: e.message });
+        lastError = e;
+        continue; // جرب doc_id التالي
+      }
+
+      const edges =
+        json?.data?.viewer?.friending_possibilities?.edges ||
+        json?.data?.viewer?.friend_requests_v2?.edges      ||
+        json?.data?.viewer?.friend_requests?.edges         ||
+        [];
+
+      const candidates = edges.length
+        ? edges.map((e) => e?.node ?? e)
+        : collectFriendNodes(json);
+
+      const unique = new Map();
+      for (const node of candidates) {
+        const userID = String(node?.id ?? node?.userID ?? node?.user_id ?? node?.uid ?? "");
+        if (!userID || unique.has(userID)) continue;
+        unique.set(userID, {
+          userID,
+          name:        node?.name ?? node?.full_name ?? node?.profile_picture?.label ?? "مجهول",
+          mutualCount: node?.mutual_friends?.count ?? node?.mutualFriendCount ?? 0,
+          profileUrl:  node?.url ?? null,
+        });
+      }
+
+      acpDebug("friend-request query OK", { doc_id, edges: edges.length, found: unique.size });
+      return [...unique.values()];
+
+    } catch (err) {
+      acpDebug(`doc_id ${doc_id} failed`, { message: err.message });
+      lastError = err;
+      // جرب doc_id التالي
     }
-    acpDebug("friend-request query completed", { explicitEdges: edges.length, candidateCount: unique.size });
-    return [...unique.values()];
-  } catch (error) {
-    acpDebug("friend-request query failed", { code: error?.code, message: error?.message || String(error) });
-    throw error;
   }
+
+  // كل المحاولات فشلت
+  throw lastError ?? new Error("تعذر جلب طلبات الصداقة — جميع doc_ids فشلت");
 }
 u(fetchFriendRequests, "fetchFriendRequests");
 
