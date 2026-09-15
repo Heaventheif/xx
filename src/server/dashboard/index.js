@@ -46,17 +46,31 @@ function appStateFilePath(index) {
   return path.join(PROJECT_ROOT, `appstate${appStateSuffix(index)}.json`);
 }
 function listAppStateFiles() {
-  const files = [];
-  for (let i = 1; i <= 20; i++) {
-    const fp = appStateFilePath(i);
-    if (fs.existsSync(fp)) files.push(i);
-  }
-  return files;
+  // AppState is supplied by APPSTATE; no AppState files or database vault are used.
+  return typeof process.env.APPSTATE === "string" && process.env.APPSTATE.trim() ? [1] : [];
 }
 
 export function registerDashboard(app) {
   const router = express.Router();
-  router.use(express.json({ limit: "2mb" }));
+  router.use(express.json({ limit: "256kb", strict: true, type: "application/json" }));
+
+  const cleanId = (value) => {
+    const id = String(value ?? "").trim();
+    return /^[0-9]{1,32}$/.test(id) ? id : null;
+  };
+  const parseAppState = (value) => {
+    if (typeof value !== "string" || value.length > 250_000) return null;
+    let parsed;
+    try { parsed = JSON.parse(value); } catch { return null; }
+    if (!Array.isArray(parsed) || parsed.length === 0 || parsed.length > 100) return null;
+    const allowed = new Set(["key", "value", "domain", "path", "secure", "httpOnly", "expirationDate", "expires"]);
+    for (const cookie of parsed) {
+      if (!cookie || typeof cookie !== "object" || typeof cookie.key !== "string" ||
+          typeof cookie.value !== "string" || cookie.key.length > 128 || cookie.value.length > 8192 ||
+          Object.keys(cookie).some((key) => !allowed.has(key))) return null;
+    }
+    return parsed;
+  };
 
   // ─── GET /api/appstates ──────────────────────────────────────────────────
   router.get("/api/appstates", (_req, res) => {
@@ -75,7 +89,7 @@ export function registerDashboard(app) {
         connected:  !!api,
         paused,
         adminFbId:  api?.__adminId || _getAdminId(index),
-        onDisk:     fs.existsSync(appStateFilePath(index)),
+        onDisk:     false,
       };
     });
     res.json({ accounts });
@@ -84,14 +98,10 @@ export function registerDashboard(app) {
   // ─── POST /api/appstates — add new AppState ──────────────────────────────
   router.post("/api/appstates", async (req, res) => {
     const { appstate, adminId } = req.body || {};
-    if (!appstate) return res.status(400).json({ error: "appstate مفقود" });
-    let parsed;
-    try {
-      parsed = typeof appstate === "string" ? JSON.parse(appstate) : appstate;
-      if (!Array.isArray(parsed)) throw new Error("ليس مصفوفة");
-    } catch {
-      return res.status(400).json({ error: "AppState غير صالح — يجب أن يكون JSON على شكل مصفوفة كوكيز" });
-    }
+    const parsed = parseAppState(appstate);
+    if (!parsed) return res.status(400).json({ error: "AppState غير صالح — يجب أن يكون JSON على شكل مصفوفة كوكيز" });
+    const safeAdminId = adminId == null || adminId === "" ? null : cleanId(adminId);
+    if (adminId != null && adminId !== "" && !safeAdminId) return res.status(400).json({ error: "adminId غير صالح" });
     // اختيار index حر
     const liveIndexes = new Set(
       (global.botApis || []).map((a) => a.__botIndex).filter(Number.isFinite)
@@ -114,7 +124,7 @@ export function registerDashboard(app) {
 
     // حفظ admin ID
     if (adminId) {
-      _setAdminId(index, String(adminId).trim());
+      _setAdminId(index, safeAdminId);
       _syncAdminsToGlobal();
     }
 
@@ -122,9 +132,8 @@ export function registerDashboard(app) {
     let loginError = null;
     await new Promise((resolve) => {
       loginBotWithAppState(
-        { state: parsed, filePath, index, source: `appstate${appStateSuffix(index)}.json (dashboard)` },
-        (errMsg) => { loginError = errMsg; resolve(); },
-        null
+        { state: parsed, filePath: null, index: 1, source: "APPSTATE (dashboard)" },
+        (errMsg) => { loginError = String(errMsg || "login failed").slice(0, 300); resolve(); }
       );
       setTimeout(resolve, 8000);
     });
@@ -138,8 +147,7 @@ export function registerDashboard(app) {
     if (!Number.isFinite(index) || index < 1 || index > 20)
       return res.status(400).json({ error: "index غير صالح" });
 
-    const fp = appStateFilePath(index);
-    try { if (fs.existsSync(fp)) fs.unlinkSync(fp); } catch (_) {}
+    // AppState is environment-managed; deletion is intentionally not persisted to disk.
 
     const dead = (global.botApis || []).find((a) => a.__botIndex === index);
     if (dead) {
@@ -157,7 +165,8 @@ export function registerDashboard(app) {
   // ─── PATCH /api/appstates/:index/admin ───────────────────────────────────
   router.patch("/api/appstates/:index/admin", (req, res) => {
     const index   = parseInt(req.params.index, 10);
-    const adminId = req.body?.adminId != null ? String(req.body.adminId).trim() : null;
+    const adminId = req.body?.adminId != null ? cleanId(req.body.adminId) : null;
+    if (req.body?.adminId != null && req.body.adminId !== "" && !adminId) return res.status(400).json({ error: "adminId غير صالح" });
     if (!Number.isFinite(index) || index < 1 || index > 20)
       return res.status(400).json({ error: "index غير صالح" });
     _setAdminId(index, adminId || null);

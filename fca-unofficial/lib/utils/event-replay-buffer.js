@@ -1,7 +1,8 @@
 export class EventReplayBuffer {
   constructor(opts = {}) {
-    this._maxBuffer = opts.maxBuffer ?? 200;
-    this._replayDelay = opts.replayDelay ?? 50;
+    this._maxBuffer = Math.max(1, Math.min(opts.maxBuffer ?? 200, 5000));
+    this._maxAgeMs = Math.max(1000, Math.min(opts.maxAgeMs ?? 5 * 60_000, 60 * 60_000));
+    this._replayDelay = Math.max(0, Math.min(opts.replayDelay ?? 50, 10_000));
     this._bufferTypes = new Set(opts.bufferTypes ?? ['message', 'message_reply', 'event']);
     this._buffer = [];
     this._offline = false;
@@ -14,6 +15,8 @@ export class EventReplayBuffer {
 
   
   attach(mqttClient, callback) {
+    // Re-attaching must remove the previous transport listeners first.
+    for (const fn of this._cleanupFns.splice(0)) { try { fn(); } catch {} }
     this._mqttClient = mqttClient;
     this._callback = callback;
 
@@ -57,7 +60,9 @@ export class EventReplayBuffer {
   
   async _replay() {
     if (this._buffer.length === 0) return;
-    const events = this._buffer.splice(0, this._buffer.length); 
+    const now = Date.now();
+    const events = this._buffer.splice(0, this._buffer.length)
+      .filter((event) => now - (event._bufferedAt || now) <= this._maxAgeMs);
 
     for (const event of events) {
       try {

@@ -37,21 +37,20 @@ export class SingleSessionGuard {
    */
   acquire() {
     try {
-      // تحقق من قفل موجود
+      // Read an existing lock, but use O_EXCL below for the actual claim.
       if (fs.existsSync(this.lockPath)) {
-        const existing = JSON.parse(fs.readFileSync(this.lockPath, 'utf8'));
-        const isRecent = Date.now() - (existing.ts || 0) < this.staleAfterMs;
-
+        let existing = null;
+        try { existing = JSON.parse(fs.readFileSync(this.lockPath, 'utf8')); } catch {}
+        const isRecent = Date.now() - (existing?.ts || 0) < this.staleAfterMs;
         if (isRecent) {
-          try {
-            process.kill(existing.pid, 0); // هل العملية لا تزال حية؟
-            return false; // جلسة أخرى نشطة
-          } catch { /* العملية ميتة — القفل قديم */ }
+          try { process.kill(existing.pid, 0); return false; }
+          catch { /* owner is dead; stale lock may be replaced */ }
         }
+        try { fs.unlinkSync(this.lockPath); } catch {}
       }
 
-      // سجِّل القفل باسمنا
-      this._writeLock();
+      // Atomic exclusive create prevents two Node processes claiming the same session.
+      this._writeLock(true);
       this._scheduleHeartbeat();
       process.once('exit', () => this.release());
       return true;
@@ -79,12 +78,11 @@ export class SingleSessionGuard {
   // ── داخلي ─────────────────────────────────────────────────────
 
   /** اكتب ملف القفل */
-  _writeLock() {
-    fs.writeFileSync(
-      this.lockPath,
-      JSON.stringify({ pid: this._pid, ts: Date.now() }),
-      { encoding: 'utf8', mode: 0o600 }
-    );
+  _writeLock(exclusive = false) {
+    const flags = exclusive ? 'wx' : 'w';
+    fs.writeFileSync(this.lockPath, JSON.stringify({ pid: this._pid, ts: Date.now() }), {
+      encoding: 'utf8', mode: 0o600, flag: flags
+    });
   }
 
   /** حساب فاصل النبضة (ثلث مدة الانتهاء، بحد 1ث إلى 30ث) */
@@ -101,7 +99,7 @@ export class SingleSessionGuard {
     const delay  = Math.max(500, Math.round(base + jitter));
 
     this._interval = setTimeout(() => {
-      try { this._writeLock(); } catch { /* تجاهل */ }
+      try { this._writeLock(); } catch { /* owner may have released during heartbeat */ }
       this._scheduleHeartbeat();
     }, delay);
   }

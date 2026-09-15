@@ -72,7 +72,8 @@ function re(n) {
 }
 r(re, 'cookieHeaderFromJar');
 function ee() {
-  return O.default && O.default.AppStateBackup ? O.default.AppStateBackup : null;
+  // Database persistence for initial/refreshed AppState was removed.
+  return null;
 }
 r(ee, 'getBackupModel');
 async function ce(n, s, c, a) {

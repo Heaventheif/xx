@@ -1,46 +1,56 @@
-var u = Object.defineProperty;
-var c = (r, t) => u(r, 'name', { value: t, configurable: !0 });
-import * as b from '../../../compat/legacy-promise.js';
-import * as l from '../../../utils/constants.js';
-import d from '../../../utils/format/index.js';
-import * as p from '../../../utils/request/index.js';
-const h = { default: d },
-  j = p,
-  { getType: k } = h.default;
-function y(r) {
-  const { ctx: t } = r;
-  return c(function (s, m) {
-    let e = s,
-      f = m;
-    if ((typeof s == 'function' && ((f = s), (e = {})), e || (e = {}), k(e) !== 'Object'))
+import * as legacy from '../../../compat/legacy-promise.js';
+import * as constants from '../../../utils/constants.js';
+import * as request from '../../../utils/request/index.js';
+
+// One refresh promise per FCA context prevents concurrent requests from overwriting tokens.
+const refreshLocks = new WeakMap();
+
+function createRefreshFbDtsgCommand({ ctx }) {
+  return function refreshFbDtsg(options, callback) {
+    let input = options;
+    let cb = callback;
+    if (typeof input === 'function') { cb = input; input = {}; }
+    input = input || {};
+    if (typeof input !== 'object' || Array.isArray(input)) {
       throw new Error('The first parameter must be an object or a callback function');
-    const { callback: a, promise: g } = (0, b.createLegacyPromise)(f);
-    return (
-      Object.keys(e).length === 0
-        ? j
-            .get('https://www.facebook.com/', t.jar, null, t.globalOptions, { noRef: !0 })
-            .then(({ data: o }) => {
-              const n = (0, l.getFrom)(o, '["DTSGInitData",[],{"token":"', '","'),
-                i = (0, l.getFrom)(o, 'jazoest=', '",');
-              if (!n) throw new Error('Could not find fb_dtsg in HTML after requesting Facebook.');
-              (Object.assign(t, { fb_dtsg: n, jazoest: i }),
-                a(null, {
-                  data: { fb_dtsg: n, jazoest: i },
-                  message: 'Refreshed fb_dtsg and jazoest',
-                }));
-            })
-            .catch((o) => {
-              a(o);
-            })
-        : (Object.assign(t, e),
-          a(null, { data: e, message: `Refreshed ${Object.keys(e).join(', ')}` })),
-      g
-    );
-  }, 'refreshFb_dtsg');
+    }
+
+    const { callback: done, promise } = legacy.createLegacyPromise(cb);
+    const applyResult = (result) => {
+      done(null, result);
+      return result;
+    };
+    const fail = (error) => { done(error); throw error; };
+
+    if (Object.keys(input).length > 0) {
+      Object.assign(ctx, input);
+      return promise;
+    }
+
+    let current = refreshLocks.get(ctx);
+    if (!current) {
+      current = request
+        .get('https://www.facebook.com/', ctx.jar, null, ctx.globalOptions, { noRef: true })
+        .then(({ data }) => {
+          const fb_dtsg = constants.getFrom(data, '["DTSGInitData",[],{"token":"', '",');
+          const jazoest = constants.getFrom(data, 'jazoest=', '",');
+          if (!fb_dtsg) throw new Error('Could not find fb_dtsg in HTML after requesting Facebook.');
+          // Update the live context atomically before resolving all waiting callers.
+          ctx.fb_dtsg = fb_dtsg;
+          ctx.jazoest = jazoest;
+          return { data: { fb_dtsg, jazoest }, message: 'Refreshed fb_dtsg and jazoest' };
+        })
+        .finally(() => refreshLocks.delete(ctx));
+      refreshLocks.set(ctx, current);
+    }
+
+    current.then(applyResult, (error) => { done(error); }).catch(() => {});
+    return promise;
+  };
 }
-c(y, 'createRefreshFbDtsgCommand');
-var F = { createRefreshFbDtsgCommand: y };
-export { y as createRefreshFbDtsgCommand, F as default };
+
+export { createRefreshFbDtsgCommand };
+export default { createRefreshFbDtsgCommand };
 
 // ─── Plugin Descriptor ──────────────────────────────────────────
 /** @type {import('./plugin-provider.js').FcaPlugin} */

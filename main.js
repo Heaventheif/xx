@@ -2,6 +2,7 @@
 process.env.TZ = 'Europe/Berlin';
 import path from "path";
 import { checkEnv } from "./src/utils/envCheck.js";
+import { bugLog, isDevEnabled } from "./src/utils/runtimeEnv.js";
 
 global.__critLogLast = 0;
 process.on("uncaughtException", (err) => {
@@ -44,7 +45,7 @@ global._reactionTimestamps = _reactionTimestamps;
 global.Kagenou             = { replies: {} };
 global.config              = { admins: [], moderators: [], developers: [], vips: [], Prefix: ["."], botName: "Sunken Bot" };
 // Per-bot admin map: botIndex (Number) → fbId (String)
-// Populated from Postgres vault (hydrateAppStatesFromVault) or botAdmins.json fallback
+// Populated from local configuration or botAdmins.json fallback.
 global._botAdminIds        = new Map();
 global.globalData          = new Map();
 global.usersData           = new Map();
@@ -62,17 +63,18 @@ import "./src/utils/safeSend.js";
 import { startWebServer } from "./src/server/webServer.js";
 import { loadConfig } from "./src/config/index.js";
 import { loadCommands } from "./src/core/Loader.js";
-import { connectDB, flushAllAndDisconnect } from "./src/db/index.js";
-import * as appStateVault from "./src/db/postgres.js";
 import {
   PROJECT_ROOT,
   loadAllAppStates,
-  hydrateAppStatesFromVault,
   loginBotWithAppState,
 } from "./src/core/Client.js";
 import { cleanupOrphanTempFiles } from "./src/utils/tempCleanup.js";
+import { connectDB, flushAllAndDisconnect } from "./src/db/index.js";
 
 try { await import("dotenv/config"); } catch (_) {}
+// Install detailed Render diagnostics only when DEV=on.
+await import("./src/utils/debug.js");
+bugLog("startup", "Runtime diagnostics initialized", { dev: isDevEnabled(), node: process.version });
 
 checkEnv(PROJECT_ROOT);
 
@@ -110,10 +112,10 @@ function reportNoLoginCredentials() {
 }
 
 const startBot = async () => {
-  await appStateVault.init();
+  // MongoDB remains available for AI sessions, commands, users, bans, and dashboard data.
+  connectDB().catch((error) => console.error("[DB] Database startup failed:", error.message));
   startWebServer();
   cleanupOrphanTempFiles();
-  await hydrateAppStatesFromVault();
 
   // تحميل الأوامر أولاً قبل أي login لتجنب race condition
   await loadCommands(COMMANDS_DIR);
@@ -121,41 +123,12 @@ const startBot = async () => {
   const accounts = loadAllAppStates();
   console.log(`[MULTI] 🚀 وجد ${accounts.length} حساب للتشغيل`);
 
-  // DB بالتوازي مع login (لا يعطّل البدء)
-  const _dbReadyPromise = connectDB().catch(e => {
-    console.error("[DB] ❌ فشل الاتصال (بدون تخزين دائم):", e.message);
-  });
-
-  // Auto-cleanup stale AI chat sessions (GPT / Gemini / Groq) older than 30 days.
-  // Runs once on startup then every 24 hours so old threads don't fill MongoDB.
-  _dbReadyPromise.then(async () => {
-    const runSessionCleanup = async () => {
-      if (!global.db) return;
-      const cutoff    = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
-      const mongoose  = (await import("mongoose")).default;
-      const colNames  = ["gptx_sessions", "gemini_sessions", "groq_sessions"];
-      let totalDeleted = 0;
-      for (const col of colNames) {
-        try {
-          const result = await mongoose.connection.collection(col).deleteMany({
-            updatedAt: { $lt: cutoff },
-          });
-          totalDeleted += result.deletedCount || 0;
-        } catch (_) { /* collection may not exist yet — skip */ }
-      }
-      if (totalDeleted > 0)
-        console.log(`[AI-SESSION] 🧹 حُذف ${totalDeleted} جلسة AI منتهية الصلاحية (>30 يوم).`);
-    };
-    runSessionCleanup();
-    setInterval(runSessionCleanup, 24 * 60 * 60 * 1000);
-  }).catch(() => {});
-
   if (accounts.length === 0) {
     reportNoLoginCredentials();
   } else {
     // [FIX P2] نُشغّل الحسابات بالتوازي مع انتظار النتائج لكشف الفشل
     const results = await Promise.allSettled(
-      accounts.map(account => loginBotWithAppState(account, null, _dbReadyPromise))
+      accounts.map(account => loginBotWithAppState(account, null))
     );
     const failed  = results.filter(r => r.status === "rejected");
     const succeed = results.filter(r => r.status === "fulfilled");

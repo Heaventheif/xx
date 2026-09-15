@@ -214,6 +214,7 @@ function T(n) {
             return (i(`getSeqID: ${y}`, 'error'), k(e, c, a, 'protocol_incompatible', y));
           }
           if (s?.transient) {
+            // Never recurse forever: let the outer supervisor decide whether to reconnect.
             if (f < 5) {
               const y = 2e3 * (f + 1);
               return (
@@ -222,14 +223,7 @@ function T(n) {
                 I(m, c, e, a, o, f + 1)
               );
             }
-            return (
-              i(
-                `getSeqID: transient response persisted after retries \u2014 backing off 30s and retrying WITHOUT tearing down the session (${t})`,
-                'warn'
-              ),
-              await new Promise((h) => setTimeout(h, 3e4)),
-              I(m, c, e, a, o, 0)
-            );
+            return i(`getSeqID: transient response persisted after 5 retries; aborting this sync attempt (${t})`, 'error');
           }
           if (/Not logged in|no sync_sequence_id found|blocked the login|401|403/i.test(t)) {
             if (f < 3) {

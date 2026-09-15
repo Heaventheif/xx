@@ -8,8 +8,16 @@ class a {
     ((this._q = []), (this._locked = !1));
   }
   acquire() {
-    return new Promise((e) => {
-      this._locked ? this._q.push(e) : ((this._locked = !0), e(() => this._release()));
+    return new Promise((resolve) => {
+      const grant = () => {
+        let released = false;
+        resolve(() => {
+          if (released) return;
+          released = true;
+          this._release();
+        });
+      };
+      this._locked ? this._q.push(grant) : ((this._locked = true), grant());
     });
   }
   _release() {

@@ -21,9 +21,6 @@ export async function publishLsRequestWithAck(params) {
     throw new Error('MQTT client is not initialized');
   }
 
-  if (typeof client.setMaxListeners === 'function') {
-    client.setMaxListeners(50);
-  }
 
   
   let timeoutSignal;

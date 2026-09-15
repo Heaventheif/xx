@@ -2,7 +2,7 @@ export class InflightCache {
   
   constructor(opts = {}) {
     this._pending = new Map(); 
-    this._maxSize = opts.maxSize ?? 200;
+    this._maxSize = Math.max(1, Math.min(Number(opts.maxSize ?? 200), 10_000));
     this._hits = 0; 
     this._total = 0;
   }

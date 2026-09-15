@@ -62,7 +62,6 @@ const LAZY_REGISTRY = [
   ['core',     () => import('./src/core/Loader.js')],
   ['core',     () => import('./src/core/Router.js')],
   ['db',       () => import('./src/db/index.js')],
-  ['db',       () => import('./src/db/postgres.js')],
   ['db',       () => import('./src/db/schemas.js')],
   ['events',   () => import('./src/events/onMessage.js')],
   ['events',   () => import('./src/events/onReady.js')],

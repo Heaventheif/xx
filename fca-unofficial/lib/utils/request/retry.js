@@ -108,7 +108,10 @@ export async function requestWithRetry(fn, maxRetries = 3, baseDelay = 1_000, ct
 
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
-      return await fn();
+      const response = await fn();
+      // Keep the live context token current when Facebook rotates fb_dtsg.
+      try { ctx?._antiSuspension?.inspect?.(response?.data ?? response, ctx); } catch {}
+      return response;
 
     } catch (err) {
       lastErr = err;

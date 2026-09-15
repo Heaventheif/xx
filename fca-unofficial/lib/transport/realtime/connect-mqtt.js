@@ -7,12 +7,19 @@ import B from '../../utils/format/index.js';
 import {
   pickSessionProfile as F,
   getFacebookMqttClientId as V,
-  // getMqttReconnectDelay removed — using fixed 3000ms
+  getMqttReconnectDelay,
 } from '../../safety/stealth-profiles.js';
 // [UNIFIED] AdaptivePinger removed — reschedulePings handles keepalive
 const H = { default: B },
   { formatID: G } = H.default,
   Q = 8e3;
+const DEV_MQTT = String(process.env.DEV || '').trim().toLowerCase() === 'on';
+function devMqttLog(logger, message, details = {}) {
+  if (!DEV_MQTT) return;
+  const safe = { ...details };
+  delete safe.cookie; delete safe.cookies; delete safe.token; delete safe.payload; delete safe.message;
+  logger(`[DEV-MQTT] ${message}${Object.keys(safe).length ? ` ${JSON.stringify(safe)}` : ''}`, 'debug');
+}
 function X(S) {
   const {
     WebSocket: w,
@@ -29,8 +36,8 @@ function X(S) {
   return d(function W(I, p, e, c) {
     e._reconnectAttempts || (e._reconnectAttempts = 0);
     function _(i) {
-      // [UNIFIED] reconnect delay ثابت 3000ms مثل vendor — أكثر موثوقية من exponential backoff
-      const o = typeof i == 'number' ? i : 3000;
+      // Exponential backoff with jitter prevents reconnect storms and timer buildup.
+      const o = typeof i == 'number' ? i : getMqttReconnectDelay(e._reconnectAttempts || 0);
       if (e._reconnectTimer) {
         r('mqtt reconnect already scheduled', 'warn');
         return;
@@ -40,6 +47,7 @@ function X(S) {
         return;
       }
       ((e._reconnectAttempts = (e._reconnectAttempts || 0) + 1),
+        devMqttLog(r, 'reconnect scheduled', { delayMs: o, attempt: e._reconnectAttempts }),
         r(`mqtt will reconnect in ~${o}ms (attempt ${e._reconnectAttempts})`, 'warn'),
         (e._reconnectTimer = setTimeout(() => {
           ((e._reconnectTimer = null), e._ending || W(I, p, e, c));
@@ -62,16 +70,18 @@ function X(S) {
     try {
       delete e.tmsWait;
     } catch {}
-    const g = e.mqttClient;
-    if (g) {
-      try {
-        g.removeAllListeners();
-      } catch {}
-      try {
-        g.connected && g.end(!0);
-      } catch {}
-      e.mqttClient === g && (e.mqttClient = void 0);
+    // Centralized cleanup: remove listeners and close/destroy the old transport before
+    // creating a replacement. This prevents listener accumulation and socket leaks.
+    function cleanup(client = e.mqttClient) {
+      if (!client) return;
+      if (client === e.mqttClient) e.mqttClient = void 0;
+      try { client.removeAllListeners?.(); } catch {}
+      try { client.end?.(true); } catch {}
+      try { client.stream?.destroy?.(); } catch {}
+      try { client._socket?.destroy?.(); } catch {}
     }
+    e._cleanupMqtt = cleanup;
+    cleanup();
     const T = e.globalOptions.online,
       y = Math.floor(Math.random() * Number.MAX_SAFE_INTEGER) + 1,
       E = {
@@ -141,7 +151,7 @@ function X(S) {
       // على Bun يُصدر تحذيراً وينصح باستخدام HTTPS_PROXY بدلاً من ذلك.
       h.wsOptions = buildCompatibleWsOptions(h.wsOptions, i);
     }
-    const _tlsWsOpts = applyChromeTlsFingerprint(h.wsOptions);
+    const _tlsWsOpts = applyChromeTlsFingerprint(h.wsOptions, b);
     e.mqttClient = new D.Client(() => v(h, new w(q, _tlsWsOpts), C()), h);
     const n = e.mqttClient;
     (
@@ -154,13 +164,14 @@ function X(S) {
         }
         if (/Not logged in|Not logged in.|blocked the login|401|403/i.test(o)) {
           try {
-            n?.connected && n.end(!0);
+            n?.connected && (n.end?.(true), n.stream?.destroy?.());
           } catch {}
           return P(e, p, c, /blocked/i.test(o) ? 'login_blocked' : 'not_logged_in', o);
         }
+        devMqttLog(r, 'error', { errorClass: /timeout|keep.?alive/i.test(o) ? 'keepalive_timeout' : 'transport_error' });
         r(`mqtt error: ${o}`, 'error');
         try {
-          n?.connected && n.end(!0);
+          n?.connected && (n.end?.(true), n.stream?.destroy?.());
         } catch {}
         e._ending ||
           e._cycling ||
@@ -170,6 +181,7 @@ function X(S) {
       }),
       n.on('connect', function () {
         if (!l(n)) return;
+        devMqttLog(r, 'connected', { reconnectAttempts: e._reconnectAttempts || 0 });
         (process.env.OnStatus === void 0 &&
           (r('fca-unofficial', 'info'), (process.env.OnStatus = 'true')),
           (e._cycling = !1),
@@ -182,7 +194,7 @@ function X(S) {
             const m = o?.message ?? String(o);
             r(`mqtt subscribe error: ${m}`, 'error');
             try {
-              n?.connected && n.end(!0);
+              n?.connected && (n.end?.(true), n.stream?.destroy?.());
             } catch {}
             !e._ending && !e._cycling && e.globalOptions.autoReconnect && l(n) && _();
             return;
@@ -212,9 +224,9 @@ function X(S) {
               return;
             }
             if (l(n)) {
-              (r('mqtt t_ms timeout, cycling', 'warn'), u());
+              (devMqttLog(r, 'keepalive_timeout', { timeoutMs: Q }), r('mqtt t_ms timeout, cycling', 'warn'), u());
               try {
-                n?.connected && n.end(!0);
+                n?.connected && (n.end?.(true), n.stream?.destroy?.());
               } catch {}
               e.globalOptions.autoReconnect && !e._ending && _();
             }
@@ -241,13 +253,13 @@ function X(S) {
             if (t.type === 'jewel_requests_add')
               c(null, {
                 type: 'friend_request_received',
-                actorFbId: t.from.toString(),
+                actorFbId: String(t?.from ?? ""),
                 timestamp: Date.now().toString(),
               });
             else if (t.type === 'jewel_requests_remove_old')
               c(null, {
                 type: 'friend_request_cancel',
-                actorFbId: t.from.toString(),
+                actorFbId: String(t?.from ?? ""),
                 timestamp: Date.now().toString(),
               });
             else if (i === '/t_ms') {
@@ -261,8 +273,8 @@ function X(S) {
               const s = {
                 type: 'typ',
                 isTyping: !!t.state,
-                from: t.sender_fbid.toString(),
-                threadID: G((t.thread || t.sender_fbid).toString()),
+                from: String(t?.sender_fbid ?? ""),
+                threadID: G(String(t?.thread ?? t?.sender_fbid ?? "")),
               };
               c(null, s);
             } else if (i === '/orca_presence') {
@@ -304,7 +316,7 @@ function X(S) {
             r('mqtt close expected', 'info');
             return;
           }
-          (r('mqtt connection closed', 'warn'),
+          (devMqttLog(r, 'closed'), r('mqtt connection closed', 'warn'),
             e.globalOptions.autoReconnect && !e._ending && !e._cycling && _());
         }
       }),
@@ -314,7 +326,7 @@ function X(S) {
             r('mqtt disconnect expected', 'info');
             return;
           }
-          (r('mqtt disconnected', 'warn'),
+          (devMqttLog(r, 'disconnected'), r('mqtt disconnected', 'warn'),
             e.globalOptions.autoReconnect && !e._ending && !e._cycling && _());
         }
       }));

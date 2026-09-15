@@ -53,8 +53,14 @@ export function getChromeTlsOptions() {
  * - Node.js (مكتبة ws): تقبل خيارات TLS مباشرة في كائن wsOptions وأيضاً في `tls`.
  * - Bun (WebSocket الأصلي): يقرأ خيارات TLS من الكائن الجذر مباشرة.
  */
-export function applyChromeTlsFingerprint(wsOptions = {}) {
-  const tlsOpts = getChromeTlsOptions();
+export function getTlsOptionsForProfile(profile = {}) {
+  // Firefox and Chromium negotiate different cipher preferences; never label one as the other.
+  if (profile?.isFirefox) return { minVersion: TLS_VERSION_1_2, maxVersion: TLS_VERSION_1_3 };
+  return getChromeTlsOptions();
+}
+
+export function applyChromeTlsFingerprint(wsOptions = {}, profile = {}) {
+  const tlsOpts = getTlsOptionsForProfile(profile);
   return {
     ...wsOptions,
     ...tlsOpts,
@@ -65,7 +71,7 @@ export function applyChromeTlsFingerprint(wsOptions = {}) {
   };
 }
 
-export default { getChromeTlsOptions, applyChromeTlsFingerprint, CHROME_CIPHERS };
+export default { getChromeTlsOptions, getTlsOptionsForProfile, applyChromeTlsFingerprint, CHROME_CIPHERS };
 
 // ─── Plugin Descriptor ──────────────────────────────────────────
 /** @type {import('./plugin-provider.js').FcaPlugin} */
@@ -73,6 +79,6 @@ export const $plugin = {
   name: 'fca-transport-tls-fingerprint',
   meta: { category: 'transport', path: 'lib/transport/tls-fingerprint.js' },
   setup(_ctx) {
-    // provides: CHROME_CIPHERS, getChromeTlsOptions, applyChromeTlsFingerprint
+    // provides: CHROME_CIPHERS, getChromeTlsOptions, getTlsOptionsForProfile, applyChromeTlsFingerprint
   },
 };

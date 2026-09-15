@@ -5,9 +5,7 @@
  * Call once at startup before any service initialisation.
  *
  * AppState is dashboard-managed only (added via /dashboard's "AppState" tab,
- * saved to appstate*.json) — the bot no longer reads login credentials from
- * environment variables at all, so this no longer checks for APPSTATE* env
- * vars, only for the presence of at least one appstate*.json file.
+ * provided through APPSTATE — login credentials are read from the environment.
  */
 import fs from "fs";
 import path from "path";
@@ -25,16 +23,10 @@ function buildChecks(projectRoot) {
       level: "warn",
       key: null,
       label: "FB credentials",
-      test: () => hasAnyAppStateFile(projectRoot),
+      test: () => Boolean(process.env.APPSTATE?.trim()),
       message:
         "لا يوجد أي حساب مضاف بعد — افتح لوحة التحكم (/dashboard) وأضف حساب فيسبوك من تبويب AppState " +
         "(تسجيل الدخول يعتمد على AppState فقط، لا يوجد بديل بالبريد وكلمة المرور، ولا يُقرأ من متغيرات البيئة).",
-    },
-    {
-      level: "warn",
-      key: "MONGO_URI",
-      label: "MONGO_URI",
-      message: "البيانات ستُحفظ في الذاكرة فقط (تُمحى عند الإعادة)",
     },
     {
       level: "warn",
@@ -68,7 +60,7 @@ export function checkEnv(projectRoot) {
     }
   }
   if (hasCritical) {
-    console.error("[ENV] تحقق من appstate.json أو أضف حساباً عبر لوحة التحكم (/dashboard) قبل التشغيل");
+    console.error("[ENV] أضف APPSTATE صالحاً (مصفوفة JSON) إلى متغيرات البيئة قبل التشغيل");
   }
 }
 // ─── Plugin Descriptor ──────────────────────────────────────────

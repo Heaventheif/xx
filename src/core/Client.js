@@ -1,16 +1,22 @@
 "use strict";
 import fs from "fs-extra";
 import path from "path";
+import { createRequire } from "node:module";
 import botEnhancer from "../utils/bot-enhancer.js";
 import cache from "../utils/cache.js";
 import { dispatchMqttEvent } from "../events/onMessage.js";
 import { startCleanupInterval } from "../events/onReady.js";
-import * as appStateVault from "../db/postgres.js";
+import { bugLog, readAppStateFromEnv, updateAppStateInMemory } from "../utils/runtimeEnv.js";
 if (typeof Bun === "undefined" || !Bun.version?.startsWith?.("1.")) {
   console.error("[FATAL] هذا البوت يتطلب Bun 1.4 أو أحدث — https://bun.sh");
   process.exit(1);
 }
 const PROJECT_ROOT = path.join(import.meta.dir, "..", "..");
+const _require = createRequire(import.meta.url);
+let E2EEBridge = null;
+try { E2EEBridge = _require("../../fca-unofficial/lib/e2ee/bridge.js").E2EEBridge; } catch (error) {
+  bugLog("E2EE", "Bridge unavailable; normal MQTT remains enabled", { error: error.message });
+}
 import * as fcaModule from "fca-unofficial";
 const loginAsync = fcaModule.loginAsync;
 const {
@@ -72,144 +78,29 @@ function saveBotName(botIndex, name) {
 function getBotName(botIndex) {
   return loadBotNames()[String(botIndex)] || null;
 }
-async function hydrateAppStatesFromVault() {
-  if (!appStateVault.isEnabled()) return;
-  const rows = await appStateVault.loadAll();
-  global._botAdminIds = global._botAdminIds || new Map();
-  for (const row of rows) {
-    if (row.adminFbId) global._botAdminIds.set(row.index, String(row.adminFbId));
-    const suffix = row.index === 1 ? "" : String(row.index);
-    const filePath = path.join(PROJECT_ROOT, `appstate${suffix}.json`);
-    try {
-      const newContent = JSON.stringify(row.state, null, 2);
-      let needsWrite = true;
-      if (fs.existsSync(filePath)) {
-        try {
-          const existing = fs.readFileSync(filePath, "utf8");
-          needsWrite = existing.trim() !== newContent.trim();
-        } catch (_) {}
-      }
-      if (needsWrite) {
-        let localIsNewer = false;
-        if (fs.existsSync(filePath)) {
-          try {
-            const localStat = fs.statSync(filePath);
-            const pgUpdatedAt = row.updatedAt ? new Date(row.updatedAt).getTime() : 0;
-            if (pgUpdatedAt && localStat.mtimeMs > pgUpdatedAt + 30_000) {
-              localIsNewer = true;
-              console.log(`[APPSTATE-VAULT] ⏭️ appstate${suffix}.json أحدث من Postgres — تم الاحتفاظ بالملف المحلي`);
-            }
-          } catch (_) {}
-        }
-        if (!localIsNewer) {
-          fs.writeFileSync(filePath, newContent, "utf8");
-          try { fs.chmodSync(filePath, 0o600); } catch (_) {}
-          console.log(`[APPSTATE-VAULT] ♻️ تحديث appstate${suffix}.json من Postgres`);
-        }
-      } else {
-        console.log(`[APPSTATE-VAULT] ✔️ appstate${suffix}.json محدَّث بالفعل`);
-      }
-    } catch (e) {
-      console.error(`[APPSTATE-VAULT] ❌ فشل استرجاع appstate${suffix}.json:`, e.message);
-    }
-    if (row.botName) saveBotName(row.index, row.botName);
-  }
+function parseEnvAppState() {
+  return readAppStateFromEnv();
 }
-function saveAppStateForBot(state, botIndex) {
-  const suffix   = botIndex === 1 ? "" : String(botIndex);
-  const filePath = path.join(PROJECT_ROOT, `appstate${suffix}.json`);
-  const tmpPath  = filePath + ".tmp";
+
+function saveAppStateForBot(state, _botIndex = 1) {
   try {
-    fs.writeFileSync(tmpPath, JSON.stringify(state, null, 2), "utf8");
-    try { fs.chmodSync(tmpPath, 0o600); } catch (_) {}
-    fs.renameSync(tmpPath, filePath);
-    console.log(`[SESSION] 💾 Bot-${botIndex}: appstate${suffix}.json محفوظ`);
-  } catch (err) {
-    try { if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath); } catch (_) {}
-    console.error(`[SESSION] ❌ Bot-${botIndex}: فشل حفظ AppState:`, err.message);
-  }
-  if (appStateVault.isEnabled()) {
-    const botApi = global.botApis?.find(a => a.__botIndex === botIndex);
-    const fbId   = botApi?.__botFbId || null;
-    const name   = botApi?.__botName || null;
-    appStateVault.getOwner(botIndex).then(async (owner) => {
-      const resolvedOwner = owner || botApi?.__adminId || "system";
-      await appStateVault.saveAppState(botIndex, resolvedOwner, state, name, null, fbId);
-    }).catch(e => {
-      console.warn(`[SESSION] ⚠️ Bot-${botIndex}: فشل الرفع إلى Postgres:`, e.message);
-    });
+    updateAppStateInMemory(state);
+    console.log("[APPSTATE] Updated process.env.APPSTATE in memory; persist it in the environment configuration if required.");
+    return true;
+  } catch (error) {
+    bugLog("APPSTATE", "Rejected refreshed state", error);
+    console.warn(`[APPSTATE] ${error.message}`);
+    return false;
   }
 }
+
 function loadAllAppStates() {
-  function extractUid(state) {
-    if (!Array.isArray(state)) return null;
-    const c = state.find((x) => x?.key === "c_user" || x?.name === "c_user");
-    return c?.value ? String(c.value) : null;
-  }
-  function extractFreshness(state) {
-    if (!Array.isArray(state)) return 0;
-    let max = 0;
-    for (const c of state) {
-      const exp = c?.expirationDate ?? c?.expires ?? 0;
-      const ts  = typeof exp === "number" ? exp : parseFloat(exp) || 0;
-      if (ts > max) max = ts;
-    }
-    return max;
-  }
-  const candidates = [];
-  for (let i = 1; i <= 20; i++) {
-    const suffix   = i === 1 ? "" : String(i);
-    const filePath = path.join(PROJECT_ROOT, `appstate${suffix}.json`);
-    if (!fs.existsSync(filePath)) continue;
-    try {
-      const state   = JSON.parse(fs.readFileSync(filePath, "utf8"));
-      const uid     = extractUid(state);
-      let freshness = extractFreshness(state);
-      if (!freshness) {
-        try { freshness = Math.floor(fs.statSync(filePath).mtimeMs / 1000); } catch (_) {}
-      }
-      candidates.push({ state, filePath, index: i, source: `appstate${suffix}.json`, uid, freshness });
-    } catch (e) {
-      console.warn(`[MULTI] ⚠️ appstate${suffix}.json تالف: ${e.message}`);
-    }
-  }
-  const uidWinner = new Map();
-  for (const c of candidates) {
-    if (!c.uid) continue;
-    const prev = uidWinner.get(c.uid);
-    if (!prev || c.freshness > prev.freshness) uidWinner.set(c.uid, c);
-  }
-  const accounts = [];
-  for (const c of candidates) {
-    if (!c.uid) {
-      accounts.push(c);
-      console.log(`[MULTI] ✅ وجد ${c.source} → Bot-${c.index} (uid غير معروف)`);
-      continue;
-    }
-    const winner = uidWinner.get(c.uid);
-    if (winner.index === c.index) {
-      accounts.push(c);
-      console.log(`[MULTI] ✅ وجد ${c.source} → Bot-${c.index} (uid=${c.uid})`);
-    } else {
-      console.warn(
-        `[MULTI] 🗑️ حذف ${c.source} (uid=${c.uid}) — ` +
-        `${winner.source} أحدث منه (freshness=${winner.freshness} > ${c.freshness}).`
-      );
-      try {
-        fs.unlinkSync(c.filePath);
-        console.log(`[MULTI] ✅ حُذف ${c.source} من الديسك.`);
-      } catch (e) {
-        console.warn(`[MULTI] ⚠️ تعذّر حذف ${c.source} من الديسك: ${e.message}`);
-      }
-      if (appStateVault.isEnabled()) {
-        appStateVault.deleteByIndex(c.index).catch((e) => {
-          console.warn(`[MULTI] ⚠️ تعذّر حذف Bot-${c.index} من Postgres: ${e.message}`);
-        });
-      }
-    }
-  }
-  return accounts;
+  const state = parseEnvAppState();
+  if (!state) return [];
+  bugLog("APPSTATE", "Selected environment session", { botIndex: 1 });
+  return [{ state, filePath: null, index: 1, source: "APPSTATE", uid: null, freshness: Date.now() }];
 }
+
 function safeStringify(v) {
   if (v instanceof Error) return v.stack || v.message;
   if (typeof v === "string") return v;
@@ -230,7 +121,7 @@ function stopMqttListener(listener, label) {
   }
 }
 
-function startListening(api, botIndex, botSessionGuard, dbReadyPromise) {
+function startListening(api, botIndex, botSessionGuard) {
   const label = `Bot-${botIndex}`;
 
   // ── [FIX #1] SINGLETON GUARD ────────────────────────────────────────────────
@@ -267,16 +158,6 @@ function startListening(api, botIndex, botSessionGuard, dbReadyPromise) {
                   const { default: fsExtra } = await import("fs-extra");
                   const { default: pathMod } = await import("path");
                   const suffix = botIndex === 1 ? "" : String(botIndex);
-                  const stateFile = pathMod.join(PROJECT_ROOT, `appstate${suffix}.json`);
-                  if (fsExtra.existsSync(stateFile)) {
-                    fsExtra.unlinkSync(stateFile);
-                    console.log(`[DEAD-APPSTATE] 🗑️ ${label}: حُذف appstate${suffix}.json.`);
-                  }
-                  const vault = await import("../db/postgres.js");
-                  if (vault.isEnabled()) {
-                    const deleted = await vault.deleteByIndex(botIndex);
-                    if (deleted) console.log(`[DEAD-APPSTATE] 🗑️ ${label}: حُذف من Postgres.`);
-                  }
                   const idx = global.botApis?.indexOf(api);
                   if (idx !== -1) global.botApis?.splice(idx, 1);
                   console.log(`[DEAD-APPSTATE] ✅ ${label}: تم تنظيف AppState الميت.`);
@@ -471,12 +352,9 @@ function startListening(api, botIndex, botSessionGuard, dbReadyPromise) {
     `[SUCCESS] ${label} يستمع عبر MQTT... ` +
     `(watchdog نشط — عتبة ${DEAD_THRESHOLD_MS / 60000} دقيقة، backoff حتى ${RECONNECT_BACKOFF.at(-1)}ث)`
   );
-  (async () => {
-    if (dbReadyPromise) { try { await dbReadyPromise; } catch (_) {} }
-  })();
 }
 
-function onBotReady(api, botIndex, appStatePath, dbReadyPromise) {
+async function onBotReady(api, botIndex) {
   const label      = `Bot-${botIndex}`;
   const isFirstBot = botIndex === 1;
 
@@ -505,7 +383,6 @@ function onBotReady(api, botIndex, appStatePath, dbReadyPromise) {
       const uid = api.getCurrentUserID?.();
       if (!uid) return;
       api.__botFbId = String(uid);
-      appStateVault.updateBotFbId(botIndex, uid).catch(() => {});
       const info = await new Promise((resolve, reject) => {
         api.getUserInfo(uid, (err, res) => (err ? reject(err) : resolve(res)));
       });
@@ -513,7 +390,6 @@ function onBotReady(api, botIndex, appStatePath, dbReadyPromise) {
       if (name) {
         api.__botName = name;
         saveBotName(botIndex, name);
-        appStateVault.updateBotName(botIndex, name).catch(() => {});
         console.log(`[NAME:${label}] 🏷️ الحساب: ${name} (FB ID: ${uid})`);
       }
     } catch (e) {
@@ -548,7 +424,8 @@ function onBotReady(api, botIndex, appStatePath, dbReadyPromise) {
       intervalMs:     30 * 60 * 1000,
       expiryDays:     60,
       backupEnabled:  false,
-      appStatePath:   appStatePath || path.join(PROJECT_ROOT, `appstate${botIndex === 1 ? "" : botIndex}.json`),
+      appStatePath: null,
+      onAppStateUpdate: (state) => saveAppStateForBot(state, botIndex),
     });
     cookieRefresher.attach(api._ctx, api._defaultFuncs);
     console.log(`[SESSION:${label}] ✅ CookieRefresher نشط (كل 30 دقيقة)`);
@@ -635,14 +512,33 @@ function onBotReady(api, botIndex, appStatePath, dbReadyPromise) {
       scheduleAppStateSave();
     }, delayMs);
   })();
-  startListening(api, botIndex, sessionGuard, dbReadyPromise);
+  startListening(api, botIndex, sessionGuard);
+  if (String(process.env.E2EE_AUTO ?? "on").toLowerCase() !== "off" && E2EEBridge) {
+    try {
+      const bridge = new E2EEBridge(api._ctx ?? api, api);
+      bridge.onMessage((error, event) => {
+        if (error) {
+          console.warn(`[E2EE:${label}] message error:`, error.message || error);
+          return;
+        }
+        if (event) dispatchMqttEvent(api, event, `${label}:E2EE`, _acceptedThreads);
+      });
+      const devicePath = path.join(PROJECT_ROOT, ".fca_e2ee", `.device-${botIndex}.json`);
+      await bridge.connect(devicePath, api.getCurrentUserID?.());
+      api.e2ee = bridge;
+      console.log(`[E2EE:${label}] ✅ E2EE bridge متصل تلقائياً`);
+    } catch (error) {
+      console.warn(`[E2EE:${label}] ⚠️ تعذر التفعيل التلقائي؛ يستمر MQTT:`, error.message || error);
+    }
+  }
   if (isFirstBot) {
     startCleanupInterval();
   }
 }
 
-function loginBotWithAppState(account, onFallback, dbReadyPromise) {
-  const { state, filePath, index } = account;
+function loginBotWithAppState(account, onFallback) {
+  const { state, index } = account;
+  const filePath = null;
   const label = `Bot-${index}`;
   const suffix = index === 1 ? "" : String(index);
   console.log(`[LOGIN:${label}] 🔑 تسجيل الدخول بـ AppState (${account.source})...`);
@@ -685,7 +581,7 @@ function loginBotWithAppState(account, onFallback, dbReadyPromise) {
       console.log(`[DEVICE:${label}] 🖥️ بصمة ثابتة: ${deviceManager.deviceId}`);
       loginSucceeded = true;
       try {
-        onBotReady(api, index, filePath, dbReadyPromise);
+        await onBotReady(api, index);
       } catch (e) {
         console.error(`[LOGIN:${label}] ❌ onBotReady فشل:`, e.message);
         sessionLock.release();
@@ -695,14 +591,14 @@ function loginBotWithAppState(account, onFallback, dbReadyPromise) {
       if (!loginSucceeded) sessionLock.release();
       const errMsg = err?.message || String(err);
       if (/checkpoint/i.test(errMsg)) {
-        console.log(`[2FA:${label}] ⚡ Checkpoint — أعد إنشاء appstate${suffix}.json من جهاز موثوق.`);
+        console.log(`[2FA:${label}] ⚡ Checkpoint — أعد إنشاء APPSTATE من جهاز موثوق.`);
       }
       if (onFallback) {
         onFallback(errMsg);
       } else {
         console.error(
           `[LOGIN:${label}] ❌ فشل تسجيل الدخول بـ AppState — هذا الحساب متوقف. ` +
-          `تحقق من صلاحية appstate${suffix}.json عبر لوحة التحكم ثم أعد التشغيل.`
+          `تحقق من صلاحية APPSTATE عبر لوحة التحكم ثم أعد التشغيل.`
         );
       }
       throw err;
@@ -712,7 +608,6 @@ function loginBotWithAppState(account, onFallback, dbReadyPromise) {
 export {
   PROJECT_ROOT,
   loadAllAppStates,
-  hydrateAppStatesFromVault,
   saveAppStateForBot,
   loginBotWithAppState,
   onBotReady,
@@ -725,6 +620,6 @@ export const $plugin = {
   name: 'xx-core-client',
   meta: { category: 'core', path: 'src/core/Client.js' },
   setup(_ctx) {
-    // provides: PROJECT_ROOT, getBotName, hydrateAppStatesFromVault, loadAllAppStates, loadBotNames, loginBotWithAppState, onBotReady, saveAppStateForBot
+    // provides: PROJECT_ROOT, getBotName, loadAllAppStates, loadBotNames, loginBotWithAppState, onBotReady, saveAppStateForBot
   },
 };

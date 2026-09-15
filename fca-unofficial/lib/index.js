@@ -116,6 +116,7 @@ import {
 
 import {
   getChromeTlsOptions,
+  getTlsOptionsForProfile,
   applyChromeTlsFingerprint,
   CHROME_CIPHERS,
 } from './transport/tls-fingerprint.js';
@@ -312,7 +313,7 @@ export {
 };
 
 export {
-  getChromeTlsOptions, applyChromeTlsFingerprint, CHROME_CIPHERS,
+  getChromeTlsOptions, getTlsOptionsForProfile, applyChromeTlsFingerprint, CHROME_CIPHERS,
   publishLsRequestWithAck,
 };
 

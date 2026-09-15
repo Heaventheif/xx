@@ -3,22 +3,17 @@ import { EventEmitter } from 'node:events';
 
 export async function* listenAsync(api, signal) {
   const emitter = new EventEmitter();
-  emitter.setMaxListeners(50);
+  emitter.setMaxListeners(0); // lifecycle cleanup below prevents listener accumulation
 
   let stopListen;
-
-  
-  const listenPromise = new Promise((_, reject) => {
-    stopListen = api.listen((err, event) => {
-      if (err) {
-        emitter.emit('error', err);
-        return;
-      }
-      if (event) {
-        emitter.emit('event', event);
-      }
-    });
+  let ended = false;
+  stopListen = api.listen((err, event) => {
+    if (ended) return;
+    if (err) { emitter.emit('eventError', err); return; }
+    if (event) emitter.emit('event', event);
   });
+  const onEventError = (err) => { if (!ended) emitter.emit('fatal', err); };
+  emitter.on('eventError', onEventError);
 
   
   const onAbort = () => {
@@ -49,6 +44,8 @@ export async function* listenAsync(api, signal) {
     if (err?.name === 'AbortError' || signal?.aborted) return;
     throw err;
   } finally {
+    ended = true;
+    emitter.removeListener('eventError', onEventError);
     if (signal) signal.removeEventListener('abort', onAbort);
     onAbort();
   }

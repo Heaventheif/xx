@@ -18,6 +18,9 @@
 
 const path = require("path");
 const logger = require("../utils/nexca-logger");
+// bridge.js is CommonJS; resolve the optional MIME package once, safely.
+let mime = null;
+try { mime = require("mime"); } catch (_) { /* fallback MIME map is used below */ }
 
 // ── FIX #4: WeakMap بدلاً من global ─────────────────────────────────────────
 // يربط كل FBClient instance بالـ adapter الخاص به بدون تلوث global scope.
@@ -44,6 +47,8 @@ class E2EEBridge {
         this.connected = false;
         this._messageCallback = null;
         this._connectPromise = null;
+        this._resyncPromise = null;
+        this._lastResyncAt = 0;
     }
 
     isConnected() {
@@ -75,72 +80,44 @@ class E2EEBridge {
         logger.info("E2EE", "Device store: " + deviceStorePath);
 
         const FBClient = loadFBClient();
-        const appState = this.api.getAppState ? this.api.getAppState() : [];
-
-        this.client = new FBClient({ appState, platform: "facebook" });
-
-        // ── Adapter: يمنع fca-unofficial الداخلي من بدء جلسة ثانية ──────────
-        const _ctx = this.ctx;
         const _api = this.api;
+        this.client = new FBClient({ platform: "facebook" });
 
-        // ── FIX #6: تحقق من وجود fetch قبل استخدامه ─────────────────────────
-        const _hasFetch = typeof fetch === "function";
-        const _hasRequest = (() => {
-            try { require.resolve("request"); return true; } catch (_) { return false; }
-        })();
-
-        const _adapter = {
-            fb_dtsg: _ctx.fb_dtsg,
-            getCurrentUserID: () => _api.getCurrentUserID ? _api.getCurrentUserID() : _ctx.userID,
-            getAppState: () => _api.getAppState ? _api.getAppState() : [],
-            httpPost: async (url, form) => {
-                const merged = Object.assign({}, form);
-                if (!merged.fb_dtsg && _ctx.fb_dtsg) merged.fb_dtsg = _ctx.fb_dtsg;
-                if (!merged.__user) merged.__user = _ctx.userID;
-
-                if (_ctx.jar && _hasRequest) {
-                    const request = require("request");
-                    return new Promise((resolve, reject) => {
-                        request(
-                            { method: "POST", url, jar: _ctx.jar, form: merged, gzip: true },
-                            (err, r) => err ? reject(err) : resolve(r && r.body)
-                        );
-                    });
-                }
-
-                if (!_hasFetch) {
-                    throw new Error(
-                        "[E2EEBridge] httpPost: No HTTP client available.\n" +
-                        "  Either install 'request' package or use Node.js >= 18 (which includes native fetch)."
-                    );
-                }
-
-                const res = await fetch(url, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(merged).toString()
-                });
-                return res.text();
-            },
-            listenMqtt: () => {},
-            stopListenMqtt: () => {},
-            setOptions: () => {},
-            sendMessage: (msg, threadID, cb, replyTo) =>
-                _api.sendMessage ? _api.sendMessage(msg, threadID, cb, replyTo) : Promise.resolve(),
-        };
-
-        // ── FIX #4: WeakMap بدلاً من global ──────────────────────────────────
-        _adapterMap.set(this.client, _adapter);
-
-        let resolvedUserId;
-        try {
-            // تمرير الـ adapter بشكل آمن عبر WeakMap
-            const connectResult = await this.client.connect(_adapter);
-            resolvedUserId = connectResult && connectResult.userId;
-        } finally {
-            // WeakMap لا يحتاج cleanup — يُنظَّف تلقائياً مع GC
+        // Reuse the API already authenticated by Client.js.
+        // Do not call FBClient.connect() here: that method expects an appState
+        // config and would perform a second Facebook login.
+        if (!this.client.controller) {
+            throw new Error("E2EE engine has no ClientController");
         }
-        if (this.client.controller) this.client.controller.api = _adapter;
+        const ctx = this.ctx;
+        const gatewayApi = new Proxy(_api, {
+            get(target, property, receiver) {
+                if (property === "fb_dtsg") return ctx.fb_dtsg || target.fb_dtsg;
+                if (property === "httpPost") {
+                    return async (url, form) => {
+                        if (typeof target._defaultFuncs?.post === "function") {
+                            return target._defaultFuncs.post(url, ctx.jar, form);
+                        }
+                        if (typeof fetch !== "function") throw new Error("No HTTP client available for E2EE CAT request");
+                        const cookies = target.getAppState?.() || [];
+                        const cookieHeader = cookies.map((cookie) => `${cookie.key}=${cookie.value}`).join("; ");
+                        const response = await fetch(url, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded",
+                                ...(cookieHeader ? { Cookie: cookieHeader } : {})
+                            },
+                            body: new URLSearchParams(form).toString()
+                        });
+                        return response.text();
+                    };
+                }
+                return Reflect.get(target, property, receiver);
+            }
+        });
+        this.client.controller.api = gatewayApi;
+        this.client.controller.userId = String(userId || _api.getCurrentUserID?.() || "");
+        const resolvedUserId = this.client.controller.userId;
 
         logger.info("E2EE", "Opening Noise WebSocket (Signal Protocol)...");
         const _e2eeDevicePath = deviceStorePath;
@@ -165,6 +142,11 @@ class E2EEBridge {
 
         // ── استقبال الرسائل المشفرة ─────────────────────────────────────────
         this.client.onEvent("e2ee_message", (msg) => {
+            const failure = msg?.type === "decryption_failed" || msg?.data?.type === "decryption_failed";
+            if (failure) {
+                void this.requestKeyResync("decryption_failed");
+                return;
+            }
             if (!this._messageCallback) return;
 
             const senderID = msg.senderId ||
@@ -239,8 +221,6 @@ class E2EEBridge {
         }
 
         // إرسال مع مرفقات
-        let mime;
-        try { mime = require("mime"); } catch (_) {}
         const list = Array.isArray(attachment) ? attachment : [attachment];
         const results = [];
         for (const stream of list) {
@@ -279,6 +259,30 @@ class E2EEBridge {
     async editMessage(threadId, messageId, newText) {
         this._ensureConnected();
         return this.client.editMessage({ threadId, messageId, newText });
+    }
+
+    async requestKeyResync(reason = "unknown") {
+        if (this._resyncPromise) return this._resyncPromise;
+        const now = Date.now();
+        if (now - this._lastResyncAt < 30_000) {
+            logger.debug("E2EE", `Key resync suppressed during cooldown (${reason})`);
+            return false;
+        }
+        const maintenance = this.client?.controller?.preKeyMaintenance;
+        if (!maintenance || typeof maintenance.sync !== "function") {
+            logger.warn("E2EE", `Key resync unavailable (${reason}); keeping the session alive.`);
+            return false;
+        }
+        this._lastResyncAt = now;
+        this._resyncPromise = Promise.resolve()
+            .then(() => maintenance.sync(`bridge:${reason}`))
+            .then(() => true)
+            .catch((error) => {
+                logger.warn("E2EE", `Key resync failed (${reason}): ${error?.message || String(error)}`);
+                return false;
+            })
+            .finally(() => { this._resyncPromise = null; });
+        return this._resyncPromise;
     }
 
     async disconnect() {

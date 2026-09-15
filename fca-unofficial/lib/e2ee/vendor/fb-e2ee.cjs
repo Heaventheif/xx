@@ -3407,8 +3407,6 @@ var logger = {
 };
 
 // src/services/facebook-gateway.service.ts
-var require2 = (0, import_node_module.createRequire)(importMetaUrl);
-var fcaLogin = require2("../../../../vendor/fca-unofficial");
 function normalizeError(error) {
   if (error instanceof Error) {
     return error;
@@ -3420,24 +3418,21 @@ function normalizeError(error) {
 }
 var FacebookGatewayService = class {
   async login(appState) {
-    return new Promise((resolve, reject) => {
-      // Silence the vendored fca-unofficial's private npmlog so its internal
-      // login lines don't appear in NEXCA's console output.
-      let npmlog2, prevLevel;
-      try { npmlog2 = require2("../../../../vendor/fca-unofficial/node_modules/npmlog"); prevLevel = npmlog2.level; npmlog2.level = "silent"; } catch (_) {}
-      fcaLogin({ appState }, {}, (err, api) => {
-        try { if (npmlog2) npmlog2.level = prevLevel; } catch (_) {}
-        if (err) {
-          reject(normalizeError(err));
-          return;
-        }
-        if (!api) {
-          reject(new Error("Login succeeded without API instance"));
-          return;
-        }
-        resolve(api);
-      });
-    });
+    // Use the current in-package auth module; the old ../../../../vendor path
+    // was absent and caused a deterministic MODULE_NOT_FOUND at startup.
+    const auth = await import("../../core/auth.js");
+    const login = auth.loginAsync ?? auth.login;
+    if (typeof login !== "function") throw new Error("Current FCA auth module has no login function");
+    try {
+      const result = auth.loginAsync
+        ? await login({ appState })
+        : await new Promise((resolve, reject) => login({ appState }, {}, (err, value) => err ? reject(err) : resolve(value)));
+      const api = result?.api ?? result;
+      if (!api) throw new Error("Login succeeded without API instance");
+      return api;
+    } catch (error) {
+      throw normalizeError(error);
+    }
   }
   configure(api) {
     api.setOptions?.({
@@ -4283,21 +4278,27 @@ var VideoTransportType = root.lookupType("WAMediaTransport.VideoTransport");
 var AudioTransportType = root.lookupType("WAMediaTransport.AudioTransport");
 var DocumentTransportType = root.lookupType("WAMediaTransport.DocumentTransport");
 var StickerTransportType = root.lookupType("WAMediaTransport.StickerTransport");
+function safeProtoDecode(Type, buffer, options, label) {
+  try {
+    if (!Buffer.isBuffer(buffer)) return null;
+    const msg = Type.decode(buffer);
+    return Type.toObject(msg, { ...options, keepUnknownFields: true });
+  } catch (error) {
+    if (process.env.DEV === "on") console.debug("[E2EE_PROTO] rejected malformed envelope", { label, error: error?.message });
+    return null;
+  }
+}
 function decodeMessageTransport(buffer) {
-  const msg = MsgTransportType.decode(buffer);
-  return MsgTransportType.toObject(msg, { longs: Number, enums: String, bytes: Buffer });
+  return safeProtoDecode(MsgTransportType, buffer, { longs: Number, enums: String, bytes: Buffer }, "MessageTransport");
 }
 function decodeMessageApplication(buffer) {
-  const msg = MsgApplicationType.decode(buffer);
-  return MsgApplicationType.toObject(msg, { longs: Number, enums: String, bytes: Buffer });
+  return safeProtoDecode(MsgApplicationType, buffer, { longs: Number, enums: String, bytes: Buffer }, "MessageApplication");
 }
 function decodeConsumerApplication(buffer) {
-  const msg = ConsumerAppType.decode(buffer);
-  return ConsumerAppType.toObject(msg, { longs: String, enums: String, bytes: Buffer });
+  return safeProtoDecode(ConsumerAppType, buffer, { longs: String, enums: String, bytes: Buffer }, "ConsumerApplication");
 }
 function decodeArmadillo(buffer) {
-  const msg = ArmadilloAppType.decode(buffer);
-  return ArmadilloAppType.toObject(msg, { longs: String, enums: String, bytes: Buffer });
+  return safeProtoDecode(ArmadilloAppType, buffer, { longs: String, enums: String, bytes: Buffer }, "Armadillo");
 }
 
 // src/e2ee/facebook/icdc-payload.ts
@@ -5235,42 +5236,69 @@ function stableDistributionId(groupJid, senderJid) {
   bytes[8] = bytes[8] & 63 | 128;
   return uuidStringify(bytes);
 }
-function parseFBProtobufSKMSG(buf) {
+function parseFBProtobufSKMSG(buf, options = {}) {
+  const keepUnknownFields = options.keepUnknownFields !== false;
+  const unknownFields = [];
   let pos = 0;
   let id = 0;
   let iteration = 0;
   let ciphertext = Buffer.alloc(0);
+  const source = Buffer.isBuffer(buf) ? buf : Buffer.from(buf || []);
+  const skipField = (wireType) => {
+    if (wireType === 0) {
+      return decodeVarint(source, pos).length;
+    }
+    if (wireType === 1) return 8; // fixed64
+    if (wireType === 2) {
+      const { value, length } = decodeVarint(source, pos);
+      if (!Number.isSafeInteger(value) || value < 0) throw new Error("Invalid protobuf length");
+      return length + value;
+    }
+    if (wireType === 3) throw new Error("Nested protobuf groups are unsupported");
+    if (wireType === 4) return 0; // end-group: tolerate for forward compatibility
+    if (wireType === 5) return 4; // fixed32
+    throw new Error(`Unsupported protobuf wire type ${wireType}`);
+  };
   try {
-    while (pos < buf.length) {
-      const { value: tagValue, length: tagLen } = decodeVarint(buf, pos);
+    while (pos < source.length) {
+      const fieldStart = pos;
+      const { value: tagValue, length: tagLen } = decodeVarint(source, pos);
       pos += tagLen;
       const field = tagValue >> 3;
-      if (field === 1) {
-        const { value, length } = decodeVarint(buf, pos);
+      const wireType = tagValue & 7;
+      if (field <= 0) throw new Error("Invalid protobuf field number");
+      if (field === 1 && wireType === 2) {
+        const { value, length } = decodeVarint(source, pos);
+        pos += length;
+        if (!Number.isSafeInteger(value) || pos + value > source.length) throw new Error("Invalid distribution id length");
+        pos += value;
+      } else if (field === 2 && wireType === 0) {
+        const { value, length } = decodeVarint(source, pos);
         id = value;
         pos += length;
-      } else if (field === 2) {
-        const { value, length } = decodeVarint(buf, pos);
+      } else if (field === 3 && wireType === 0) {
+        const { value, length } = decodeVarint(source, pos);
         iteration = value;
         pos += length;
-      } else if (field === 3) {
-        const { value, length } = decodeVarint(buf, pos);
+      } else if (field === 4 && wireType === 2) {
+        const { value, length } = decodeVarint(source, pos);
         pos += length;
-        ciphertext = buf.slice(pos, pos + value);
+        if (!Number.isSafeInteger(value) || pos + value > source.length) throw new Error("Invalid ciphertext length");
+        ciphertext = source.slice(pos, pos + value);
         pos += value;
       } else {
-        const tag = tagValue & 7;
-        if (tag === 0) {
-          const { length } = decodeVarint(buf, pos);
-          pos += length;
-        } else if (tag === 2) {
-          const { value, length } = decodeVarint(buf, pos);
-          pos += length + value;
-        } else break;
+        const consumed = skipField(wireType);
+        if (consumed < 0 || pos + consumed > source.length) throw new Error("Invalid protobuf field boundary");
+        pos += consumed;
+        if (keepUnknownFields) unknownFields.push(Buffer.from(source.slice(fieldStart, pos)));
       }
     }
-    return { id, iteration, ciphertext };
-  } catch (e) {
+    if (process.env.DEV === "on" && unknownFields.length) {
+      console.debug("[E2EE_PROTO] unknown field ids:", unknownFields.map((raw) => decodeVarint(raw, 0).value >> 3));
+    }
+    return { id, iteration, ciphertext, unknownFields };
+  } catch (error) {
+    if (process.env.DEV === "on") console.debug("[E2EE_PROTO] safe parse rejected malformed envelope:", error.message);
     return null;
   }
 }
@@ -5842,6 +5870,15 @@ var WA_CERT_PUB_KEY = Buffer.from(
 );
 var NOISE_START_PATTERN = Buffer.from("Noise_XX_25519_AESGCM_SHA256\0\0\0\0");
 var WA_HEADER = Buffer.from([87, 65, 6, 3]);
+class E2EEDecryptionError extends Error {
+  constructor(message, options = {}) {
+    super(message);
+    this.name = "E2EEDecryptionError";
+    this.code = "E2EE_DECRYPTION_FAILED";
+    this.sequence = options.sequence;
+    this.cause = options.cause;
+  }
+}
 var NoiseHandshakeState = class {
   h;
   // hash (chaining key / handshake hash)
@@ -5888,8 +5925,12 @@ var NoiseHandshakeState = class {
   }
   /** AES-256-GCM decrypt; ad = current h; updates h */
   decrypt(ciphertext) {
-    if (!this.k) throw new Error("No key set in Noise state");
-    const nonce = this.buildNonce(this.n++);
+    // Session validation occurs before crypto; primitives and algorithms remain unchanged.
+    if (!this.k || !Buffer.isBuffer(this.k) || this.k.length !== 32) throw new Error("Invalid Noise key state");
+    if (!Buffer.isBuffer(this.h) || this.h.length === 0) throw new Error("Invalid Noise hash state");
+    if (!Buffer.isBuffer(ciphertext) || ciphertext.length < 16) throw new Error("Invalid AES-GCM ciphertext envelope");
+    const sequence = this.n;
+    const nonce = this.buildNonce(sequence);
     const tag = ciphertext.subarray(-16);
     const body = ciphertext.subarray(0, -16);
     try {
@@ -5897,14 +5938,13 @@ var NoiseHandshakeState = class {
       decipher.setAAD(this.h);
       decipher.setAuthTag(tag);
       const plain = Buffer.concat([decipher.update(body), decipher.final()]);
+      this.n = sequence + 1;
       this.mixHash(ciphertext);
       return plain;
     } catch (err) {
-      logger.error("CipherState", `Decrypt error at n=${this.n - 1}:`, err);
-      logger.error("CipherState", `  - Key: ${this.k.toString("hex")}`);
-      logger.error("CipherState", `  - Nonce: ${nonce.toString("hex")}`);
-      logger.error("CipherState", `  - AAD: ${this.h.toString("hex")}`);
-      throw err;
+      // Never log key/nonce/AAD bytes. The caller may request a bounded key resync.
+      logger.error("CipherState", `Decrypt failed at sequence=${sequence}: ${err?.code || err?.message || "authentication error"}`);
+      throw new E2EEDecryptionError("E2EE decryption failed; key resync may be required", { sequence, cause: err });
     }
   }
   /** Derive final send/recv keys from the completed handshake */
@@ -5951,7 +5991,7 @@ var EncryptedFrameSocket = class {
     const header = Buffer.alloc(3);
     header.writeUIntBE(enc.length, 0, 3);
     const fullFrame = Buffer.concat([header, enc]);
-    logger.debug("noise-handshake", `Sending frame (${fullFrame.length} bytes): ${fullFrame.toString("hex").slice(0, 32)}...`);
+    logger.debug("noise-handshake", `Sending frame (${fullFrame.length} bytes)`);
     return fullFrame;
   }
   decryptFrame(data) {
@@ -5974,7 +6014,7 @@ var EncryptedFrameSocket = class {
       throw new Error("Socket closed while reading frame header");
     }
     const len = header.readUIntBE(0, 3);
-    logger.debug("FacebookE2EESocket", `RAW frame header: ${header.toString("hex")} (len=${len})`);
+    logger.debug("FacebookE2EESocket", `RAW frame received (len=${len})`);
     const payload = await this.ws.readRaw(len);
     if (!payload) {
       throw new Error("Socket closed while reading frame payload");
@@ -5997,8 +6037,6 @@ async function doHandshake(ws, noiseKeyPriv, clientPayload) {
   const eph = generateX25519();
   const ephPriv = eph.priv;
   const ephPub = eph.pub;
-  logger.debug("debug", `ClientEphPriv: ${ephPriv.toString("hex")}`);
-  logger.debug("debug", `ClientEphPub:  ${ephPub.toString("hex")}`);
   state.mixHash(ephPub);
   const clientHello = encodeHandshakeMessage({ clientHello: { ephemeral: ephPub } });
   ws.send(prependHeader(clientHello));
@@ -6006,15 +6044,11 @@ async function doHandshake(ws, noiseKeyPriv, clientPayload) {
   const serverHello = decodeServerHello(serverHelloRaw);
   const serverEphPub = Buffer.from(serverHello.ephemeral);
   const serverStaticEnc = Buffer.from(serverHello.static);
-  logger.debug("debug", `ServerStaticEnc: ${serverStaticEnc.toString("hex")}`);
   const certEnc = Buffer.from(serverHello.payload);
   logger.debug("noise-handshake", `Eph: ${serverEphPub.length}, StaticEnc: ${serverStaticEnc.length}, CertEnc: ${certEnc.length}`);
-  logger.debug("debug", `ServerEphPub:  ${serverEphPub.toString("hex")}`);
   state.mixHash(serverEphPub);
   state.mixSharedSecretIntoKey(ephPriv, serverEphPub);
-  logger.debug("debug", `After ServerHello mix: k=${state["k"]?.toString("hex")}, h=${state["h"]?.toString("hex")}`);
   const serverStaticPub = state.decrypt(serverStaticEnc);
-  logger.debug("noise-handshake", `Decrypted Server Static Pub: ${serverStaticPub.toString("hex")}`);
   state.mixSharedSecretIntoKey(ephPriv, serverStaticPub);
   const certDecrypted = state.decrypt(certEnc);
   verifyCertChain(certDecrypted, serverStaticPub);
@@ -6026,7 +6060,7 @@ async function doHandshake(ws, noiseKeyPriv, clientPayload) {
     clientFinish: { static: encNoisePub, payload: encPayload }
   });
   const finishFrame = prependLength(clientFinish);
-  logger.debug("noise-handshake", `Sending clientFinish frame (${finishFrame.length} bytes): ${finishFrame.toString("hex").slice(0, 32)}...`);
+  logger.debug("noise-handshake", `Sending clientFinish frame (${finishFrame.length} bytes)`);
   ws.send(finishFrame);
   const { sendKey, recvKey } = state.finish();
   return {
@@ -6107,7 +6141,7 @@ async function readRawFrame(ws) {
   const header = await ws.readRaw(3);
   const len = header.readUIntBE(0, 3);
   const payload = await ws.readRaw(len);
-  logger.debug("noise-handshake", `Raw Frame received: header=${header.toString("hex")} (len=${len}), payload_head=${payload.toString("hex").slice(0, 32)}...`);
+  logger.debug("noise-handshake", `Raw frame received (len=${len})`);
   return payload;
 }
 
@@ -6270,7 +6304,7 @@ var FacebookE2EESocket = class extends import_node_events2.EventEmitter {
             }
           } catch (e) {
             logger.error("FacebookE2EESocket", `Received decrypted frame (${frame.length} bytes), but failed to unmarshal: ${e}`);
-            logger.debug("FacebookE2EESocket", `Frame hex: ${frame.toString("hex").slice(0, 100)}`);
+            logger.debug("FacebookE2EESocket", `Frame received (${frame.length} bytes)`);
           }
           this.emit("frame", frame);
         } else if (frame) {
@@ -6450,7 +6484,7 @@ var FacebookDGWSocket = class extends import_node_events3.EventEmitter {
   handleIncomingFrame(kind, buf) {
     const parsed = this.parseFrame(buf);
     if (!parsed) {
-      this.emit("frame", { kind, rawHex: buf.toString("hex") });
+      this.emit("frame", { kind, rawLength: buf.length });
       return;
     }
     const payloadPreview = parsed.payload ? this.tryParsePayload(parsed.payload) : null;
@@ -6461,7 +6495,7 @@ var FacebookDGWSocket = class extends import_node_events3.EventEmitter {
       payloadLength: parsed.payloadLength,
       requiresAck: parsed.requiresAck,
       ackId: parsed.ackId,
-      payloadHexHead: parsed.payload?.subarray(0, 48).toString("hex"),
+      payloadLength: parsed.payload?.length || 0,
       payloadTextHead: payloadPreview?.textHead,
       payloadJson: payloadPreview?.json
     });
@@ -6483,7 +6517,7 @@ var FacebookDGWSocket = class extends import_node_events3.EventEmitter {
       return { frameType };
     }
     if (frameType === 14) {
-      this.emit("debug", { type: "frame_0e_len", len: buf.length, hex: buf.toString("hex") });
+      this.emit("debug", { type: "frame_0e_len", len: buf.length });
     }
     if ((frameType === FRAME_OPEN || frameType === FRAME_ACK || frameType === FRAME_DATA || frameType === 14) && buf.length >= 6) {
       const streamId = buf.readUInt16LE(1);
@@ -7028,6 +7062,10 @@ var E2EEHandler = class {
           }
           if (!dmDecrypted) continue;
           const transport = decodeMessageTransport(dmDecrypted);
+          if (!transport) {
+            logger.warn("E2EEHandler", "Dropping malformed participant MessageTransport envelope");
+            continue;
+          }
           const participantChatJid = this.chatJidFromTransport(transport, chatJid);
           if (this.emitTransportApplication(transport, senderJid, participantChatJid, node.attrs.id)) {
             emittedParticipantApp = true;
@@ -7095,7 +7133,11 @@ var E2EEHandler = class {
         return;
       }
       const transport = decodeMessageTransport(decrypted);
-      logger.debug("E2EEHandler", "Decrypted transport:", JSON.stringify(transport, null, 2));
+      if (!transport) {
+        logger.warn("E2EEHandler", "Dropping malformed MessageTransport envelope");
+        this.sendAck(node);
+        return;
+      }
       chatJid = this.chatJidFromTransport(transport, chatJid);
       this.emitTransportApplication(transport, senderJid, chatJid, node.attrs.id);
       if (transport?.protocol?.ancillary?.skdm) {
@@ -7279,7 +7321,10 @@ var E2EEHandler = class {
     const appPayload = transport?.payload?.applicationPayload?.payload;
     if (!appPayload) return false;
     const messageApp = decodeMessageApplication(appPayload);
-    logger.debug("E2EEHandler", "Decrypted messageApp:", JSON.stringify(messageApp, null, 2));
+    if (!messageApp || !messageApp.payload) {
+      logger.warn("E2EEHandler", "Dropping malformed MessageApplication envelope");
+      return false;
+    }
     const subProtocol = messageApp.payload?.subProtocol;
     let appMessage = null;
     let isArmadillo = false;
@@ -7499,7 +7544,7 @@ var E2EEHandler = class {
         }
       }, 1e4);
     });
-    logger.debug("E2EEHandler", `getPreKeyBundle response for ${jid}: ${JSON.stringify(res, (k, v) => Buffer.isBuffer(v) ? v.toString("hex") : v)}`);
+    logger.debug("E2EEHandler", `getPreKeyBundle response received for ${jid}`);
     const findTag = (node, tag) => {
       if (node?.tag === tag) return node;
       if (Array.isArray(node?.content)) {

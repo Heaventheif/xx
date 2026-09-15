@@ -31,6 +31,8 @@ y(M, 'emitThreadInfoEvent');
 function q(l) {
   const { parseAndCheckLogin: _ } = l;
   return y(function (I, v, n, g, { delta: m }) {
+    // Malformed MQTT deltas must be ignored, not allowed to abort the listener.
+    if (!m || typeof m !== 'object') return;
     if (m.class === 'NewMessage') {
       const o = y((e) => {
         if (!m.attachments || e === m.attachments.length || F(m.attachments) !== 'Array') {
@@ -65,25 +67,25 @@ function q(l) {
           if (e.deltaMessageReaction && n.globalOptions.listenEvents) {
             const a = {
               type: 'message_reaction',
-              threadID: (e.deltaMessageReaction.threadKey.threadFbId
+              threadID: (e?.deltaMessageReaction?.threadKey?.threadFbId
                 ? e.deltaMessageReaction.threadKey.threadFbId
-                : e.deltaMessageReaction.threadKey.otherUserFbId
+                : e?.deltaMessageReaction?.threadKey?.otherUserFbId
               ).toString(),
               messageID: e.deltaMessageReaction.messageId,
               reaction: e.deltaMessageReaction.reaction,
-              senderID: e.deltaMessageReaction.senderId.toString(),
-              userID: e.deltaMessageReaction.userId.toString(),
+              senderID: String(e?.deltaMessageReaction?.senderId ?? ""),
+              userID: String(e?.deltaMessageReaction?.userId ?? ""),
             };
             g(null, a);
           } else if (e.deltaRecallMessageData && n.globalOptions.listenEvents) {
             const a = {
               type: 'message_unsend',
-              threadID: (e.deltaRecallMessageData.threadKey.threadFbId
-                ? e.deltaRecallMessageData.threadKey.threadFbId
-                : e.deltaRecallMessageData.threadKey.otherUserFbId
+              threadID: (e?.deltaRecallMessageData?.threadKey?.threadFbId
+                ? e?.deltaRecallMessageData?.threadKey?.threadFbId
+                : e?.deltaRecallMessageData?.threadKey?.otherUserFbId
               ).toString(),
               messageID: e.deltaRecallMessageData.messageID,
-              senderID: e.deltaRecallMessageData.senderID.toString(),
+              senderID: String(e?.deltaRecallMessageData?.senderID ?? ""),
               deletionTimestamp: e.deltaRecallMessageData.deletionTimestamp,
               timestamp: e.deltaRecallMessageData.timestamp,
             };

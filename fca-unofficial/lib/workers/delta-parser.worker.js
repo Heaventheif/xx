@@ -14,6 +14,14 @@ if (isMainThread) {
   // الـ DeltaParserPool يُنشئ Worker منفصل بـ new Worker(WORKER_PATH)
   // فهذا الكود لا يصل إليه في السيناريو الطبيعي
 } else {
+  // Worker-level guards keep unexpected parser failures observable and contained.
+  process.on('uncaughtException', (error) => {
+    try { parentPort?.postMessage({ type: 'fatal', error: error?.stack || String(error) }); } catch {}
+    process.exitCode = 1;
+  });
+  process.on('unhandledRejection', (reason) => {
+    try { parentPort?.postMessage({ type: 'fatal', error: reason?.stack || String(reason) }); } catch {}
+  });
   const { libPath } = workerData ?? {};
   let parseDeltaPayload;
 
@@ -30,7 +38,8 @@ if (isMainThread) {
 
   init()
     .then(() => {
-      parentPort.on('message', ({ id, raw, options }) => {
+      parentPort.on('message', (message) => {
+        const { id, raw, options } = message || {};
         try {
           let result;
           if (parseDeltaPayload) {

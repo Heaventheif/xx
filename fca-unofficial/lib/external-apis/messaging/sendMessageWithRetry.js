@@ -5,9 +5,9 @@ export default function sendMessageWithRetryFactory(defaultFuncs, api, ctx) {
       options = {};
     }
 
-    const maxRetries = options.maxRetries ?? 3;
-    const baseDelay = options.baseDelay ?? 1500;
-    const maxDelay = options.maxDelay ?? 15000;
+    const maxRetries = Math.max(0, Math.min(Number(options.maxRetries ?? 3), 5));
+    const baseDelay = Math.max(100, Math.min(Number(options.baseDelay ?? 1500), 10_000));
+    const maxDelay = Math.max(baseDelay, Math.min(Number(options.maxDelay ?? 15_000), 60_000));
     const jitter = options.jitter !== false;
     const retryOn =
       typeof options.retryOn === 'function'
@@ -39,7 +39,9 @@ export default function sendMessageWithRetryFactory(defaultFuncs, api, ctx) {
     })();
 
     if (typeof callback === 'function') {
-      promise.then((r) => callback(null, r)).catch((e) => callback(e));
+      let called = false;
+      const done = (err, result) => { if (called) return; called = true; callback(err, result); };
+      promise.then((r) => done(null, r), (e) => done(e));
     }
     return promise;
   };

@@ -48,11 +48,6 @@ async function ensureTable(tableName) {
       CREATE UNIQUE INDEX IF NOT EXISTS ${sql(tableName + '_tid_idx')}
       ON ${sql(tableName)} ((data->>'threadID'))
     `);
-  } else if (tableName === 'fca_appstate_backups') {
-    await sql.unsafe(`
-      CREATE UNIQUE INDEX IF NOT EXISTS ${sql(tableName + '_bk_idx')}
-      ON ${sql(tableName)} ((data->>'userID'), (data->>'type'))
-    `);
   }
 }
 

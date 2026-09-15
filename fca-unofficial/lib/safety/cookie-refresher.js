@@ -1,5 +1,3 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import logger from '../func/logger.js';
 import {
   nextPoisson,
@@ -7,7 +5,6 @@ import {
   createSessionSeed,
   ActivityAwareScheduler,
 } from '../utils/human-timing.js';
-import { canWriteBackup, encryptBackupString, decryptBackupString } from './backup-crypto.js';
 
 const WARMUP_URLS = [
   'https://www.facebook.com/',
@@ -34,6 +31,7 @@ export class CookieRefresher {
       backupEnabled: opts.backupEnabled !== false,
       maxBackups: opts.maxBackups ?? 5,
       appStatePath: opts.appStatePath ?? null,
+      onAppStateUpdate: typeof opts.onAppStateUpdate === "function" ? opts.onAppStateUpdate : null,
     };
 
     this._seed = createSessionSeed();
@@ -49,6 +47,7 @@ export class CookieRefresher {
     this._defaultFuncs = null;
     this.refreshCount = 0;
     this.lastRefreshAt = 0;
+    this._refreshPromise = null;
   }
 
   attach(ctx, defaultFuncs) {
@@ -64,6 +63,13 @@ export class CookieRefresher {
   }
 
   async refresh() {
+    // Single-flight guard prevents concurrent warmups from racing over the same jar.
+    if (this._refreshPromise) return this._refreshPromise;
+    this._refreshPromise = this._refreshImpl().finally(() => { this._refreshPromise = null; });
+    return this._refreshPromise;
+  }
+
+  async _refreshImpl() {
     if (!this._ctx || !this._defaultFuncs)
       throw new Error('CookieRefresher: لم يتم الربط بـ context');
 
@@ -91,7 +97,7 @@ export class CookieRefresher {
       this.refreshCount++;
       this.lastRefreshAt = Date.now();
       logger(`CookieRefresher: تجديد #${this.refreshCount} ✓`, 'info');
-      if (this.options.appStatePath) this._saveAppState();
+      this._publishAppState();
     } else {
       logger('CookieRefresher: فشلت كل روابط الـ warmup', 'warn');
     }
@@ -134,58 +140,26 @@ export class CookieRefresher {
     }
   }
 
-  _saveAppState() {
+  _publishAppState() {
     try {
       const jar = this._ctx?.jar;
-      if (!jar) return;
-      const cookies = jar.getCookiesSync('https://www.facebook.com').map((c) => ({
-        key: c.key,
-        value: c.value,
-        domain: c.domain || '.facebook.com',
-        path: c.path || '/',
-        secure: !!c.secure,
-        httpOnly: !!c.httpOnly,
-        expires: c.expires || 'Infinity',
+      if (!jar || typeof jar.getCookiesSync !== "function") return;
+      const state = jar.getCookiesSync("https://www.facebook.com").map((c) => ({
+        key: c.key, value: c.value, domain: c.domain || ".facebook.com", path: c.path || "/",
+        secure: !!c.secure, httpOnly: !!c.httpOnly, expires: c.expires || "Infinity",
       }));
-
-      if (!canWriteBackup(logger)) return;
-      const serialized = encryptBackupString(JSON.stringify(cookies));
-
-      // [FIX APPSTATE] نكتب على مسار .backup منفصل لتجنب الكتابة فوق appstate.json
-      // الذي يقرأه Client.js كـ JSON عادي — الكتابة فوقه بمحتوى مشفّر تكسر إعادة التشغيل
-      const backupPath = this.options.appStatePath
-        ? this.options.appStatePath.replace(/\.json$/, '') + '.backup'
-        : null;
-      if (!backupPath) return;
-
-      const dir = path.dirname(backupPath);
-      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
-      fs.writeFileSync(backupPath, serialized, { encoding: 'utf8', mode: 0o600 });
-    } catch (e) {
-      logger(`CookieRefresher: فشل الحفظ — ${e?.message}`, 'warn');
-    }
-  }
-
-  
-  static loadAppState(appStatePath) {
-    // [FIX APPSTATE] نحاول .backup أولاً، ثم المسار الأصلي للتوافق مع النسخ القديمة
-    const backupPath = appStatePath
-      ? appStatePath.replace(/\.json$/, '') + '.backup'
-      : null;
-    const candidates = [backupPath, appStatePath].filter(Boolean);
-    for (const p of candidates) {
-      try {
-        if (!fs.existsSync(p)) continue;
-        const raw = fs.readFileSync(p, 'utf8');
-        const plaintext = decryptBackupString(raw, logger);
-        if (plaintext == null) continue;
-        return JSON.parse(plaintext);
-      } catch (e) {
-        logger(`CookieRefresher: فشل تحميل AppState من ${p} — ${e?.message}`, 'warn');
+      const serialized = JSON.stringify(state);
+      if (this.options.onAppStateUpdate) {
+        this.options.onAppStateUpdate(state, serialized);
+        logger("CookieRefresher: refreshed AppState published to the environment callback", "info");
+      } else {
+        logger("CookieRefresher: refreshed AppState available: " + serialized, "info");
       }
+    } catch (e) {
+      logger(`CookieRefresher: failed to publish AppState — ${e?.message}`, "warn");
     }
-    return null;
   }
+
 }
 
 export function createCookieRefresher(opts) {

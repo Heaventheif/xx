@@ -44,20 +44,13 @@ function x(h, S, m) {
         const t = new Error('MQTT client is not initialized');
         return (b.error('sendMessageMqtt', t), n && n(t), e(t));
       }
-      if (
-        typeof m.mqttClient.setMaxListeners == 'function' &&
-        typeof m.mqttClient.getMaxListeners == 'function'
-      ) {
-        const cur = m.mqttClient.getMaxListeners(),
-          need =
-            (typeof m.mqttClient.listenerCount == 'function'
-              ? m.mqttClient.listenerCount('message')
-              : 0) + 20;
-        if (cur < need) m.mqttClient.setMaxListeners(need);
-      }
       let l = !1;
+      let timer = null;
       const p = f(() => {
-          l || ((l = !0), m.mqttClient.removeListener('message', y));
+          if (l) return;
+          l = !0;
+          if (timer) { clearTimeout(timer); timer = null; }
+          m.mqttClient.removeListener('message', y);
         }, 'cleanup'),
         y = f((t, _) => {
           if (t !== '/ls_resp') return;
@@ -76,7 +69,7 @@ function x(h, S, m) {
         m.mqttClient.publish('/ls_req', JSON.stringify(o), { qos: 1, retain: !1 }, (t) => {
           t && (p(), n && n(t), e(t));
         }),
-        setTimeout(() => {
+        timer = setTimeout(() => {
           if (l) return;
           p();
           const t = { error: 'Timeout waiting for ACK' };

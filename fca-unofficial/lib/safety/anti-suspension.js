@@ -57,7 +57,21 @@ export class AntiSuspension extends EventEmitter {
   }
 
   
-  inspect(responseText) {
+  _updateFbDtsg(response, ctx) {
+    if (!ctx || response == null) return;
+    try {
+      const text = typeof response === 'string' ? response : JSON.stringify(response);
+      const candidates = [
+        response?.fb_dtsg, response?.data?.fb_dtsg, response?.config?.fb_dtsg,
+        text.match(/(?:\"|')fb_dtsg(?:\"|')\s*[:=]\s*(?:\"|')([^\"']+)/i)?.[1],
+      ];
+      const token = candidates.find((value) => typeof value === 'string' && value.length > 8);
+      if (token) { ctx.fb_dtsg = token; ctx.globalOptions && (ctx.globalOptions.fb_dtsg = token); }
+    } catch { /* malformed response cannot update a token */ }
+  }
+
+  inspect(responseText, ctx = null) {
+    this._updateFbDtsg(responseText, ctx);
     if (!responseText || this._stopped) return;
     const text = typeof responseText === 'string' ? responseText : JSON.stringify(responseText);
 
@@ -117,6 +131,17 @@ export class AntiSuspension extends EventEmitter {
   }
 
   
+  async start(ctx = null) {
+    this._ctx = ctx;
+    return this;
+  }
+
+  stop() {
+    this._stopped = true;
+    this._paused = false;
+    this._pauseUntil = 0;
+  }
+
   isSafe() {
     return !this._stopped && !this._paused;
   }

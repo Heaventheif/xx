@@ -21,31 +21,27 @@ function u() {
 l(u, 'ensureDatabaseDirectory');
 const s = {};
 try {
-  let e, o, t;
+  let e, o;
   if (process.env.MONGO_URI)
     ((e = new p.MongoCollection('fca_users')),
       (o = new p.MongoCollection('fca_threads')),
-      (t = new p.MongoCollection('fca_appstate_backups')),
       logger.sys('[FCA DB] Using MongoDB backend (shared connection from db/index.js)'));
   else if (process.env.DATABASE_URL)
     ((e = new f.PostgresCollection('fca_users')),
       (o = new f.PostgresCollection('fca_threads')),
-      (t = new f.PostgresCollection('fca_appstate_backups')),
       logger.sys('[FCA DB] Using Neon/PostgreSQL backend (DATABASE_URL)'));
   else {
     const c = u();
     ((e = new i.JsonCollection(a.join(c, 'users.json'))),
       (o = new i.JsonCollection(a.join(c, 'threads.json'))),
-      (t = new i.JsonCollection(a.join(c, 'appstate-backups.json'))),
       logger.warn('[FCA DB] No MONGO_URI / DATABASE_URL set \u2014 falling back to local JSON store'));
   }
   ((s.User = e),
     (s.Thread = o),
-    (s.AppStateBackup = t),
     (s.isReady = !0),
     (s.syncAll = async () => {}),
     (s.flushAll = () => {
-      (e.flush(), o.flush(), t.flush());
+      (e.flush(), o.flush());
     }));
   const n = l(() => {
     try {

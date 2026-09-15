@@ -396,3 +396,7 @@ export const $plugin = {
 - **لا تضع المفاتيح في الكود** إذا كنت ستنشر المشروع — استخدم دائماً `.env`.
 - **Loader.js** يكتشف الأوامر تلقائياً من المجلدات — لا تحتاج لتعديل أي ملف آخر.
 - الأمر يُستدعى بـ `.اسم_الأمر` حسب البادئة المضبوطة في `config.json`.
+
+### Debug logging
+
+Set `DEV=on` in the Render environment to enable detailed `[BUG]` diagnostics for console activity, startup events, network failures, and command execution. Sensitive values such as `APPSTATE`, cookies, tokens, passwords, API keys, and database URLs are automatically redacted. Use `DEV=off` (or omit the variable) for normal logging.

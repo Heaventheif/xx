@@ -38,8 +38,8 @@ export class LRUCache {
    * @param {Function} [opts.onEvict]      - callback عند طرد مدخلة: (key, value) => void
    */
   constructor(opts = {}) {
-    this._max     = opts.max     ?? 500;
-    this._ttl     = opts.ttl     ?? null;
+    this._max     = Math.max(1, Math.min(Number(opts.max ?? 500), 100_000));
+    this._ttl     = opts.ttl == null ? null : Math.max(1_000, Math.min(Number(opts.ttl), 24 * 60 * 60_000));
     this._onEvict = opts.onEvict ?? null;
 
     // خريطة بحث O(1)
