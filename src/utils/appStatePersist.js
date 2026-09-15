@@ -61,7 +61,7 @@ export async function saveAppStateToMongo(state, botIndex = 1, source = "runtime
           lastActivity: source.startsWith("keep-alive") ? new Date() : undefined,
         },
       },
-      { upsert: true, new: true }
+      { upsert: true, returnDocument: "after" }
     );
     bugLog("APPSTATE_MONGO", "AppState saved", { botIndex, cookieCount: state.length, source });
     console.log(`[APPSTATE] 🍃 حُفظ في MongoDB (${state.length} cookie | ${source}) — Bot-${botIndex}`);
