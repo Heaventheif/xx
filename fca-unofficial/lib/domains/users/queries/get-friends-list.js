@@ -1,73 +1,81 @@
-var s = Object.defineProperty;
-var a = (t, n) => s(t, 'name', { value: n, configurable: !0 });
-import * as m from '../../../compat/legacy-promise.js';
-import * as f from '../../../transport/http/form-data.js';
-import c from '../../../utils/format/index.js';
-const _ = { default: c },
-  { formatID: d } = _.default,
-  g = {
-    0: 'unknown',
-    1: 'female_singular',
-    2: 'male_singular',
-    3: 'female_singular_guess',
-    4: 'male_singular_guess',
-    5: 'mixed',
-    6: 'neuter_singular',
-    7: 'unknown_singular',
-    8: 'female_plural',
-    9: 'male_plural',
-    10: 'neuter_plural',
-    11: 'unknown_plural',
-  };
-function p(t) {
-  return Object.keys(t).map((n) => {
-    const e = t[n];
+// get-friends-list.js — Fetch the full friends list for the logged-in user
+import * as legacyPromise from '../../../compat/legacy-promise.js';
+import * as formDataHttp from '../../../transport/http/form-data.js';
+import formatUtils from '../../../utils/format/index.js';
+
+const { formatID } = formatUtils;
+
+const GENDERS = {
+  0: 'unknown',
+  1: 'female_singular',
+  2: 'male_singular',
+  3: 'female_singular_guess',
+  4: 'male_singular_guess',
+  5: 'mixed',
+  6: 'neuter_singular',
+  7: 'unknown_singular',
+  8: 'female_plural',
+  9: 'male_plural',
+  10: 'neuter_plural',
+  11: 'unknown_plural',
+};
+
+function formatFriends(payload) {
+  return Object.keys(payload).map((key) => {
+    const user = payload[key];
     return {
-      alternateName: e.alternateName || null,
-      firstName: e.firstName || null,
-      gender: g[e.gender] || 'unknown',
-      userID: d(String(e.id || '')),
-      isFriend: !!e.is_friend,
-      fullName: e.name || null,
-      profilePicture: e.thumbSrc || null,
-      type: e.type || null,
-      profileUrl: e.uri || null,
-      vanity: e.vanity || null,
-      isBirthday: !!e.is_birthday,
+      alternateName: user.alternateName || null,
+      firstName: user.firstName || null,
+      gender: GENDERS[user.gender] || 'unknown',
+      userID: formatID(String(user.id || '')),
+      isFriend: !!user.is_friend,
+      fullName: user.name || null,
+      profilePicture: user.thumbSrc || null,
+      type: user.type || null,
+      profileUrl: user.uri || null,
+      vanity: user.vanity || null,
+      isBirthday: !!user.is_birthday,
     };
   });
 }
-a(p, 'formatFriends');
-function y(t) {
-  const { defaultFuncs: n, ctx: e, logError: u } = t;
-  return a(function (i) {
-    const { callback: l, promise: o } = (0, m.createLegacyPromise)(i, []);
-    return (
-      (0, f.postFormDataWithLoginCheck)({
-        defaultFuncs: n,
-        ctx: e,
+
+/**
+ * Creates the getFriendsList query.
+ * Fetches the complete friend list using the legacy chat endpoint.
+ *
+ * @param {{ defaultFuncs, ctx, logError? }} deps
+ * @returns {(callback?: Function) => Promise<Array>}
+ */
+export function createGetFriendsListQuery(deps) {
+  const { defaultFuncs, ctx, logError } = deps;
+
+  return function getFriendsList(callback) {
+    const { callback: cb, promise } = legacyPromise.createLegacyPromise(callback, []);
+
+    formDataHttp
+      .postFormDataWithLoginCheck({
+        defaultFuncs,
+        ctx,
         url: 'https://www.facebook.com/chat/user_info_all',
         form: {},
-        query: { viewer: e.userID },
+        query: { viewer: ctx.userID },
       })
-        .then((r) => {
-          if (!r) throw { error: 'getFriendsList returned empty object.' };
-          if (r?.error) throw r;
-          l(null, p(r.payload || {}));
-        })
-        .catch((r) => {
-          (u?.('getFriendsList', r), l(r));
-        }),
-      o
-    );
-  }, 'getFriendsList');
-}
-a(y, 'createGetFriendsListQuery');
-var F = { createGetFriendsListQuery: y };
-export { y as createGetFriendsListQuery, F as default };
+      .then((res) => {
+        if (!res) throw { error: 'getFriendsList returned empty object.' };
+        if (res?.error) throw res;
+        cb(null, formatFriends(res.payload || {}));
+      })
+      .catch((err) => {
+        logError?.('getFriendsList', err);
+        cb(err instanceof Error ? err : new Error(String(err?.message ?? err)));
+      });
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
-/** @type {import('./plugin-provider.js').FcaPlugin} */
+    return promise;
+  };
+}
+
+// ─── Plugin Descriptor ───────────────────────────────────────────
+/** @type {import('../../../plugin-provider.js').FcaPlugin} */
 export const $plugin = {
   name: 'fca-domains-users-queries-get-friends-list',
   meta: { category: 'domain-users', path: 'lib/domains/users/queries/get-friends-list.js' },

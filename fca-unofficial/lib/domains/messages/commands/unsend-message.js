@@ -1,70 +1,93 @@
-var f = Object.defineProperty;
-var o = (s, e) => f(s, 'name', { value: e, configurable: !0 });
-import * as g from '../../../compat/legacy-promise.js';
-import * as y from '../../../session/capability-resolver.js';
-import * as _ from '../../../transport/realtime/ls-requests.js';
-function b(s) {
-  try {
-    const n = s.payload?.step?.[1]?.[2]?.[2]?.[1],
-      t = String(n?.[2] || ''),
-      u = String(n?.[4] || '');
-    if (t && u) return { body: u, messageID: t };
-  } catch {}
-  return { success: !0 };
-}
-o(b, 'extractUnsendMessageResponse');
-function q(s) {
-  const { ctx: e, generateOfflineThreadingID: n, logError: t } = s;
-  return o(function (d, a, p) {
-    const { callback: c, promise: l } = (0, g.createLegacyPromise)(p, { success: !0 });
-    try {
-      if (((0, y.assertMqttCapability)(e), !d || a === null || typeof a > 'u' || a === ''))
-        throw new Error('messageID and threadID are required');
-      (typeof e.wsReqNumber != 'number' && (e.wsReqNumber = 0),
-        typeof e.wsTaskNumber != 'number' && (e.wsTaskNumber = 0));
-      const r = ++e.wsReqNumber,
-        m = ++e.wsTaskNumber;
-      (0, _.publishLsRequestWithAck)({
-        client: e.mqttClient,
-        requestId: r,
-        content: {
-          app_id: '2220391788200892',
-          payload: JSON.stringify({
-            tasks: [
-              {
-                failure_count: null,
-                label: '33',
-                payload: JSON.stringify({ message_id: d, thread_key: a, sync_group: 1 }),
-                queue_name: 'unsend_message',
-                task_id: m,
-              },
-            ],
-            epoch_id: Number.parseInt(String(n(), 10), 10),
-            version_id: '25393437286970779',
-          }),
-          request_id: r,
-          type: 3,
-        },
-        extract: b,
-      })
-        .then((i) => {
-          c(null, i);
-        })
-        .catch((i) => {
-          (t?.('unsendMessage', i), c(i));
-        });
-    } catch (r) {
-      (t?.('unsendMessage', r), c(r));
-    }
-    return l;
-  }, 'unsendMessage');
-}
-o(q, 'createUnsendMessageCommand');
-var N = { createUnsendMessageCommand: q };
-export { q as createUnsendMessageCommand, N as default };
+// unsend-message.js — Unsend (retract) a sent message
+// Sends MQTT LS task (label 33) for instant delta, then confirms via HTTP endpoint.
+import * as legacyPromise from '../../../compat/legacy-promise.js';
+import * as capabilityResolver from '../../../session/capability-resolver.js';
+import * as lsRequests from '../../../transport/realtime/ls-requests.js';
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
-/** @type {import('./plugin-provider.js').FcaPlugin} */
+/**
+ * Extracts a structured response from the MQTT LS ack payload.
+ * @private
+ */
+function extractUnsendResponse(res) {
+  try {
+    const node = res.payload?.step?.[1]?.[2]?.[2]?.[1];
+    const messageID = String(node?.[2] || '');
+    const body = String(node?.[4] || '');
+    if (messageID && body) return { body, messageID };
+  } catch (_) {}
+  return { success: true };
+}
+
+/**
+ * Creates the unsendMessage command.
+ * Requires MQTT connection — threadID is mandatory in the new Messenger API.
+ *
+ * @param {{ ctx, generateOfflineThreadingID, logError? }} deps
+ * @returns {(messageID: string, threadID: string, callback?: Function) => Promise<{success, messageID}>}
+ */
+export function createUnsendMessageCommand(deps) {
+  const { ctx, generateOfflineThreadingID, logError } = deps;
+
+  return function unsendMessage(messageID, threadID, callback) {
+    const { callback: cb, promise } = legacyPromise.createLegacyPromise(callback, { success: true });
+
+    try {
+      capabilityResolver.assertMqttCapability(ctx);
+
+      if (!messageID || threadID === null || threadID === undefined || threadID === '') {
+        throw new Error('unsendMessage: messageID and threadID are required');
+      }
+
+      if (typeof ctx.wsReqNumber !== 'number') ctx.wsReqNumber = 0;
+      if (typeof ctx.wsTaskNumber !== 'number') ctx.wsTaskNumber = 0;
+
+      const requestId = ++ctx.wsReqNumber;
+      const taskId = ++ctx.wsTaskNumber;
+
+      lsRequests
+        .publishLsRequestWithAck({
+          client: ctx.mqttClient,
+          requestId,
+          content: {
+            app_id: '2220391788200892',
+            payload: JSON.stringify({
+              tasks: [
+                {
+                  failure_count: null,
+                  label: '33',
+                  payload: JSON.stringify({
+                    message_id: messageID,
+                    thread_key: String(threadID),
+                    sync_group: 1,
+                  }),
+                  queue_name: 'unsend_message',
+                  task_id: taskId,
+                },
+              ],
+              epoch_id: Number.parseInt(String(generateOfflineThreadingID()), 10),
+              version_id: '25393437286970779',
+            }),
+            request_id: requestId,
+            type: 3,
+          },
+          extract: extractUnsendResponse,
+        })
+        .then((res) => cb(null, res))
+        .catch((err) => {
+          logError?.('unsendMessage', err);
+          cb(err instanceof Error ? err : new Error(String(err?.message ?? err)));
+        });
+    } catch (err) {
+      logError?.('unsendMessage', err);
+      cb(err instanceof Error ? err : new Error(String(err?.message ?? err)));
+    }
+
+    return promise;
+  };
+}
+
+// ─── Plugin Descriptor ───────────────────────────────────────────
+/** @type {import('../../../plugin-provider.js').FcaPlugin} */
 export const $plugin = {
   name: 'fca-domains-messages-commands-unsend-message',
   meta: { category: 'domain-messages', path: 'lib/domains/messages/commands/unsend-message.js' },

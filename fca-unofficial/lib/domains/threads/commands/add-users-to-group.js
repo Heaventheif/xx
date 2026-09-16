@@ -1,60 +1,81 @@
-var f = Object.defineProperty;
-var o = (a, e) => f(a, 'name', { value: e, configurable: !0 });
-import * as y from '../../../compat/legacy-promise.js';
-import * as b from '../../../session/capability-resolver.js';
-import * as _ from '../../../transport/realtime/ls-requests.js';
-function g(a) {
-  const { ctx: e, generateOfflineThreadingID: p, logError: u } = a;
-  return o(function (i, s, l) {
-    const { callback: n, promise: d } = (0, y.createLegacyPromise)(l);
-    try {
-      if (((0, b.assertMqttCapability)(e), typeof s != 'string' && typeof s != 'number'))
-        throw new Error('ThreadID should be of type Number or String.');
-      const t = Array.isArray(i) ? i : [i];
-      if (!t.length) throw new Error('userID is required');
-      (typeof e.wsReqNumber != 'number' && (e.wsReqNumber = 0),
-        typeof e.wsTaskNumber != 'number' && (e.wsTaskNumber = 0));
-      const c = ++e.wsReqNumber,
-        m = ++e.wsTaskNumber;
-      (0, _.publishLsRequestWithAck)({
-        client: e.mqttClient,
-        requestId: c,
-        content: {
-          app_id: '772021112871879',
-          payload: JSON.stringify({
-            epoch_id: p(),
-            tasks: [
-              {
-                failure_count: null,
-                label: '23',
-                payload: JSON.stringify({ thread_key: s, contact_ids: t, sync_group: 1 }),
-                queue_name: String(s),
-                task_id: m,
-              },
-            ],
-            version_id: '24502707779384158',
-          }),
-          request_id: c,
-          type: 3,
-        },
-        extract: o((r) => ({ success: !0, response: r.payload }), 'extract'),
-      })
-        .then((r) => n(null, r))
-        .catch((r) => {
-          (u?.('addUserToGroup', r), n(r));
-        });
-    } catch (t) {
-      (u?.('addUserToGroup', t), n(t));
-    }
-    return d;
-  }, 'addUsersToGroup');
-}
-o(g, 'createAddUsersToGroupCommand');
-var w = { createAddUsersToGroupCommand: g };
-export { g as createAddUsersToGroupCommand, w as default };
+// add-users-to-group.js — Add one or more users to a group thread via MQTT LS task
+import * as legacyPromise from '../../../compat/legacy-promise.js';
+import * as capabilityResolver from '../../../session/capability-resolver.js';
+import * as lsRequests from '../../../transport/realtime/ls-requests.js';
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
-/** @type {import('./plugin-provider.js').FcaPlugin} */
+/**
+ * Creates the addUsersToGroup command.
+ * Requires an active MQTT connection (call listenMqtt first).
+ *
+ * @param {{ ctx, generateOfflineThreadingID, logError? }} deps
+ * @returns {(userID: string | string[], threadID: string | number, callback?: Function) => Promise<{success, response}>}
+ */
+export function createAddUsersToGroupCommand(deps) {
+  const { ctx, generateOfflineThreadingID, logError } = deps;
+
+  return function addUsersToGroup(userID, threadID, callback) {
+    const { callback: cb, promise } = legacyPromise.createLegacyPromise(callback);
+
+    try {
+      capabilityResolver.assertMqttCapability(ctx);
+
+      if (typeof threadID !== 'string' && typeof threadID !== 'number') {
+        throw new Error('ThreadID should be of type Number or String.');
+      }
+
+      const ids = Array.isArray(userID) ? userID : [userID];
+      if (!ids.length) throw new Error('userID is required');
+
+      if (typeof ctx.wsReqNumber !== 'number') ctx.wsReqNumber = 0;
+      if (typeof ctx.wsTaskNumber !== 'number') ctx.wsTaskNumber = 0;
+
+      const requestId = ++ctx.wsReqNumber;
+      const taskId = ++ctx.wsTaskNumber;
+
+      lsRequests
+        .publishLsRequestWithAck({
+          client: ctx.mqttClient,
+          requestId,
+          content: {
+            app_id: '772021112871879',
+            payload: JSON.stringify({
+              epoch_id: generateOfflineThreadingID(),
+              tasks: [
+                {
+                  failure_count: null,
+                  label: '23',
+                  payload: JSON.stringify({
+                    thread_key: threadID,
+                    contact_ids: ids,
+                    sync_group: 1,
+                  }),
+                  queue_name: String(threadID),
+                  task_id: taskId,
+                },
+              ],
+              version_id: '24502707779384158',
+            }),
+            request_id: requestId,
+            type: 3,
+          },
+          extract: (res) => ({ success: true, response: res.payload }),
+        })
+        .then((res) => cb(null, res))
+        .catch((err) => {
+          logError?.('addUsersToGroup', err);
+          cb(err);
+        });
+    } catch (err) {
+      logError?.('addUsersToGroup', err);
+      cb(err);
+    }
+
+    return promise;
+  };
+}
+
+// ─── Plugin Descriptor ───────────────────────────────────────────
+/** @type {import('../../../plugin-provider.js').FcaPlugin} */
 export const $plugin = {
   name: 'fca-domains-threads-commands-add-users-to-group',
   meta: { category: 'domain-threads', path: 'lib/domains/threads/commands/add-users-to-group.js' },

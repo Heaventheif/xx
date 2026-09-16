@@ -1,40 +1,46 @@
-var m = Object.defineProperty;
-var t = (r, o) => m(r, 'name', { value: o, configurable: !0 });
-import * as u from '../../../compat/legacy-promise.js';
-import * as p from '../../../transport/http/facebook.js';
-function s(r) {
-  const { defaultFuncs: o, ctx: n, logError: a } = r;
-  return t(function (i, f) {
-    const { callback: c, promise: l } = (0, u.createLegacyPromise)(f, !1);
-    return (
-      (0, p.postWithLoginCheck)({
-        defaultFuncs: o,
-        ctx: n,
+// unfriend.js — Remove a friend from friends list
+import * as legacyPromise from '../../../compat/legacy-promise.js';
+import * as http from '../../../transport/http/facebook.js';
+
+/**
+ * Creates the unfriend command.
+ *
+ * @param {{ defaultFuncs, ctx, logError? }} deps
+ * @returns {(userID: string, callback?: Function) => Promise<true>}
+ */
+export function createUnfriendCommand(deps) {
+  const { defaultFuncs, ctx, logError } = deps;
+
+  return function unfriend(userID, callback) {
+    const { callback: cb, promise } = legacyPromise.createLegacyPromise(callback, false);
+
+    http
+      .postWithLoginCheck({
+        defaultFuncs,
+        ctx,
         url: 'https://www.facebook.com/ajax/profile/removefriendconfirm.php',
         form: {
-          uid: i,
+          uid: userID,
           unref: 'bd_friends_tab',
           floc: 'friends_tab',
-          'nctr[_mod]': `pagelet_timeline_app_collection_${n.userID}:2356318349:2`,
+          'nctr[_mod]': `pagelet_timeline_app_collection_${ctx.userID}:2356318349:2`,
         },
       })
-        .then((e) => {
-          if (e.error) throw e;
-          c(null, !0);
-        })
-        .catch((e) => {
-          (a?.('unfriend', e), c(e));
-        }),
-      l
-    );
-  }, 'unfriend');
-}
-t(s, 'createUnfriendCommand');
-var b = { createUnfriendCommand: s };
-export { s as createUnfriendCommand, b as default };
+      .then((res) => {
+        if (res?.error) throw res;
+        cb(null, true);
+      })
+      .catch((err) => {
+        logError?.('unfriend', err);
+        cb(err instanceof Error ? err : new Error(String(err?.message ?? err)));
+      });
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
-/** @type {import('./plugin-provider.js').FcaPlugin} */
+    return promise;
+  };
+}
+
+// ─── Plugin Descriptor ───────────────────────────────────────────
+/** @type {import('../../../plugin-provider.js').FcaPlugin} */
 export const $plugin = {
   name: 'fca-domains-account-commands-unfriend',
   meta: { category: 'domain-account', path: 'lib/domains/account/commands/unfriend.js' },

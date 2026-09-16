@@ -1,32 +1,39 @@
-var o = Object.defineProperty;
-var t = (e, r) => o(e, 'name', { value: r, configurable: !0 });
-import * as f from './queries/get-user-info.js';
-import * as i from './queries/get-user-info-v2.js';
-import * as n from './queries/get-user-id.js';
-import * as s from './queries/get-friends-list.js';
-function m(e) {
-  return Object.fromEntries(Object.entries(e).filter(([, r]) => r !== void 0));
+// users/index.js — Users domain: profile info, ID lookup, friends list
+import * as getUserInfo    from './queries/get-user-info.js';
+import * as getUserInfoV2  from './queries/get-user-info-v2.js';
+import * as getUserId      from './queries/get-user-id.js';
+import * as getFriendsList from './queries/get-friends-list.js';
+
+function compact(obj) {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined));
 }
-t(m, 'compactNamespace');
-function u(e) {
-  return m({
-    getInfo: (0, f.createGetUserInfoQuery)(e.info),
-    getInfoV2: (0, i.createGetUserInfoV2Query)(e.infoV2),
-    getID: (0, n.createGetUserIdQuery)(e.idLookup),
-    getFriends: e.friendsList ? (0, s.createGetFriendsListQuery)(e.friendsList) : void 0,
+
+/**
+ * Creates the users domain.
+ * @param {object} deps
+ */
+export function createUsersDomain(deps) {
+  return compact({
+    getInfo:    getUserInfo.createGetUserInfoQuery(deps.info),
+    getInfoV2:  getUserInfoV2.createGetUserInfoV2Query(deps.infoV2),
+    getID:      getUserId.createGetUserIdQuery(deps.idLookup),
+    getFriends: deps.friendsList
+                  ? getFriendsList.createGetFriendsListQuery(deps.friendsList)
+                  : undefined,
   });
 }
-t(u, 'createUsersDomain');
+
 export * from './user.types.js';
 export * from './queries/get-friends-list.js';
 export * from './queries/get-user-info.js';
 export * from './queries/get-user-info-v2.js';
 export * from './queries/get-user-id.js';
-var _ = { createUsersDomain: u };
-export { u as createUsersDomain, _ as default };
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
-/** @type {import('./plugin-provider.js').FcaPlugin} */
+var _default = { createUsersDomain };
+export { _default as default };
+
+// ─── Plugin Descriptor ───────────────────────────────────────────
+/** @type {import('../../plugin-provider.js').FcaPlugin} */
 export const $plugin = {
   name: 'fca-domains-users-index',
   meta: { category: 'domain-users', path: 'lib/domains/users/index.js' },

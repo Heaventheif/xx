@@ -1,76 +1,96 @@
+/**
+ * kick.js — طرد عضو من المجموعة
+ * تحسينات v1.4.0:
+ *   - دعم طرد متعدد (منشن أكثر من شخص)
+ *   - رسائل خطأ أوضح مع تمييز حالة "مشرف"
+ *   - حماية من طرد البوت نفسه
+ */
 export default {
   config: {
     name: "kick",
     aliases: ["طرد"],
-    version: "1.3.0",
+    version: "1.4.0",
     author: "sunken",
     countDown: 5,
     role: 0,
     category: "إدارة وإشراف",
-    description: "طرد عضو من المجموعة (منشن أو ID أو رد على رسالته)",
+    description: "طرد عضو (أو أكثر) من المجموعة — منشن أو ID أو رد",
     usage: [
-      "{pn}طرد @شخص — طرد عضو محدد بالمنشن",
-      "{pn}طرد 100012345678 — طرد عضو بالـ ID مباشرة",
-      "رد على رسالة + {pn}طرد — طرد صاحب الرسالة المردود عليها",
+      "{pn}طرد @شخص — طرد عضو بالمنشن",
+      "{pn}طرد @شخص1 @شخص2 — طرد عدة أعضاء",
+      "{pn}طرد <UID> — طرد بالـ ID مباشرة",
+      "رد على رسالة + {pn}طرد — طرد صاحب الرسالة",
     ],
   },
+
   onStart: async ({ api, event, args, message, isGroupAdmin }) => {
     const { threadID, senderID, mentions, messageReply } = event;
 
-    // isGroupAdmin comes pre-resolved from Router.js — single source of truth
     if (!isGroupAdmin) {
       return message.reply("❌ هذا الأمر لمشرفي المجموعة فقط!");
     }
 
     const botID = String(api.getCurrentUserID());
 
-    // Resolve target: mention > raw numeric ID > reply
-    let targetID = null, targetName = "المستخدم";
+    // ── تحديد الأهداف ────────────────────────────────────────────
+    const targets = []; // [{id, name}]
     const mentionIDs = Object.keys(mentions);
 
     if (mentionIDs.length > 0) {
-      targetID   = mentionIDs[0];
-      targetName = mentions[targetID].replace(/@/g, " ").trim();
+      for (const id of mentionIDs) {
+        targets.push({ id, name: mentions[id].replace(/@/g, " ").trim() });
+      }
     } else if (args.length > 0 && /^\d{5,20}$/.test(args[0].trim())) {
-      // Raw numeric FB ID passed directly (e.g. "طرد 61559165694344")
-      targetID   = args[0].trim();
-      targetName = `(ID: ${targetID})`;
+      targets.push({ id: args[0].trim(), name: `(ID: ${args[0].trim()})` });
     } else if (messageReply) {
-      targetID   = messageReply.senderID;
-      targetName = "صاحب الرسالة";
+      targets.push({ id: messageReply.senderID, name: "صاحب الرسالة" });
     }
 
-    if (!targetID) {
-      return message.reply("❌ الرجاء تحديد المستخدم المراد طرده (منشن، ID، أو رد).");
+    if (!targets.length) {
+      return message.reply("❌ حدد العضو المراد طرده (منشن، ID، أو رد).");
     }
-    if (String(targetID) === botID) {
-      return message.reply("🤣 لا يمكنني طرد نفسي!");
-    }
-    if (String(targetID) === String(senderID)) {
+
+    // ── تصفية غير المسموح بطردهم ─────────────────────────────────
+    const invalid = targets.filter(
+      (t) => String(t.id) === botID || String(t.id) === String(senderID)
+    );
+    if (invalid.length) {
+      const names = invalid.map((t) => t.name).join("، ");
+      if (String(invalid[0].id) === botID) {
+        return message.reply("🤣 لا يمكنني طرد نفسي!");
+      }
       return message.reply("🤔 لا يمكنك طرد نفسك!");
     }
 
-    try {
-      await api.removeUserFromGroup(targetID, threadID);
-      await message.reply(`♻️ ${targetName} إلى القمامة! 👋`);
-    } catch (error) {
-      const msg = error?.message || "";
-      // FCA throws a specific error when target is an admin
-      if (msg.includes("admin") || msg.includes("1545012") || msg.includes("not authorized")) {
-        return message.reply("⚠️ لا يمكن طرد مشرف آخر!");
+    // ── تنفيذ الطرد ──────────────────────────────────────────────
+    const kicked = [], failed = [];
+
+    for (const target of targets) {
+      try {
+        await api.removeUserFromGroup(target.id, threadID);
+        kicked.push(target.name);
+      } catch (err) {
+        const msg = err?.message || "";
+        if (msg.includes("admin") || msg.includes("1545012") || msg.includes("not authorized")) {
+          failed.push(`${target.name} (مشرف — لا يمكن طرده)`);
+        } else {
+          failed.push(`${target.name} (خطأ غير متوقع)`);
+        }
       }
-      console.debug("[kick] removeUserFromGroup failed:", msg);
-      return message.reply("❌ فشل في طرد المستخدم. تأكد أن البوت مشرف.");
     }
-  }
+
+    const lines = [];
+    if (kicked.length)  lines.push(`♻️ تم طرد: ${kicked.join("، ")} 👋`);
+    if (failed.length)  lines.push(`⚠️ فشل طرد: ${failed.join("، ")}`);
+
+    return message.reply(lines.join("\n"));
+  },
 };
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
+// ─── Plugin Descriptor ───────────────────────────────────────────
 /** @type {import('../plugin-provider.js').XxPlugin} */
 export const $plugin = {
-  name: 'xx-commands-admin-kick',
-  meta: { category: 'command-admin', path: 'src/commands/admin/kick.js' },
-  setup(_ctx) {
-    // see module exports
-  },
+  name: "xx-commands-admin-kick",
+  meta: { category: "command-admin", path: "src/commands/admin/kick.js" },
+  setup(_ctx) {},
 };
