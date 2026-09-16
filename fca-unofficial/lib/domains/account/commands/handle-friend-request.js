@@ -1,16 +1,13 @@
-// handle-friend-request.js — Accept or decline an incoming friend request
+// handle-friend-request.js — Accept or decline a friend request via GraphQL mutation
+// الـ endpoint القديم /requests/friends/ajax/ أصبح 404 — نستخدم GraphQL فقط
 import * as legacyPromise from '../../../compat/legacy-promise.js';
 import * as http from '../../../transport/http/facebook.js';
 
 /**
- * Creates the handleFriendRequest command.
+ * قبول أو رفض طلب صداقة عبر GraphQL mutation.
  *
  * @param {{ defaultFuncs, ctx, logError? }} deps
- * @returns {(userID: string, accept: boolean, callback?: Function) => Promise<{userID, action, success}>}
- *
- * @example
- * await api.handleFriendRequest(userID, true);   // accept
- * await api.handleFriendRequest(userID, false);  // decline
+ * @returns {(userID: string, accept: boolean, callback?: Function) => Promise}
  */
 export function createHandleFriendRequestCommand(deps) {
   const { defaultFuncs, ctx, logError } = deps;
@@ -29,29 +26,80 @@ export function createHandleFriendRequestCommand(deps) {
       return promise;
     }
 
+    const uid = String(userID);
+
+    // ── قبول: FriendingCometFriendRequestConfirmMutation ──────────
+    if (accept) {
+      http
+        .postWithLoginCheck({
+          defaultFuncs,
+          ctx,
+          url: 'https://www.facebook.com/api/graphql/',
+          form: {
+            av: ctx.userID,
+            __user: ctx.userID,
+            __a: '1',
+            fb_dtsg: ctx.fb_dtsg,
+            jazoest: ctx.ttstamp || ctx.jazoest || '',
+            lsd: ctx.lsd || ctx.lsdToken || ctx.fb_dtsg,
+            fb_api_caller_class: 'RelayModern',
+            fb_api_req_friendly_name: 'FriendingCometFriendRequestConfirmMutation',
+            variables: JSON.stringify({
+              input: {
+                source: 'friends_tab',
+                friend_requester_id: uid,
+                actor_id: ctx.userID,
+                client_mutation_id: String(Math.floor(Math.random() * 1e9)),
+              },
+            }),
+            server_timestamps: 'true',
+            doc_id: '6003738476371496',
+          },
+        })
+        .then((res) => {
+          if (res?.errors?.length) throw new Error(JSON.stringify(res.errors[0]));
+          cb(null, { userID: uid, action: 'accepted', success: true });
+        })
+        .catch((err) => {
+          logError?.('handleFriendRequest(accept)', err);
+          cb(err instanceof Error ? err : new Error(String(err?.message ?? err)));
+        });
+
+      return promise;
+    }
+
+    // ── رفض: FriendingCometFriendRequestDeleteMutation ────────────
     http
       .postWithLoginCheck({
         defaultFuncs,
         ctx,
-        url: 'https://www.facebook.com/requests/friends/ajax/',
+        url: 'https://www.facebook.com/api/graphql/',
         form: {
-          viewer_id: ctx.userID,
-          'frefs[0]': 'jwl',
-          floc: 'friend_center_requests',
-          ref: '/reqs.php',
-          action: accept ? 'confirm' : 'reject',
-          friend_requester_id: String(userID),
+          av: ctx.userID,
+          __user: ctx.userID,
+          __a: '1',
           fb_dtsg: ctx.fb_dtsg,
-          lsd: ctx.lsd || ctx.fb_dtsg,
-          jazoest: ctx.jazoest,
+          jazoest: ctx.ttstamp || ctx.jazoest || '',
+          lsd: ctx.lsd || ctx.lsdToken || ctx.fb_dtsg,
+          fb_api_caller_class: 'RelayModern',
+          fb_api_req_friendly_name: 'FriendingCometFriendRequestDeleteMutation',
+          variables: JSON.stringify({
+            input: {
+              friend_requester_id: uid,
+              actor_id: ctx.userID,
+              client_mutation_id: String(Math.floor(Math.random() * 1e9)),
+            },
+          }),
+          server_timestamps: 'true',
+          doc_id: '5574260925973988',
         },
       })
       .then((res) => {
-        if (res?.payload?.err) throw new Error(JSON.stringify(res.payload.err));
-        cb(null, { userID, action: accept ? 'accepted' : 'declined', success: true });
+        if (res?.errors?.length) throw new Error(JSON.stringify(res.errors[0]));
+        cb(null, { userID: uid, action: 'declined', success: true });
       })
       .catch((err) => {
-        logError?.('handleFriendRequest', err);
+        logError?.('handleFriendRequest(decline)', err);
         cb(err instanceof Error ? err : new Error(String(err?.message ?? err)));
       });
 
@@ -64,7 +112,5 @@ export function createHandleFriendRequestCommand(deps) {
 export const $plugin = {
   name: 'fca-domains-account-commands-handle-friend-request',
   meta: { category: 'domain-account', path: 'lib/domains/account/commands/handle-friend-request.js' },
-  setup(_ctx) {
-    // provides: createHandleFriendRequestCommand
-  },
+  setup(_ctx) {},
 };
