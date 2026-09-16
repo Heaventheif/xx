@@ -174,6 +174,9 @@ function W(m) {
     n(A, 'endQuietly');
     function v() {
       e._seqRetryAttempts || (e._seqRetryAttempts = 0);
+      // Stable Reset: if connected steadily for 30s, treat next disconnect as attempt 0.
+      const _stableMs = 30_000;
+      if (e._connectedAt && Date.now() - e._connectedAt >= _stableMs) e._seqRetryAttempts = 0;
       const r = $(e._seqRetryAttempts);
       (e._seqRetryAttempts++,
         t(`mqtt reconnect in ${r}ms (attempt ${e._seqRetryAttempts})`, 'info'),
@@ -211,6 +214,8 @@ function W(m) {
               e._getSeqRetryTimer &&
                 (clearTimeout(e._getSeqRetryTimer), (e._getSeqRetryTimer = null)),
               (e._ending = !0),
+              (e._seqRetryAttempts = 0),
+              (e._connectedAt = null),
               M(() =>
                 A(() => {
                   (t('mqtt stopped', 'info'), T(), (f = b(e, f)), f.reconnectAfterStop && v());

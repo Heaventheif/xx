@@ -1,14 +1,15 @@
 "use strict";
 
-const { checkPermission } = require("../../utils/permission");
+// ✅ لا حاجة لـ permission.js — الكور يتحقق من config.role تلقائياً قبل run()
+// role: 1 = مشرف المجموعة | 2 = مطور البوت فقط
 
 module.exports = {
   config: {
     name: "group",
-    version: "2.0.0",
+    version: "2.1.0",
     author: "dev",
     countDown: 5,
-    role: 1, // 1 = مشرف المجموعة | 2 = مطور البوت فقط
+    role: 1, // الكور يمنع الوصول تلقائياً إذا role < 1
     description: {
       ar: "إدارة المجموعة: معلومات، إحصائيات، حظر، تغيير الاسم، إدارة المشرفين",
     },
@@ -17,7 +18,7 @@ module.exports = {
       ar:
         "{pn} info               — معلومات المجموعة (GID + الأعضاء)\n" +
         "{pn} stats              — إحصائيات المجموعة\n" +
-        "{pn} ban                — حظر المجموعة من البوت\n" +
+        "{pn} ban                — حظر المجموعة من البوت (مطور فقط)\n" +
         "{pn} rename <الاسم>     — تغيير اسم المجموعة\n" +
         "{pn} admin add @شخص    — إضافة مشرف\n" +
         "{pn} admin remove @شخص — إزالة مشرف",
@@ -25,18 +26,10 @@ module.exports = {
   },
 
   // ─── نقطة الدخول ────────────────────────────────────────────────
-  run: async function ({ api, event, args, Threads, Users, prefix }) {
+  // الكور يمرر: role (0=عضو، 1=مشرف_مجموعة_فعلي، 2=مطور) + isGroupAdmin
+  run: async function ({ api, event, args, role, Threads, Users, prefix }) {
     const { threadID, senderID, messageID } = event;
     const sub = (args[0] || "").toLowerCase();
-
-    // ── فحص الصلاحية ──────────────────────────────────────────────
-    const allowed = await checkPermission(api, event, ["groupAdmin", "botDev"]);
-    if (!allowed)
-      return api.sendMessage(
-        "⛔ هذا الأمر متاح للمشرفين ومطوري البوت فقط.",
-        threadID,
-        messageID
-      );
 
     // ── توجيه الأوامر الفرعية ──────────────────────────────────────
     switch (sub) {
@@ -45,7 +38,7 @@ module.exports = {
       case "stats":
         return handleStats(api, event, Threads);
       case "ban":
-        return handleBan(api, event, Threads, senderID);
+        return handleBan(api, event, Threads, role);
       case "rename":
         return handleRename(api, event, args.slice(1).join(" "));
       case "admin":
@@ -125,13 +118,13 @@ async function handleStats(api, event, Threads) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  group ban  —  حظر المجموعة
+//  group ban  —  حظر المجموعة (مطور البوت فقط: role === 2)
 // ═══════════════════════════════════════════════════════════════════
-async function handleBan(api, event, Threads, senderID) {
+async function handleBan(api, event, Threads, role) {
   const { threadID, messageID } = event;
 
-  // يتطلب مطور بوت لحظر مجموعة كاملة
-  if (!global.GoatBot?.config?.adminBot?.includes(senderID))
+  // يتطلب مطور بوت (role 2) — يُحسب من getUserRole في الكور
+  if (role < 2)
     return api.sendMessage(
       "⛔ حظر المجموعة متاح لمطوري البوت فقط.",
       threadID,

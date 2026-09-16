@@ -185,7 +185,8 @@ function X(S) {
         (process.env.OnStatus === void 0 &&
           (r('fca-unofficial', 'info'), (process.env.OnStatus = 'true')),
           (e._cycling = !1),
-          (e._reconnectAttempts = 0));
+          (e._reconnectAttempts = 0),
+          (e._connectedAt = Date.now()));
         const i = M.slice();
         n.subscribe(i, (o) => {
           if (!l(n)) return;

@@ -1,4 +1,5 @@
 import { SafeTimerRegistry } from './SafeTimerRegistry.js';
+import { pickSessionProfile } from './stealth-profiles.js';
 import {
   nextPoisson,
   nextLogNormal,
@@ -110,22 +111,36 @@ export default class FacebookSafety {
   }
 
   getSafeUserAgent() {
-    if (!this.options.enableUAContinuity) return this.safeUserAgents[0];
-    if (!this._fixedUA) this._fixedUA = this.safeUserAgents[0];
-    return this._fixedUA;
+    if (this._fixedUA) return this._fixedUA;
+    // Use the same stealth profile as MQTT for a consistent HTTP fingerprint.
+    return pickSessionProfile(this.ctx || null).userAgent;
   }
 
   applySafeHeaders(extra = {}) {
+    // Pick the session-pinned stealth profile so HTTP and MQTT share the same UA.
+    const profile = pickSessionProfile(this.ctx || null);
+    const ua = this._fixedUA || profile.userAgent;
+
     const h = {
-      'User-Agent': this.getSafeUserAgent(),
+      'User-Agent': ua,
       Accept:
         'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Language': profile.acceptLanguage || 'en-US,en;q=0.9',
       DNT: '1',
       Connection: 'keep-alive',
       'Cache-Control': 'max-age=0',
-      ...extra,
     };
+
+    // Add Chromium client-hints only for Chromium-based profiles;
+    // Firefox never sends sec-ch-ua, so omitting them is correct for Firefox profiles.
+    if (!profile.isFirefox) {
+      if (profile.secChUa)         h['sec-ch-ua']          = profile.secChUa;
+      if (profile.secChUaMobile)   h['sec-ch-ua-mobile']   = profile.secChUaMobile;
+      if (profile.secChUaPlatform) h['sec-ch-ua-platform'] = profile.secChUaPlatform;
+    }
+
+    Object.assign(h, extra);
+
     const region = this.ctx?.region || (this.options.bypassRegionLock && this.currentRegion);
     if (region) h['X-MSGR-Region'] = region;
     return h;

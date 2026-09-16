@@ -1,14 +1,15 @@
 "use strict";
 
-const { checkPermission } = require("../../utils/permission");
+// ✅ لا حاجة لـ permission.js — الكور يتحقق من config.role تلقائياً قبل run()
+// role: 1 = مشرف المجموعة | 2 = مطور البوت فقط
 
 module.exports = {
   config: {
     name: "user",
-    version: "2.0.0",
+    version: "2.1.0",
     author: "dev",
     countDown: 5,
-    role: 1, // 1 = مشرف المجموعة | 2 = مطور البوت فقط
+    role: 1, // الكور يمنع الوصول تلقائياً إذا role < 1
     description: {
       ar: "إدارة المستخدمين: معرف، اسم، طرد، حظر، إضافة",
     },
@@ -18,24 +19,16 @@ module.exports = {
         "{pn} id @شخص          — عرض UID الشخص\n" +
         "{pn} name @شخص <اسم>  — تغيير اللقب\n" +
         "{pn} kick @شخص        — طرد من المجموعة\n" +
-        "{pn} ban @شخص         — حظر المستخدم من البوت\n" +
+        "{pn} ban @شخص         — حظر المستخدم من البوت (مطور فقط)\n" +
         "{pn} add <UID>         — إضافة مستخدم للمجموعة",
     },
   },
 
   // ─── نقطة الدخول ────────────────────────────────────────────────
-  run: async function ({ api, event, args, Users, Threads, prefix }) {
-    const { threadID, senderID, messageID } = event;
+  // الكور يمرر: role (0=عضو، 1=مشرف_مجموعة_فعلي، 2=مطور) + isGroupAdmin
+  run: async function ({ api, event, args, role, Users, Threads, prefix }) {
+    const { threadID, messageID } = event;
     const sub = (args[0] || "").toLowerCase();
-
-    // ── فحص الصلاحية ──────────────────────────────────────────────
-    const allowed = await checkPermission(api, event, ["groupAdmin", "botDev"]);
-    if (!allowed)
-      return api.sendMessage(
-        "⛔ هذا الأمر متاح للمشرفين ومطوري البوت فقط.",
-        threadID,
-        messageID
-      );
 
     // ── توجيه الأوامر الفرعية ──────────────────────────────────────
     switch (sub) {
@@ -46,7 +39,7 @@ module.exports = {
       case "kick":
         return handleKick(api, event);
       case "ban":
-        return handleBan(api, event, Users, senderID);
+        return handleBan(api, event, Users, role);
       case "add":
         return handleAdd(api, event, args.slice(1));
       default:
@@ -158,13 +151,13 @@ async function handleKick(api, event) {
 }
 
 // ═══════════════════════════════════════════════════════════════════
-//  user ban  —  حظر المستخدم من البوت
+//  user ban  —  حظر المستخدم من البوت (مطور البوت فقط: role === 2)
 // ═══════════════════════════════════════════════════════════════════
-async function handleBan(api, event, Users, senderID) {
+async function handleBan(api, event, Users, role) {
   const { threadID, messageID, mentions } = event;
 
-  // حظر المستخدم يتطلب مطور بوت
-  if (!global.GoatBot?.config?.adminBot?.includes(senderID))
+  // يتطلب مطور بوت (role 2) — يُحسب من getUserRole في الكور
+  if (role < 2)
     return api.sendMessage(
       "⛔ حظر المستخدمين متاح لمطوري البوت فقط.",
       threadID,
