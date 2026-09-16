@@ -604,10 +604,10 @@ const PLATFORM_LABELS = {
 export default {
   config: {
     name: "autodl",
-    aliases: ["تحميل", "dl", "دونلود"],
-    version: "3.1.0",
+    aliases: [],
+    version: "1.0.0",
     role: 0,
-    countDown: 8,
+    countDown: 6,
     category: "وسائط وتحميل",
     description:
       "تحميل فيديو/صور/صوت من 18 منصة — يوتيوب، تيك توك، إنستغرام، فيسبوك، تويتر، ريديت، بينترست، ثريدز، سناب شات، سبوتيفاي، ساوندكلاود وأكثر.",

@@ -177,9 +177,9 @@ export default {
   config: {
     name:        "song",
     aliases:     ["موسيقى"],
-    version:     "5.2",
+    version:     "1.0.0",
     role:        0,
-    countDown:   10,
+    countDown:   6,
     category: "وسائط وتحميل",
     description: "بحث وتشغيل مقاطع من SoundCloud — أضف s لعرض قائمة نتائج",
     usage: [

@@ -233,8 +233,8 @@ async function handle(api, event, prompt, registerReply) {
 export default {
   config: {
     name: "groq",
-    aliases: ["Ai4"],
-    version: "12.0.0",
+    aliases: ["ذكاء"],
+    version: "1.0.0",
     author: "Sunken",
     countDown: 3,
     role: 0,

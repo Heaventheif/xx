@@ -8,7 +8,7 @@ export default {
     name: "sub",
     aliases: ["كابشن"],
     role: 0, 
-    countDown: 10, 
+    countDown: 60, 
     category: "وسائط وتحميل",
     description: "إضافة ترجمة (ثابتة أو زمنية) على فيديو عبر الرد عليه، مع تحكم بموضع النص عمودياً",
     usage: [

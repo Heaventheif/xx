@@ -181,13 +181,13 @@ async function handle(api, event, prompt, registerReply) {
 export default {
   config: {
     name: "gemini",
-    aliases: ["Ai2", "search"],
-    version: "12.0.0",
+    aliases: ["بوت"],
+    version: "1.0.0",
     author: "Sunken",
     countDown: 5,
     role: 0,
     category: "ذكاء اصطناعي",
-    description: "دردشة ذكية + تحليل صور + بحث فعلي بالإنترنت — Gemini 2.5 Flash",
+    description: "دردشة ذكية + تحليل صور + بحث فعلي بالإنترنت — Gemini  ",
     usage: [
       "{pn}gemini <سؤال> — محادثة بذاكرة جماعية",
       "{pn}gemini مسح — مسح ذاكرة المحادثة",

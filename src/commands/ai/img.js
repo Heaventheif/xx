@@ -14,9 +14,9 @@ const STYLE_PRESETS = {
 };
 export default {
   config: {
-    name: "imagine",
+    name: "img",
     aliases: ["تخيل"],
-    version: "2.0.0",
+    version: "1.0.0",
     role: 0,
     countDown: 2,
     category: "ذكاء اصطناعي",

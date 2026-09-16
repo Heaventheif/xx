@@ -340,7 +340,7 @@ function pcmToWav(pcmBuffer, sampleRate = 24000, channels = 1, bitsPerSample = 1
 export default {
   config: {
     name:        "tts2",
-    aliases:     ["صوت2", "جيميناي"],
+    aliases:     ["قل"],
     version:     "1.0.0",
     role:        0,
     countDown:   8,

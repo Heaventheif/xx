@@ -16,7 +16,7 @@ async function fetchTTS(text, voice) {
 export default {
   config: {
     name: "tts",
-    aliases: ["قول", "تحدث"],
+    aliases: ["قول"],
     version: "1.0.0",
     role: 0,
     countDown: 8,

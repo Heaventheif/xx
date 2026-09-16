@@ -64,7 +64,7 @@ function formatMuteUntil(ts) {
 export default {
   config: {
     name: 'stats',
-    aliases: ['إحص', 'info'],
+    aliases: ['info'],
     version: '2.0.0',
     role: 2,
     countDown: 10,

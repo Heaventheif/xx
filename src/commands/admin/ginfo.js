@@ -4,8 +4,8 @@
  */
 export default {
   config: {
-    name: "threadinfo",
-    aliases: ["معلومات_المجموعة", "groupinfo"],
+    name: "ginfo",
+    aliases: [""groupinfo"],
     version: "1.0.0",
     author: "sunken",
     countDown: 10,

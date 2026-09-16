@@ -10,7 +10,7 @@
 export default {
   config: {
     name: "friendreq",
-    aliases: ["صداقة", "طلب_صداقة"],
+    aliases: ["صداقة"],
     version: "1.0.0",
     author: "sunken",
     countDown: 5,

@@ -34,7 +34,7 @@ async function fetchTranscript(audioUrl, ext) {
 export default {
   config: {
     name: "stt", 
-    aliases: ["تحويل صوت لنص"],
+    aliases: ["لنص"],
     version: "1.0.0",
     role: 0,
     countDown: 8,

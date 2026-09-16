@@ -41,10 +41,10 @@ function getNextApi(globalData) {
 export default {
   config: {
     name: "canva",
-    aliases: ["كانفا", "لوحة"],
+    aliases: ["لوحة"],
     version: "1.0.0",
     role: 0,
-    countDown: 10,
+    countDown: 3,
     category: "ألعاب وترفيه",
     description: "يرسم صورة بروفايل شخص بأسلوب فني عشوائي بالتناوب (Round-Robin) بين عدة تصاميم",
     usage: [

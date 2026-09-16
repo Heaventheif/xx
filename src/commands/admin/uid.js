@@ -10,7 +10,7 @@ const BROWSER_HEADERS = {
 export default {
   config: {
     name: "uid",
-    aliases: ["ايدي"],
+    aliases: ["id"],
     version: "4.0.0",
     author: "Enhanced UID Extractor",
     countDown: 3,
@@ -47,7 +47,7 @@ export default {
         targetUID = senderID;
       }
       if (targetUID) {
-        message.reply(`🆔 ${targetUID}`);
+        message.reply(` ${targetUID}`);
       } else {
         message.reply(
           "❌ فشل استخراج UID.\n" +

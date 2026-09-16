@@ -37,7 +37,7 @@ export default {
   config: {
     name: "yt",
     aliases: ["يوتيوب"],
-    version: "7.0",
+    version: "1.0.0",
     role: 0,
     countDown: 15,
     category: "وسائط وتحميل",
