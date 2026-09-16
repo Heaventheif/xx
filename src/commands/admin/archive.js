@@ -5,7 +5,7 @@
 export default {
   config: {
     name: "archive",
-    aliases: ["أرشفة", "أرشف"],
+    aliases: ["أرش"],
     version: "1.0.0",
     author: "sunken",
     countDown: 5,

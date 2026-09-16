@@ -25,7 +25,7 @@ const DURATIONS = {
 export default {
   config: {
     name: "mute",
-    aliases: ["كتم", "صامت"],
+    aliases: ["كتم"],
     version: "1.0.0",
     author: "sunken",
     countDown: 3,

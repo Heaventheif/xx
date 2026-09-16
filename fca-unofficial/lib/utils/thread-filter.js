@@ -5,20 +5,20 @@ export function attachThreadFilter(api, initialOpts = {}) {
 
   const _onceListeners = []; 
 
-  // FIX #10: تحذير إذا استُدعي attachThreadFilter بعد connectE2EE
-  // connectE2EE تستبدل api.listenMqtt بـ listenE2EE وتحفظ الأصل في _listenMqttRaw.
-  // استدعاء attachThreadFilter بعدها يلف listenE2EE لا MQTT الأصلي، مما يُفقد
-  // E2EE events من نطاق الفلتر. الحل: استدعِ attachThreadFilter قبل connectE2EE.
+
+
+
+
   if (api._listenMqttRaw) {
     console.warn(
-      `[attachThreadFilter] WARNING: Called after connectE2EE().\n  E2EE messages will bypass the thread filter.\n  To apply filtering to all messages, call attachThreadFilter() BEFORE connectE2EE().`
+
     );
   }
 
   const originalListen = api.listenMqtt?.bind(api);
   if (!originalListen) throw new Error('attachThreadFilter: api.listenMqtt not found.');
 
-  // حفظ المرجع الأصلي حتى يتمكن connectE2EE لاحقاً من اكتشافه
+
   if (!api._listenMqttRaw) {
     api._listenMqttRaw = originalListen;
   }

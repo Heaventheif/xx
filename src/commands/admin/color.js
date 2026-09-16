@@ -36,7 +36,7 @@ const COLOR_MAP = {
 export default {
   config: {
     name: "color",
-    aliases: ["لون", "اللون"],
+    aliases: ["لون"],
     version: "1.0.0",
     author: "sunken",
     countDown: 3,

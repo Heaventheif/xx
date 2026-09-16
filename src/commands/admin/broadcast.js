@@ -12,7 +12,7 @@ const MAX_BATCH = 50;
 export default {
   config: {
     name: "broadcast",
-    aliases: ["بث", "رسالة_جماعية"],
+    aliases: ["بث"],
     version: "1.0.0",
     author: "sunken",
     countDown: 60,

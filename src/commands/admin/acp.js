@@ -192,7 +192,7 @@ async function bulkAction(api, reqs, accept, loadingID, apiFn) {
 export default {
   config: {
     name: 'acp',
-    aliases: ['طلبات', 'صداقة'],
+    aliases: ['طلب', 'صدق'],
     version: '5.0.0',
     role: 2,
     countDown: 10,

@@ -9,7 +9,7 @@ const D=20;
 var T= {
   config: {
     name:"grouplist",
-    aliases:["قائمة_المجموعات"],
+    aliases: ["قائ", "grp"],
     version:"1.0.0",
     role:2,
     countDown:6,

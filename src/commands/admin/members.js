@@ -5,7 +5,7 @@
 export default {
   config: {
     name: "members",
-    aliases: ["أعضاء", "عضو"],
+    aliases: ["عضو"],
     version: "1.0.0",
     author: "sunken",
     countDown: 10,

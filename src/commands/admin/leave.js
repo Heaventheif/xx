@@ -6,7 +6,7 @@
 export default {
   config: {
     name: "leave",
-    aliases: ["مغادرة", "خروج"],
+    aliases: ["خرج"],
     version: "1.0.0",
     author: "sunken",
     countDown: 10,

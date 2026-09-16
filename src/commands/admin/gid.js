@@ -1,7 +1,7 @@
 export default {
   config: {
     name: "gid",
-    aliases: ["معرف المجموعة"],
+    aliases: ["gid"],
     version: "1.0.0",
     author: "sunken",
     countDown: 5,

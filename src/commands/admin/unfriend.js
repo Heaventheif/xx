@@ -5,7 +5,7 @@
 export default {
   config: {
     name: "unfriend",
-    aliases: ["حذف_صديق", "إلغاء_صداقة"],
+    aliases: ["حصد"],
     version: "1.0.0",
     author: "sunken",
     countDown: 10,

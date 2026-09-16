@@ -5,7 +5,7 @@
 export default {
   config: {
     name: "admin",
-    aliases: ["مشرف", "ترقية"],
+    aliases: ["مشرف", "ترق"],
     version: "1.0.0",
     author: "sunken",
     countDown: 5,

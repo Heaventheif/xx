@@ -90,7 +90,6 @@ const logger = {
             : `${C.bYellow}${userID}${C.reset}`;
 
         const reconnectStr = autoReconnect
-            ? `${ok}  ${C.bGreen}Enabled${C.reset}  ${C.dim}(MQTT + E2EE)${C.reset}`
             : `${warn}  ${C.bYellow}Disabled${C.reset}`;
 
         const row = (content) => `  ${mid}  ${content}`;
@@ -104,7 +103,6 @@ const logger = {
             `  ${bar('├', '')}`,
             row(`${dot}  ${lbl('Bot            ')}  ${displayName}`),
             row(`${dot}  ${lbl('Region         ')}  ${C.bGreen}${C.bold}${(region || 'AUTO').toUpperCase()}${C.reset}`),
-            row(`${dot}  ${lbl('E2EE           ')}  ${ok}  ${C.bGreen}Signal Protocol${C.reset}`),
             row(`${dot}  ${lbl('Transport      ')}  ${C.bCyan}MQTT${C.reset}  ${C.dim}⟶${C.reset}  ${C.bCyan}WebSocket${C.reset}`),
             row(`${dot}  ${lbl('Auto-Reconnect ')}  ${reconnectStr}`),
             `  ${bar('├', '')}`,

@@ -15,7 +15,7 @@ const _DAY_MS = 24 * 60 * 60 * 1000;
 export default {
   config: {
     name: "adduser",
-    aliases: ["اضافة"],
+    aliases: ["اضف"],
     version: "4.1.0",
     author: "Enhanced UID Extractor",
     countDown: 5,
