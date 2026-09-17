@@ -96,11 +96,13 @@ export class SessionExtender extends EventEmitter {
     if (this._running) return this;
     this._running = true;
     this._scheduleHealthCheck();
-    this._scheduleKeepAlive();
+    if (this._keepAliveMs > 0) this._scheduleKeepAlive();
     console.log(
       `[EXTENDER:${this._label}] ▶️ مُمدِّد الجلسة v2 نشط ` +
       `(فحص كل ${Math.round(this._checkInterval / 60_000)} دقيقة ` +
-      `| keep-alive كل ${Math.round(this._keepAliveMs / 3_600_000)} ساعة ` +
+      `| keep-alive ${this._keepAliveMs > 0
+        ? `كل ${Math.round(this._keepAliveMs / 3_600_000)} ساعة`
+        : "معطّل"} ` +
       `| عتبة تجديد ${Math.round(this._threshold / 86_400_000)} يوم)`
     );
     return this;
@@ -151,7 +153,7 @@ export class SessionExtender extends EventEmitter {
   // ── جدولة keep-alive ──────────────────────────────────────────────────────
 
   _scheduleKeepAlive() {
-    if (!this._running) return;
+    if (!this._running || this._keepAliveMs <= 0) return;
     // أول ping بعد 30 دقيقة من الإقلاع (وليس فوراً لتجنب الضغط عند البدء)
     const initial = this._keepAlives === 0
       ? 30 * 60 * 1_000

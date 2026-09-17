@@ -1,7 +1,7 @@
 import { EventEmitter } from "node:events";
 
 const DEFAULTS = {
-  staleAfterMs: 4 * 60_000,
+  staleAfterMs: 8 * 60_000,   // 8 min: gives ping (2 min) safe headroom under Bun timer drift
   watchdogIntervalMs: 30_000,
   stableWindowMs: 5 * 60_000,
   reconnectBaseMs: 2_000,
@@ -23,7 +23,9 @@ export function classifyMqttError(error) {
 
   if (
     status === 401 || status === 403 ||
-    /not logged in|login_blocked|blocked the login|checkpoint|invalid.*session|auth/.test(text)
+    // Keep the pattern specific: avoid matching transient strings like "authorization timeout"
+    // or "auth error" that appear in normal WebSocket errors and are NOT real session failures.
+    /not logged in|login_blocked|blocked the login|checkpoint|invalid.*session|not.*authenticated|session.*expired|credentials.*invalid/.test(text)
   ) return "AUTH_FAILED";
 
   if (/rate.?limit|too many requests|429/.test(text)) return "RATE_LIMITED";
@@ -35,7 +37,8 @@ export function classifyMqttError(error) {
 
 function fullJitter(attempt, baseMs, capMs) {
   const ceiling = Math.min(capMs, baseMs * (2 ** Math.min(attempt, 12)));
-  return Math.floor(Math.random() * Math.max(baseMs, ceiling));
+  // Minimum 500 ms so the first reconnect never fires at 0 ms (avoids FB rate-limit).
+  return Math.max(500, Math.floor(Math.random() * Math.max(baseMs, ceiling)));
 }
 
 export class MqttConnectionManager extends EventEmitter {
@@ -176,8 +179,10 @@ export class MqttConnectionManager extends EventEmitter {
 
       this.connectedSince = Date.now();
       this.lastConnectAt = this.connectedSince;
+      // Keep lastEventAt current so the watchdog doesn't fire immediately;
+      // state moves to CONNECTED on the first real event from _recordEvent().
       this.lastEventAt = this.connectedSince;
-      this.state = "CONNECTED";
+      this.state = "CONNECTING";
       this.consecutiveErrors = 0;
       this._emitState();
       this.emit("connected", { reason });
@@ -246,6 +251,8 @@ export class MqttConnectionManager extends EventEmitter {
     if (this.connectedSince && Date.now() - this.connectedSince >= this.options.stableWindowMs) {
       this.reconnectAttempts = 0;
       this.cooldownUntil = 0;
+      // Reset consecutive error count once the session has been stable for stableWindowMs.
+      this.consecutiveErrors = 0;
     }
     this.state = "CONNECTED";
     this._emitState();
@@ -291,6 +298,14 @@ export class MqttConnectionManager extends EventEmitter {
     this.pingTimer = setTimeout(() => {
       if (this._socketAlive()) {
         this.lastPingAt = Date.now();
+        // A quiet account may not emit an application event after connect.
+        // The transport ping is still a valid readiness signal; otherwise a
+        // healthy idle bot would remain stuck in CONNECTING forever.
+        if (this.state !== "AUTH_FAILED" && this.state !== "CONNECTED") {
+          this.state = "CONNECTED";
+          this._emitState();
+        }
+        this._resetReconnectBudgetIfStable();
         this.emit("ping_ok", this.health());
       }
       else if (this.state !== "AUTH_FAILED") void this.reconnect("ping_failed");
@@ -301,6 +316,14 @@ export class MqttConnectionManager extends EventEmitter {
 
   _emitState() {
     try { this._onState?.(this.health()); } catch (_) {}
+  }
+
+  _resetReconnectBudgetIfStable() {
+    if (!this.connectedSince) return;
+    if (Date.now() - this.connectedSince < this.options.stableWindowMs) return;
+    this.reconnectAttempts = 0;
+    this.cooldownUntil = 0;
+    this.consecutiveErrors = 0;
   }
 }
 

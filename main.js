@@ -96,8 +96,7 @@ global.reloadCommands = () => loadCommands(COMMANDS_DIR);
   process.on(sig, async () => {
     console.log(`[SHUTDOWN] ${sig} — جاري حفظ البيانات...`);
     for (const botApi of global.botApis) {
-      botApi._sessionGuard?.stop();
-      botApi._sessionExtender?.stop();
+      try { await botApi.__stopSessionLifecycle?.(); } catch (_) {}
       botApi._scheduler?.destroy();
       // تحرير ملف القفل حتى لا يبقى orphan lock عند إعادة التشغيل
       try { botApi.__sessionLock?.release(); } catch (_) {}

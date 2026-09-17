@@ -174,6 +174,10 @@ function startListening(api, botIndex, botSessionGuard) {
   api.__stopWatchdog = () => manager.stop();
   api.__restartWatchdog = () => manager.start();
   api.__mqttHealth = manager.health();
+  // MQTT is the single authority for transport liveness.  SessionGuard
+  // receives a heartbeat from real socket health, but never starts a second
+  // reconnect loop of its own.
+  manager.on("ping_ok", () => botSessionGuard?.heartbeat());
   manager.on("auth_failed", (health) => {
     console.error(`[MQTT:${label}] AppState مرفوض؛ لن تتم إعادة المصادقة تلقائياً.`, health.lastError || "auth failed");
   });
@@ -188,6 +192,17 @@ function startListening(api, botIndex, botSessionGuard) {
 async function onBotReady(api, botIndex) {
   const label      = `Bot-${botIndex}`;
   const isFirstBot = botIndex === 1;
+  api.__lifecycleStopped = false;
+  api.__stopSessionLifecycle = async () => {
+    if (api.__lifecycleStopped) return;
+    api.__lifecycleStopped = true;
+    clearTimeout(api.__appStateSaveTimer);
+    api.__appStateSaveTimer = null;
+    try { api._sessionExtender?.stop(); } catch (_) {}
+    try { api._cookieRefresher?.stop(); } catch (_) {}
+    try { api._sessionGuard?.stop(); } catch (_) {}
+    try { await api.__mqttManager?.stop(); } catch (_) {}
+  };
 
   const baseOptions = {
     forceLogin:     true,
@@ -253,7 +268,11 @@ async function onBotReady(api, botIndex) {
   let _cookieRefresherRef = null;
   if (typeof createCookieRefresher === "function" && api._ctx && api._defaultFuncs) {
     const cookieRefresher = createCookieRefresher({
-      intervalMs:     15 * 60 * 1000,   // ★ v2: كل 15 دقيقة (بدلاً من 30)
+      // Do not perform periodic browsing/warm-up requests.  The refresher is
+      // retained as an on-demand mechanism used only when expiry inspection
+      // says a refresh is necessary.
+      enabled:        false,
+      intervalMs:     60 * 60 * 1000,
       backupEnabled:  false,
       appStatePath: null,
       onAppStateUpdate: (state) => saveAppStateForBot(state, botIndex),
@@ -261,32 +280,24 @@ async function onBotReady(api, botIndex) {
     cookieRefresher.attach(api._ctx, api._defaultFuncs);
     _cookieRefresherRef = cookieRefresher;
     api._cookieRefresher = cookieRefresher;
-    console.log(`[SESSION:${label}] ✅ CookieRefresher نشط (كل 30 دقيقة)`);
+    console.log(`[SESSION:${label}] ✅ CookieRefresher جاهز عند الحاجة فقط`);
   }
   let sessionGuard = null;
   if (typeof createSessionGuard === "function") {
     sessionGuard = createSessionGuard({
       enabled:            true,
-      watchdogIdleMs:     10 * 60 * 1000,
+      // MqttConnectionManager owns reconnect decisions.  SessionGuard is
+      // only persistence/diagnostics, so its idle alarm must not compete
+      // with the MQTT stale threshold.
+      watchdogIdleMs:     30 * 60 * 1000,
       watchdogIntervalMs: 60_000,
     });
     if (api._ctx) {
       sessionGuard.attach(api._ctx, {
-        // ── [FIX #9] onStale يستخدم __forceReconnect بدلاً من startListening() ──
-        // startListening() ينشئ closure جديد بكامل timers/متغيرات جديدة مما يُفضي
-        // إلى نسخ MQTT/watchdog/sweep متعددة تتراكم مع الزمن.
-        // __forceReconnect يُعيد تشغيل اتصال MQTT فقط داخل نفس الـ closure الأصلي.
-        onStale: (_ctx) => {
-          console.warn(`[SESSION:${label}] ⚠️ الجلسة خاملة منذ 10 دقائق — إعادة اتصال MQTT...`);
-          try {
-            if (typeof api.__forceReconnect === "function") {
-              api.__forceReconnect();
-              console.log(`[SESSION:${label}] 🔄 MQTT أُعيد تشغيله بنجاح`);
-            }
-          } catch (reconnErr) {
-            console.error(`[SESSION:${label}] ❌ فشل إعادة الاتصال:`, reconnErr.message);
-          }
-        },
+        onStale: () => console.warn(
+          `[SESSION:${label}] ⚠️ لا يوجد نشاط تطبيقي منذ 30 دقيقة؛ ` +
+          `سيستمر مدير MQTT في مراقبة النقل دون إعادة اتصال مزدوجة.`
+        ),
       });
     }
     api._sessionGuard = sessionGuard;
@@ -301,9 +312,11 @@ async function onBotReady(api, botIndex) {
       botIndex,
       cookieRefresher: _cookieRefresherRef,
       sessionGuard,
-      checkIntervalMs:     30 * 60 * 1_000,          // ★ v2: فحص كل 30 دقيقة
+      checkIntervalMs:     6 * 60 * 60 * 1_000,
       refreshThresholdMs:  14 * 24 * 60 * 60 * 1_000, // ★ v2: جدِّد إذا < 14 يوم
-      keepAliveIntervalMs:  6 * 60 * 60 * 1_000,       // ★ v2: keep-alive كل 6 ساعات
+      // No synthetic presence/keep-alive traffic.  Expiry checks remain
+      // available, and a refresh is performed only when required.
+      keepAliveIntervalMs: 0,
       onAppStateSave: (state) => saveAppStateForBot(state, botIndex), // ★ v2: حفظ تلقائي
       onExtended: ({ count }) => {
         // احفظ الحالة الجديدة في الذاكرة + MongoDB بعد كل تجديد
@@ -317,7 +330,7 @@ async function onBotReady(api, botIndex) {
     extender.start();
     api._sessionExtender = extender;
     if (isFirstBot) global.sessionExtender = extender;
-    console.log(`[EXTENDER:${label}] ✅ SessionExtender نشط (فحص كل 60 دقيقة)`);
+    console.log(`[EXTENDER:${label}] ✅ SessionExtender نشط (فحص كل 6 ساعات، دون keep-alive اصطناعي)`);
   }
   if (typeof StealthMode === "function") {
     api.__stealth = new StealthMode({
@@ -358,8 +371,8 @@ async function onBotReady(api, botIndex) {
     if (isFirstBot) global.appState = freshState;
   }
   (function scheduleAppStateSave() {
-    const delayMs = (30 + Math.random() * 30) * 60 * 1000; // ★ v2: 30–60 دقيقة (بدلاً من 90–150)
-    setTimeout(() => {
+    const delayMs = (60 + Math.random() * 60) * 60 * 1000;
+    api.__appStateSaveTimer = setTimeout(() => {
       try {
         const refreshed = api.getAppState();
         if (refreshed?.length) {
@@ -368,8 +381,9 @@ async function onBotReady(api, botIndex) {
           sessionGuard?.save();
         }
       } catch (_) {}
-      scheduleAppStateSave();
+      if (!api.__lifecycleStopped) scheduleAppStateSave();
     }, delayMs);
+    api.__appStateSaveTimer.unref?.();
   })();
   startListening(api, botIndex, sessionGuard);
   // E2EE intentionally disabled: only ordinary group events are processed.
@@ -446,6 +460,7 @@ function loginBotWithAppState(account, onFallback) {
         await onBotReady(api, index);
       } catch (e) {
         console.error(`[LOGIN:${label}] ❌ onBotReady فشل:`, e.message);
+        try { await api.__stopSessionLifecycle?.(); } catch (_) {}
         sessionLock.release();
         throw e;
       }
