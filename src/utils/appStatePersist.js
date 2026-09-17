@@ -115,41 +115,23 @@ export async function loadAppStateFromMongo(botIndex = 1) {
  * @returns {Promise<{ state: Array, source: "env"|"mongo"|null }>}
  */
 export async function resolveAppState(envState, botIndex = 1) {
-  const mongoDoc = await loadAppStateFromMongo(botIndex);
+  // APPSTATE الموجود في البيئة هو المصدر الصريح الذي اختاره المشغّل.
+  // لا نستبدله بسجل MongoDB لمجرد أن savedAt أحدث من وقت إقلاع العملية؛
+  // وقت الحفظ لا يثبت أن جلسة MongoDB صالحة أو أحدث من متغير البيئة.
+  if (_validateAppState(envState)) {
+    console.log("[APPSTATE] 🔑 استخدام AppState من متغير البيئة (أولوية المصدر الصريح)");
+    return { state: envState, source: "env" };
+  }
 
-  if (!envState && !mongoDoc) {
+  const mongoDoc = await loadAppStateFromMongo(botIndex);
+  if (!mongoDoc) {
     console.error("[APPSTATE] ❌ لا يوجد AppState لا في البيئة ولا في MongoDB");
     return { state: null, source: null };
   }
 
-  if (!mongoDoc) {
-    console.log("[APPSTATE] 🔑 استخدام AppState من متغير البيئة (لا يوجد سجل MongoDB)");
-    return { state: envState, source: "env" };
-  }
-
-  if (!envState) {
-    console.log("[APPSTATE] 🔑 استخدام AppState من MongoDB (متغير البيئة فارغ)");
-    _syncEnvFromMongo(mongoDoc.appState);
-    return { state: mongoDoc.appState, source: "mongo" };
-  }
-
-  const processStartMs = Date.now() - Math.round(process.uptime() * 1_000);
-  const mongoSavedMs   = mongoDoc.savedAt instanceof Date
-    ? mongoDoc.savedAt.getTime()
-    : new Date(mongoDoc.savedAt).getTime();
-
-  if (mongoSavedMs > processStartMs) {
-    const diffMin = Math.round((mongoSavedMs - processStartMs) / 60_000);
-    console.log(
-      `[APPSTATE] 🔄 MongoDB أحدث بـ ${diffMin} دقيقة من إقلاع العملية` +
-      ` — استخدام جلسة MongoDB (Bot-${botIndex})`
-    );
-    _syncEnvFromMongo(mongoDoc.appState);
-    return { state: mongoDoc.appState, source: "mongo" };
-  }
-
-  console.log("[APPSTATE] 🔑 متغير البيئة هو الأحدث — استخدامه");
-  return { state: envState, source: "env" };
+  console.log("[APPSTATE] 🔑 استخدام AppState من MongoDB (متغير البيئة فارغ أو غير صالح)");
+  _syncEnvFromMongo(mongoDoc.appState);
+  return { state: mongoDoc.appState, source: "mongo" };
 }
 
 // ── فحص انتهاء الصلاحية ──────────────────────────────────────────────────────
