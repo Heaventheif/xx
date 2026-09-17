@@ -1,1 +1,74 @@
-'use strict';const a0_0x2b6813=a0_0x47e9;(function(_0x4dd8b6,_0x1cc115){const _0x5a8049=a0_0x47e9,_0xbfb104=_0x4dd8b6();while(!![]){try{const _0x2d87fc=-parseInt(_0x5a8049(0xfa))/0x1*(-parseInt(_0x5a8049(0xc9))/0x2)+-parseInt(_0x5a8049(0xc3))/0x3*(parseInt(_0x5a8049(0xd2))/0x4)+-parseInt(_0x5a8049(0xeb))/0x5*(parseInt(_0x5a8049(0xdc))/0x6)+parseInt(_0x5a8049(0xc2))/0x7*(-parseInt(_0x5a8049(0xc6))/0x8)+parseInt(_0x5a8049(0xcf))/0x9+-parseInt(_0x5a8049(0xdb))/0xa*(parseInt(_0x5a8049(0xd5))/0xb)+parseInt(_0x5a8049(0xc5))/0xc;if(_0x2d87fc===_0x1cc115)break;else _0xbfb104['push'](_0xbfb104['shift']());}catch(_0x2015bb){_0xbfb104['push'](_0xbfb104['shift']());}}}(a0_0x19b2,0x9b4e6));function a0_0x47e9(_0x4a1977,_0x167486){_0x4a1977=_0x4a1977-0xc0;const _0x19b298=a0_0x19b2();let _0x47e9e6=_0x19b298[_0x4a1977];if(a0_0x47e9['kRPeSv']===undefined){var _0x2c5f4f=function(_0x5c6532){const _0x1328a3='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5770e5='',_0x262cb2='';for(let _0x180905=0x0,_0x166890,_0x486182,_0x41ba80=0x0;_0x486182=_0x5c6532['charAt'](_0x41ba80++);~_0x486182&&(_0x166890=_0x180905%0x4?_0x166890*0x40+_0x486182:_0x486182,_0x180905++%0x4)?_0x5770e5+=String['fromCharCode'](0xff&_0x166890>>(-0x2*_0x180905&0x6)):0x0){_0x486182=_0x1328a3['indexOf'](_0x486182);}for(let _0xa1283d=0x0,_0x58ff61=_0x5770e5['length'];_0xa1283d<_0x58ff61;_0xa1283d++){_0x262cb2+='%'+('00'+_0x5770e5['charCodeAt'](_0xa1283d)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x262cb2);};a0_0x47e9['xHbico']=_0x2c5f4f,a0_0x47e9['psCVjB']={},a0_0x47e9['kRPeSv']=!![];}const _0x30075a=_0x19b298[0x0];a0_0x47e9['TtOhVH']!==_0x30075a&&(a0_0x47e9['psCVjB']={},a0_0x47e9['TtOhVH']=_0x30075a);const _0x2b2454=a0_0x47e9['psCVjB'][_0x4a1977];return _0x2b2454===undefined?(_0x47e9e6=a0_0x47e9['xHbico'](_0x47e9e6),a0_0x47e9['psCVjB'][_0x4a1977]=_0x47e9e6):_0x47e9e6=_0x2b2454,_0x47e9e6;}import a0_0x3499b5 from'../../utils/fetchHttp.js';function a0_0x19b2(){const _0x35c70c=['CMvZCg9UC2u','yxvKAw8','C3vIC3rYAw5N','2ldzG9IN2keG2kFyTDI32yByP9I52yO','zxjYB3i','s1z1vwe','D2f2','2ytzHTI1','yxbWBgLJyxrPB24VANnVBG','ms4WlJa','zg9JDw1LBNq','B2DN','nti2mtKZmezrELHvtG','8j+tNsa','Cg9W','2kpySDIZ2yqG2yxzGTI32lNyP9MlinI12yJyQTMk2kFzIYdzHDI5inIN2ytyO9Mf2leG2yxyQnIN2ltySDIP','DM9Py2vFBwvZC2fNzq','w3n0DdPMzxrJAfrYyw5Zy3jPChrD','EhGTy29TBwfUzhmTywKTC3r0','BwvZC2fNzq','Dg9mB3DLCKnHC2u','E3bUFxnZDcaO2ypySDIVinI52ytzIsdzHDIX2yhzGIdyTDMi2kRzIIKG4OcuinMk2yhySDMr2lOG2kFzHnI12yJyQIdyPDMe2yKG2yByTq','C3r0','z2vJzMq','BMfTzq','zxH0','yxvKAw9vCMW','mte3nZyZmhDbENj5uG','w1nuvokgKKHgxq','CMvWBhK','zgf0yq','nJyZnJmYouTUCLL1AG','mZyYodKYtLf3ENnc','zvntBeO','mJy5ntu1nJrIvuHLBwS','oeLMywjPzG','2kRzGDIX2yRyUIaOvhjHBNnJCMLIzsKG2yxzGTI32lKG2lxzInIQ2yOG2kxzHnMjinMg2luG4OcuinIS2lpySsdyPDMe2yKGC3r0lMDV','BxaZ','mKniDez1Cq','C3rHDhvZ','BtrH','C3jJl2nVBw1HBMrZl2fPl3n0Dc5QCW','zMLSzw5HBwu','DxjS','nJm0mZG4nfvgruLdrG','yxr0ywnOBwvUDhm','l2DLBwLUAs9ZDhq','mJbnuuH1DwO','zxrXC0y','C2fMzvnLBMq','ndG4mdC4ohbcuefMvq','s0P0tuC','BwvZC2fNzvjLCgX5','y29TBwfUzc1HAq','DxjP','DhLWzq','mJbiBMnAzxu','nM9OD2fUtW','zMXHyW','yxr0ywnOBwvUDfr5Cgu'];a0_0x19b2=function(){return _0x35c70c;};return a0_0x19b2();}import{getHfBase,getInternalToken}from'../../utils/hfClient.js';const AUDIO_EXTS=[a0_0x2b6813(0xc8),a0_0x2b6813(0xcb),a0_0x2b6813(0xea),a0_0x2b6813(0xe5),a0_0x2b6813(0xdd),'aac'];function detectAudioAttachment(_0x3995e6){const _0x2ba688=a0_0x2b6813,_0x3cb8d0={'gecfd':function(_0x4f014b,_0x502b10){return _0x4f014b===_0x502b10;},'KJtMG':'file'},_0x43f068=[..._0x3995e6['attachments']||[],..._0x3995e6[_0x2ba688(0xd7)]?.[_0x2ba688(0xd0)]||[]];for(const _0x39caa7 of _0x43f068){if(!_0x39caa7)continue;const _0x3a84b8=(_0x39caa7[_0x2ba688(0xda)]||_0x39caa7[_0x2ba688(0xde)]||'')[_0x2ba688(0xf3)]();if(_0x3a84b8===_0x2ba688(0xe0)||_0x3a84b8===_0x2ba688(0xef)){const _0x3e5905=_0x39caa7[_0x2ba688(0xce)]||_0x39caa7[_0x2ba688(0xf9)]||_0x39caa7[_0x2ba688(0xd9)];if(_0x3e5905)return{'url':_0x3e5905,'ext':''};}if(_0x3cb8d0[_0x2ba688(0xf6)](_0x3a84b8,_0x3cb8d0[_0x2ba688(0xd6)])||_0x3cb8d0[_0x2ba688(0xf6)](_0x3a84b8,_0x2ba688(0xe9))){const _0x83dc4a=(_0x39caa7[_0x2ba688(0xcd)]||_0x39caa7[_0x2ba688(0xf7)]||'')['split']('.')[_0x2ba688(0xed)]()[_0x2ba688(0xf3)](),_0x12f7d7=_0x39caa7['url']||_0x39caa7[_0x2ba688(0xd9)];if(_0x12f7d7&&AUDIO_EXTS['includes'](_0x83dc4a))return{'url':_0x12f7d7,'ext':_0x83dc4a};}}return null;}async function fetchTranscript(_0x3e9537,_0x3b09dd){const _0x19f303=a0_0x2b6813,_0x4b71a9={'etqsF':_0x19f303(0xe7),'KVuUa':'استجابة\x20فارغة'},{data:_0x4e8208}=await a0_0x3499b5['post'](getHfBase()+_0x19f303(0xd1),{'audio_url':_0x3e9537,'ext':_0x3b09dd||''},{'timeout':0xea60,'headers':{'Content-Type':_0x4b71a9[_0x19f303(0xd3)],'X-Internal-Token':getInternalToken()}});if(!_0x4e8208?.['transcript'])throw new Error(_0x4e8208?.[_0x19f303(0xe3)]||_0x4b71a9[_0x19f303(0xe4)]);return _0x4e8208['transcript'];}export default{'config':{'name':a0_0x2b6813(0xf5),'aliases':[a0_0x2b6813(0xe6)],'version':a0_0x2b6813(0xe8),'role':0x0,'countDown':0x8,'category':a0_0x2b6813(0xe2),'description':a0_0x2b6813(0xc7),'usage':[a0_0x2b6813(0xf4),a0_0x2b6813(0xee)]},'onStart':async({api:_0x593bb5,event:_0x27b15b,message:_0xbc270f})=>{const _0x420045=a0_0x2b6813,_0x58de3a={'eSSlJ':_0x420045(0xf0)},{threadID:_0x46bd7b,messageID:_0x479cfb}=_0x27b15b,_0x306579=detectAudioAttachment(_0x27b15b);if(!_0x306579)return _0xbc270f[_0x420045(0xc0)]('❌\x20أرفق\x20مقطعاً\x20صوتياً\x20أو\x20رُدّ\x20على\x20رسالة\x20فيها\x20مقطع\x20صوتي\x20مع\x20هذا\x20الأمر.');try{const _0x346601=await fetchTranscript(_0x306579[_0x420045(0xce)],_0x306579[_0x420045(0xf8)]);return global[_0x420045(0xd4)](_0x593bb5,_0x420045(0xec)+_0x346601,_0x46bd7b,null,_0x479cfb);}catch(_0x28d721){console['error'](_0x420045(0xfb),_0x28d721[_0x420045(0xdf)]?.[_0x420045(0xca)],_0x28d721['message']?.[_0x420045(0xe1)](0x0,0xc8)),console[_0x420045(0xe3)](_0x58de3a[_0x420045(0xc4)],_0x28d721['message']);const _0x343500=_0x28d721['response']?.[_0x420045(0xc1)]?.[_0x420045(0xe3)]||_0x28d721[_0x420045(0xf2)];await _0xbc270f[_0x420045(0xc0)]('❌\x20فشل\x20التفريغ:\x20'+_0x343500);}}};export const $plugin={'name':a0_0x2b6813(0xf1),'meta':{'category':a0_0x2b6813(0xd8),'path':a0_0x2b6813(0xcc)},'setup'(_0x510271){}};
+"use strict";
+import http from "../../utils/fetchHttp.js";
+import { getHfBase, getInternalToken } from "../../utils/hfClient.js";
+const AUDIO_EXTS = ["mp3", "m4a", "ogg", "wav", "flac", "aac"];
+function detectAudioAttachment(event) {
+  const sources = [
+    ...(event.attachments || []),
+    ...(event.messageReply?.attachments || []),
+  ];
+  for (const att of sources) {
+    if (!att) continue;
+    const type = (att.type || att.attachmentType || "").toLowerCase();
+    if (type === "audio" || type === "voice_message") {
+      const url = att.url || att.audioUrl || att.uri;
+      if (url) return { url, ext: "" };
+    }
+    if (type === "file" || type === "document") {
+      const ext = (att.filename || att.name || "").split(".").pop().toLowerCase();
+      const url = att.url || att.uri;
+      if (url && AUDIO_EXTS.includes(ext)) return { url, ext };
+    }
+  }
+  return null;
+}
+async function fetchTranscript(audioUrl, ext) {
+  const { data } = await http.post(
+    `${getHfBase()}/gemini/stt`,
+    { audio_url: audioUrl, ext: ext || "" },
+    { timeout: 60000, headers: { "Content-Type": "application/json", "X-Internal-Token": getInternalToken() } }
+  );
+  if (!data?.transcript) throw new Error(data?.error || "استجابة فارغة");
+  return data.transcript;
+}
+export default {
+  config: {
+    name: "stt", 
+    aliases: ["لنص"],
+    version: "1.0.0",
+    role: 0,
+    countDown: 8,
+    category: "ذكاء اصطناعي",
+    description: "تفريغ (Transcribe) مقطع صوتي إلى نص — جسر إلى stt.go",
+    usage: [
+      "{pn}sst (كرد على مرفق صوتي) — يفرّغ الصوت إلى نص",
+      "أرسل مقطعاً صوتياً مع الأمر مباشرة",
+    ],
+  },
+  onStart: async ({ api, event, message }) => {
+    const { threadID, messageID } = event;
+    const att = detectAudioAttachment(event);
+    if (!att) {
+      return message.reply("❌ أرفق مقطعاً صوتياً أو رُدّ على رسالة فيها مقطع صوتي مع هذا الأمر.");
+    }
+    try {
+      const transcript = await fetchTranscript(att.url, att.ext);
+      return global.safeSend(api, `📝 ${transcript}`, threadID, null, messageID);
+    } catch (e) {
+      console.error("[STT→HF]", e.response?.status, e.message?.substring(0, 200));
+      console.error("[stt:fetchTranscript]", e.message);
+      const msg = e.response?.data?.error || e.message;
+      await message.reply(`❌ فشل التفريغ: ${msg}`);
+    }
+  },
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-ai-stt',
+  meta: { category: 'command-ai', path: 'src/commands/ai/stt.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

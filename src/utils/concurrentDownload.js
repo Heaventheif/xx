@@ -1,1 +1,32 @@
-'use strict';const a0_0x3c286a=a0_0xc4ad;(function(_0x5cadc1,_0x805d89){const _0x1e35a1=a0_0xc4ad,_0x516fe2=_0x5cadc1();while(!![]){try{const _0x5354c1=parseInt(_0x1e35a1(0x1b0))/0x1*(-parseInt(_0x1e35a1(0x1b3))/0x2)+parseInt(_0x1e35a1(0x1ac))/0x3+parseInt(_0x1e35a1(0x1af))/0x4+-parseInt(_0x1e35a1(0x1aa))/0x5+-parseInt(_0x1e35a1(0x1b4))/0x6*(-parseInt(_0x1e35a1(0x1ad))/0x7)+parseInt(_0x1e35a1(0x1ae))/0x8+-parseInt(_0x1e35a1(0x1b1))/0x9;if(_0x5354c1===_0x805d89)break;else _0x516fe2['push'](_0x516fe2['shift']());}catch(_0x3e033c){_0x516fe2['push'](_0x516fe2['shift']());}}}(a0_0x133c,0xa986f));function a0_0x133c(){const _0x94532=['C3jJl3v0AwXZl2nVBMn1CNjLBNreB3DUBg9Hzc5QCW','zMLSBa','otqWodaWt3jntezb','ywXS','mJiZnZq3oeHysenzDa','mZK3nNndCNvkDW','ntu4mte0neHJEunzAq','ntu1mtm5nKrYtwfHDq','mJG5nZLPww5MzKu','nJu0mZKXoeDxCNLwAW','BgvUz3rO','odz6quzQt3i','mJu4qKDnqufd','EhGTDxrPBhmTy29Uy3vYCMvUDc1KB3DUBg9Hza'];a0_0x133c=function(){return _0x94532;};return a0_0x133c();}function a0_0xc4ad(_0x445ad6,_0x158e98){_0x445ad6=_0x445ad6-0x1aa;const _0x133cdc=a0_0x133c();let _0xc4ad22=_0x133cdc[_0x445ad6];if(a0_0xc4ad['nbumTQ']===undefined){var _0x217f9c=function(_0x5e4e65){const _0x383f57='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1adb78='',_0x14672a='';for(let _0x5af7f7=0x0,_0x457f48,_0x2d8da8,_0x465a99=0x0;_0x2d8da8=_0x5e4e65['charAt'](_0x465a99++);~_0x2d8da8&&(_0x457f48=_0x5af7f7%0x4?_0x457f48*0x40+_0x2d8da8:_0x2d8da8,_0x5af7f7++%0x4)?_0x1adb78+=String['fromCharCode'](0xff&_0x457f48>>(-0x2*_0x5af7f7&0x6)):0x0){_0x2d8da8=_0x383f57['indexOf'](_0x2d8da8);}for(let _0x56f19e=0x0,_0x238160=_0x1adb78['length'];_0x56f19e<_0x238160;_0x56f19e++){_0x14672a+='%'+('00'+_0x1adb78['charCodeAt'](_0x56f19e)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x14672a);};a0_0xc4ad['rNOZhE']=_0x217f9c,a0_0xc4ad['rPqkIV']={},a0_0xc4ad['nbumTQ']=!![];}const _0x22cd0a=_0x133cdc[0x0];a0_0xc4ad['JBaHoO']!==_0x22cd0a&&(a0_0xc4ad['rPqkIV']={},a0_0xc4ad['JBaHoO']=_0x22cd0a);const _0x1a5ac3=a0_0xc4ad['rPqkIV'][_0x445ad6];return _0x1a5ac3===undefined?(_0xc4ad22=a0_0xc4ad['rNOZhE'](_0xc4ad22),a0_0xc4ad['rPqkIV'][_0x445ad6]=_0xc4ad22):_0xc4ad22=_0x1a5ac3,_0xc4ad22;}export async function downloadWithLimit(_0x4bb00e,_0x3685bd,_0x3a53bb=0x6){const _0x35a9bf=a0_0xc4ad,_0x1ebffb=new Array(_0x4bb00e[_0x35a9bf(0x1b2)])[_0x35a9bf(0x1b7)](null);let _0x5698aa=0x0;async function _0x48fe95(){while(_0x5698aa<_0x4bb00e['length']){const _0x20f84c=_0x5698aa++;try{_0x1ebffb[_0x20f84c]=await _0x3685bd(_0x4bb00e[_0x20f84c],_0x20f84c);}catch{_0x1ebffb[_0x20f84c]=null;}}}return await Promise[_0x35a9bf(0x1ab)](Array['from']({'length':Math['min'](_0x3a53bb,_0x4bb00e['length'])},_0x48fe95)),_0x1ebffb;}export const $plugin={'name':a0_0x3c286a(0x1b5),'meta':{'category':'utils','path':a0_0x3c286a(0x1b6)},'setup'(_0xc2ebd1){}};
+"use strict";
+/**
+ * تحميل مجموعة عناصر بالتوازي مع حد أقصى للتزامن.
+ *
+ * @param {any[]}    items    - قائمة المدخلات (روابط، معرفات، ...)
+ * @param {Function} fetchFn  - دالة async تأخذ (item, index) وتُعيد النتيجة
+ * @param {number}   limit    - الحد الأقصى للعمليات المتزامنة (افتراضي 6)
+ * @returns {Promise<(any|null)[]>} - نفس طول items، null عند فشل أي عنصر
+ */
+export async function downloadWithLimit(items, fetchFn, limit = 6) {
+  const results = new Array(items.length).fill(null);
+  let next = 0;
+  async function worker() {
+    while (next < items.length) {
+      const i = next++;
+      try { results[i] = await fetchFn(items[i], i); }
+      catch { results[i] = null; }
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return results;
+}
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-concurrent-download',
+  meta: { category: 'utils', path: 'src/utils/concurrentDownload.js' },
+  setup(_ctx) {
+    // provides: downloadWithLimit
+  },
+};

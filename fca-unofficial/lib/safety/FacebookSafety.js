@@ -1,5 +1,4 @@
 import { SafeTimerRegistry } from './SafeTimerRegistry.js';
-import { pickSessionProfile } from './stealth-profiles.js';
 import {
   nextPoisson,
   nextLogNormal,
@@ -10,19 +9,18 @@ import {
 } from '../utils/human-timing.js';
 import fs from 'fs';
 import path from 'path';
-import { canWriteBackup, encryptBackupString, decryptBackupString } from './backup-crypto.js';
 
 export default class FacebookSafety {
   constructor(opts = {}) {
     this.options = {
       enableSafeHeaders: true,
-      enableHumanBehavior: false,
-      enableAntiDetection: false,
-      enableAutoRefresh: false,
+      enableHumanBehavior: true,
+      enableAntiDetection: true,
+      enableAutoRefresh: true,
       enableLoginValidation: true,
-      enableSafeDelays: false,
-      bypassRegionLock: false,
-      ultraLowBanMode: false,
+      enableSafeDelays: true,
+      bypassRegionLock: true,
+      ultraLowBanMode: true,
       enableUAContinuity: true,
       ...opts,
     };
@@ -39,9 +37,7 @@ export default class FacebookSafety {
     ];
 
     this.regions = ['ASH', 'ATL', 'DFW', 'ORD', 'PHX', 'SJC', 'IAD'];
-    // Do not invent a region. Let Facebook and the authenticated session
-    // determine routing; mismatched region headers are brittle.
-    this.currentRegion = null;
+    this.currentRegion = this.regions[Math.floor(Math.random() * this.regions.length)];
 
     this.humanDelayPatterns = {
       typing: { min: 800, max: 2500 },
@@ -114,36 +110,22 @@ export default class FacebookSafety {
   }
 
   getSafeUserAgent() {
-    if (this._fixedUA) return this._fixedUA;
-    // Use the same stealth profile as MQTT for a consistent HTTP fingerprint.
-    return pickSessionProfile(this.ctx || null).userAgent;
+    if (!this.options.enableUAContinuity) return this.safeUserAgents[0];
+    if (!this._fixedUA) this._fixedUA = this.safeUserAgents[0];
+    return this._fixedUA;
   }
 
   applySafeHeaders(extra = {}) {
-    // Pick the session-pinned stealth profile so HTTP and MQTT share the same UA.
-    const profile = pickSessionProfile(this.ctx || null);
-    const ua = this._fixedUA || profile.userAgent;
-
     const h = {
-      'User-Agent': ua,
+      'User-Agent': this.getSafeUserAgent(),
       Accept:
         'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-      'Accept-Language': profile.acceptLanguage || 'en-US,en;q=0.9',
+      'Accept-Language': 'en-US,en;q=0.9',
       DNT: '1',
       Connection: 'keep-alive',
       'Cache-Control': 'max-age=0',
+      ...extra,
     };
-
-    // Add Chromium client-hints only for Chromium-based profiles;
-    // Firefox never sends sec-ch-ua, so omitting them is correct for Firefox profiles.
-    if (!profile.isFirefox) {
-      if (profile.secChUa)         h['sec-ch-ua']          = profile.secChUa;
-      if (profile.secChUaMobile)   h['sec-ch-ua-mobile']   = profile.secChUaMobile;
-      if (profile.secChUaPlatform) h['sec-ch-ua-platform'] = profile.secChUaPlatform;
-    }
-
-    Object.assign(h, extra);
-
     const region = this.ctx?.region || (this.options.bypassRegionLock && this.currentRegion);
     if (region) h['X-MSGR-Region'] = region;
     return h;
@@ -519,7 +501,6 @@ export default class FacebookSafety {
   _saveToSafetyStore() {
     if (!this.ctx?.fb_dtsg) return;
     try {
-      if (!canWriteBackup()) return;
       const data = JSON.stringify(
         {
           fb_dtsg: this.ctx.fb_dtsg,
@@ -532,7 +513,7 @@ export default class FacebookSafety {
       const dir = path.dirname(this.safetyStorePath);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
       const tmp = `${this.safetyStorePath}.tmp.${process.pid}`;
-      fs.writeFileSync(tmp, encryptBackupString(data), { encoding: 'utf8', mode: 0o600 });
+      fs.writeFileSync(tmp, data, { encoding: 'utf8', mode: 0o600 });
       fs.renameSync(tmp, this.safetyStorePath);
     } catch {
       
@@ -542,9 +523,7 @@ export default class FacebookSafety {
   _loadFromSafetyStore() {
     try {
       if (!fs.existsSync(this.safetyStorePath)) return;
-      const decrypted = decryptBackupString(fs.readFileSync(this.safetyStorePath, 'utf8'));
-      if (!decrypted) return;
-      const stored = JSON.parse(decrypted);
+      const stored = JSON.parse(fs.readFileSync(this.safetyStorePath, 'utf8'));
       if (stored.fb_dtsg && this.ctx && !this.ctx.fb_dtsg)
         Object.assign(this.ctx, { fb_dtsg: stored.fb_dtsg, jazoest: stored.jazoest });
     } catch {

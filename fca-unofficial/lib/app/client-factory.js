@@ -45,9 +45,7 @@ export function buildSafetyLayer(opts, api) {
     ? createSessionGuard()
     : null;
 
-  // Background warm-up requests are disabled by default. They add traffic without
-  // improving an otherwise healthy MQTT session and can race with shutdown.
-  const cookieRefresher = (opts.cookieRefresher === true && api._defaultFuncs)
+  const cookieRefresher = (opts.cookieRefresher !== false && api._defaultFuncs)
     ? createCookieRefresher({
         appStatePath: opts.appStatePath,
         intervalMs:   opts.cookieRefreshIntervalMs,
@@ -61,13 +59,11 @@ export function buildSafetyLayer(opts, api) {
       }))
     : null;
 
-  // Do not rotate user-agents, regions, or timing profiles by default. Stable
-  // session identity is safer and less fragile than synthetic "anti-detection".
-  const stealth = opts.stealthMode === true
+  const stealth = opts.stealthMode !== false
     ? (opts.stealthModeInstance || new StealthMode(opts.stealthOptions))
     : null;
 
-  const fbSafety = opts.facebookSafety === true
+  const fbSafety = opts.facebookSafety !== false
     ? (opts.facebookSafetyInstance || new FacebookSafety(opts.facebookSafetyOptions ?? {}))
     : null;
 
@@ -94,15 +90,8 @@ export function buildSafetyLayer(opts, api) {
       }))
     : null;
 
-  // The old default constructed SessionRotationManager without api/context,
-  // causing a recurring rejected rotation loop. Rotation is explicit and keeps
-  // the same session identity when enabled.
-  const sessionRotation = opts.sessionRotation === true
-    ? (opts.sessionRotationInstance || createSessionRotationManager(
-        api,
-        api?._ctx ?? null,
-        opts.sessionRotationOptions ?? {}
-      ))
+  const sessionRotation = opts.sessionRotation !== false
+    ? (opts.sessionRotationInstance || createSessionRotationManager(opts.sessionRotationOptions ?? {}))
     : null;
 
   return {
@@ -154,41 +143,28 @@ export function buildInfraLayer(opts) {
  * @returns {ThreadSendQueue}
  */
 export function buildSendQueue(api, safety, opts) {
-  const { circuitBreaker, recipientLimiter, stealth, antiSuspension, fbSafety } = safety;
+  const { circuitBreaker, recipientLimiter, stealth } = safety;
 
   async function sendFn(msg, threadID, replyToID) {
-    if (circuitBreaker)   await circuitBreaker.call(() => Promise.resolve());
-    if (antiSuspension)   await antiSuspension.gate();
-    if (recipientLimiter) await recipientLimiter.acquire(threadID);
+    if (circuitBreaker)    await circuitBreaker.call(() => Promise.resolve());
+    if (recipientLimiter)  await recipientLimiter.acquire(threadID);
+    if (stealth)           await stealth.waitIfNeeded();
 
-    try {
-      if (stealth) await stealth.waitIfNeeded();
+    return new Promise((resolve, reject) => {
+      const done = (err, result) => {
+        if (err) {
+          circuitBreaker?.recordFailure();
+          reject(err);
+          return;
+        }
+        stealth?.recordRequest();
+        circuitBreaker?.recordSuccess();
+        resolve(result);
+      };
 
-      return await new Promise((resolve, reject) => {
-        const done = (err, result) => {
-          if (err) {
-            circuitBreaker?.recordFailure();
-            reject(err);
-            return;
-          }
-          stealth?.recordRequest();
-          circuitBreaker?.recordSuccess();
-          resolve(result);
-        };
-
-        if (replyToID) api.sendMessage(msg, threadID, replyToID, done);
-        else           api.sendMessage(msg, threadID, done);
-      });
-    } catch (err) {
-      // A checkpoint/security restriction must stop further automated sends.
-      const safety = fbSafety?.checkErrorSafety?.(err);
-      if (safety && !safety.safe) antiSuspension?.stop?.();
-      throw err;
-    } finally {
-      // The previous implementation never released this permit, so every
-      // recipient eventually deadlocked after maxConcurrent sends.
-      recipientLimiter?.release(threadID);
-    }
+      if (replyToID) api.sendMessage(msg, threadID, replyToID, done);
+      else           api.sendMessage(msg, threadID, done);
+    });
   }
 
   return new ThreadSendQueue(sendFn, {

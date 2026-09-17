@@ -1,1 +1,73 @@
-function a0_0x35a8(){const _0x5247b7=['zMfJDa','BwLXrMq','zMfJDhm','2k3zGTMk2ylyQsdyUDMginIN2ytzG9Me2kFyQa','Ahr0Chm6lY9JyxrMywn0lM5PBMPHl2zHy3q','zgf0yq','mZvXqKLPBMq','sgHuDNm','CMvWBgfJzq','nfDct2jira','mJK4ntK1n2roz3HmAW','mJGXmJjdAMj2rfu','E3bUFDIT2yRzInIN2yyG2ylyTYdIGjqG2k3zGTMk2ylyQsdyUDMginIN2ytzGTI32lC','C3bSAxq','2ytyPYdyQTMi2kZyRYdyQnMk2kFzHTIN2kO','Dg9mB3DLCKnHC2u','mZu0mtC5meLUDKTiuG','DhjPBq','mJi4nta1nNL0yxL3EG','EhGTy29TBwfUzhmTzNvUlwfUAw1HBa','2ylyT9IP','2ypzHnIO','2k3zGTMk2ylyQsdyUDMginIN2ytzGTI32lC','z2v0','E3bUFDIT2yRzInIN2yyG4OcuinMk2k7yQTIN2leG2lNyTnMi2kFyPTMk2kFzIYdyQnMk2yyG2ylyT9IPinMi2ypzHnIO','zg9N','E3bUFDMc2lCG4OcuinIT2ylzITMc2kKG2lNzHIdyP9Me2ylyT9I3','Ahr0Chm6lY9KB2DHCgKUzg9Nl2fWAs92mI9Mywn0CW','vhvsyLK','4P2minMb2ltzHcdyRnMe2kGG2kFzHnIT2ylzITMc2kKG4OcuinIT2kFzInMeinMf2lhyQsdyO9IU2lhzIq','mZeZndjcywzuEuK','2k3zITMi2kFzHG','CMfUzg9T','C2fMzvnLBMq','Aw5JBhvKzxm','oduWodK1EgHmug9S','E3bUFDMd2ytyQcdIGjqG2k3zGTMk2ylyQsdyUDMginIN2ytzG9Me2kFyQa','E3bUFDIT2yRzInIN2yyG2ypzHnIOiokaLcdyRDMc2yRzGTIPinI52yyG2kFzHnMd2ytyP9IO','mJD5rLPJEKm','mte5mtG4ofj2BMnlBq','ms4WlJa','2kpzHnI52kFyQcdzInIQ2lhzGDMk2yC'];a0_0x35a8=function(){return _0x5247b7;};return a0_0x35a8();}const a0_0x43f34f=a0_0x4723;(function(_0x50a5c4,_0x3bccf0){const _0x2bf3c1=a0_0x4723,_0x1ca7b6=_0x50a5c4();while(!![]){try{const _0x2fbb53=parseInt(_0x2bf3c1(0xd5))/0x1*(parseInt(_0x2bf3c1(0xf7))/0x2)+parseInt(_0x2bf3c1(0xd6))/0x3+-parseInt(_0x2bf3c1(0xe2))/0x4*(parseInt(_0x2bf3c1(0xd2))/0x5)+parseInt(_0x2bf3c1(0xe4))/0x6*(-parseInt(_0x2bf3c1(0xdf))/0x7)+parseInt(_0x2bf3c1(0xeb))/0x8+-parseInt(_0x2bf3c1(0xe3))/0x9+-parseInt(_0x2bf3c1(0xe9))/0xa;if(_0x2fbb53===_0x3bccf0)break;else _0x1ca7b6['push'](_0x1ca7b6['shift']());}catch(_0x4dd9e6){_0x1ca7b6['push'](_0x1ca7b6['shift']());}}}(a0_0x35a8,0x374af));import a0_0x5e89c6 from'../../utils/fetchHttp.js';import{translateToArabic}from'../../utils/translator.js';const CAT_TRIGGERS=['قط',a0_0x43f34f(0xed)],DOG_TRIGGERS=[a0_0x43f34f(0xee)];async function getCatFact(){const _0x24f794=a0_0x43f34f,_0x47ff27={'TuRbY':_0x24f794(0xe7)},_0x9f142e=await a0_0x5e89c6['get'](_0x24f794(0xdd),{'timeout':0x1f40}),_0x5674d8=_0x9f142e[_0x24f794(0xde)]?.[_0x24f794(0xd9)];if(!_0x5674d8)throw new Error(_0x47ff27[_0x24f794(0xf5)]);return{'emoji':'🐱','label':_0x24f794(0xef),'fact':_0x5674d8};}async function getDogFact(){const _0x1eb0b0=a0_0x43f34f;try{const _0x51c1f4=await a0_0x5e89c6[_0x1eb0b0(0xf0)](_0x1eb0b0(0xf4),{'timeout':0x1770}),_0x191bde=_0x51c1f4['data']?.[_0x1eb0b0(0xde)]?.[0x0]?.['attributes']?.['body'];if(_0x191bde)return{'emoji':'🐶','label':_0x1eb0b0(0xdc),'fact':_0x191bde};}catch(_0x4b648b){}const _0x4cb1b2=await a0_0x5e89c6[_0x1eb0b0(0xf0)]('https://dog-api.kinduff.com/api/facts',{'timeout':0x1f40}),_0x4a7d0d=_0x4cb1b2[_0x1eb0b0(0xde)]?.[_0x1eb0b0(0xdb)]?.[0x0];if(!_0x4a7d0d)throw new Error(_0x1eb0b0(0xe7));return{'emoji':'🐶','label':_0x1eb0b0(0xdc),'fact':_0x4a7d0d};}function a0_0x4723(_0x46a12b,_0x345f8e){_0x46a12b=_0x46a12b-0xce;const _0x35a8df=a0_0x35a8();let _0x472393=_0x35a8df[_0x46a12b];if(a0_0x4723['eLGMes']===undefined){var _0x4880cf=function(_0xcf13df){const _0x28569f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x28b8a1='',_0x38de9a='';for(let _0x4eb54c=0x0,_0x143663,_0x330040,_0x52dacb=0x0;_0x330040=_0xcf13df['charAt'](_0x52dacb++);~_0x330040&&(_0x143663=_0x4eb54c%0x4?_0x143663*0x40+_0x330040:_0x330040,_0x4eb54c++%0x4)?_0x28b8a1+=String['fromCharCode'](0xff&_0x143663>>(-0x2*_0x4eb54c&0x6)):0x0){_0x330040=_0x28569f['indexOf'](_0x330040);}for(let _0x680b4c=0x0,_0xa849c4=_0x28b8a1['length'];_0x680b4c<_0xa849c4;_0x680b4c++){_0x38de9a+='%'+('00'+_0x28b8a1['charCodeAt'](_0x680b4c)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x38de9a);};a0_0x4723['vCfApA']=_0x4880cf,a0_0x4723['Rqqkox']={},a0_0x4723['eLGMes']=!![];}const _0x1c8ffa=_0x35a8df[0x0];a0_0x4723['RHZBSx']!==_0x1c8ffa&&(a0_0x4723['Rqqkox']={},a0_0x4723['RHZBSx']=_0x1c8ffa);const _0x25dd94=a0_0x4723['Rqqkox'][_0x46a12b];return _0x25dd94===undefined?(_0x472393=a0_0x4723['vCfApA'](_0x472393),a0_0x4723['Rqqkox'][_0x46a12b]=_0x472393):_0x472393=_0x25dd94,_0x472393;}async function sendFact(_0xd25501,_0x53fa3c,_0x5f01b8,_0x3b1d1a){const _0xe34929=a0_0x43f34f;try{const {emoji:_0x313c40,label:_0xe49559,fact:_0xbe7095}=_0x3b1d1a===_0xe34929(0xf2)?await getDogFact():await getCatFact(),_0x222524=await translateToArabic(_0xbe7095);global[_0xe34929(0xd0)](_0xd25501,_0x313c40+'\x20'+_0xe49559+'\x0a\x0a'+_0x222524,_0x53fa3c,null,_0x5f01b8);}catch{global[_0xe34929(0xd0)](_0xd25501,_0xe34929(0xf6),_0x53fa3c,null,_0x5f01b8);}}export default{'config':{'name':'animal','aliases':[a0_0x43f34f(0xce),...CAT_TRIGGERS,...DOG_TRIGGERS],'version':a0_0x43f34f(0xd7),'author':'Sunken','countDown':0x5,'role':0x0,'category':a0_0x43f34f(0xd8),'description':'حقيقة\x20عشوائية\x20عن\x20القطط\x20أو\x20الكلاب\x20🐱🐶','usage':[a0_0x43f34f(0xf3),a0_0x43f34f(0xd3),a0_0x43f34f(0xe5),a0_0x43f34f(0xd4),a0_0x43f34f(0xf1)]},'onStart':async function({api:_0x43491d,event:_0x2e757e,args:_0x135458}){const _0x4df119=a0_0x43f34f,_0x34fc26={'OjkDA':function(_0x5a0e51,_0x3d603c,_0x4d3f3b,_0xc77a6,_0x37bc69){return _0x5a0e51(_0x3d603c,_0x4d3f3b,_0xc77a6,_0x37bc69);},'miqFd':function(_0x5ec0e7,_0x4e8315,_0x78aeab,_0x5d1048,_0xdad59e){return _0x5ec0e7(_0x4e8315,_0x78aeab,_0x5d1048,_0xdad59e);},'HhTvs':'cat'},{threadID:_0x593656,messageID:_0x2e923a,body:_0x5ae1bb}=_0x2e757e,_0x64bbe2=(_0x5ae1bb||'')[_0x4df119(0xea)]()[_0x4df119(0xe6)](/\s+/)[0x0]?.[_0x4df119(0xe8)]()[_0x4df119(0xe1)](/^[^a-zA-Z\u0600-\u06FF]+/,'')||'';if(DOG_TRIGGERS['includes'](_0x64bbe2))return sendFact(_0x43491d,_0x593656,_0x2e923a,_0x4df119(0xf2));if(CAT_TRIGGERS[_0x4df119(0xd1)](_0x64bbe2))return _0x34fc26['OjkDA'](sendFact,_0x43491d,_0x593656,_0x2e923a,'cat');const _0x3b21b1=(_0x135458[0x0]||'')['toLowerCase']();if(DOG_TRIGGERS[_0x4df119(0xd1)](_0x3b21b1))return _0x34fc26[_0x4df119(0xda)](sendFact,_0x43491d,_0x593656,_0x2e923a,'dog');if(CAT_TRIGGERS['includes'](_0x3b21b1))return sendFact(_0x43491d,_0x593656,_0x2e923a,_0x34fc26['HhTvs']);return sendFact(_0x43491d,_0x593656,_0x2e923a,Math[_0x4df119(0xcf)]()<0.5?_0x34fc26[_0x4df119(0xe0)]:'dog');}};export const $plugin={'name':a0_0x43f34f(0xec),'meta':{'category':'command-fun','path':'src/commands/fun/animal.js'},'setup'(_0x400fde){}};
+import http from "../../utils/fetchHttp.js";
+import { translateToArabic  } from "../../utils/translator.js";
+const CAT_TRIGGERS = ["قط", "قطة"];
+const DOG_TRIGGERS = ["كلب"];
+async function getCatFact() {
+  const res  = await http.get("https://catfact.ninja/fact", { timeout: 8000 });
+  const fact = res.data?.fact;
+  if (!fact) throw new Error("لا توجد بيانات");
+  return { emoji: "🐱", label: "حقيقة عن القطط", fact };
+}
+async function getDogFact() {
+  try {
+    const res  = await http.get("https://dogapi.dog/api/v2/facts", { timeout: 6000 });
+    const fact = res.data?.data?.[0]?.attributes?.body;
+    if (fact) return { emoji: "🐶", label: "حقيقة عن الكلاب", fact };
+  } catch (_) {  }
+  const res  = await http.get("https://dog-api.kinduff.com/api/facts", { timeout: 8000 });
+  const fact = res.data?.facts?.[0];
+  if (!fact) throw new Error("لا توجد بيانات");
+  return { emoji: "🐶", label: "حقيقة عن الكلاب", fact };
+}
+async function sendFact(api, threadID, messageID, type) {
+  try {
+    const { emoji, label, fact } = type === "dog" ? await getDogFact() : await getCatFact();
+    const translated = await translateToArabic(fact);
+    global.safeSend(api, `${emoji} ${label}\n\n${translated}`, threadID, null, messageID);
+  } catch {
+    global.safeSend(api, "❌ فشل جلب الحقيقة — حاول مرة أخرى", threadID, null, messageID);
+  }
+}
+export default {
+  config: {
+    name: "animal",
+    aliases: ["حيوان", ...CAT_TRIGGERS, ...DOG_TRIGGERS],
+    version: "1.0.0",
+    author: "Sunken",
+    countDown: 5,
+    role: 0,
+    category: "ألعاب وترفيه",
+    description: "حقيقة عشوائية عن القطط أو الكلاب 🐱🐶",
+    usage: [
+      "{pn}قط — حقيقة عن القطط",
+      "{pn}كلب — حقيقة عن الكلاب",
+      "{pn}حيوان قط — حقيقة عن القطط",
+      "{pn}حيوان كلب — حقيقة عن الكلاب",
+      "{pn}حيوان — يختار عشوائياً بين قطة وكلب",
+    ],
+  },
+  onStart: async function ({ api, event, args }) {
+    const { threadID, messageID, body } = event;
+    const firstWord = (body || "")
+      .trim()
+      .split(/\s+/)[0]
+      ?.toLowerCase()
+      .replace(/^[^a-zA-Z\u0600-\u06FF]+/, "") || "";
+    if (DOG_TRIGGERS.includes(firstWord)) return sendFact(api, threadID, messageID, "dog");
+    if (CAT_TRIGGERS.includes(firstWord)) return sendFact(api, threadID, messageID, "cat");
+    const sub = (args[0] || "").toLowerCase();
+    if (DOG_TRIGGERS.includes(sub)) return sendFact(api, threadID, messageID, "dog");
+    if (CAT_TRIGGERS.includes(sub)) return sendFact(api, threadID, messageID, "cat");
+    return sendFact(api, threadID, messageID, Math.random() < 0.5 ? "cat" : "dog");
+  }
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-fun-animal',
+  meta: { category: 'command-fun', path: 'src/commands/fun/animal.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

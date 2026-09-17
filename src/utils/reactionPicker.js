@@ -1,1 +1,48 @@
-'use strict';function a0_0x16e3(_0x5e24ab,_0xe662a){_0x5e24ab=_0x5e24ab-0x192;const _0x48b9d9=a0_0x48b9();let _0x16e35e=_0x48b9d9[_0x5e24ab];if(a0_0x16e3['NkSCnF']===undefined){var _0x1ff23f=function(_0x553a26){const _0x5ef264='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x281dc1='',_0x366196='';for(let _0x54e5ba=0x0,_0xab4880,_0x3ff685,_0x3e7410=0x0;_0x3ff685=_0x553a26['charAt'](_0x3e7410++);~_0x3ff685&&(_0xab4880=_0x54e5ba%0x4?_0xab4880*0x40+_0x3ff685:_0x3ff685,_0x54e5ba++%0x4)?_0x281dc1+=String['fromCharCode'](0xff&_0xab4880>>(-0x2*_0x54e5ba&0x6)):0x0){_0x3ff685=_0x5ef264['indexOf'](_0x3ff685);}for(let _0x471ce9=0x0,_0x469798=_0x281dc1['length'];_0x471ce9<_0x469798;_0x471ce9++){_0x366196+='%'+('00'+_0x281dc1['charCodeAt'](_0x471ce9)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x366196);};a0_0x16e3['OkbeVT']=_0x1ff23f,a0_0x16e3['KkLBgn']={},a0_0x16e3['NkSCnF']=!![];}const _0x5ac521=_0x48b9d9[0x0];a0_0x16e3['rqlfTk']!==_0x5ac521&&(a0_0x16e3['KkLBgn']={},a0_0x16e3['rqlfTk']=_0x5ac521);const _0x5e7662=a0_0x16e3['KkLBgn'][_0x5e24ab];return _0x5e7662===undefined?(_0x16e35e=a0_0x16e3['OkbeVT'](_0x16e35e),a0_0x16e3['KkLBgn'][_0x5e24ab]=_0x16e35e):_0x16e35e=_0x5e7662,_0x16e35e;}const a0_0x208c31=a0_0x16e3;(function(_0x17e387,_0x1b5ddb){const _0x34aaf4=a0_0x16e3,_0x23a844=_0x17e387();while(!![]){try{const _0x40c034=parseInt(_0x34aaf4(0x19d))/0x1*(parseInt(_0x34aaf4(0x1ae))/0x2)+-parseInt(_0x34aaf4(0x1aa))/0x3*(-parseInt(_0x34aaf4(0x193))/0x4)+-parseInt(_0x34aaf4(0x1af))/0x5+-parseInt(_0x34aaf4(0x192))/0x6+-parseInt(_0x34aaf4(0x1ad))/0x7*(-parseInt(_0x34aaf4(0x198))/0x8)+parseInt(_0x34aaf4(0x1a3))/0x9+-parseInt(_0x34aaf4(0x1b1))/0xa;if(_0x40c034===_0x1b5ddb)break;else _0x23a844['push'](_0x23a844['shift']());}catch(_0x4d7951){_0x23a844['push'](_0x23a844['shift']());}}}(a0_0x48b9,0xeda46));export const EMOJI_PAIRS=[['👍','❤️'],['😆','😮'],['😢','😡'],['🥰','👏'],['🤩','😘'],['😍','😭'],['🤔','😅'],['😁','🥹'],['🥸','😎'],['🙂','😇']];export function attachReactionPicker({sentMessageID:_0x30fca2,authorID:_0x4f1120,list:_0x1cb42e,onPick:_0x4fb639,ttlMs:ttlMs=0x1d4c0}){const _0x4c22ea=a0_0x16e3,_0x322991={'Mbuhg':function(_0x497490,_0x3f1d66,_0x58024d){return _0x497490(_0x3f1d66,_0x58024d);}};if(!_0x30fca2||!global[_0x4c22ea(0x19a)]?.['reactionListener'])return;const _0x5561e6=()=>{const _0x42dcbd=_0x4c22ea;delete global[_0x42dcbd(0x19a)]['reactionListener'][_0x30fca2];if(global['Kagenou']?.[_0x42dcbd(0x1a6)])delete global[_0x42dcbd(0x1b3)][_0x42dcbd(0x1a6)][_0x30fca2];};global[_0x4c22ea(0x19a)][_0x4c22ea(0x1a4)][_0x30fca2]={'author':_0x4f1120,'callback':async({event:_0x2f19c3})=>{const _0xd711dc=_0x4c22ea,_0x3d1750=_0x2f19c3[_0xd711dc(0x196)],_0x139685=EMOJI_PAIRS[_0xd711dc(0x1a2)](([_0x2759d2,_0xec3c59])=>_0x3d1750===_0x2759d2||_0x3d1750===_0xec3c59);if(_0x139685<0x0||_0x139685>=_0x1cb42e[_0xd711dc(0x1b2)])return;const _0x3a4d05=_0x3d1750===EMOJI_PAIRS[_0x139685][0x1];_0x5561e6(),await _0x322991[_0xd711dc(0x1ac)](_0x4fb639,_0x1cb42e[_0x139685],_0x3a4d05);}},setTimeout(_0x5561e6,ttlMs);}export function buildListText(_0x44831a,_0x599716){const _0x5307ef=a0_0x16e3,_0x3c997e={'KWxMh':function(_0x344b8b,_0x167002){return _0x344b8b+_0x167002;},'lIhBx':function(_0x40af6e,_0xd2a023){return _0x40af6e+_0xd2a023;},'HgRrt':function(_0x43cba8,_0x25bc95){return _0x43cba8+_0x25bc95;}};let _0x1b4738=(_0x599716?'🎬':'🎵')+_0x5307ef(0x197)+'─'[_0x5307ef(0x19e)](0x16)+'\x0a';return _0x44831a[_0x5307ef(0x1ab)]((_0x131a23,_0x141b2d)=>{const _0x5f9419=_0x5307ef,[_0x515bb6,_0x305cef]=EMOJI_PAIRS[_0x141b2d];_0x1b4738+=_0x3c997e['KWxMh'](_0x3c997e[_0x5f9419(0x194)](_0x3c997e[_0x5f9419(0x1a8)](_0x141b2d,0x1)+'.\x20'+_0x131a23['title']+'\x0a',_0x5f9419(0x199)+(_0x131a23[_0x5f9419(0x195)]||'--')+(_0x131a23[_0x5f9419(0x1a0)]?_0x5f9419(0x19f)+_0x131a23[_0x5f9419(0x1a0)]:'')+'\x0a')+(_0x5f9419(0x1a1)+_0x515bb6+_0x5f9419(0x1a5)+_0x305cef+_0x5f9419(0x1b0)),'─'['repeat'](0x16)+'\x0a');}),_0x1b4738+=_0x5307ef(0x1a7),_0x1b4738;}export const $plugin={'name':a0_0x208c31(0x1a9),'meta':{'category':a0_0x208c31(0x19b),'path':a0_0x208c31(0x19c)},'setup'(_0x41069c){}};function a0_0x48b9(){const _0x11dbfd=['C3jJl3v0AwXZl3jLywn0Aw9UugLJA2vYlMPZ','mta2m0jcqLnqvW','CMvWzwf0','icdWN5o6ia','DxbSB2fKzxi','icaG','zMLUzeLUzgv4','mJC5mZu1nwzwEfHXza','CMvHy3rPB25mAxn0zw5LCG','ig1WmYaGFcaG','CMvWBgLLCW','2kRzGDIN2lNzHcdyQnIN2ytyPDMk2yxzInIS2yOG2ytyP9IU2kRzITIN2leG2kFzHnIJ2lRzHTMk2kKk4O+ZinIQ2yByQTMh2yOG2kJyUDIVinIV2ylzITMc2kRzITMg','sgDsCNq','EhGTDxrPBhmTCMvHy3rPB24TCgLJA2vY','m29jq05UBW','zM9YrwfJAa','twj1AgC','n0fswhrjAq','mJq1ogPpwhvIyq','nJq2nZqXnuLZrMvVuq','ig1WnaO','mtm5mJm2mhjutujPsG','BgvUz3rO','s2fNzw5VDq','nde1odu2ng5Ar3rvyG','ndy5ntqZnLjOyvHOtG','BeLOqNG','zhvYyxrPB24','CMvHy3rPB24','inMg2kRyP9IM2kWG2kFzHnIO2k3yQZOk','mJq2odeXmMnzAujoyG','icaG4O+Xia','y2XPzw50','DxrPBhm'];a0_0x48b9=function(){return _0x11dbfd;};return a0_0x48b9();}
+"use strict";
+export const EMOJI_PAIRS = [
+  ["👍", "❤️"], ["😆", "😮"], ["😢", "😡"],
+  ["🥰", "👏"], ["🤩", "😘"], ["😍", "😭"],
+  ["🤔", "😅"], ["😁", "🥹"], ["🥸", "😎"], ["🙂", "😇"],
+];
+export function attachReactionPicker({ sentMessageID, authorID, list, onPick, ttlMs = 120000 }) {
+  if (!sentMessageID || !global.client?.reactionListener) return;
+  const cleanup = () => {
+    delete global.client.reactionListener[sentMessageID];
+    if (global.Kagenou?.replies) delete global.Kagenou.replies[sentMessageID];
+  };
+  global.client.reactionListener[sentMessageID] = {
+    author: authorID,
+    callback: async ({ event: reactionEvent }) => {
+      const reaction = reactionEvent.reaction;
+      const idx = EMOJI_PAIRS.findIndex(([primary, alt]) => reaction === primary || reaction === alt);
+      if (idx < 0 || idx >= list.length) return;
+      const altChosen = reaction === EMOJI_PAIRS[idx][1];
+      cleanup();
+      await onPick(list[idx], altChosen);
+    },
+  };
+  setTimeout(cleanup, ttlMs);
+}
+export function buildListText(results, wantMp4) {
+  let text = `${wantMp4 ? "🎬" : "🎵"} نتائج البحث:\n${"─".repeat(22)}\n`;
+  results.forEach((v, i) => {
+    const [mp3E, mp4E] = EMOJI_PAIRS[i];
+    text +=
+      `${i + 1}. ${v.title}\n` +
+      `   ⏱ ${v.duration || "--"}${v.uploader ? `  📺 ${v.uploader}` : ""}\n` +
+      `   ${mp3E} mp3  |  ${mp4E} mp4\n` +
+      `${"─".repeat(22)}\n`;
+  });
+  text += `تفاعل بالإيموجي لاختيار الأغنية\n⏳ تنتهي بعد دقيقتين`;
+  return text;
+}
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-reaction-picker',
+  meta: { category: 'utils', path: 'src/utils/reactionPicker.js' },
+  setup(_ctx) {
+    // provides: EMOJI_PAIRS, attachReactionPicker, buildListText
+  },
+};

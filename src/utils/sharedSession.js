@@ -1,1 +1,60 @@
-'use strict';function a0_0x3546(){const _0x188395=['ndLLD1rUu1q','C2XPy2u','zMLUzej5swrbBMrvCgrHDgu','C0XZzw0','BwvZC2fNzxm','mtu0mZe5nKPbDKTLva','mte3nKfzEvn2qq','Bw9KzwXZ','nZK0otCWtLvQu3jS','CMvWBgfJzq','owjRrKnHAa','DxrPBhm','zMLUzej5swrbBMrezwXLDgu','nJm3mdy5mhr4B0Hhsa','C3jJl3v0AwXZl3nOyxjLzfnLC3nPB24UANm','mZC0wxLgBxjh','z2v0','mta1nJaXmeXzrxvXwa','y09sq1q','BgvHBG','ntLWzfvuBNq','mte3mJrjA2TzswW','BM93','rK5SsuK','u2nOzw1H'];a0_0x3546=function(){return _0x188395;};return a0_0x3546();}const a0_0x1e725f=a0_0x47fb;(function(_0x1c7335,_0x39d9b1){const _0x24d838=a0_0x47fb,_0x2afa8e=_0x1c7335();while(!![]){try{const _0x3d9453=-parseInt(_0x24d838(0x1c1))/0x1*(-parseInt(_0x24d838(0x1bc))/0x2)+-parseInt(_0x24d838(0x1b5))/0x3+-parseInt(_0x24d838(0x1b2))/0x4+parseInt(_0x24d838(0x1be))/0x5+-parseInt(_0x24d838(0x1c2))/0x6*(parseInt(_0x24d838(0x1c6))/0x7)+parseInt(_0x24d838(0x1b3))/0x8+-parseInt(_0x24d838(0x1b7))/0x9*(-parseInt(_0x24d838(0x1ba))/0xa);if(_0x3d9453===_0x39d9b1)break;else _0x2afa8e['push'](_0x2afa8e['shift']());}catch(_0xd8f4fb){_0x2afa8e['push'](_0x2afa8e['shift']());}}}(a0_0x3546,0x2f9a8));import a0_0x2affbf from'mongoose';const _models=new Map();function getSessionModel(_0x5a80bf){const _0x1b06e7=a0_0x47fb;if(_models['has'](_0x5a80bf))return _models[_0x1b06e7(0x1bd)](_0x5a80bf);const _0x463b69=new a0_0x2affbf[(_0x1b06e7(0x1c5))]({'_id':String,'messages':{'type':Array,'default':[]},'updatedAt':{'type':Date,'default':Date[_0x1b06e7(0x1c3)]}},{'collection':_0x5a80bf}),_0x289628=_0x5a80bf[_0x1b06e7(0x1b6)](/[^a-zA-Z0-9]/g,'_'),_0x143164=a0_0x2affbf[_0x1b06e7(0x1b4)][_0x289628]||a0_0x2affbf['model'](_0x289628,_0x463b69);return _models['set'](_0x5a80bf,_0x143164),_0x143164;}async function loadCtx(_0x2c1442,_0x4ac903,_0x49c5b0=0x14){const _0x1edf4d=a0_0x47fb,_0x356973={'SDmdM':function(_0x1fa684,_0x124d87){return _0x1fa684(_0x124d87);}};try{if(!global['db'])return[];const _0x186e69=getSessionModel(_0x2c1442),_0x39d13f=await _0x186e69['findById'](_0x356973['SDmdM'](String,_0x4ac903))[_0x1edf4d(0x1c0)]();return _0x39d13f?.[_0x1edf4d(0x1b1)]?.[_0x1edf4d(0x1c7)](-_0x49c5b0)||[];}catch(_0x3b3cc9){return[];}}async function saveCtx(_0x402eeb,_0x2c83fe,_0x4451ad,_0x1f0bf9=0x14){const _0x942243=a0_0x47fb,_0x526e4c={'sLsem':function(_0x324685,_0x451f57){return _0x324685(_0x451f57);},'FNlII':function(_0x2e57e1,_0x4c9649){return _0x2e57e1(_0x4c9649);}};try{if(!global['db'])return;const _0x2aee61=_0x526e4c[_0x942243(0x1b0)](getSessionModel,_0x402eeb);await _0x2aee61[_0x942243(0x1af)](_0x526e4c[_0x942243(0x1c4)](String,_0x2c83fe),{'messages':_0x4451ad['slice'](-_0x1f0bf9),'updatedAt':new Date()},{'upsert':!![]});}catch(_0x3f5f7b){}}function a0_0x47fb(_0x449804,_0x58eed8){_0x449804=_0x449804-0x1af;const _0x3546d1=a0_0x3546();let _0x47fbb7=_0x3546d1[_0x449804];if(a0_0x47fb['qJWGcl']===undefined){var _0x12b037=function(_0x2bdeb4){const _0x120b6f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x58bab1='',_0x38c2af='';for(let _0x52a036=0x0,_0x472839,_0x3a11fb,_0x1ab8fd=0x0;_0x3a11fb=_0x2bdeb4['charAt'](_0x1ab8fd++);~_0x3a11fb&&(_0x472839=_0x52a036%0x4?_0x472839*0x40+_0x3a11fb:_0x3a11fb,_0x52a036++%0x4)?_0x58bab1+=String['fromCharCode'](0xff&_0x472839>>(-0x2*_0x52a036&0x6)):0x0){_0x3a11fb=_0x120b6f['indexOf'](_0x3a11fb);}for(let _0xbf6778=0x0,_0xcd0b31=_0x58bab1['length'];_0xbf6778<_0xcd0b31;_0xbf6778++){_0x38c2af+='%'+('00'+_0x58bab1['charCodeAt'](_0xbf6778)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x38c2af);};a0_0x47fb['ejirdY']=_0x12b037,a0_0x47fb['sxOSSf']={},a0_0x47fb['qJWGcl']=!![];}const _0x507007=_0x3546d1[0x0];a0_0x47fb['nVDygu']!==_0x507007&&(a0_0x47fb['sxOSSf']={},a0_0x47fb['nVDygu']=_0x507007);const _0x54d80f=a0_0x47fb['sxOSSf'][_0x449804];return _0x54d80f===undefined?(_0x47fbb7=a0_0x47fb['ejirdY'](_0x47fbb7),a0_0x47fb['sxOSSf'][_0x449804]=_0x47fbb7):_0x47fbb7=_0x54d80f,_0x47fbb7;}async function clearCtx(_0x3f65d4,_0x215f2f){const _0x2dff10=a0_0x47fb,_0x176558={'cORCT':function(_0x151b45,_0x42acfc){return _0x151b45(_0x42acfc);}};try{if(!global['db'])return;const _0x229b4f=getSessionModel(_0x3f65d4);await _0x229b4f[_0x2dff10(0x1b9)](_0x176558[_0x2dff10(0x1bf)](String,_0x215f2f));}catch(_0x3b2300){}}export{loadCtx,saveCtx,clearCtx};export const $plugin={'name':'xx-utils-shared-session','meta':{'category':a0_0x1e725f(0x1b8),'path':a0_0x1e725f(0x1bb)},'setup'(_0x594440){}};
+"use strict";
+/**
+ * Shared AI session store for all chat AI commands (GPT, Gemini, Groq).
+ * Replaces per-command duplicate Mongoose schema definitions.
+ * Each command uses a unique collection name via the `model` parameter.
+ */
+import mongoose from "mongoose";
+const _models = new Map();
+function getSessionModel(collectionName) {
+  if (_models.has(collectionName)) return _models.get(collectionName);
+  const schema = new mongoose.Schema(
+    {
+      _id:      String,
+      messages: { type: Array, default: [] },
+      updatedAt: { type: Date, default: Date.now },
+    },
+    { collection: collectionName }
+  );
+  const modelName = collectionName.replace(/[^a-zA-Z0-9]/g, "_");
+  const model = mongoose.models[modelName] || mongoose.model(modelName, schema);
+  _models.set(collectionName, model);
+  return model;
+}
+async function loadCtx(collectionName, id, limit = 20) {
+  try {
+    if (!global.db) return [];
+    const Session = getSessionModel(collectionName);
+    const doc = await Session.findById(String(id)).lean();
+    return doc?.messages?.slice(-limit) || [];
+  } catch (_) { return []; }
+}
+async function saveCtx(collectionName, id, messages, limit = 20) {
+  try {
+    if (!global.db) return;
+    const Session = getSessionModel(collectionName);
+    await Session.findByIdAndUpdate(
+      String(id),
+      { messages: messages.slice(-limit), updatedAt: new Date() },
+      { upsert: true }
+    );
+  } catch (_) {}
+}
+async function clearCtx(collectionName, id) {
+  try {
+    if (!global.db) return;
+    const Session = getSessionModel(collectionName);
+    await Session.findByIdAndDelete(String(id));
+  } catch (_) {}
+}
+export { loadCtx, saveCtx, clearCtx };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-shared-session',
+  meta: { category: 'utils', path: 'src/utils/sharedSession.js' },
+  setup(_ctx) {
+    // provides: clearCtx, loadCtx, saveCtx
+  },
+};

@@ -1,1 +1,16 @@
-'use strict';const a0_0x46a466=a0_0x2b64;(function(_0x2cf41e,_0x21fb8c){const _0x444342=a0_0x2b64,_0x2cb254=_0x2cf41e();while(!![]){try{const _0x3a3ea3=-parseInt(_0x444342(0xdb))/0x1*(-parseInt(_0x444342(0xda))/0x2)+parseInt(_0x444342(0xe0))/0x3*(parseInt(_0x444342(0xdc))/0x4)+-parseInt(_0x444342(0xdd))/0x5+parseInt(_0x444342(0xe3))/0x6+-parseInt(_0x444342(0xdf))/0x7+parseInt(_0x444342(0xd8))/0x8+-parseInt(_0x444342(0xe1))/0x9;if(_0x3a3ea3===_0x21fb8c)break;else _0x2cb254['push'](_0x2cb254['shift']());}catch(_0x32994b){_0x2cb254['push'](_0x2cb254['shift']());}}}(a0_0x523d,0x2e511));const FB_ID_RE=/^\d{5,20}$/;function isValidFbId(_0x221864){const _0x2b297f=a0_0x2b64;return typeof _0x221864==='string'&&FB_ID_RE[_0x2b297f(0xde)](_0x221864['trim']());}function a0_0x523d(){const _0x471187=['nhjQCKfzDG','oty0nZLgBurUzxG','nJm4oe9NwezVzW','mteYnJiWCMH3AMjj','DgvZDa','ndmYnJC3wMzcrM9u','mtG2qMjQzfbL','ntG0mJq2n0Trq0DNsq','EhGTDxrPBhmTDMfSAwrHDgu','mJiWmZiWmeXUsuHiAa','mJeXmJmXmLLzDNb4zW','DxrPBhm'];a0_0x523d=function(){return _0x471187;};return a0_0x523d();}export{isValidFbId};function a0_0x2b64(_0x2998dc,_0x124ec7){_0x2998dc=_0x2998dc-0xd8;const _0x523d5c=a0_0x523d();let _0x2b6434=_0x523d5c[_0x2998dc];if(a0_0x2b64['hzGzyU']===undefined){var _0x157c46=function(_0x5bc5ae){const _0x36e07a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5a1a08='',_0x3cda63='';for(let _0x2771e5=0x0,_0x44c657,_0x169c6e,_0x27bbb2=0x0;_0x169c6e=_0x5bc5ae['charAt'](_0x27bbb2++);~_0x169c6e&&(_0x44c657=_0x2771e5%0x4?_0x44c657*0x40+_0x169c6e:_0x169c6e,_0x2771e5++%0x4)?_0x5a1a08+=String['fromCharCode'](0xff&_0x44c657>>(-0x2*_0x2771e5&0x6)):0x0){_0x169c6e=_0x36e07a['indexOf'](_0x169c6e);}for(let _0x12c2a2=0x0,_0x3dd110=_0x5a1a08['length'];_0x12c2a2<_0x3dd110;_0x12c2a2++){_0x3cda63+='%'+('00'+_0x5a1a08['charCodeAt'](_0x12c2a2)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3cda63);};a0_0x2b64['KygZCD']=_0x157c46,a0_0x2b64['siPWAK']={},a0_0x2b64['hzGzyU']=!![];}const _0xa103d5=_0x523d5c[0x0];a0_0x2b64['cJquRQ']!==_0xa103d5&&(a0_0x2b64['siPWAK']={},a0_0x2b64['cJquRQ']=_0xa103d5);const _0x56e534=a0_0x2b64['siPWAK'][_0x2998dc];return _0x56e534===undefined?(_0x2b6434=a0_0x2b64['KygZCD'](_0x2b6434),a0_0x2b64['siPWAK'][_0x2998dc]=_0x2b6434):_0x2b6434=_0x56e534,_0x2b6434;}export const $plugin={'name':a0_0x46a466(0xe2),'meta':{'category':a0_0x46a466(0xd9),'path':'src/utils/validate.js'},'setup'(_0x2ccf4d){}};
+"use strict";
+const FB_ID_RE = /^\d{5,20}$/;
+function isValidFbId(id) {
+  return typeof id === "string" && FB_ID_RE.test(id.trim());
+}
+export { isValidFbId };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-validate',
+  meta: { category: 'utils', path: 'src/utils/validate.js' },
+  setup(_ctx) {
+    // provides: isValidFbId
+  },
+};

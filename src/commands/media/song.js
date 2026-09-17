@@ -1,1 +1,252 @@
-'use strict';function a0_0x29cd(){const _0x5a4431=['AxLpEe4','AgXZ','2yJyS9IN2kByTYdzInIQ2k3zHDMk2yq','cVcFLiOG','C2L6zq','mtu1otG4zxvxBe5q','y29TBwfUzc1TzwrPyq','ntqXntG0yxr3tw1P','z2v0','z0LfuhO','ChvIBgLZAgvYx21LDgfKyxrH','DxnLCG','s1DvCvK','zMXVB3i','mtK4otu4mvjMyxPnAG','CMv2zxjZzq','DxjS','DgL0Bgu','r1jvCNy','2ytyPYdzITMi2kZyRYdyQnIRinMf2kRyP9ITinMe2yFySnINinIN2ytzHDMc2lFyUq','uLrsDei','DhjHBNnJB2rPBMDZ','Ahr0Chm6lY9HCgKTDJiUC291BMrJBg91zc5JB20VC2vHCMnOl3rYywnRCW','iokaLcbtB3vUzenSB3vK','q2HYB21LlZeYns4WlJaUmcbtywzHCMKVntm3lJm2','w3nJxsdyRTI32km6','BwfW','zMLUAxnO','odrwqu5ZExC','Aw5KzxHpzG','C29UzW','EhGTy29TBwfUzhmTBwvKAweTC29UzW','C29UzYa82kFyS9MfinIN2ytyO9I62yBzITIPpIaGicaGiokaLcdyQTI02lRzITMeinIJ2yJzHcdzHTIQ2yRyRnIPinMf2kJyP9I02lhyQqO','Bwf0y2HbBgW','y3jLyxrLuMvHzfn0CMvHBq','C2vUzgvYsuq','2ytzHsdyQTMp2yJyRnIVinMg2kRyP9IM2kWG2lNzHnMjifnVDw5Kq2XVDwq','DxnLCM5HBwu','CgLWzq','2kJyQYdzG9IN2yxzHa','CeTtsxG','DgHLBG','y2XPzw50','E3bUFxnVBMCGpnIN2lpzHt4G4OcuinIQ2ltyUTMk2yqG2kpzInMeinMg2kRzITIS2kKG2yxyQnIN2ltySDIP','CM91BMq','C3rHDhvZ','mJa4nJiWwK9cteXj','tw96AwXSys81lJaGkfDPBMrVD3mGtLqGmtaUmdSGv2LUnJq7ihG2ncKG','cVcFKAqG','zxjYB3i','ChjVDg9JB2W','2kJyR9Mi2yyG2lNzHTMi2kFzHG','zhvYyxrPB24','yufzDKy','wwnyBuy','BM93','zNvSBf9KDxjHDgLVBG','uLr1vMy','Ahr0Chm6lY9ZB3vUzgnSB3vKlMnVBq','C25PChbLza','odeWnZu0sKrRDhjq','EffPr2y','y0fRwvu','8j+oTsbtB3vUzenSB3vKcGO','zLb6wxu','BwvKAwe','2yhyTnMeinIQ2ltyUTMk2yqG2kFzHnMf2ylyT9I5oIa','mtbjrKX4zMe','y2f0y2G','2ytzHsdyQTMp2yJyRnIVinIZ2ypySDMk2kJyQTIN2kOGu291BMrdBg91za','zgf0yq','khjLzNjLC2G9','AM9PBG','C2fMzvnLBMq','mty1r3zNteDc','zw4TvvmSzw47Ct0WlJK','BgvUz3rO','C3rYzwfT','B3HNy3i','CMvZCg9UC2u','Bwf0y2G','C2nF','zM9YBwf0','E3bUFDMf2yJyS9Mk2ylzIsa82kFyS9MfpIdIGjqG2yBzGDIZinIN2ytyO9Mf2leG2kJyP9Me2lNySDIO2yRyQq','CMvTB3zL','zMLSDgvY','mtCZmZiXotu4nq','uxvcwNm','2yhyTnMeinIN2lpyQTIU2lhyP9ISignSAwvUDf9PzcdzHDMgifnVDw5Kq2XVDwq','nde0ntKYrvvfENj6','ChjVz3jLC3nPDMu','ms4WlJa','lM1WmW','BwvrEKy','ihWG','BwvZC2fNzq','C3vIC3rYAw5N','mtm4ndq3yvL1sw9J','C29UzYbHzNrLCIb0AguGzgfYAYbTCIbRAxr0EqO','y29SBgvJDgLVBG','CMvHy3rPB25mAxn0zw5LCG','icaG8j+rPca','ndr6v01KqvK','zhvYyxrPB25nCW','AxntBMLWCgvK','v3HNuMm','8j+oTsdzHTIQ2kFyPTISinIN2ytyQnIT2kSG2yhzIIbtB3vUzenSB3vKoGO','CMvWBhK','yMn0Eeu','wLruz2W','yxj0Axn0','ELDnDKi','BwvZC2fNzuLe','ywPqv3O'];a0_0x29cd=function(){return _0x5a4431;};return a0_0x29cd();}const a0_0x196c57=a0_0x2e87;(function(_0x17195c,_0x43ec1c){const _0x413bc2=a0_0x2e87,_0x290640=_0x17195c();while(!![]){try{const _0x59bb70=-parseInt(_0x413bc2(0x1c9))/0x1+-parseInt(_0x413bc2(0x1d7))/0x2+-parseInt(_0x413bc2(0x18a))/0x3*(parseInt(_0x413bc2(0x18f))/0x4)+parseInt(_0x413bc2(0x1e5))/0x5*(parseInt(_0x413bc2(0x1a0))/0x6)+parseInt(_0x413bc2(0x1b7))/0x7*(parseInt(_0x413bc2(0x1f4))/0x8)+-parseInt(_0x413bc2(0x1a2))/0x9+parseInt(_0x413bc2(0x1de))/0xa*(parseInt(_0x413bc2(0x1a9))/0xb);if(_0x59bb70===_0x43ec1c)break;else _0x290640['push'](_0x290640['shift']());}catch(_0x461cd7){_0x290640['push'](_0x290640['shift']());}}}(a0_0x29cd,0x74ea1));import a0_0x1587d6 from'../../utils/fetchHttp.js';import a0_0x17b936 from'fs-extra';import a0_0x31a7d8 from'os';import a0_0x545080 from'path';const BROWSER_HEADERS={'User-Agent':a0_0x196c57(0x1ca)+'AppleWebKit/537.36\x20(KHTML,\x20like\x20Gecko)\x20'+a0_0x196c57(0x1b3),'Accept-Language':a0_0x196c57(0x1e6)},TRACK_EMOJIS=['👍','❤️','😆','😮','😢','😡','🥰','🤩'];function a0_0x2e87(_0x5ae3aa,_0x22c77e){_0x5ae3aa=_0x5ae3aa-0x18a;const _0x29cd60=a0_0x29cd();let _0x2e87b5=_0x29cd60[_0x5ae3aa];if(a0_0x2e87['aaHmiJ']===undefined){var _0x364bfa=function(_0x322810){const _0x28be50='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x11bfef='',_0x485122='';for(let _0x13fe18=0x0,_0x2aa1f3,_0x357df9,_0x14db70=0x0;_0x357df9=_0x322810['charAt'](_0x14db70++);~_0x357df9&&(_0x2aa1f3=_0x13fe18%0x4?_0x2aa1f3*0x40+_0x357df9:_0x357df9,_0x13fe18++%0x4)?_0x11bfef+=String['fromCharCode'](0xff&_0x2aa1f3>>(-0x2*_0x13fe18&0x6)):0x0){_0x357df9=_0x28be50['indexOf'](_0x357df9);}for(let _0x243def=0x0,_0x22e85c=_0x11bfef['length'];_0x243def<_0x22e85c;_0x243def++){_0x485122+='%'+('00'+_0x11bfef['charCodeAt'](_0x243def)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x485122);};a0_0x2e87['vRqjFO']=_0x364bfa,a0_0x2e87['nHZmmF']={},a0_0x2e87['aaHmiJ']=!![];}const _0x1f23a1=_0x29cd60[0x0];a0_0x2e87['qnngdc']!==_0x1f23a1&&(a0_0x2e87['nHZmmF']={},a0_0x2e87['qnngdc']=_0x1f23a1);const _0x47aafc=a0_0x2e87['nHZmmF'][_0x5ae3aa];return _0x47aafc===undefined?(_0x2e87b5=a0_0x2e87['vRqjFO'](_0x2e87b5),a0_0x2e87['nHZmmF'][_0x5ae3aa]=_0x2e87b5):_0x2e87b5=_0x47aafc,_0x2e87b5;}let _clientId=null,_clientExp=0x0,_refreshing=![];async function fetchClientId(){const _0x579aa4=a0_0x196c57,_0x4e6fb2=await a0_0x1587d6[_0x579aa4(0x1a3)](_0x579aa4(0x1d5),{'headers':BROWSER_HEADERS,'timeout':0x3a98}),_0xacc531=[..._0x4e6fb2[_0x579aa4(0x1e1)][_0x579aa4(0x1bc)](/https:\/\/a-v2\.sndcdn\.com\/[^"]+\.js/g)][_0x579aa4(0x1b5)](_0x17bdaf=>_0x17bdaf[0x0]);if(!_0xacc531['length'])throw new Error(_0x579aa4(0x1e0));for(const _0x4c3a60 of _0xacc531['slice'](-0x8)[_0x579aa4(0x1aa)]()){try{const _0x1e88e6=await a0_0x1587d6[_0x579aa4(0x1a3)](_0x4c3a60,{'headers':BROWSER_HEADERS,'timeout':0x2710}),_0x4fe4ad=_0x1e88e6[_0x579aa4(0x1e1)][_0x579aa4(0x1eb)](/[{,]client_id:"([a-zA-Z0-9]{20,40})"/)||_0x1e88e6['data']['match'](/"client_id"\s*:\s*"([a-zA-Z0-9]{20,40})"/)||_0x1e88e6[_0x579aa4(0x1e1)]['match'](/client_id\s*=\s*"([a-zA-Z0-9]{20,40})"/);if(_0x4fe4ad)return _0x4fe4ad[0x1];}catch(_0x515f6c){}}throw new Error(_0x579aa4(0x1f3));}async function getClientId(_0x33a5b4=![]){const _0x59fa93=a0_0x196c57,_0x429908={'RTuVf':function(_0xa1c01f,_0x49e6a2){return _0xa1c01f*_0x49e6a2;},'GRUrv':function(_0x3e28cc,_0x4b8545){return _0x3e28cc*_0x4b8545;},'pKSIx':function(_0x17ad19,_0x15a2b6){return _0x17ad19&&_0x15a2b6;},'oxgcr':function(_0x12d33b,_0x1f6532){return _0x12d33b<_0x1f6532;},'zWMvB':function(_0x2449f0){return _0x2449f0();},'aAYvF':function(_0x2e48f3,_0x262cd2){return _0x2e48f3*_0x262cd2;},'wbQHK':function(_0x573b1e,_0x2716f1){return _0x573b1e*_0x2716f1;}},_0x883591=Date[_0x59fa93(0x1d2)]();if(_0x429908[_0x59fa93(0x1c3)](!_0x33a5b4,_clientId)&&_0x429908[_0x59fa93(0x1e9)](_0x883591,_clientExp))return _clientId;if(!_0x33a5b4&&_clientId&&_0x883591<_clientExp+_0x429908['GRUrv'](_0x429908[_0x59fa93(0x1ad)](0x3c,0x3c),0x3e8)&&!_refreshing)return _refreshing=!![],_0x429908[_0x59fa93(0x198)](fetchClientId)[_0x59fa93(0x1c4)](_0x505352=>{const _0x344d2e=_0x59fa93;_clientId=_0x505352,_clientExp=Date['now']()+_0x429908[_0x344d2e(0x1d4)](_0x429908['RTuVf'](_0x429908[_0x344d2e(0x1ad)](0xc,0x3c),0x3c),0x3e8);})[_0x59fa93(0x1df)](()=>{})['finally'](()=>{_refreshing=![];}),_clientId;const _0x3939d8=await fetchClientId();return _clientId=_0x3939d8,_clientExp=Date['now']()+_0x429908['GRUrv'](_0x429908[_0x59fa93(0x1d0)](_0x429908['wbQHK'](0xc,0x3c),0x3c),0x3e8),_clientId;}getClientId()[a0_0x196c57(0x1df)](()=>{});async function searchTracks(_0x48d32a,_0x430e14=0x7){const _0x1c7ab1=a0_0x196c57,_0x51acde={'ajPWz':function(_0x3efbc6,_0x3b0f76){return _0x3efbc6(_0x3b0f76);},'ZTTgl':_0x1c7ab1(0x1b1)},_0x2be742=async _0x46a5d3=>{const _0x4dea63=_0x1c7ab1,_0xe9c1f5=await _0x51acde[_0x4dea63(0x19a)](getClientId,_0x46a5d3),_0xeceef=await a0_0x1587d6[_0x4dea63(0x1a3)](_0x51acde[_0x4dea63(0x196)],{'params':{'q':_0x48d32a,'client_id':_0xe9c1f5,'limit':_0x430e14,'offset':0x0,'linked_partitioning':0x1,'app_version':_0x4dea63(0x1f1),'app_locale':'en'},'headers':BROWSER_HEADERS,'timeout':0x3a98}),_0x31e6e1=_0xeceef['data']?.[_0x4dea63(0x18c)];if(!_0x31e6e1?.['length'])throw new Error(_0x4dea63(0x1bf));return _0x31e6e1;};try{return await _0x2be742(![]);}catch(_0x30c54b){if(_0x30c54b?.[_0x1c7ab1(0x1ea)]?.['status']===0x194||_0x30c54b?.['response']?.['status']===0x191)return await _0x51acde[_0x1c7ab1(0x19a)](_0x2be742,!![]);throw _0x30c54b;}}async function resolveStreamUrl(_0x556cf4,_0x21a8fb,_0x9cf704=![]){const _0x55f812=a0_0x196c57,_0xf3f68a={'xQiGf':function(_0x34e52d,_0x1c0629){return _0x34e52d(_0x1c0629);},'bctxE':'فشل\x20استخراج\x20رابط\x20البث'},_0x12853c=await _0xf3f68a[_0x55f812(0x1d8)](getClientId,_0x9cf704),_0x57b07d=await a0_0x1587d6[_0x55f812(0x1a3)](_0x556cf4,{'params':{'client_id':_0x12853c,'track_authorization':_0x21a8fb??''},'headers':BROWSER_HEADERS,'timeout':0x3a98}),_0x444b60=_0x57b07d[_0x55f812(0x1e1)]?.['url'];if(!_0x444b60)throw new Error(_0xf3f68a[_0x55f812(0x195)]);return _0x444b60;}async function streamTrack(_0x43b588){const _0x6181c9=a0_0x196c57,_0x2a6236={'lOVjv':_0x6181c9(0x1cc),'fPzYu':function(_0x3559cb,_0x4df2d8,_0x31ef47,_0x7919b2){return _0x3559cb(_0x4df2d8,_0x31ef47,_0x7919b2);},'kICbf':'ملف\x20الصوت\x20فارغ','cAkYU':function(_0x1ca9be,_0x1d40a){return _0x1ca9be===_0x1d40a;},'SsTwF':_0x6181c9(0x1dd)},_0x193ba1=_0x43b588[_0x6181c9(0x1dc)]?.[_0x6181c9(0x1b0)]??[];if(!_0x193ba1['length'])throw new Error(_0x6181c9(0x1ae));const _0x2b9c2e=[..._0x193ba1['filter'](_0x5eab4c=>!_0x5eab4c['snipped']&&_0x5eab4c[_0x6181c9(0x1ed)]?.['protocol']==='progressive'),..._0x193ba1[_0x6181c9(0x1f0)](_0x18d738=>!_0x18d738[_0x6181c9(0x1d6)]&&_0x18d738[_0x6181c9(0x1ed)]?.['protocol']==='hls'),..._0x193ba1[_0x6181c9(0x1f0)](_0x37b544=>_0x37b544[_0x6181c9(0x1d6)]&&_0x37b544[_0x6181c9(0x1ed)]?.[_0x6181c9(0x1cd)]===_0x6181c9(0x1f5)),..._0x193ba1['filter'](_0x5a7860=>_0x5a7860[_0x6181c9(0x1d6)]&&_0x5a7860['format']?.[_0x6181c9(0x1cd)]===_0x6181c9(0x19c)),..._0x193ba1],_0x4c4d48=new Set(),_0x10f6d3=_0x2b9c2e['filter'](_0x328a40=>_0x328a40['url']&&!_0x4c4d48['has'](_0x328a40['url'])&&_0x4c4d48['add'](_0x328a40[_0x6181c9(0x1ab)])),_0x1a77b3=_0x43b588['track_authorization']??'',_0x49bd40=[];for(const _0x3bcf6d of _0x10f6d3){for(const _0x5d9628 of[![],!![]]){try{const _0xadd130=await _0x2a6236[_0x6181c9(0x1db)](resolveStreamUrl,_0x3bcf6d['url'],_0x1a77b3,_0x5d9628),_0x2d93d0=a0_0x545080[_0x6181c9(0x1e3)](a0_0x31a7d8['tmpdir'](),_0x6181c9(0x1ec)+Date[_0x6181c9(0x1d2)]()+_0x6181c9(0x1f7)),_0x4b05b6=await a0_0x1587d6['get'](_0xadd130,{'responseType':_0x6181c9(0x1e8),'headers':BROWSER_HEADERS,'timeout':0xea60});await new Promise((_0x468607,_0x59bbca)=>{const _0x11b71b=_0x6181c9,_0x53d3e6=a0_0x17b936['createWriteStream'](_0x2d93d0);_0x4b05b6[_0x11b71b(0x1e1)][_0x11b71b(0x1c1)](_0x53d3e6),_0x53d3e6['on'](_0x11b71b(0x1b6),_0x468607),_0x53d3e6['on'](_0x2a6236['lOVjv'],_0x59bbca);});const _0x2ee382=(await a0_0x17b936['stat'](_0x2d93d0))[_0x6181c9(0x19f)];if(!_0x2ee382){await cleanTemp(_0x2d93d0);throw new Error(_0x2a6236['kICbf']);}return{'filePath':_0x2d93d0,'title':_0x43b588['title']||_0x6181c9(0x1ce),'artist':_0x43b588[_0x6181c9(0x1a5)]?.['artist']||_0x43b588[_0x6181c9(0x1a6)]?.[_0x6181c9(0x1c0)]||'','durationMs':_0x43b588['full_duration']||_0x43b588[_0x6181c9(0x1cf)]||0x0,'isSnipped':!!_0x3bcf6d[_0x6181c9(0x1d6)]};}catch(_0x254f59){const _0x4f51da=_0x2a6236[_0x6181c9(0x1d9)](_0x254f59?.['response']?.['status'],0x194)||_0x254f59?.[_0x6181c9(0x1ea)]?.[_0x6181c9(0x1c8)]===0x191;_0x49bd40['push'](_0x3bcf6d[_0x6181c9(0x1ed)]?.[_0x6181c9(0x1cd)]+_0x6181c9(0x1e2)+_0x5d9628+'):\x20'+_0x254f59['message']);if(!_0x4f51da)break;}}}throw new Error(_0x2a6236['SsTwF']+_0x49bd40['slice'](-0x3)[_0x6181c9(0x1e3)](_0x6181c9(0x1f9)));}function fmtDuration(_0x59ba5f){const _0xa572b1=a0_0x196c57,_0x1c21ea={'XeQic':function(_0xebe30,_0x119de1){return _0xebe30/_0x119de1;}};if(!_0x59ba5f)return'';const _0x1cd7c5=Math[_0xa572b1(0x1c7)](_0x59ba5f/0x3e8),_0x439be5=Math[_0xa572b1(0x1a8)](_0x1c21ea['XeQic'](_0x1cd7c5,0x3c));return'⏱\x20'+_0x439be5+':'+String(_0x1cd7c5%0x3c)['padStart'](0x2,'0');}async function cleanTemp(_0x49781a){const _0x59600a=a0_0x196c57;try{await a0_0x17b936[_0x59600a(0x1ef)](_0x49781a);}catch(_0x2c1a71){}}async function sendTrack(_0x4f3da9,_0x5eeb0e,_0x13ba02,_0x24b53f,_0x3dab75=null){const _0x38650b=a0_0x196c57,_0x569ff5={'kiuDN':function(_0x45e4ea,_0x4692ce){return _0x45e4ea+_0x4692ce;},'YcXmF':function(_0x443218,_0x544abf){return _0x443218(_0x544abf);},'KWUqY':function(_0x9e377b,_0x51631b){return _0x9e377b(_0x51631b);}};let _0x27943b=null;try{const _0x5f36d6=await streamTrack(_0x24b53f);_0x27943b=_0x5f36d6['filePath'];const _0x1d97d9=_0x569ff5['kiuDN']('🎵\x20'+_0x5f36d6[_0x38650b(0x1ac)]+(''+(_0x5f36d6[_0x38650b(0x197)]?_0x38650b(0x1cb)+_0x5f36d6[_0x38650b(0x197)]:'')),''+(_0x5f36d6['durationMs']?'\x0a'+_0x569ff5[_0x38650b(0x1d1)](fmtDuration,_0x5f36d6[_0x38650b(0x190)]):''))+(_0x38650b(0x19e)+(_0x5f36d6[_0x38650b(0x191)]?'مقطع\x20Preview\x2030ث':_0x38650b(0x1c2))+_0x38650b(0x1b2));await new Promise((_0x44d54a,_0x17b020)=>global[_0x38650b(0x1e4)](_0x4f3da9,{'body':_0x1d97d9,'attachment':a0_0x17b936[_0x38650b(0x1bd)](_0x27943b)},_0x5eeb0e,_0x2844fb=>_0x2844fb?_0x17b020(_0x2844fb):_0x44d54a(),_0x13ba02));if(_0x3dab75)try{await _0x4f3da9['unsendMessage'](_0x3dab75,_0x5eeb0e);}catch(_0x58c80f){}}finally{if(_0x27943b)_0x569ff5[_0x38650b(0x1a7)](cleanTemp,_0x27943b);}}export default{'config':{'name':a0_0x196c57(0x1b9),'aliases':['موسيقى'],'version':a0_0x196c57(0x1f6),'role':0x0,'countDown':0x6,'category':a0_0x196c57(0x19d),'description':'بحث\x20وتشغيل\x20مقاطع\x20من\x20SoundCloud\x20—\x20أضف\x20s\x20لعرض\x20قائمة\x20نتائج','usage':[a0_0x196c57(0x1c6),'{pn}song\x20s\x20<اسم>\x20—\x20عرض\x20قائمة\x20نتائج\x20للاختيار',a0_0x196c57(0x1ee)]},'onStart':async({api:_0x3d4154,message:_0x14861c,args:_0x3a2282,event:_0x2bb04f})=>{const _0x148593=a0_0x196c57,_0x4f49bc={'QuBZs':_0x148593(0x1ce),'RuFQF':function(_0x28e450,_0xd637ac){return _0x28e450(_0xd637ac);},'meQzF':function(_0x293564,_0x2d0a56){return _0x293564>=_0x2d0a56;},'gIEPz':function(_0x51a25c,_0x2b361c){return _0x51a25c+_0x2b361c;},'ClyvF':_0x148593(0x1da),'iyOxN':'song\x20s\x20<اسم\x20الأغنية>\x20\x20\x20\x20—\x20عرض\x20قائمة\x20للاختيار\x0a','RTRtB':'(أو\x20موسيقى\x20بدل\x20song)\x0a\x0a','WxgRc':'song\x20s\x20mr\x20kitty','ybxxJ':function(_0x11a53c,_0x5134a9,_0x3aa0b1){return _0x11a53c(_0x5134a9,_0x3aa0b1);}},{threadID:_0x55ed22,messageID:_0x2cc680}=_0x2bb04f;if(!_0x3a2282[0x0])return _0x14861c[_0x148593(0x194)](_0x4f49bc[_0x148593(0x1a4)](_0x4f49bc[_0x148593(0x1a4)](_0x4f49bc['ClyvF']+_0x148593(0x1bb),_0x4f49bc[_0x148593(0x19b)])+_0x4f49bc[_0x148593(0x1af)]+'مثال:\x0a',_0x148593(0x18b))+_0x4f49bc[_0x148593(0x192)]);const _0x48604e=_0x3a2282[0x0]['toLowerCase']()==='s',_0x2f902c=(_0x48604e?_0x3a2282['slice'](0x1):_0x3a2282)[_0x148593(0x1e3)]('\x20')['trim']();if(!_0x2f902c)return _0x14861c['reply']('❌\x20أرسل\x20اسم\x20الأغنية.');try{const _0x2155a9=await _0x4f49bc['ybxxJ'](searchTracks,_0x2f902c,_0x48604e?0x7:0x1);if(_0x48604e){const _0x4c1303=_0x2155a9['slice'](0x0,0x7);let _0x5a0caa=_0x148593(0x193)+'─'['repeat'](0x16)+'\x0a';_0x4c1303['forEach']((_0x3f6b9e,_0x2d85d9)=>{const _0x264cdc=_0x148593,_0xd1dc5d=_0x3f6b9e[_0x264cdc(0x1d3)]||_0x3f6b9e[_0x264cdc(0x1cf)]||0x0;_0x5a0caa+=TRACK_EMOJIS[_0x2d85d9]+'\x20'+(_0x3f6b9e['title']||_0x4f49bc[_0x264cdc(0x1f2)])+'\x0a',_0x5a0caa+=_0x264cdc(0x18e)+(_0x3f6b9e[_0x264cdc(0x1a6)]?.['username']||'')+'\x20'+(_0xd1dc5d?_0x4f49bc['RuFQF'](fmtDuration,_0xd1dc5d):'')+'\x0a',_0x5a0caa+='─'['repeat'](0x16)+'\x0a';}),_0x5a0caa+='تفاعل\x20بالإيموجي\x20لاختيار\x20الأغنية\x0a⏳\x20تنتهي\x20بعد\x20دقيقتين';const _0x519d81=await new Promise((_0x1db4fe,_0x4bd405)=>global[_0x148593(0x1e4)](_0x3d4154,_0x5a0caa,_0x55ed22,(_0x88481f,_0x23c8ea)=>_0x88481f?_0x4bd405(_0x88481f):_0x1db4fe(_0x23c8ea),_0x2cc680));_0x519d81?.[_0x148593(0x199)]&&global[_0x148593(0x1c5)]?.['reactionListener']&&(global[_0x148593(0x1c5)]['reactionListener'][_0x519d81[_0x148593(0x199)]]={'author':_0x2bb04f[_0x148593(0x1be)],'callback':async({api:_0x3ff985,event:_0x3d4b57})=>{const _0x15d3ba=_0x148593,_0x5b576=TRACK_EMOJIS[_0x15d3ba(0x1b8)](_0x3d4b57['reaction']);if(_0x5b576===-0x1||_0x4f49bc[_0x15d3ba(0x1f8)](_0x5b576,_0x4c1303[_0x15d3ba(0x1e7)]))return;delete global['client'][_0x15d3ba(0x18d)][_0x519d81[_0x15d3ba(0x199)]],await sendTrack(_0x3ff985,_0x55ed22,_0x2cc680,_0x4c1303[_0x5b576],_0x519d81['messageID']);}},setTimeout(()=>{const _0x197f0c=_0x148593;delete global['client']?.['reactionListener']?.[_0x519d81[_0x197f0c(0x199)]];},0x1d4c0));return;}await sendTrack(_0x3d4154,_0x55ed22,_0x2cc680,_0x2155a9[0x0]);}catch(_0x5db80a){console[_0x148593(0x1cc)](_0x148593(0x1b4),_0x5db80a[_0x148593(0x1fa)]),global[_0x148593(0x1e4)](_0x3d4154,'❌\x20'+(_0x5db80a[_0x148593(0x1fa)]?.[_0x148593(0x1fb)](0x0,0xc8)||'خطأ\x20غير\x20معروف'),_0x55ed22,null,_0x2cc680);}}};export const $plugin={'name':a0_0x196c57(0x1ba),'meta':{'category':a0_0x196c57(0x1a1),'path':'src/commands/media/song.js'},'setup'(_0xbf7bc7){}};
+"use strict";
+import http from "../../utils/fetchHttp.js";
+import fs from "fs-extra";
+import os from "os";
+import path from "path";
+const BROWSER_HEADERS = {
+  "User-Agent":
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) " +
+    "AppleWebKit/537.36 (KHTML, like Gecko) " +
+    "Chrome/125.0.0.0 Safari/537.36",
+  "Accept-Language": "en-US,en;q=0.9",
+};
+const TRACK_EMOJIS = ["👍", "❤️","😆","😮","😢", "😡","🥰","🤩"];
+let _clientId  = null;
+let _clientExp = 0;
+let _refreshing = false;
+async function fetchClientId() {
+  const page = await http.get("https://soundcloud.com", {
+    headers: BROWSER_HEADERS,
+    timeout: 15000,
+  });
+  const scriptUrls = [
+    ...page.data.matchAll(/https:\/\/a-v2\.sndcdn\.com\/[^"]+\.js/g),
+  ].map(m => m[0]);
+  if (!scriptUrls.length) throw new Error("لم تُوجد سكريبتات SoundCloud");
+  // Start from the last scripts — main SC bundle (containing client_id) loads last
+  for (const url of scriptUrls.slice(-8).reverse()) {
+    try {
+      const script = await http.get(url, { headers: BROWSER_HEADERS, timeout: 10000 });
+      // Try multiple regex patterns to handle SoundCloud bundle format changes
+      const match =
+        script.data.match(/[{,]client_id:"([a-zA-Z0-9]{20,40})"/) ||
+        script.data.match(/"client_id"\s*:\s*"([a-zA-Z0-9]{20,40})"/) ||
+        script.data.match(/client_id\s*=\s*"([a-zA-Z0-9]{20,40})"/);
+      if (match) return match[1];
+    } catch (_) {}
+  }
+  throw new Error("فشل استخراج client_id من SoundCloud");
+}
+// Get a cached SoundCloud client ID, refreshing it if needed.
+// Pass forceRefresh=true to bypass the cache (e.g. after a 404 from the API).
+async function getClientId(forceRefresh = false) {
+  const now = Date.now();
+  if (!forceRefresh && _clientId && now < _clientExp) return _clientId;
+  if (!forceRefresh && _clientId && now < _clientExp + 60 * 60 * 1000 && !_refreshing) {
+    _refreshing = true;
+    fetchClientId()
+      .then(id => { _clientId = id; _clientExp = Date.now() + 12 * 60 * 60 * 1000; })
+      .catch(() => {})
+      .finally(() => { _refreshing = false; });
+    return _clientId;
+  }
+  const id = await fetchClientId();
+  _clientId  = id;
+  _clientExp = Date.now() + 12 * 60 * 60 * 1000;
+  return _clientId;
+}
+getClientId().catch(() => {});
+// Search SoundCloud for tracks matching the query.
+// Retries once with a fresh client_id if the API returns 404 (stale ID).
+async function searchTracks(query, limit = 7) {
+  const doSearch = async (forceRefresh) => {
+    const client_id = await getClientId(forceRefresh);
+    const res = await http.get("https://api-v2.soundcloud.com/search/tracks", {
+      params: {
+        q: query, client_id, limit,
+        offset: 0, linked_partitioning: 1,
+        app_version: "1733219585", app_locale: "en",
+      },
+      headers: BROWSER_HEADERS,
+      timeout: 15000,
+    });
+    const tracks = res.data?.collection;
+    if (!tracks?.length) throw new Error("لم تُوجد نتائج على SoundCloud");
+    return tracks;
+  };
+  try {
+    return await doSearch(false);
+  } catch (err) {
+    if (err?.response?.status === 404 || err?.response?.status === 401) {
+      return await doSearch(true);
+    }
+    throw err;
+  }
+}
+async function resolveStreamUrl(transcodingUrl, trackAuthorization, forceRefresh = false) {
+  const client_id = await getClientId(forceRefresh);
+  const res = await http.get(transcodingUrl, {
+    params: { client_id, track_authorization: trackAuthorization ?? "" },
+    headers: BROWSER_HEADERS,
+    timeout: 15000,
+  });
+  const url = res.data?.url;
+  if (!url) throw new Error("فشل استخراج رابط البث");
+  return url;
+}
+async function streamTrack(track) {
+  const transcodings = track.media?.transcodings ?? [];
+  if (!transcodings.length) throw new Error("لا يوجد بث متاح لهذا المقطع");
+  const ordered = [
+    ...transcodings.filter(t => !t.snipped && t.format?.protocol === "progressive"),
+    ...transcodings.filter(t => !t.snipped && t.format?.protocol === "hls"),
+    ...transcodings.filter(t =>  t.snipped && t.format?.protocol === "progressive"),
+    ...transcodings.filter(t =>  t.snipped && t.format?.protocol === "hls"),
+    ...transcodings,
+  ];
+  const seen = new Set();
+  const candidates = ordered.filter(t => t.url && !seen.has(t.url) && seen.add(t.url));
+  const trackAuth = track.track_authorization ?? "";
+  const lastError = [];
+  for (const pick of candidates) {
+    for (const forceRefresh of [false, true]) {
+      try {
+        const streamUrl = await resolveStreamUrl(pick.url, trackAuth, forceRefresh);
+        const filePath = path.join(os.tmpdir(), `sc_${Date.now()}.mp3`);
+        const dlRes = await http.get(streamUrl, {
+          responseType: "stream",
+          headers:      BROWSER_HEADERS,
+          timeout:      60000,
+        });
+        await new Promise((resolve, reject) => {
+          const writer = fs.createWriteStream(filePath);
+          dlRes.data.pipe(writer);
+          writer.on("finish", resolve);
+          writer.on("error", reject);
+        });
+        const size = (await fs.stat(filePath)).size;
+        if (!size) { await cleanTemp(filePath); throw new Error("ملف الصوت فارغ"); }
+        return {
+          filePath,
+          title:      track.title || "بدون عنوان",
+          artist:     track.publisher_metadata?.artist || track.user?.username || "",
+          durationMs: track.full_duration || track.duration || 0,
+          isSnipped:  !!pick.snipped,
+        };
+      } catch (err) {
+        const is404 = err?.response?.status === 404 || err?.response?.status === 401;
+        lastError.push(`${pick.format?.protocol}(refresh=${forceRefresh}): ${err.message}`);
+        if (!is404) break; 
+      }
+    }
+  }
+  throw new Error("فشل تشغيل المقطع: " + lastError.slice(-3).join(" | "));
+}
+function fmtDuration(ms) {
+  if (!ms) return "";
+  const s = Math.round(ms / 1000), m = Math.floor(s / 60);
+  return `⏱ ${m}:${String(s % 60).padStart(2, "0")}`;
+}
+async function cleanTemp(p) {
+  try { await fs.remove(p); } catch (_) {}
+}
+async function sendTrack(api, threadID, messageID, track, listMsgId = null) {
+  let filePath = null;
+  try {
+    const result = await streamTrack(track);
+    filePath = result.filePath;
+    const body =
+      `🎵 ${result.title}` +
+      `${result.artist     ? `\n👤 ${result.artist}`               : ""}` +
+      `${result.durationMs ? `\n${fmtDuration(result.durationMs)}` : ""}` +
+      `\n🔊 ${result.isSnipped ? "مقطع Preview 30ث" : "بث كامل"} — SoundCloud`;
+    await new Promise((res, rej) =>
+      global.safeSend(api, 
+        { body, attachment: fs.createReadStream(filePath) },
+        threadID,
+        err => err ? rej(err) : res(),
+        messageID
+      )
+    );
+    if (listMsgId) { try { await api.unsendMessage(listMsgId, threadID); } catch (_) {} }
+  } finally {
+    if (filePath) cleanTemp(filePath);
+  }
+}
+export default {
+  config: {
+    name:        "song",
+    aliases:     ["موسيقى"],
+    version:     "1.0.0",
+    role:        0,
+    countDown:   6,
+    category: "وسائط وتحميل",
+    description: "بحث وتشغيل مقاطع من SoundCloud — أضف s لعرض قائمة نتائج",
+    usage: [
+      "{pn}song <اسم> — تشغيل أول نتيجة مباشرة",
+      "{pn}song s <اسم> — عرض قائمة نتائج للاختيار",
+      "{pn}موسيقى <اسم> — نفس الأمر بالعربية",
+    ],
+  },
+  onStart: async ({ api, message, args, event }) => {
+    const { threadID, messageID } = event;
+    if (!args[0]) return message.reply(
+      "🎵 SoundCloud\n\n" +
+      "song <اسم الأغنية>      — تشغيل أول نتيجة مباشرة\n" +
+      "song s <اسم الأغنية>    — عرض قائمة للاختيار\n" +
+      "(أو موسيقى بدل song)\n\n" +
+      "مثال:\n" +
+      "song after the dark mr kitty\n" +
+      "song s mr kitty"
+    );
+    const showList = args[0].toLowerCase() === "s";
+    const query    = (showList ? args.slice(1) : args).join(" ").trim();
+    if (!query) return message.reply("❌ أرسل اسم الأغنية.");
+    try {
+      const tracks = await searchTracks(query, showList ? 7 : 1);
+      if (showList) {
+        const list = tracks.slice(0, 7);
+        let text = `🎵 نتائج البحث في SoundCloud:\n${"─".repeat(22)}\n`;
+        list.forEach((t, i) => {
+          const dur = t.full_duration || t.duration || 0;
+          text += `${TRACK_EMOJIS[i]} ${t.title || "بدون عنوان"}\n`;
+          text += `   👤 ${t.user?.username || ""} ${dur ? fmtDuration(dur) : ""}\n`;
+          text += `${"─".repeat(22)}\n`;
+        });
+        text += `تفاعل بالإيموجي لاختيار الأغنية\n⏳ تنتهي بعد دقيقتين`;
+        const sent = await new Promise((res, rej) =>
+          global.safeSend(api, text, threadID, (err, info) => err ? rej(err) : res(info), messageID)
+        );
+        if (sent?.messageID && global.client?.reactionListener) {
+          global.client.reactionListener[sent.messageID] = {
+            author: event.senderID,
+            callback: async ({ api, event: re }) => {
+              const idx = TRACK_EMOJIS.indexOf(re.reaction);
+              if (idx === -1 || idx >= list.length) return;
+              delete global.client.reactionListener[sent.messageID];
+              await sendTrack(api, threadID, messageID, list[idx], sent.messageID);
+            },
+          };
+          setTimeout(() => {
+            delete global.client?.reactionListener?.[sent.messageID];
+          }, 120000);
+        }
+        return;
+      }
+      await sendTrack(api, threadID, messageID, tracks[0]);
+    } catch (err) {
+      console.error("[sc] خطأ:", err.message);
+      global.safeSend(api, `❌ ${err.message?.substring(0, 200) || "خطأ غير معروف"}`, threadID, null, messageID);
+    }
+  },
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-media-song',
+  meta: { category: 'command-media', path: 'src/commands/media/song.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

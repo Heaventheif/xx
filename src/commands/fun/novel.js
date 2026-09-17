@@ -1,1 +1,564 @@
-const a0_0x4cb084=a0_0xa296;(function(_0x5c331f,_0x2cf1b9){const _0x469634=a0_0xa296,_0x4451f3=_0x5c331f();while(!![]){try{const _0x49e963=-parseInt(_0x469634(0x1f7))/0x1+-parseInt(_0x469634(0x237))/0x2*(parseInt(_0x469634(0x1b4))/0x3)+-parseInt(_0x469634(0x212))/0x4*(-parseInt(_0x469634(0x1d6))/0x5)+parseInt(_0x469634(0x1dc))/0x6+parseInt(_0x469634(0x23e))/0x7+parseInt(_0x469634(0x1d2))/0x8+parseInt(_0x469634(0x18e))/0x9*(parseInt(_0x469634(0x1b5))/0xa);if(_0x49e963===_0x2cf1b9)break;else _0x4451f3['push'](_0x4451f3['shift']());}catch(_0x30e2be){_0x4451f3['push'](_0x4451f3['shift']());}}}(a0_0x533c,0xb00ea));import a0_0x23cd68 from'../../utils/fetchHttp.js';import*as a0_0x4a762a from'cheerio';import{translateToArabic}from'../../utils/translator.js';function a0_0x533c(){const _0x52760d=['zwfJAa','lI4U','tw96AwXSys81lJaGke1Hy2LUDg9ZAdSGsw50zwWGtwfJie9tifGGmtbFmtvFnYKGqxbWBgvxzwjlAxqVnJa1lJeUmtuGkeTive1mlcbSAwTLieDLy2TVksbwzxjZAw9UlZe3lJqGu2fMyxjPlZyWns4XlJe1','4P2minMk2kZyQcdzG9IQ2kFyQnIPinIN2lpzHsdyP9Me2lhzInIN2yRyQsdzGTIO2yqG2lhzGTMfinIN2ytzGDI12yqk8j+sOsdzHDIR2kFzHdOGlM5VDMvSig1HCNrPywWGCgvHAYaX','ChjVBwLZzq','CgfYywDYyxbOCW','inIT2lhzGsK','C29YDa','z2v0','CMvWBgfJzq','DgHLBG','BwfW','zgL2i2nOCI1JB250zw50','mJC3ndq0ogHtwgjgzq','Aw5JBhvKzxm','tM92zwXgAxjL','y2HHChrLCLrPDgXL','mJyWsKX3BfHc','zvjRvKq','ignODw5R','AKftC0q','Ahr0Chm6lY9HCgKUywXSB3jPz2LUCY53Aw4VCMf3p3vYBd0','Ahr0Chm6lY9UB3zLBgz1BgWUy29TlW','nti5ndaXnMfdv0jbAG','cVcFK4qG','zMLSDgvY','iIdyUDMe2yKG','2kFyRTIQ2yRyP9IXinMf2lFzHnMi2kGG2kJzITMgia','yxj0AwnSzsnJAgfWDgvYlwfYDgLJBgu','8j+uHcdyQTIX2kZzHDIPia','BM92zwXTDc5JB20','qwXStM92zwXgDwXS','w1zfuKLgwv0G2kpzJ9I52yRyR9IQinIQ2lhyRnMf2kKG2yhzGTIX2kKGka','DxjS','C2nYAxb0lhn0EwXLlgLUCYWUywrZlc5HzcXUB3nJCMLWDa','y29TBwfUzc1MDw4','D3nZEva','DgvZDa','lNbHz2uTAw4','l25VDMvS','AdmUDgL0Bgu','Bg9N','tNbYC0O','u3vUA2vU','z2TKA08','ChjVEhLszwy','ANvZDcbHig1VBwvUDa','2yhyTnMe2kOG2kZzHDMk2lKG2kFzHnMf2k3yP9Mi2ytyP9IQ','2yxyRDIQ2yJzIsdzGDIN2lhyUIaO','ihWG8j+tHcdyP9Me2yhyTDMeia','mtmXmJy4nvLRrMvRqq','Ahr0Chm6lY9PBM92zwXODwiUy29Tl25VDMvSlW','Aw5KzxHvCMW','2yxyRDIQ2yJzIsdzGDIN2lhyUTIminIS2lhzKDIOinIN2ytzHTIZ2k7yQsdyP9Me2kJyR9Mk2ytyQq','BMfTzq','uerQwNe','2ytyPYdyQTMi2kZyRYdyQTMb2kFyTDMk2yq','C2L0zu5HBwu','y2XVDwrMBgfYzq','BxrSBM92zwWUBwu','ic8G','Bwf0y2G','BgvUz3rO','wvHpywy','C2v0','yxbWBgLJyxrPB24VANnVBG','yvTOCMvMxq','Dgv4Dc9ODg1SlgfWCgXPy2f0Aw9Ul3HODg1Sk3HTBcXHChbSAwnHDgLVBI94BwW7Ct0WlJKSkI8Qo3e9mc44','lMvUDhj5lwnVBNrLBNq','zwnVz1e','C2PKDwS','tM92zwXiAq','tM92zwXdCMvZDa','su5VDMvSshvI','cVcFK4WG','yxj0AwnSzq','lM5VDMvSlxrPDgXL','mte0mZzmyKvrBgq','mtaUmc4W','DgrAD0m','CMvWzwf0','BwfPBIbHCNrPy2XL','CMfJzq','zgL2w2nSyxnZkJ0Ny2HHChrLCIDD','lNrLEhqTBgvMDa','ltiV','i2nOCI1JB250zw50','lMnOyxb0zxiTDgL0Bgu','2lRzITIXinMf2lNySDMi2ye','C2DYwM0','sezFu1bbq0vFvvjminI62yRySsdzHDI22kJzInI3','yNvPBgrvCMXbBhq','DMfSDwu','C0LvDMW','BMvLzf9ZzwXLy3rPB24','inMg2kZyRsdzG9Mf2lxyR9IXinIO2k/zITMe','v3v4AwfcB3G','s0zJDfy','cGRWN5kHinIT2kFzInMeinIQ2k3yR9Mk2k8G2kFzHnIN2lpzHsdyQnIV2ylyQsdyO9Md2kJySs4','C2fMzvnLBMq','C3rHDhvZ','Dgv4Da','Ahr0Chm6lY93D3CUBM92zwXJCMvZDc5JB20VyM9VAY8','zMLUza','D1ffEvu','y1bZyxu','ywnJzxnZigrLBMLLza','DhjHBNnSyxrLzdO','yxj0AwnSzsaUy29UDgvUDa','A2fVzeO','C3rHCNrZv2L0Aa','Dg9mB3DLCKnHC2u','i2nOyxb0zxiTy29UDgvUDa','tw96AwXSys81lJaGkfGXmtSGtgLUDxGGEdG2xZy0ksbbChbSzvDLyKTPDc81mZCUmZyGkeTive1mlcbSAwTLieDLy2TVksbdAhjVBwuVmti1lJaUmc4WifnHzMfYAs81mZCUmZy','ndCXnZqYvwvZDezr','cUkaOIa','l2nOyxb0zxiT','w05pvKvmxsdINiuG','4PYfinIN2ytyQTIT2ylzGIdzHDMginIN2ytyQTIX2kZzHDIPlI4UcVcFK5yG','CNbJrK0','rNjLzxDLyM5VDMvS','ndCZmdy4neDswLjtyq','y2fUzgLKyxrLCW','FhX8','AhzjEui','lMnOyxb0zxiTy29UDgvUDa','DhjPBq','AM9PBG','cVcFK4qG2kFzHnMb2lxzHca','C2vSzwn0B3jZ','w05pvKvmxsdzGDI02ytyQIdzG9MeinIN2ytzHDI12kFyR9IXinIN2ytyO9IZ2kFyS9Mk2kKG2kpzIcdyP9Mg2kRzH9MjinIN2ytzInMc2kO6ia','yxr0CG','zgL2lMnOyxb0zxiTy29UDgvUDa','2kFzHnMb2lxzHca','D3v4Awe6','CMvTB3zL','C29Tzq','Au1UEg4','rerzzMS','DgL0Bgu','lNrLEhqTy29UDgvUDa','w1rsqu5ttefurv0G','BwvZC2fNzq','8j+tMIdyP9Me2kFyS9IQ2k7yR9IN2yu6ic5UB3zLBcbB2kFyS9MfinIN2ytySDMi2kFzITIPxsbB2lhzGTMfinIN2ytzGDI12yrDcVcFKQeG2yxyQ9IN2yq6ic5UB3zLBcbTyxj0AwfSihbLywSGmq','ChjLDIbJAgfWDgvY','BM92zwW','iokgKIbPBMrLEca','yNvPBgrvCMW','Cg9ZDa','C3vJy2vZC0nVDw50','ywr2zxj0AxnLBwvUDa','zMXVB3i','mti1ntG3nZfXDw9pBxm','DgfIBguGB2yGy29UDgvUDhm','v3v4AwfcB3G6inMe2yuG2yRzJ9I52kVySsdyUDMe2yKG2kFzHnMb2lxzHca','C3vIC3rYAw5N','cGRIMQdVUi8G2ylyRYdzITIZ2kRyUTIX2yiG2k3yQTMjidmWinIR2kFzHTMk2kK','4P2minMk2kZyQcdyO9MginMk2ypzInMginII2k7ySsdyTnMk2keG2yhzIIdyP9Me2kpzHDIXinIX2ylzHsdyP9Me2yhyTDMecVcFKQeG2yxyQ9IN2yq6ic5UB3zLBcbTyxj0AwfSihbLywSGmq','zgL2i2nOyxb0zxiTy29UDgvUDa','ChvZAa','ref1sLe','CMvWB3j0ignOyxb0zxi','BM92zwXMDwXSlMnVBq','Ahr0Ca','v3rYtgfI','lMH0BwW','tw96AwXSys81lJaGkfDPBMrVD3mGtLqGmtaUmdSGv2LUnJq7ihG2ncKGqxbWBgvxzwjlAxqVntm3lJm2icHlsfrntcWGBgLRzsbhzwnRBYKGrwrNlZeYns4WlJaUmcbdAhjVBwuVmti1lJaUmc4WifnHzMfYAs81mZCUmZy','Bg9Hza','rfzbtM4','lNrYDxLLBI10AxrSzq','r0LIAMu','zMLYC3q','BwvZC2fNzuLe','8j+uGsdyQTIS2lhyQnIPinMf2lxyR9IXinIO2k/zITMeicJzHDMi2kFzGTI5iePtks4UlGRWN5owia','inMb2ylySDIPkq','w14Ij10Qxc5ODg1S','tM92zwXgDwXS','Ahr0Chm6lY9UB3zLBgz1BgWUy29T','D2fYBG','C3bSAxq','8j+uJIdzInMp2kZyR9IQinI52k/yQsdzHTIQ2kFyPTISinMf2kRyTnIN2kJzH9IPinMe2yaGiG','w05pvKvmxsdzGDI02yqG2kxySDIZ2kFzHcdyP9Me2lhyS9IN2kBzHcdyP9Me2yxzGTI32lNyQtO','zgf0yq','zwrPDe1LC3nHz2u','shjwzvi','uKrQsLC','zxjYB3i','AgzsBvi','inMf2lxyP9IV2leG2kJyP9Me2kRzInIN2llzII4UlGRWN5owia','y2f0y2G','mtHKzNrWvLO','mtbzuhrmzeG','w05pvKvmxsdzGDI02yqG2kFzHnIN2k3yQTMk2kFyT9MkifD1EgLHqM94inIJ2yRyTTMl2kC6ia','C3jJl2nVBw1HBMrZl2z1BI9UB3zLBc5QCW','yvzuq2W','s3nezMy','vwn5DKG','rMLhquC','C3rYAw5N','iokaLca','z3PPCcWGzgvMBgf0zsWGyNi','C2L0zq','cVcFJjaG','zw4TvvmSzw47Ct0WlJK','yNvPBgrdAgfWDgvY','vwXnBgG','2ytyPYdyQTMi2kZyRYdzHDI12kFyR9IXinMf2kRyP9IT2kK'];a0_0x533c=function(){return _0x52760d;};return a0_0x533c();}import{getHfBaseOrNull,getInternalToken}from'../../utils/hfClient.js';import a0_0x3e7d27 from'../../utils/cache.js';const CACHE_TTL=0xe10*0x3e8,cacheGet=_0x20761a=>a0_0x3e7d27[a0_0x4cb084(0x1cd)](_0x20761a),cacheSet=(_0x2cabfc,_0x40331b)=>a0_0x3e7d27[a0_0x4cb084(0x205)](_0x2cabfc,_0x40331b,CACHE_TTL),USER_AGENTS=['Mozilla/5.0\x20(Windows\x20NT\x2010.0;\x20Win64;\x20x64)\x20AppleWebKit/537.36\x20(KHTML,\x20like\x20Gecko)\x20Chrome/125.0.0.0\x20Safari/537.36',a0_0x4cb084(0x1c7),a0_0x4cb084(0x19c),a0_0x4cb084(0x236)],randomUA=()=>USER_AGENTS[Math[a0_0x4cb084(0x18d)](Math['random']()*USER_AGENTS['length'])],BROWSER_HEADERS=()=>({'User-Agent':randomUA(),'Accept':a0_0x4cb084(0x208),'Accept-Language':a0_0x4cb084(0x1c1),'Accept-Encoding':a0_0x4cb084(0x1be),'Cache-Control':'no-cache'}),slugify=_0x4c2ee6=>_0x4c2ee6[a0_0x4cb084(0x234)]()[a0_0x4cb084(0x1ce)](/'/g,'')[a0_0x4cb084(0x1ce)](/[^a-z0-9]+/g,'-')['replace'](/^-|-$/g,''),FALLBACK_SITES=[{'name':a0_0x4cb084(0x1e4),'buildUrl':(_0x20cc2b,_0x34d209)=>'https://allnovelfull.net/'+_0x20cc2b+a0_0x4cb084(0x239)+_0x34d209+a0_0x4cb084(0x19b),'selectors':[a0_0x4cb084(0x235),a0_0x4cb084(0x242),a0_0x4cb084(0x251)],'titleSel':[a0_0x4cb084(0x19f),a0_0x4cb084(0x1ed),a0_0x4cb084(0x250)],'slugify':slugify,'buildChapter':_0xbfcfc0=>String(_0xbfcfc0)},{'name':'NovelFull','indexUrl':_0x25a5d6=>a0_0x4cb084(0x1db)+_0x25a5d6+a0_0x4cb084(0x19b),'selectors':['#chapter-content','.chapter-content',a0_0x4cb084(0x219)],'titleSel':[a0_0x4cb084(0x19f),'h3.title','title'],'slugify':slugify,'buildChapter':_0x4ae857=>String(_0x4ae857)},{'name':a0_0x4cb084(0x1d4),'buildUrl':(_0x1e1e1b,_0x15f8d1)=>'https://novelfire.net/book/'+_0x1e1e1b+a0_0x4cb084(0x239)+_0x15f8d1,'selectors':['.chapter-content',a0_0x4cb084(0x235),'div.content','.reading-content',a0_0x4cb084(0x218),a0_0x4cb084(0x210)],'titleSel':['.novel-title','h1','title'],'slugify':slugify,'buildChapter':_0x151607=>String(_0x151607)},{'name':a0_0x4cb084(0x20e),'buildUrl':(_0x4d3e04,_0x55559f)=>a0_0x4cb084(0x1f8)+_0x4d3e04+a0_0x4cb084(0x239)+_0x55559f,'selectors':[a0_0x4cb084(0x194),a0_0x4cb084(0x235),a0_0x4cb084(0x242),a0_0x4cb084(0x209),'div[id*=\x27chapter\x27]',a0_0x4cb084(0x218),a0_0x4cb084(0x231),a0_0x4cb084(0x216)],'titleSel':[a0_0x4cb084(0x211),'h1','title'],'slugify':slugify,'buildChapter':_0x143587=>String(_0x143587)},{'name':'NovelCrest','buildUrl':(_0x106424,_0x352512)=>'https://www.novelcrest.com/book/'+_0x106424+'/'+_0x352512+a0_0x4cb084(0x19b),'buildUrlAlt':(_0xb98cfb,_0x5df534)=>a0_0x4cb084(0x22b)+_0xb98cfb+a0_0x4cb084(0x21a)+_0x5df534+'.html','selectors':[a0_0x4cb084(0x1d1),'.chr-c',a0_0x4cb084(0x21b)],'titleSel':['.chr-title','h1','title'],'slugify':slugify,'buildChapter':_0x376149=>String(_0x376149)}],WUXIABOX_SITE={'name':a0_0x4cb084(0x225),'buildUrl':(_0x5585a6,_0x203da9)=>'https://www.wuxiabox.com/novel/'+_0x5585a6+'_'+_0x203da9+'.html','selectors':[a0_0x4cb084(0x1e1),a0_0x4cb084(0x249),a0_0x4cb084(0x1eb)],'titleSel':[a0_0x4cb084(0x19f),'h1','title'],'slugify':_0x230ae5=>_0x230ae5,'buildChapter':_0x2b9d77=>String(_0x2b9d77)},PROXIES=[{'build':_0x3ad329=>a0_0x4cb084(0x1da)+encodeURIComponent(_0x3ad329),'successCount':0x0},{'build':_0x4039b6=>'https://corsproxy.io/?'+encodeURIComponent(_0x4039b6),'successCount':0x0}],orderedProxies=()=>[...PROXIES][a0_0x4cb084(0x1cc)]((_0x54a46f,_0x21d6ab)=>_0x21d6ab['successCount']-_0x54a46f[a0_0x4cb084(0x25a)]),FILTER_WORDS=[a0_0x4cb084(0x198),'boxnovel',a0_0x4cb084(0x1e3),a0_0x4cb084(0x200),a0_0x4cb084(0x25b),a0_0x4cb084(0x197),'next\x20chapter',a0_0x4cb084(0x255),a0_0x4cb084(0x18f),a0_0x4cb084(0x22f),a0_0x4cb084(0x1f3),a0_0x4cb084(0x1ff),'enable\x20javascript','read\x20more\x20at'],STOLEN_CONTENT_PATTERNS=[/stol(en|e)\s+(content|chapter|novel)/i,/(this|the)\s+(chapter|content|novel)\s+(is|was)\s+stolen/i,/if\s+you('| a)re\s+reading\s+this\s+on/i,/please\s+read\s+(this|it)\s+on\s+(the\s+)?original/i,/unauthorized\s+(use|reproduction|copy)/i,/support\s+the\s+(author|translator)\s+by\s+reading/i],isFiltered=_0x550cc1=>{const _0x2f3461=a0_0x4cb084,_0x30b1b7=_0x550cc1[_0x2f3461(0x234)]();if(FILTER_WORDS['some'](_0x82eb8d=>_0x30b1b7[_0x2f3461(0x1d3)](_0x82eb8d)))return!![];if(STOLEN_CONTENT_PATTERNS[_0x2f3461(0x24d)](_0x126f95=>_0x126f95['test'](_0x550cc1)))return!![];return![];};function cleanText(_0x2a7dda){const _0x10c108=a0_0x4cb084;return _0x2a7dda['replace'](/\u00a0/g,'\x20')[_0x10c108(0x1ce)](/[•◆▪]{2,}/g,'\x20')[_0x10c108(0x1ce)](/\.{4,}/g,_0x10c108(0x1c6))[_0x10c108(0x1ce)](/\s{2,}/g,'\x20')['trim']();}const sendMessageAsync=(_0x3448fb,_0x29d4dd,_0x40363e,_0x2d987d)=>new Promise((_0x1a827a,_0x49ce69)=>global['safeSend'](_0x3448fb,_0x29d4dd,_0x40363e,(_0xc3572,_0x35a871)=>_0xc3572?_0x49ce69(_0xc3572):_0x1a827a(_0x35a871),_0x2d987d));async function raceFirstSuccess(_0x530bea){const _0x2fb450={'ksCHO':function(_0x2d03a4,_0x10d9b7){return _0x2d03a4===_0x10d9b7;}};return new Promise((_0x480d7c,_0x4aafde)=>{const _0x2610ef=a0_0xa296,_0x3e1261={'rNtEl':function(_0x18ffec,_0x59ab08){return _0x18ffec(_0x59ab08);}};let _0x7a0e2b=_0x530bea['length'];const _0x2b7b79=[];if(_0x2fb450['ksCHO'](_0x7a0e2b,0x0))return _0x4aafde(new Error(_0x2610ef(0x1c4)));_0x530bea['forEach'](_0x47abe3=>{const _0xddd602=_0x2610ef;_0x47abe3[_0xddd602(0x1c9)][_0xddd602(0x1cf)](_0x36da0d=>_0x480d7c({'value':_0x36da0d,'siteName':_0x47abe3[_0xddd602(0x1fe)]}))[_0xddd602(0x1b3)](_0x36d04d=>{const _0x232819=_0xddd602;_0x2b7b79[_0x232819(0x195)](_0x47abe3[_0x232819(0x1fe)]+':\x20'+_0x36d04d[_0x232819(0x253)]?.[_0x232819(0x191)](0x0,0x3c)),_0x7a0e2b-=0x1;if(_0x7a0e2b===0x0)_0x3e1261['rNtEl'](_0x4aafde,new Error(_0x2b7b79[_0x232819(0x244)]('\x20|\x20')));});});});}function splitLongParagraph(_0x169573,_0xdf3c9){const _0x470f7a=a0_0x4cb084,_0x4c42d9={'aLhZg':function(_0x36fe56,_0x1b2b13){return _0x36fe56>_0x1b2b13;}};if(_0x169573['length']<=_0xdf3c9)return[_0x169573];const _0x3d4a83=_0x169573[_0x470f7a(0x202)](/[^.!?\u061f\u060c]+[.!?\u061f\u060c]*/g)||[_0x169573],_0x4f0f31=[];let _0x1ebe56='';for(const _0x3505b5 of _0x3d4a83){if(_0x4c42d9['aLhZg']((_0x1ebe56+_0x3505b5)[_0x470f7a(0x203)],_0xdf3c9)&&_0x1ebe56)_0x4f0f31[_0x470f7a(0x195)](_0x1ebe56),_0x1ebe56=_0x3505b5;else _0x1ebe56+=_0x3505b5;}if(_0x1ebe56)_0x4f0f31[_0x470f7a(0x195)](_0x1ebe56);return _0x4f0f31;}async function translateBatch(_0xce83e1){const _0x15cb3f=a0_0x4cb084,_0x1f4ad7={'GIbje':function(_0x220317,_0x1e444f){return _0x220317+_0x1e444f;},'DVANn':function(_0x1b2253,_0x1b7872){return _0x1b2253<_0x1b7872;},'DAuJQ':function(_0x44c39f,_0x4ca6ab){return _0x44c39f(_0x4ca6ab);},'ecogQ':function(_0x5b6be9,_0x39e094){return _0x5b6be9<_0x39e094;}};if(!_0xce83e1?.['length'])return[];const _0x52a063=_0xce83e1['join']('')['match'](/[\u0600-\u06FF]/g);if(_0x52a063&&_0x52a063[_0x15cb3f(0x203)]>0x32)return _0xce83e1;const _0x8710a5=0xed8,_0x41b75f='\x20|||\x20',_0x4dcb17=_0xce83e1['flatMap'](_0x4f5274=>splitLongParagraph(_0x4f5274,_0x8710a5)),_0xb580c1=[];let _0x170514='';for(const _0x471aea of _0x4dcb17){const _0x85a556=_0x170514?_0x1f4ad7[_0x15cb3f(0x1a0)](_0x170514+_0x41b75f,_0x471aea):_0x471aea;if(_0x85a556[_0x15cb3f(0x203)]>_0x8710a5&&_0x170514)_0xb580c1[_0x15cb3f(0x195)](_0x170514),_0x170514=_0x471aea;else _0x170514=_0x85a556;}if(_0x170514)_0xb580c1['push'](_0x170514);console[_0x15cb3f(0x1ee)](_0x15cb3f(0x252)+_0xce83e1[_0x15cb3f(0x203)]+'\x20فقرة\x20→\x20'+_0xb580c1[_0x15cb3f(0x203)]+_0x15cb3f(0x1d8));const _0x794689=[];for(let _0xe6c18=0x0;_0x1f4ad7[_0x15cb3f(0x19e)](_0xe6c18,_0xb580c1['length']);_0xe6c18++){try{const _0x172b64=await _0x1f4ad7[_0x15cb3f(0x196)](translateToArabic,_0xb580c1[_0xe6c18]);_0x794689[_0x15cb3f(0x195)](_0x172b64||_0xb580c1[_0xe6c18]);}catch{_0x794689[_0x15cb3f(0x195)](_0xb580c1[_0xe6c18]);}if(_0x1f4ad7[_0x15cb3f(0x20a)](_0xe6c18,_0xb580c1['length']-0x1))await new Promise(_0x256b23=>setTimeout(_0x256b23,0x12c+Math['random']()*0x190));}const _0x2bdd2c=_0x794689['join'](_0x41b75f)[_0x15cb3f(0x1a9)](_0x15cb3f(0x240))['map'](_0x5e6d75=>_0x5e6d75['trim']())[_0x15cb3f(0x1de)](Boolean);return _0x2bdd2c[_0x15cb3f(0x203)]>0x0?_0x2bdd2c:_0xce83e1;}async function translateBatchCached(_0x5cee3a,_0x170c58){const _0x298cdd=a0_0x4cb084,_0x31859c={'iMnxn':function(_0x2003a3,_0x779093){return _0x2003a3(_0x779093);},'kjyih':function(_0x40e6f6,_0x19efb2,_0x4127dc){return _0x40e6f6(_0x19efb2,_0x4127dc);}},_0x3472fc=_0x298cdd(0x230)+_0x5cee3a,_0x118699=_0x31859c[_0x298cdd(0x24e)](cacheGet,_0x3472fc);if(_0x118699)return _0x118699;const _0x415f34=await translateBatch(_0x170c58);return _0x31859c['kjyih'](cacheSet,_0x3472fc,_0x415f34),_0x415f34;}async function fetchHTML(_0x56af41){const _0x3f79d2=a0_0x4cb084,_0x23acfa={'rPTTk':_0x3f79d2(0x1bc),'tdZwC':function(_0x1feb9d,_0x72f266){return _0x1feb9d(_0x72f266);}},_0x5837c4=[{'url':_0x56af41,'headers':BROWSER_HEADERS(),'proxyRef':null},...orderedProxies()['map'](_0x581071=>({'url':_0x581071['build'](_0x56af41),'headers':{'User-Agent':randomUA()},'proxyRef':_0x581071}))];for(const _0x3fdb2e of _0x5837c4){try{const _0x48b462=await a0_0x23cd68[_0x3f79d2(0x1cd)](_0x3fdb2e[_0x3f79d2(0x1e6)],{'timeout':0x4e20,'headers':_0x3fdb2e['headers'],'validateStatus':()=>!![]});if(_0x48b462['status']>=0x190)continue;const _0x18ba94=typeof _0x48b462['data']===_0x23acfa['rPTTk']?_0x48b462[_0x3f79d2(0x1ac)]:_0x23acfa[_0x3f79d2(0x214)](String,_0x48b462[_0x3f79d2(0x1ac)]);if(_0x18ba94[_0x3f79d2(0x203)]<0x1f4)continue;const _0x5c16a5=_0x18ba94[_0x3f79d2(0x191)](0x0,0xbb8)[_0x3f79d2(0x234)]();if(_0x5c16a5[_0x3f79d2(0x1d3)]('just\x20a\x20moment')||_0x5c16a5['includes'](_0x3f79d2(0x1ff)))continue;if(_0x3fdb2e[_0x3f79d2(0x1f2)])_0x3fdb2e[_0x3f79d2(0x1f2)]['successCount']+=0x1;return _0x18ba94;}catch(_0x555065){}}throw new Error(_0x3f79d2(0x1f4));}function extractContent(_0x14709f,_0x114141){const _0x2434ca=a0_0x4cb084,_0x32b845={'NprsJ':function(_0x2b1aa4,_0xfb685d){return _0x2b1aa4(_0xfb685d);},'wQEyU':_0x2434ca(0x1e7),'NsHzN':function(_0xde5c03,_0x4c414c){return _0xde5c03<_0x4c414c;},'puQNM':function(_0x279edc,_0x44025e){return _0x279edc>_0x44025e;}};let _0x5b0683=null;for(const _0x2de369 of _0x114141){const _0x20b85c=_0x14709f(_0x2de369)[_0x2434ca(0x1a1)]();if(_0x20b85c['length']){_0x5b0683=_0x20b85c;break;}}if(!_0x5b0683)return null;_0x5b0683['find'](_0x32b845[_0x2434ca(0x22d)])[_0x2434ca(0x24c)]();let _0x52c2f1=[];return _0x5b0683[_0x2434ca(0x22c)]('p')['each']((_0x38cf2f,_0x2f5c58)=>{const _0x4e32df=_0x2434ca,_0x1ef2fe=cleanText(_0x32b845['NprsJ'](_0x14709f,_0x2f5c58)[_0x4e32df(0x22a)]());if(_0x1ef2fe[_0x4e32df(0x203)]>0xf&&!_0x32b845[_0x4e32df(0x1ef)](isFiltered,_0x1ef2fe))_0x52c2f1[_0x4e32df(0x195)](_0x1ef2fe);}),_0x32b845['NsHzN'](_0x52c2f1[_0x2434ca(0x203)],0x3)&&(_0x52c2f1=_0x5b0683[_0x2434ca(0x22a)]()[_0x2434ca(0x1a9)](/\n+/)['map'](_0x3c660e=>cleanText(_0x3c660e))['filter'](_0x5a31e6=>_0x5a31e6[_0x2434ca(0x203)]>0xf&&!isFiltered(_0x5a31e6))),_0x32b845['puQNM'](_0x52c2f1[_0x2434ca(0x203)],0x0)?_0x52c2f1:null;}const wuxiaBoxIDCache=new Map();function a0_0xa296(_0x4e8105,_0x1b5a4f){_0x4e8105=_0x4e8105-0x18d;const _0x533c67=a0_0x533c();let _0xa29607=_0x533c67[_0x4e8105];if(a0_0xa296['DCANYl']===undefined){var _0x279288=function(_0x5ab292){const _0x19d28a='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x489a24='',_0x51d6df='';for(let _0x311ac1=0x0,_0x510aae,_0x37e270,_0xddc13c=0x0;_0x37e270=_0x5ab292['charAt'](_0xddc13c++);~_0x37e270&&(_0x510aae=_0x311ac1%0x4?_0x510aae*0x40+_0x37e270:_0x37e270,_0x311ac1++%0x4)?_0x489a24+=String['fromCharCode'](0xff&_0x510aae>>(-0x2*_0x311ac1&0x6)):0x0){_0x37e270=_0x19d28a['indexOf'](_0x37e270);}for(let _0x411bd8=0x0,_0x9f2f69=_0x489a24['length'];_0x411bd8<_0x9f2f69;_0x411bd8++){_0x51d6df+='%'+('00'+_0x489a24['charCodeAt'](_0x411bd8)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x51d6df);};a0_0xa296['XIWNZk']=_0x279288,a0_0xa296['Cffsar']={},a0_0xa296['DCANYl']=!![];}const _0x32787e=_0x533c67[0x0];a0_0xa296['txfjiS']!==_0x32787e&&(a0_0xa296['Cffsar']={},a0_0xa296['txfjiS']=_0x32787e);const _0x39765d=a0_0xa296['Cffsar'][_0x4e8105];return _0x39765d===undefined?(_0xa29607=a0_0xa296['XIWNZk'](_0xa29607),a0_0xa296['Cffsar'][_0x4e8105]=_0xa29607):_0xa29607=_0x39765d,_0xa29607;}async function resolveWuxiaBoxUrl(_0x1ad932,_0x3a1f67){const _0x5d2222=a0_0x4cb084,_0x1c03d9={'UNlgO':function(_0x533842,_0x4a2555){return _0x533842<=_0x4a2555;},'sjduk':function(_0x4a7a60,_0x2750d2){return _0x4a7a60(_0x2750d2);},'BNfxC':_0x5d2222(0x250)},_0x56ff00=_0x5d2222(0x24b)+_0x1ad932+':'+_0x3a1f67;if(wuxiaBoxIDCache['has'](_0x56ff00))return wuxiaBoxIDCache[_0x5d2222(0x1cd)](_0x56ff00);const _0x272da3=[_0x3a1f67];for(let _0x5eba9d=0x1;_0x1c03d9['UNlgO'](_0x5eba9d,0xf);_0x5eba9d++){_0x272da3['push'](_0x3a1f67+_0x5eba9d),_0x272da3[_0x5d2222(0x195)](_0x3a1f67-_0x5eba9d);}for(const _0x490252 of _0x272da3){if(_0x490252<0x1)continue;const _0x25f0de='https://www.wuxiabox.com/novel/'+_0x1ad932+'_'+_0x490252+_0x5d2222(0x19b);try{const _0x40bb66=await _0x1c03d9['sjduk'](fetchHTML,_0x25f0de),_0x2c5232=a0_0x4a762a[_0x5d2222(0x19d)](_0x40bb66),_0x10eda8=[_0x1c03d9[_0x5d2222(0x20b)](_0x2c5232,_0x1c03d9['BNfxC'])['text'](),_0x2c5232('h2')['first']()[_0x5d2222(0x22a)](),_0x2c5232('h3')['first']()['text'](),_0x2c5232(_0x5d2222(0x21c))['first']()['text']()][_0x5d2222(0x244)]('\x20'),_0x177b28=_0x10eda8[_0x5d2222(0x202)](/chapter\s*(\d+)/i);if(_0x177b28&&parseInt(_0x177b28[0x1])===_0x3a1f67)return console[_0x5d2222(0x1ee)]('[WuxiaBox]\x20✅\x20فصل\x20'+_0x3a1f67+_0x5d2222(0x257)+_0x490252),wuxiaBoxIDCache[_0x5d2222(0x205)](_0x56ff00,{'url':_0x25f0de,'html':_0x40bb66,'$':_0x2c5232}),{'url':_0x25f0de,'html':_0x40bb66,'$':_0x2c5232};if(_0x490252===_0x3a1f67&&!_0x177b28){const _0x1bae5e=extractContent(_0x2c5232,['article#chapter-article',_0x5d2222(0x249),_0x5d2222(0x1eb)]);if(_0x1bae5e&&_0x1bae5e[_0x5d2222(0x203)]>0x3)return wuxiaBoxIDCache['set'](_0x56ff00,{'url':_0x25f0de,'html':_0x40bb66,'$':_0x2c5232}),{'url':_0x25f0de,'html':_0x40bb66,'$':_0x2c5232};}}catch(_0x1dde36){}}return null;}async function fetchFromFallback(_0x2387d2,_0x19f1d9,_0x375e48){const _0x59d1e5=a0_0x4cb084,_0x2c9140={'hvIyB':_0x59d1e5(0x199),'UcyvH':function(_0x200496,_0x53d8ea){return _0x200496(_0x53d8ea);},'rpcFM':function(_0x1cc15c,_0x3e1d4c,_0x26b6be){return _0x1cc15c(_0x3e1d4c,_0x26b6be);},'kaodJ':function(_0x23a6d2,_0x6a5098){return _0x23a6d2===_0x6a5098;},'RDjJW':function(_0x239b16,_0x3a8845){return _0x239b16(_0x3a8845);},'sIUvl':function(_0x54c2f8,_0x202f85){return _0x54c2f8(_0x202f85);},'gkdkO':_0x59d1e5(0x1fa),'aVTCl':function(_0x53fd4a,_0xe3812f){return _0x53fd4a(_0xe3812f);},'DDYfk':function(_0x21b9b3,_0x512e31){return _0x21b9b3(_0x512e31);},'sLYLY':function(_0x4734dd,_0x3d490d){return _0x4734dd<_0x3d490d;},'VBDIf':function(_0x4703c1,_0x236ec2){return _0x4703c1(_0x236ec2);}},_0x2ce0d9=_0x2387d2['name']+':'+_0x19f1d9+':'+_0x375e48,_0x4ad006=cacheGet(_0x2ce0d9);if(_0x4ad006)return _0x4ad006;const _0x277a95=_0x2387d2['slugify'](_0x19f1d9);if(!_0x277a95)throw new Error('اسم\x20الرواية\x20غير\x20صالح\x20بعد\x20التحويل\x20لرابط');let _0x474440,_0x486686,_0xb8b614;if(_0x2387d2[_0x59d1e5(0x1fb)]===_0x59d1e5(0x225)){const _0x421df0=_0x19f1d9[_0x59d1e5(0x234)]()[_0x59d1e5(0x1ce)](/'/g,'')['replace'](/[^a-z0-9]+/g,'-')[_0x59d1e5(0x1ce)](/^-|-$/g,''),_0x32daeb=await _0x2c9140['rpcFM'](resolveWuxiaBoxUrl,_0x421df0,_0x375e48);if(!_0x32daeb)throw new Error(_0x59d1e5(0x190)+_0x375e48+'\x20في\x20نطاق\x20±15');({url:_0xb8b614,html:_0x474440,$:_0x486686}=_0x32daeb);}else{if(_0x2c9140[_0x59d1e5(0x232)](_0x2387d2[_0x59d1e5(0x1fb)],_0x59d1e5(0x1a6))){const _0x1bc825=_0x2387d2[_0x59d1e5(0x1f9)](_0x277a95),_0x3d475a=await fetchHTML(_0x1bc825),_0x437ef1=a0_0x4a762a[_0x59d1e5(0x19d)](_0x3d475a),_0x27a926=new RegExp(_0x59d1e5(0x239)+_0x375e48+_0x59d1e5(0x1a5),'i');let _0x4c44f7=null;_0x2c9140[_0x59d1e5(0x1af)](_0x437ef1,_0x59d1e5(0x207))[_0x59d1e5(0x1c5)]((_0x31f018,_0x7443fb)=>{const _0x190fa4=_0x59d1e5,_0x1568a9=_0x437ef1(_0x7443fb)[_0x190fa4(0x248)]('href')||'';if(_0x27a926[_0x190fa4(0x1ea)](_0x1568a9))return _0x4c44f7=_0x1568a9[_0x190fa4(0x233)](_0x2c9140[_0x190fa4(0x241)])?_0x1568a9:_0x190fa4(0x1a7)+_0x1568a9,![];});if(!_0x4c44f7)for(let _0x2f0457=0x1;_0x2f0457<=0x5&&!_0x4c44f7;_0x2f0457++){try{const _0x268c6a=await _0x2c9140[_0x59d1e5(0x222)](fetchHTML,_0x1bc825+'?page='+_0x2f0457),_0x12a025=a0_0x4a762a[_0x59d1e5(0x19d)](_0x268c6a);_0x12a025('a[href]')[_0x59d1e5(0x1c5)]((_0xbdc089,_0x198142)=>{const _0x6e4525=_0x59d1e5,_0x2ea8bf=_0x2c9140[_0x6e4525(0x1ba)](_0x12a025,_0x198142)[_0x6e4525(0x248)]('href')||'';if(_0x27a926[_0x6e4525(0x1ea)](_0x2ea8bf))return _0x4c44f7=_0x2ea8bf[_0x6e4525(0x233)](_0x2c9140[_0x6e4525(0x241)])?_0x2ea8bf:'https://novelfull.com'+_0x2ea8bf,![];});}catch(_0x3476fb){}}if(!_0x4c44f7)throw new Error('NovelFull:\x20لم\x20يُعثر\x20على\x20رابط\x20الفصل\x20'+_0x375e48+'\x20في\x20الفهرس');_0xb8b614=_0x4c44f7,_0x474440=await fetchHTML(_0xb8b614),_0x486686=a0_0x4a762a['load'](_0x474440);}else{if(_0x2387d2[_0x59d1e5(0x1fb)]===_0x59d1e5(0x20d)){_0xb8b614=_0x2387d2[_0x59d1e5(0x258)](_0x277a95,_0x2387d2['buildChapter'](_0x375e48));try{_0x474440=await fetchHTML(_0xb8b614),_0x486686=a0_0x4a762a[_0x59d1e5(0x19d)](_0x474440);if(!_0x2c9140[_0x59d1e5(0x23c)](extractContent,_0x486686,_0x2387d2['selectors'])&&_0x2387d2['buildUrlAlt'])throw new Error(_0x2c9140[_0x59d1e5(0x1f1)]);}catch(_0x176b3b){if(_0x2387d2[_0x59d1e5(0x220)])_0xb8b614=_0x2387d2[_0x59d1e5(0x220)](_0x277a95,_0x2387d2[_0x59d1e5(0x1c2)](_0x375e48)),_0x474440=await _0x2c9140[_0x59d1e5(0x1b8)](fetchHTML,_0xb8b614),_0x486686=a0_0x4a762a['load'](_0x474440);else throw _0x176b3b;}}else _0xb8b614=_0x2387d2[_0x59d1e5(0x258)](_0x277a95,_0x2387d2['buildChapter'](_0x375e48)),_0x474440=await _0x2c9140[_0x59d1e5(0x24f)](fetchHTML,_0xb8b614),_0x486686=a0_0x4a762a['load'](_0x474440);}}const _0xb9f8de=extractContent(_0x486686,_0x2387d2[_0x59d1e5(0x246)]);if(!_0xb9f8de||_0x2c9140['sLYLY'](_0xb9f8de[_0x59d1e5(0x203)],0x2))throw new Error(_0x59d1e5(0x1f5)+(_0xb9f8de?.['length']||0x0)+_0x59d1e5(0x1a4));let _0x586216='';for(const _0x112abe of _0x2387d2['titleSel']){try{const _0x2c733d=_0x2c9140['VBDIf'](_0x486686,_0x112abe)['first']()['text']()[_0x59d1e5(0x243)]()[_0x59d1e5(0x1a9)](/[-|•]/)[0x0]['trim']();if(_0x2c733d?.[_0x59d1e5(0x203)]>0x2){_0x586216=_0x2c733d;break;}}catch(_0x13b086){}}const _0x3d9f96={'title':_0x586216||_0x19f1d9,'chapterTitle':_0x59d1e5(0x24a)+_0x375e48,'paragraphs':_0xb9f8de,'url':_0xb8b614,'siteName':_0x2387d2[_0x59d1e5(0x1fb)]};return cacheSet(_0x2ce0d9,_0x3d9f96),_0x3d9f96;}const SAFE_MESSAGE_LEN=0x2328;function splitMessage(_0x134b90,_0x54e59e=SAFE_MESSAGE_LEN){const _0x35162d=a0_0x4cb084,_0x47f157={'fdgtS':function(_0x11e667,_0x2e1c8f){return _0x11e667>_0x2e1c8f;},'jASsD':function(_0x3a474d,_0x33de66,_0x585cc4){return _0x3a474d(_0x33de66,_0x585cc4);},'QnqyF':function(_0x376711,_0x427b7a){return _0x376711+_0x427b7a;},'KFctV':function(_0x7fa89f,_0x351526){return _0x7fa89f+_0x351526;}},_0x28fc94=[];let _0xe768f8='';for(const _0x1ecf73 of _0x134b90[_0x35162d(0x1a9)]('\x0a\x0a')){const _0x79ed1f=_0x47f157['fdgtS'](_0x1ecf73[_0x35162d(0x203)],_0x54e59e)?_0x47f157[_0x35162d(0x1d9)](splitLongParagraph,_0x1ecf73,_0x54e59e):[_0x1ecf73];for(const _0x19fbdf of _0x79ed1f){if((_0x47f157['QnqyF'](_0xe768f8,_0x19fbdf)+'\x0a\x0a')[_0x35162d(0x203)]>_0x54e59e){if(_0xe768f8[_0x35162d(0x243)]())_0x28fc94[_0x35162d(0x195)](_0xe768f8[_0x35162d(0x243)]());_0xe768f8=_0x47f157[_0x35162d(0x226)](_0x19fbdf,'\x0a\x0a');}else _0xe768f8+=_0x19fbdf+'\x0a\x0a';}}if(_0xe768f8[_0x35162d(0x243)]())_0x28fc94['push'](_0xe768f8[_0x35162d(0x243)]());return _0x28fc94['length']>0x0?_0x28fc94:[_0x134b90];}async function sendAsChunks(_0x5de73c,_0x549ad5,_0xa3be3,_0x2aa6e9,_0x39fbeb,_0xd40c5f){const _0x1c44ad=a0_0x4cb084,_0x35d4a6={'eRkVD':function(_0x2cf3a0,_0x3c643a){return _0x2cf3a0+_0x3c643a;},'UlMlh':function(_0x29610b,_0x37dfdc){return _0x29610b(_0x37dfdc);}},_0x3ed708=_0x35d4a6[_0x1c44ad(0x1d7)](_0x2aa6e9,_0x39fbeb['join']('\x0a\x0a')),_0x58b8d5=_0x35d4a6[_0x1c44ad(0x1c3)](splitMessage,_0x3ed708);let _0x19e6f5=![];for(let _0x422ce4=0x0;_0x422ce4<_0x58b8d5[_0x1c44ad(0x203)];_0x422ce4++){const _0x844da2=_0x58b8d5[_0x1c44ad(0x203)]>0x1?'\x0a\x0a'+_0xd40c5f+_0x1c44ad(0x20f)+_0x35d4a6[_0x1c44ad(0x1d7)](_0x422ce4,0x1)+_0x1c44ad(0x201)+_0x58b8d5[_0x1c44ad(0x203)]:'',_0x4c9565=_0x58b8d5[_0x422ce4]+_0x844da2;await new Promise(_0xc9186b=>setTimeout(_0xc9186b,0x320));try{await sendMessageAsync(_0x5de73c,_0x4c9565,_0x549ad5,_0xa3be3),_0x19e6f5=!![];}catch(_0x5050da){console[_0x1c44ad(0x1a8)]('[NOVEL]\x20فشل\x20إرسال\x20الجزء\x20'+(_0x422ce4+0x1)+'/'+_0x58b8d5['length']+'\x20('+_0x4c9565[_0x1c44ad(0x203)]+'\x20حرف):\x20'+_0x5050da[_0x1c44ad(0x253)]?.['substring'](0x0,0x64));}}return _0x19e6f5;}async function verifyTranslation(_0xe178ca){const _0x55ec67=a0_0x4cb084,_0x2ac0c7={'cPsau':function(_0x2fded6,_0x3f2874){return _0x2fded6(_0x3f2874);},'MXJLN':function(_0x50fb80,_0x164c6c){return _0x50fb80||_0x164c6c;}},_0x359df1=_0xf8ae01=>{const _0x137f51=a0_0xa296,_0x1e0c6e=_0xf8ae01[_0x137f51(0x1ce)](/\s/g,'')[_0x137f51(0x203)];if(_0x1e0c6e===0x0)return![];const _0xbb7408=(_0xf8ae01[_0x137f51(0x202)](/[\u0600-\u06FF]/g)||[])[_0x137f51(0x203)];return _0xbb7408/_0x1e0c6e<0.4;},_0x5796af=[];for(const _0x5794aa of _0xe178ca){if(_0x359df1(_0x5794aa))try{const _0x38207d=await _0x2ac0c7[_0x55ec67(0x22e)](translateToArabic,_0x5794aa);_0x5796af[_0x55ec67(0x195)](_0x2ac0c7['MXJLN'](_0x38207d,_0x5794aa)),console[_0x55ec67(0x1ee)](_0x55ec67(0x1e5)+_0x5794aa[_0x55ec67(0x203)]+_0x55ec67(0x1cb));}catch{_0x5796af[_0x55ec67(0x195)](_0x5794aa);}else _0x5796af[_0x55ec67(0x195)](_0x5794aa);}return _0x5796af;}const JS_SITES=[a0_0x4cb084(0x20c),a0_0x4cb084(0x19a),a0_0x4cb084(0x23d)];class NeedsSelectionError extends Error{constructor(_0x33a9e9,_0x1d22b6){const _0x3dc0a0=a0_0x4cb084;super(_0x3dc0a0(0x1e0)+_0x33a9e9['length']+'\x20نتيجة\x20محتملة'),this[_0x3dc0a0(0x23f)]=_0x33a9e9,this['site']=_0x1d22b6;}}async function fetchFromJsSitesBridge(_0x45f4a4,_0x3f70c4){const _0x34e59d=a0_0x4cb084,_0x21e1eb={'KsDff':function(_0x3428df){return _0x3428df();},'HrVeR':function(_0x2d97ba,_0x3f63f0){return _0x2d97ba===_0x3f63f0;},'GemST':function(_0xb1fba5,_0x12cfef){return _0xb1fba5!==_0x12cfef;}},_0x2de266=_0x21e1eb[_0x34e59d(0x1b9)](getHfBaseOrNull);if(!_0x2de266)throw new Error(_0x34e59d(0x21f));const _0x3d5319=await a0_0x23cd68[_0x34e59d(0x259)](_0x2de266+_0x34e59d(0x1ec),{'novel':_0x45f4a4,'chapter':_0x3f70c4},{'timeout':0xea60,'headers':{'Content-Type':_0x34e59d(0x206),'X-Internal-Token':_0x21e1eb[_0x34e59d(0x1b9)](getInternalToken)},'validateStatus':()=>!![]});if(_0x21e1eb[_0x34e59d(0x1ae)](_0x3d5319['status'],0x194)){const _0x4031d3=_0x3d5319[_0x34e59d(0x1ac)]?.['details']?.[_0x34e59d(0x244)](_0x34e59d(0x238))||_0x3d5319[_0x34e59d(0x1ac)]?.[_0x34e59d(0x1b0)]||_0x34e59d(0x1fd);throw new Error('لم\x20يُعثر\x20على\x20الفصل:\x0a•\x20'+_0x4031d3);}if(_0x21e1eb[_0x34e59d(0x1ae)](_0x3d5319[_0x34e59d(0x229)],0xc8)&&_0x3d5319[_0x34e59d(0x1ac)]?.[_0x34e59d(0x223)])throw new NeedsSelectionError(_0x3d5319[_0x34e59d(0x1ac)][_0x34e59d(0x23f)]||[],_0x3d5319[_0x34e59d(0x1ac)]['site']||'');if(_0x21e1eb['GemST'](_0x3d5319['status'],0xc8))throw new Error('خطأ\x20'+_0x3d5319[_0x34e59d(0x229)]+_0x34e59d(0x1bd)+(_0x3d5319['data']?.['error']||_0x34e59d(0x21d)));const _0x32177e=_0x3d5319['data'];if(!_0x32177e['paragraphs']?.[_0x34e59d(0x203)])throw new Error('المحتوى\x20فارغ');return{'title':_0x32177e['title']||_0x45f4a4,'chapterTitle':_0x34e59d(0x24a)+_0x3f70c4,'paragraphs':_0x32177e[_0x34e59d(0x1ca)],'siteName':_0x32177e[_0x34e59d(0x1bf)]||JS_SITES[_0x34e59d(0x244)]('/')};}export default{'config':{'name':a0_0x4cb084(0x256),'aliases':['رواية'],'version':a0_0x4cb084(0x213),'author':a0_0x4cb084(0x1f0),'countDown':0x14,'role':0x0,'category':'مانجا\x20وروايات','description':'قراءة\x20فصول\x20الروايات\x20مترجمة\x20تلقائياً\x20للعربية\x20(5\x20مصادر\x20بالتوازي\x20+\x20مصدر\x20بديل\x20تلقائي)','usage':['{pn}رواية\x20<اسم\x20الرواية>\x20<رقم\x20الفصل>\x20—\x20مثال:\x20{pn}رواية\x20martial\x20peak\x201']},'onStart':async function({api:_0x34e177,event:_0x469e90,args:_0x4fe974,message:_0x341d38}){const _0x578fc1=a0_0x4cb084,_0x510ec1={'wssyP':function(_0x4caa05,_0x14e0a6){return _0x4caa05<_0x14e0a6;},'sgrZm':_0x578fc1(0x254),'YXOaf':function(_0x57ec7f,_0x159316){return _0x57ec7f(_0x159316);},'ydNhg':function(_0xd5bd5b,_0x204b57){return _0xd5bd5b(_0x204b57);},'FiGAG':function(_0x3f517b,_0x11ba44){return _0x3f517b+_0x11ba44;},'hfRmR':function(_0x3b68eb,_0x439c3b){return _0x3b68eb(_0x439c3b);},'PDjZq':function(_0x3779ef,_0x3a2bbf){return _0x3779ef(_0x3a2bbf);}},{threadID:_0x47a700,messageID:_0x35e920}=_0x469e90;if(_0x510ec1[_0x578fc1(0x1e9)](_0x4fe974['length'],0x2))return global['safeSend'](_0x34e177,_0x510ec1[_0x578fc1(0x21e)],_0x47a700,null,_0x35e920);const _0x1cf7c0=_0x4fe974[_0x4fe974[_0x578fc1(0x203)]-0x1];if(_0x510ec1[_0x578fc1(0x204)](isNaN,_0x1cf7c0)||Number(_0x1cf7c0)<0x1)return global['safeSend'](_0x34e177,_0x578fc1(0x193),_0x47a700,null,_0x35e920);const _0x4f32d6=parseInt(_0x1cf7c0),_0x117de5=_0x4fe974['slice'](0x0,-0x1)[_0x578fc1(0x244)]('\x20')[_0x578fc1(0x243)]();if(!_0x117de5)return global['safeSend'](_0x34e177,_0x578fc1(0x1c8),_0x47a700,null,_0x35e920);let _0x59daf2=null;try{const _0x2801c0=await sendMessageAsync(_0x34e177,'⏳\x20جاري\x20جلب\x20الفصل...\x0a📖\x20'+_0x117de5+'\x0a📄\x20الفصل\x20'+_0x4f32d6+_0x578fc1(0x192),_0x47a700,_0x35e920);_0x59daf2=_0x2801c0?.[_0x578fc1(0x1a2)];}catch(_0x34d155){}const _0x17228f=async _0x1dfd3c=>{const _0x4d8c94=_0x578fc1;try{if(_0x59daf2)await _0x34e177[_0x4d8c94(0x1ad)](_0x1dfd3c,_0x59daf2);}catch(_0x5e9122){}};await _0x510ec1[_0x578fc1(0x204)](_0x17228f,'🔍\x20جلب\x20من\x20'+FALLBACK_SITES[_0x578fc1(0x203)]+_0x578fc1(0x1b2)+_0x117de5+_0x578fc1(0x245)+_0x4f32d6);const _0x1e9e48=0x7530,_0x4befbd=new Promise((_0x20614e,_0x59c404)=>setTimeout(()=>_0x59c404(new Error('انتهى\x20الوقت\x20المسموح\x20(timeout)')),_0x1e9e48));let _0x48ec45=null,_0x2bbfe9=null;const _0x293571={};try{const _0x2e418a=FALLBACK_SITES[_0x578fc1(0x1d0)](_0x7129ab=>({'siteName':_0x7129ab['name'],'promise':fetchFromFallback(_0x7129ab,_0x117de5,_0x4f32d6)['catch'](_0x5561a9=>{const _0x5c33fb=_0x578fc1;_0x293571[_0x7129ab['name']]=_0x5561a9[_0x5c33fb(0x253)]?.[_0x5c33fb(0x191)](0x0,0x50);throw _0x5561a9;})})),_0x508055=await Promise[_0x578fc1(0x217)]([raceFirstSuccess(_0x2e418a),_0x4befbd]);_0x48ec45=_0x508055[_0x578fc1(0x221)],_0x2bbfe9=_0x508055[_0x578fc1(0x1fe)]+':'+_0x117de5+':'+_0x4f32d6,console[_0x578fc1(0x1ee)](_0x578fc1(0x23a)+_0x508055[_0x578fc1(0x1fe)]+'\x20نجح\x20أولاً');}catch(_0x1417eb){console[_0x578fc1(0x1a8)](_0x578fc1(0x247)+_0x1417eb['message']?.['substring'](0x0,0xc8));}if(!_0x48ec45){await _0x510ec1['ydNhg'](_0x17228f,'🔁\x20المصادر\x20الأساسية\x20فشلت،\x20تجربة\x20مصدر\x20احتياطي...\x0a📖\x20'+_0x117de5+'\x0a📄\x20الفصل\x20'+_0x4f32d6);try{const _0x3b50e4=await fetchFromFallback(WUXIABOX_SITE,_0x117de5,_0x4f32d6);_0x48ec45=_0x3b50e4,_0x2bbfe9=WUXIABOX_SITE['name']+':'+_0x117de5+':'+_0x4f32d6,console[_0x578fc1(0x1ee)](_0x578fc1(0x23a)+WUXIABOX_SITE[_0x578fc1(0x1fb)]+'\x20نجح\x20كاحتياطي\x20أخير');}catch(_0x5d3f49){_0x293571[WUXIABOX_SITE[_0x578fc1(0x1fb)]]=_0x5d3f49[_0x578fc1(0x253)]?.['substring'](0x0,0x50),console[_0x578fc1(0x1a8)](_0x578fc1(0x1b6)+_0x5d3f49[_0x578fc1(0x253)]?.[_0x578fc1(0x191)](0x0,0xc8));}}if(!_0x48ec45){await _0x17228f(_0x578fc1(0x1a3)+_0x117de5+_0x578fc1(0x245)+_0x4f32d6);try{_0x48ec45=await fetchFromJsSitesBridge(_0x117de5,_0x4f32d6),_0x2bbfe9=_0x48ec45['siteName']+':'+_0x117de5+':'+_0x4f32d6,console[_0x578fc1(0x1ee)](_0x578fc1(0x23a)+_0x48ec45[_0x578fc1(0x1fe)]+_0x578fc1(0x224));}catch(_0x56edb0){if(_0x56edb0 instanceof NeedsSelectionError){const _0x4f51ba=_0x56edb0['candidates'][_0x578fc1(0x1d0)]((_0x7f7520,_0x2da1fc)=>_0x2da1fc+0x1+'.\x20'+_0x7f7520[_0x578fc1(0x250)])[_0x578fc1(0x244)]('\x0a'),_0x32cb43=_0x578fc1(0x1aa)+_0x117de5+_0x578fc1(0x1df)+_0x56edb0['site']+':\x0a\x0a'+_0x4f51ba+_0x578fc1(0x227);try{if(_0x59daf2)await _0x34e177[_0x578fc1(0x1ad)](_0x32cb43,_0x59daf2);else global[_0x578fc1(0x228)](_0x34e177,_0x32cb43,_0x47a700,null,_0x35e920);}catch(_0x5d95ff){global[_0x578fc1(0x228)](_0x34e177,_0x32cb43,_0x47a700,null,_0x35e920);}return;}_0x293571[JS_SITES['join']('/')]=_0x56edb0['message']?.[_0x578fc1(0x191)](0x0,0x50);}}if(!_0x48ec45){const _0x175714=Object['entries'](_0x293571)[_0x578fc1(0x1d0)](([_0x3e9625,_0x390435])=>'•\x20'+_0x3e9625+':\x20'+_0x390435)['join']('\x0a'),_0x85b942=_0x510ec1[_0x578fc1(0x1bb)]('❌\x20لم\x20أجد\x20الفصل\x20في\x20أي\x20مصدر\x0a\x0a','📖\x20'+_0x117de5+_0x578fc1(0x1f6)+_0x4f32d6+'\x0a\x0a')+(_0x175714?'🔍\x20تفاصيل\x20الأخطاء:\x0a'+_0x175714+'\x0a\x0a':'')+'💡\x20تأكد\x20من:\x0a•\x20الاسم\x20الإنجليزي\x20الصحيح\x0a•\x20رقم\x20الفصل\x20صحيح';try{if(_0x59daf2)await _0x34e177[_0x578fc1(0x1ad)](_0x85b942,_0x59daf2);else global['safeSend'](_0x34e177,_0x85b942,_0x47a700,null,_0x35e920);}catch(_0x2e47e5){global[_0x578fc1(0x228)](_0x34e177,_0x85b942,_0x47a700,null,_0x35e920);}return;}await _0x510ec1[_0x578fc1(0x1b1)](_0x17228f,_0x578fc1(0x1e2)+_0x48ec45[_0x578fc1(0x1ca)]['length']+'\x20فقرة...\x0a📖\x20'+_0x48ec45[_0x578fc1(0x250)]+_0x578fc1(0x1c0)+_0x48ec45[_0x578fc1(0x1fe)]);const _0x41cf2a=await translateBatchCached(_0x2bbfe9,_0x48ec45['paragraphs']);await _0x17228f(_0x578fc1(0x23b)+_0x48ec45[_0x578fc1(0x250)]);const _0x348d7f=await _0x510ec1[_0x578fc1(0x1fc)](verifyTranslation,_0x41cf2a),_0x5dd22b='─'[_0x578fc1(0x215)](0x23),_0x157d5b=_0x48ec45[_0x578fc1(0x1d5)]||_0x578fc1(0x24a)+_0x4f32d6,_0x5a6f1e='📖\x20'+_0x48ec45[_0x578fc1(0x250)]+_0x578fc1(0x1dd)+_0x157d5b+'\x0a🌐\x20'+_0x48ec45['siteName']+'\x0a'+_0x5dd22b+'\x0a\x0a';try{if(_0x59daf2)await _0x34e177['unsendMessage'](_0x59daf2,_0x47a700);}catch(_0x1e2bfd){}try{await sendAsChunks(_0x34e177,_0x47a700,_0x35e920,_0x5a6f1e,_0x348d7f,_0x5dd22b);}catch(_0x190eb8){console[_0x578fc1(0x1b0)](_0x578fc1(0x1ab),_0x190eb8[_0x578fc1(0x253)]);}}};export const $plugin={'name':'xx-commands-fun-novel','meta':{'category':a0_0x4cb084(0x1e8),'path':a0_0x4cb084(0x1b7)},'setup'(_0xb69ec3){}};
+import http from "../../utils/fetchHttp.js";
+import * as cheerio from "cheerio";
+import { translateToArabic } from "../../utils/translator.js";
+import { getHfBaseOrNull, getInternalToken } from "../../utils/hfClient.js";
+import cache from "../../utils/cache.js";
+const CACHE_TTL = 3600 * 1000;
+const cacheGet = (k) => cache.get(k);
+const cacheSet = (k, v) => cache.set(k, v, CACHE_TTL);
+const USER_AGENTS = [
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Safari/605.1.15",
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edg/125.0.0.0 Chrome/125.0.0.0 Safari/537.36",
+  "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36",
+];
+const randomUA = () => USER_AGENTS[Math.floor(Math.random() * USER_AGENTS.length)];
+const BROWSER_HEADERS = () => ({
+  "User-Agent": randomUA(),
+  "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+  "Accept-Language": "en-US,en;q=0.9",
+  "Accept-Encoding": "gzip, deflate, br",
+  "Cache-Control": "no-cache",
+});
+const slugify = (n) => n.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const FALLBACK_SITES = [
+  {
+    name: "AllNovelFull",
+    buildUrl: (slug, ch) => `https://allnovelfull.net/${slug}/chapter-${ch}.html`,
+    selectors: ["#chapter-content", ".chapter-content", ".text-content"],
+    titleSel: [".truyen-title", "h3.title", "title"],
+    slugify,
+    buildChapter: (ch) => String(ch),
+  },
+  {
+    name: "NovelFull",
+    indexUrl: (slug) => `https://novelfull.com/${slug}.html`,
+    selectors: ["#chapter-content", ".chapter-content", ".text-left"],
+    titleSel: [".truyen-title", "h3.title", "title"],
+    slugify,
+    buildChapter: (ch) => String(ch),
+  },
+  {
+    name: "NovelFire",
+    buildUrl: (slug, ch) => `https://novelfire.net/book/${slug}/chapter-${ch}`,
+    selectors: [
+      ".chapter-content", "#chapter-content",
+      "div.content", ".reading-content",
+      "div[class*='chapter']", "article",
+    ],
+    titleSel: [".novel-title", "h1", "title"],
+    slugify,
+    buildChapter: (ch) => String(ch),
+  },
+  {
+    name: "INovelHub",
+    buildUrl: (slug, ch) => `https://inovelhub.com/novel/${slug}/chapter-${ch}`,
+    selectors: [
+      "div#chapter-content", "#chapter-content",
+      ".chapter-content", ".entry-content",
+      "div[id*='chapter']", "div[class*='chapter']",
+      "article .content", "main article",
+    ],
+    titleSel: [".novel-title", "h1", "title"],
+    slugify,
+    buildChapter: (ch) => String(ch),
+  },
+  {
+    name: "NovelCrest",
+    buildUrl: (slug, ch) => `https://www.novelcrest.com/book/${slug}/${ch}.html`,
+    buildUrlAlt: (slug, ch) => `https://www.novelcrest.com/book/${slug}-2/${ch}.html`,
+    selectors: ["div#chr-content", ".chr-c", "#chr-content"],
+    titleSel: [".chr-title", "h1", "title"],
+    slugify,
+    buildChapter: (ch) => String(ch),
+  },
+];
+const WUXIABOX_SITE = {
+  name: "WuxiaBox",
+  buildUrl: (novelID, ch) => `https://www.wuxiabox.com/novel/${novelID}_${ch}.html`,
+  selectors: ["article#chapter-article", "div.chapter-content", ".page-in"],
+  titleSel: [".truyen-title", "h1", "title"],
+  slugify: (n) => n,
+  buildChapter: (ch) => String(ch),
+};
+const PROXIES = [
+  { build: (u) => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`, successCount: 0 },
+  { build: (u) => `https://corsproxy.io/?${encodeURIComponent(u)}`, successCount: 0 },
+];
+// Order proxies by past success count, most reliable first.
+const orderedProxies = () => [...PROXIES].sort((a, b) => b.successCount - a.successCount);
+const FILTER_WORDS = [
+  "novelfull.com", "boxnovel", "novelmt.com", "mtlnovel.me",
+  "advertisement", "report chapter", "next chapter", "prev chapter",
+  "table of contents", "access denied", "just a moment", "cloudflare",
+  "enable javascript", "read more at",
+];
+const STOLEN_CONTENT_PATTERNS = [
+  /stol(en|e)\s+(content|chapter|novel)/i,
+  /(this|the)\s+(chapter|content|novel)\s+(is|was)\s+stolen/i,
+  /if\s+you('| a)re\s+reading\s+this\s+on/i,
+  /please\s+read\s+(this|it)\s+on\s+(the\s+)?original/i,
+  /unauthorized\s+(use|reproduction|copy)/i,
+  /support\s+the\s+(author|translator)\s+by\s+reading/i,
+];
+const isFiltered = (t) => {
+  const lower = t.toLowerCase();
+  if (FILTER_WORDS.some(w => lower.includes(w))) return true;
+  if (STOLEN_CONTENT_PATTERNS.some(re => re.test(t))) return true;
+  return false;
+};
+function cleanText(t) {
+  return t
+    .replace(/\u00a0/g, " ")
+    .replace(/[•◆▪]{2,}/g, " ")
+    .replace(/\.{4,}/g, "...")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+const sendMessageAsync = (api, body, threadID, messageID) =>
+  new Promise((resolve, reject) =>
+    global.safeSend(api, body, threadID, (err, info) => (err ? reject(err) : resolve(info)), messageID)
+  );
+async function raceFirstSuccess(tasks) {
+  return new Promise((resolve, reject) => {
+    let pending = tasks.length;
+    const errors = [];
+    if (pending === 0) return reject(new Error("لا توجد مصادر متاحة"));
+    tasks.forEach((task) => {
+      task.promise
+        .then((value) => resolve({ value, siteName: task.siteName }))
+        .catch((err) => {
+          errors.push(`${task.siteName}: ${err.message?.substring(0, 60)}`);
+          pending -= 1;
+          if (pending === 0) reject(new Error(errors.join(" | ")));
+        });
+    });
+  });
+}
+function splitLongParagraph(p, maxLen) {
+  if (p.length <= maxLen) return [p];
+  const sentences = p.match(/[^.!?\u061f\u060c]+[.!?\u061f\u060c]*/g) || [p];
+  const out = [];
+  let cur = "";
+  for (const s of sentences) {
+    if ((cur + s).length > maxLen && cur) { out.push(cur); cur = s; }
+    else cur += s;
+  }
+  if (cur) out.push(cur);
+  return out;
+}
+async function translateBatch(paragraphs) {
+  if (!paragraphs?.length) return [];
+  const arabicChars = paragraphs.join("").match(/[\u0600-\u06FF]/g);
+  if (arabicChars && arabicChars.length > 50) return paragraphs;
+  const MAX_CHUNK = 3800;
+  const SEP = " ||| ";
+  const safeParagraphs = paragraphs.flatMap(p => splitLongParagraph(p, MAX_CHUNK));
+  const chunks = [];
+  let current = "";
+  for (const p of safeParagraphs) {
+    const candidate = current ? current + SEP + p : p;
+    if (candidate.length > MAX_CHUNK && current) { chunks.push(current); current = p; }
+    else current = candidate;
+  }
+  if (current) chunks.push(current);
+  console.log(`[TRANSLATE] ${paragraphs.length} فقرة → ${chunks.length} chunk`);
+  const out = [];
+  for (let i = 0; i < chunks.length; i++) {
+    try {
+      const translated = await translateToArabic(chunks[i]);
+      out.push(translated || chunks[i]);
+    } catch { out.push(chunks[i]); }
+    if (i < chunks.length - 1) await new Promise(r => setTimeout(r, 300 + Math.random() * 400));
+  }
+  const result = out.join(SEP).split("|||").map(p => p.trim()).filter(Boolean);
+  return result.length > 0 ? result : paragraphs;
+}
+async function translateBatchCached(cacheKey, paragraphs) {
+  const tKey = `translated:${cacheKey}`;
+  const cached = cacheGet(tKey);
+  if (cached) return cached;
+  const translated = await translateBatch(paragraphs);
+  cacheSet(tKey, translated);
+  return translated;
+}
+async function fetchHTML(url) {
+  const attempts = [
+    { url, headers: BROWSER_HEADERS(), proxyRef: null },
+    ...orderedProxies().map((p) => ({ url: p.build(url), headers: { "User-Agent": randomUA() }, proxyRef: p }))
+  ];
+  for (const a of attempts) {
+    try {
+      const res = await http.get(a.url, { timeout: 20000, headers: a.headers, validateStatus: () => true });
+      if (res.status >= 400) continue;
+      const html = typeof res.data === "string" ? res.data : String(res.data);
+      if (html.length < 500) continue;
+      const lower = html.substring(0, 3000).toLowerCase();
+      if (lower.includes("just a moment") || lower.includes("cloudflare")) continue;
+      if (a.proxyRef) a.proxyRef.successCount += 1;
+      return html;
+    } catch (_) {}
+  }
+  throw new Error("فشلت جميع المحاولات");
+}
+function extractContent($, selectors) {
+  let container = null;
+  for (const sel of selectors) {
+    const el = $(sel).first();
+    if (el.length) { container = el; break; }
+  }
+  if (!container) return null;
+  container.find("script,style,ins,.ads,.ad,noscript").remove();
+  let paras = [];
+  container.find("p").each((_, el) => {
+    const t = cleanText($(el).text());
+    if (t.length > 15 && !isFiltered(t)) paras.push(t);
+  });
+  if (paras.length < 3) {
+    paras = container.text().split(/\n+/).map(p => cleanText(p)).filter(p => p.length > 15 && !isFiltered(p));
+  }
+  return paras.length > 0 ? paras : null;
+}
+const wuxiaBoxIDCache = new Map();
+async function resolveWuxiaBoxUrl(slug, chapterNum) {
+  const cacheKey = `wuxia:${slug}:${chapterNum}`;
+  if (wuxiaBoxIDCache.has(cacheKey)) return wuxiaBoxIDCache.get(cacheKey);
+  const candidates = [chapterNum];
+  for (let i = 1; i <= 15; i++) {
+    candidates.push(chapterNum + i);
+    candidates.push(chapterNum - i);
+  }
+  for (const idx of candidates) {
+    if (idx < 1) continue;
+    const url = `https://www.wuxiabox.com/novel/${slug}_${idx}.html`;
+    try {
+      const html = await fetchHTML(url);
+      const $ = cheerio.load(html);
+      const headText = [
+        $("title").text(),
+        $("h2").first().text(),
+        $("h3").first().text(),
+        $(".chapter-title").first().text(),
+      ].join(" ");
+      const match = headText.match(/chapter\s*(\d+)/i);
+      if (match && parseInt(match[1]) === chapterNum) {
+        console.log(`[WuxiaBox] ✅ فصل ${chapterNum} → index ${idx}`);
+        wuxiaBoxIDCache.set(cacheKey, { url, html, $ });
+        return { url, html, $ };
+      }
+      if (idx === chapterNum && !match) {
+        const content = extractContent($, ["article#chapter-article", "div.chapter-content", ".page-in"]);
+        if (content && content.length > 3) {
+          wuxiaBoxIDCache.set(cacheKey, { url, html, $ });
+          return { url, html, $ };
+        }
+      }
+    } catch (_) {}
+  }
+  return null;
+}
+async function fetchFromFallback(site, novelName, chapterNum) {
+  const cacheKey = `${site.name}:${novelName}:${chapterNum}`;
+  const cached = cacheGet(cacheKey);
+  if (cached) return cached;
+  const slug = site.slugify(novelName);
+  if (!slug) throw new Error("اسم الرواية غير صالح بعد التحويل لرابط");
+  let html, $, url;
+  if (site.name === "WuxiaBox") {
+    const wSlug = novelName.toLowerCase().replace(/'/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const resolved = await resolveWuxiaBoxUrl(wSlug, chapterNum);
+    if (!resolved) throw new Error(`WuxiaBox: لم يُعثر على الفصل ${chapterNum} في نطاق ±15`);
+    ({ url, html, $ } = resolved);
+  } else if (site.name === "NovelFull") {
+    const indexUrl = site.indexUrl(slug);
+    const indexHtml = await fetchHTML(indexUrl);
+    const $idx = cheerio.load(indexHtml);
+    const chPattern = new RegExp(`/chapter-${chapterNum}[^"']*\\.html`, "i");
+    let chapterUrl = null;
+    $idx("a[href]").each((_, el) => {
+      const href = $idx(el).attr("href") || "";
+      if (chPattern.test(href)) {
+        chapterUrl = href.startsWith("http") ? href : `https://novelfull.com${href}`;
+        return false;
+      }
+    });
+    if (!chapterUrl) {
+      for (let page = 1; page <= 5 && !chapterUrl; page++) {
+        try {
+          const pageHtml = await fetchHTML(`${indexUrl}?page=${page}`);
+          const $p = cheerio.load(pageHtml);
+          $p("a[href]").each((_, el) => {
+            const href = $p(el).attr("href") || "";
+            if (chPattern.test(href)) {
+              chapterUrl = href.startsWith("http") ? href : `https://novelfull.com${href}`;
+              return false;
+            }
+          });
+        } catch (_) {}
+      }
+    }
+    if (!chapterUrl) throw new Error(`NovelFull: لم يُعثر على رابط الفصل ${chapterNum} في الفهرس`);
+    url = chapterUrl;
+    html = await fetchHTML(url);
+    $ = cheerio.load(html);
+  } else if (site.name === "NovelCrest") {
+    url = site.buildUrl(slug, site.buildChapter(chapterNum));
+    try {
+      html = await fetchHTML(url);
+      $ = cheerio.load(html);
+      if (!extractContent($, site.selectors) && site.buildUrlAlt) {
+        throw new Error("محتوى فارغ، جرّب النسخة البديلة");
+      }
+    } catch (_) {
+      if (site.buildUrlAlt) {
+        url = site.buildUrlAlt(slug, site.buildChapter(chapterNum));
+        html = await fetchHTML(url);
+        $ = cheerio.load(html);
+      } else throw _;
+    }
+  } else {
+    url = site.buildUrl(slug, site.buildChapter(chapterNum));
+    html = await fetchHTML(url);
+    $ = cheerio.load(html);
+  }
+  const paragraphs = extractContent($, site.selectors);
+  if (!paragraphs || paragraphs.length < 2) throw new Error(`محتوى فارغ (${paragraphs?.length || 0} فقرة)`);
+  let title = "";
+  for (const sel of site.titleSel) {
+    try { const t = $(sel).first().text().trim().split(/[-|•]/)[0].trim(); if (t?.length > 2) { title = t; break; } } catch (_) {}
+  }
+  const result = { title: title || novelName, chapterTitle: `الفصل ${chapterNum}`, paragraphs, url, siteName: site.name };
+  cacheSet(cacheKey, result);
+  return result;
+}
+const SAFE_MESSAGE_LEN = 9000;
+function splitMessage(text, maxLen = SAFE_MESSAGE_LEN) {
+  const chunks = [];
+  let current = "";
+  for (const para of text.split("\n\n")) {
+    const pieces = para.length > maxLen ? splitLongParagraph(para, maxLen) : [para];
+    for (const piece of pieces) {
+      if ((current + piece + "\n\n").length > maxLen) {
+        if (current.trim()) chunks.push(current.trim());
+        current = piece + "\n\n";
+      } else {
+        current += piece + "\n\n";
+      }
+    }
+  }
+  if (current.trim()) chunks.push(current.trim());
+  return chunks.length > 0 ? chunks : [text];
+}
+async function sendAsChunks(api, threadID, messageID, header, translated, divider) {
+  const fullText = header + translated.join("\n\n");
+  const chunks = splitMessage(fullText);
+  let sentAny = false;
+  for (let i = 0; i < chunks.length; i++) {
+    const suffix = chunks.length > 1 ? `\n\n${divider}\n📌 ${i + 1} / ${chunks.length}` : "";
+    const body = chunks[i] + suffix;
+    await new Promise(r => setTimeout(r, 800));
+    try {
+      await sendMessageAsync(api, body, threadID, messageID);
+      sentAny = true;
+    } catch (err) {
+      console.warn(`[NOVEL] فشل إرسال الجزء ${i + 1}/${chunks.length} (${body.length} حرف): ${err.message?.substring(0, 100)}`);
+    }
+  }
+  return sentAny;
+}
+async function verifyTranslation(paragraphs) {
+  const isEnglishHeavy = (text) => {
+    const total = text.replace(/\s/g, "").length;
+    if (total === 0) return false;
+    const arabicChars = (text.match(/[\u0600-\u06FF]/g) || []).length;
+    return (arabicChars / total) < 0.4;
+  };
+  const verified = [];
+  for (const para of paragraphs) {
+    if (isEnglishHeavy(para)) {
+      try {
+        const retried = await translateToArabic(para);
+        verified.push(retried || para);
+        console.log(`[VERIFY] أُعيدت ترجمة فقرة (${para.length} حرف)`);
+      } catch {
+        verified.push(para);
+      }
+    } else {
+      verified.push(para);
+    }
+  }
+  return verified;
+}
+const JS_SITES = ["NovelHi", "WtrLab", "Freewebnovel"];
+class NeedsSelectionError extends Error {
+  constructor(candidates, site) {
+    super(`اختيار مطلوب بين ${candidates.length} نتيجة محتملة`);
+    this.candidates = candidates;
+    this.site = site;
+  }
+}
+async function fetchFromJsSitesBridge(novelName, chapterNum) {
+  const HF_API = getHfBaseOrNull();
+  if (!HF_API) throw new Error("HF_SPACE_URL غير مضبوط");
+  const res = await http.post(`${HF_API}/novel`, { novel: novelName, chapter: chapterNum }, {
+    timeout: 60000,
+    headers: { "Content-Type": "application/json", "X-Internal-Token": getInternalToken() },
+    validateStatus: () => true,
+  });
+  if (res.status === 404) {
+    const details = res.data?.details?.join("\n• ") || res.data?.error || "لا توجد تفاصيل";
+    throw new Error(`لم يُعثر على الفصل:\n• ${details}`);
+  }
+  if (res.status === 200 && res.data?.need_selection) {
+    throw new NeedsSelectionError(res.data.candidates || [], res.data.site || "");
+  }
+  if (res.status !== 200) throw new Error(`خطأ ${res.status} — ${res.data?.error || "غير معروف"}`);
+  const data = res.data;
+  if (!data.paragraphs?.length) throw new Error("المحتوى فارغ");
+  return {
+    title: data.title || novelName,
+    chapterTitle: `الفصل ${chapterNum}`,
+    paragraphs: data.paragraphs,
+    siteName: data.site || JS_SITES.join("/"),
+  };
+}
+export default {
+  config: {
+    name: "novel",
+    aliases: ["رواية"],
+    version: "10.0.0",
+    author: "Sunken",
+    countDown: 20,
+    role: 0,
+    category: "مانجا وروايات",
+    description: "قراءة فصول الروايات مترجمة تلقائياً للعربية (5 مصادر بالتوازي + مصدر بديل تلقائي)",
+    usage: ["{pn}رواية <اسم الرواية> <رقم الفصل> — مثال: {pn}رواية martial peak 1"],
+  },
+  onStart: async function ({ api, event, args, message }) {
+    const { threadID, messageID } = event;
+    if (args.length < 2) {
+      return global.safeSend(api,
+        "📚 الاستخدام: .novel [اسم الرواية] [رقم الفصل]\n💡 مثال: .novel martial peak 1",
+        threadID, null, messageID
+      );
+    }
+    const lastArg = args[args.length - 1];
+    if (isNaN(lastArg) || Number(lastArg) < 1) {
+      return global.safeSend(api, 
+        "❌ يجب أن يكون آخر شيء في الأمر رقم الفصل\n💡 مثال: .novel martial peak 1",
+        threadID, null, messageID
+      );
+    }
+    const chapterNum = parseInt(lastArg);
+    const novelName  = args.slice(0, -1).join(" ").trim();
+    if (!novelName) {
+      return global.safeSend(api, 
+        "❌ يجب كتابة اسم الرواية قبل رقم الفصل\n💡 مثال: .novel martial peak 1",
+        threadID, null, messageID
+      );
+    }
+    let statusMsgId = null;
+    try {
+      const sent = await sendMessageAsync(
+        api,
+        `⏳ جاري جلب الفصل...\n📖 ${novelName}\n📄 الفصل ${chapterNum}\n\n⚠️ قد يستغرق حتى 30 ثانية`,
+        threadID,
+        messageID
+      );
+      statusMsgId = sent?.messageID;
+    } catch (_) {}
+    const updateStatus = async (text) => {
+      try { if (statusMsgId) await api.editMessage(text, statusMsgId); } catch (_) {}
+    };
+    await updateStatus(`🔍 جلب من ${FALLBACK_SITES.length} مصادر بالتوازي...\n📖 ${novelName}\n📄 الفصل ${chapterNum}`);
+    const OVERALL_TIMEOUT = 30000; 
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error("انتهى الوقت المسموح (timeout)")), OVERALL_TIMEOUT)
+    );
+    let result = null;
+    let cacheKeyUsed = null;
+    const siteErrors = {}; 
+    try {
+      const tasks = FALLBACK_SITES.map((site) => ({
+        siteName: site.name,
+        promise: fetchFromFallback(site, novelName, chapterNum).catch(err => {
+          siteErrors[site.name] = err.message?.substring(0, 80);
+          throw err;
+        }),
+      }));
+      const winner = await Promise.race([raceFirstSuccess(tasks), timeoutPromise]);
+      result = winner.value;
+      cacheKeyUsed = `${winner.siteName}:${novelName}:${chapterNum}`;
+      console.log(`[NOVEL] ✅ ${winner.siteName} نجح أولاً`);
+    } catch (err) {
+      console.warn(`[NOVEL] فشلت كل المصادر الأساسية أو انتهى الوقت: ${err.message?.substring(0, 200)}`);
+    }
+    if (!result) {
+      await updateStatus(`🔁 المصادر الأساسية فشلت، تجربة مصدر احتياطي...\n📖 ${novelName}\n📄 الفصل ${chapterNum}`);
+      try {
+        const winner = await fetchFromFallback(WUXIABOX_SITE, novelName, chapterNum);
+        result = winner;
+        cacheKeyUsed = `${WUXIABOX_SITE.name}:${novelName}:${chapterNum}`;
+        console.log(`[NOVEL] ✅ ${WUXIABOX_SITE.name} نجح كاحتياطي أخير`);
+      } catch (err) {
+        siteErrors[WUXIABOX_SITE.name] = err.message?.substring(0, 80);
+        console.warn(`[NOVEL] فشل الاحتياطي WuxiaBox أيضًا: ${err.message?.substring(0, 200)}`);
+      }
+    }
+    if (!result) {
+      await updateStatus(`🔁 تجربة مصدر بديل (مواقع JS)...\n📖 ${novelName}\n📄 الفصل ${chapterNum}`);
+      try {
+        result = await fetchFromJsSitesBridge(novelName, chapterNum);
+        cacheKeyUsed = `${result.siteName}:${novelName}:${chapterNum}`;
+        console.log(`[NOVEL] ✅ ${result.siteName} نجح كمصدر بديل`);
+      } catch (err) {
+        if (err instanceof NeedsSelectionError) {
+          const list = err.candidates.map((c, i) => `${i + 1}. ${c.title}`).join("\n");
+          const selectMsg = `🔎 وُجدت عدة نتائج متشابهة لـ "${novelName}" على ${err.site}:\n\n${list}\n\n💡 حاول تحديد الاسم بدقة أكبر.`;
+          try { if (statusMsgId) await api.editMessage(selectMsg, statusMsgId); else global.safeSend(api, selectMsg, threadID, null, messageID); }
+          catch (_) { global.safeSend(api, selectMsg, threadID, null, messageID); }
+          return;
+        }
+        siteErrors[JS_SITES.join("/")] = err.message?.substring(0, 80);
+      }
+    }
+    if (!result) {
+      const errorDetails = Object.entries(siteErrors)
+        .map(([site, err]) => `• ${site}: ${err}`)
+        .join("\n");
+      const errMsg =
+        `❌ لم أجد الفصل في أي مصدر\n\n` +
+        `📖 ${novelName} | 📄 الفصل ${chapterNum}\n\n` +
+        (errorDetails ? `🔍 تفاصيل الأخطاء:\n${errorDetails}\n\n` : "") +
+        `💡 تأكد من:\n• الاسم الإنجليزي الصحيح\n• رقم الفصل صحيح`;
+      try {
+        if (statusMsgId) await api.editMessage(errMsg, statusMsgId);
+        else global.safeSend(api, errMsg, threadID, null, messageID);
+      } catch (_) { global.safeSend(api, errMsg, threadID, null, messageID); }
+      return;
+    }
+    await updateStatus(`🔄 ترجمة ${result.paragraphs.length} فقرة...\n📖 ${result.title}\n🌐 ${result.siteName}`);
+    const translated = await translateBatchCached(cacheKeyUsed, result.paragraphs);
+    await updateStatus(`✅ التحقق من الترجمة...\n📖 ${result.title}`);
+    const verified = await verifyTranslation(translated);
+    const divider = "─".repeat(35);
+    const chapterLabel = result.chapterTitle || `الفصل ${chapterNum}`;
+    const header = `📖 ${result.title}\n📄 ${chapterLabel}\n🌐 ${result.siteName}\n${divider}\n\n`;
+    try { if (statusMsgId) await api.unsendMessage(statusMsgId, threadID); } catch (_) {}
+    try {
+      await sendAsChunks(api, threadID, messageID, header, verified, divider);
+    } catch (err) {
+      console.error("[NOVEL] فشل إرسال الرسائل المقطعة:", err.message);
+    }
+  }
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-fun-novel',
+  meta: { category: 'command-fun', path: 'src/commands/fun/novel.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

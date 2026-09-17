@@ -1,1 +1,24 @@
-'use strict';const a0_0x1bb36b=a0_0x5ec6;function a0_0x37a3(){const _0x70199=['y29UzMLN','BwLKzgXLD2fYzq','ndaYmtK2ogLIthHrBW','CM9Szq','nJq4otrkAuTQqxC','nti5mtK0me15r2PLzW','ouTkDvHksW','C3jJl21PzgrSzxDHCMvZl2f1DgGUANm','EhGTBwLKzgXLD2fYzxmTyxv0Aa','mtfVBwfWEgC','mJu2odq3mdrqv3bUq28','4PQG77IpinMh2ldyPYdyP9Me2kpzHDIXinMf2k7yTDI1inMe2ytzHDI32yJzKDIXinMb2ylyTW','ntC1mtC5nw9cvhbSzG','4PQG77IpinMh2ldyPYdyP9Me2kpzHDIXinMe2yxyTnIX2yhzIIdyP9Me2yxyRnMf2yJyUDIPinMb2ylyTW','odCWndCWneLywMvjEa','odG4mdqWAwPpz2Dy'];a0_0x37a3=function(){return _0x70199;};return a0_0x37a3();}(function(_0x4f590d,_0x27574e){const _0x112aa0=a0_0x5ec6,_0x109c2=_0x4f590d();while(!![]){try{const _0x2257bd=parseInt(_0x112aa0(0x99))/0x1*(parseInt(_0x112aa0(0x94))/0x2)+parseInt(_0x112aa0(0x96))/0x3*(-parseInt(_0x112aa0(0x9f))/0x4)+-parseInt(_0x112aa0(0x95))/0x5+-parseInt(_0x112aa0(0xa2))/0x6+parseInt(_0x112aa0(0x9c))/0x7+-parseInt(_0x112aa0(0x9e))/0x8+parseInt(_0x112aa0(0x9a))/0x9;if(_0x2257bd===_0x27574e)break;else _0x109c2['push'](_0x109c2['shift']());}catch(_0x148244){_0x109c2['push'](_0x109c2['shift']());}}}(a0_0x37a3,0x862f8));function a0_0x5ec6(_0x2726e4,_0x5f1167){_0x2726e4=_0x2726e4-0x93;const _0x37a3e4=a0_0x37a3();let _0x5ec667=_0x37a3e4[_0x2726e4];if(a0_0x5ec6['eNLKsl']===undefined){var _0x5ac349=function(_0x5e8ecb){const _0x994947='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x484a5f='',_0x487b8e='';for(let _0xd0eda2=0x0,_0x34c234,_0x3157f1,_0x24454c=0x0;_0x3157f1=_0x5e8ecb['charAt'](_0x24454c++);~_0x3157f1&&(_0x34c234=_0xd0eda2%0x4?_0x34c234*0x40+_0x3157f1:_0x3157f1,_0xd0eda2++%0x4)?_0x484a5f+=String['fromCharCode'](0xff&_0x34c234>>(-0x2*_0xd0eda2&0x6)):0x0){_0x3157f1=_0x994947['indexOf'](_0x3157f1);}for(let _0x50e1a0=0x0,_0x46d2cf=_0x484a5f['length'];_0x50e1a0<_0x46d2cf;_0x50e1a0++){_0x487b8e+='%'+('00'+_0x484a5f['charCodeAt'](_0x50e1a0)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x487b8e);};a0_0x5ec6['nWNRCR']=_0x5ac349,a0_0x5ec6['BbMsJg']={},a0_0x5ec6['eNLKsl']=!![];}const _0x103cc5=_0x37a3e4[0x0];a0_0x5ec6['cesGhm']!==_0x103cc5&&(a0_0x5ec6['BbMsJg']={},a0_0x5ec6['cesGhm']=_0x103cc5);const _0x241b6f=a0_0x5ec6['BbMsJg'][_0x2726e4];return _0x241b6f===undefined?(_0x5ec667=a0_0x5ec6['nWNRCR'](_0x5ec667),a0_0x5ec6['BbMsJg'][_0x2726e4]=_0x5ec667):_0x5ec667=_0x241b6f,_0x5ec667;}export function checkAuth(_0x21576c,_0x146794,_0x239761=null,_0x5e6602=![]){const _0x442117=a0_0x5ec6,_0x393643=global['getUserRole'](_0x21576c,_0x239761),_0x3e41e5=_0x146794[_0x442117(0xa0)]?.[_0x442117(0x93)]??0x0,_0x1a410b=_0x5e6602&&_0x393643<0x1?0x1:_0x393643;if(_0x1a410b<_0x3e41e5)return _0x3e41e5>=0x2?_0x442117(0x9b):_0x442117(0x9d);return null;}export const $plugin={'name':a0_0x1bb36b(0x98),'meta':{'category':a0_0x1bb36b(0xa1),'path':a0_0x1bb36b(0x97)},'setup'(_0x5e32cc){}};
+"use strict";
+export function checkAuth(senderID, command, botIndex = null, isGroupAdmin = false) {
+  const role    = global.getUserRole(senderID, botIndex); // 0=عضو، 2=مطوّر (من config أو لوحة التحكم)
+  const reqRole = command.config?.role ?? 0;
+  // مشرف المجموعة (أدمن الشات في فيسبوك) يُعامَل كـ role 1 داخل مجموعته فقط
+  // لا يرفع درجة المطوّر (2) ولا يمنح صلاحيات خارج المجموعة
+  const effectiveRole = (isGroupAdmin && role < 1) ? 1 : role;
+  if (effectiveRole < reqRole) {
+    return reqRole >= 2
+      ? "⚠️ هذا الأمر مخصص للمطوّر فقط"
+      : "⚠️ هذا الأمر لمشرفي المجموعة فقط";
+  }
+  return null;
+}
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-middlewares-auth',
+  meta: { category: 'middleware', path: 'src/middlewares/auth.js' },
+  setup(_ctx) {
+    // provides: checkAuth
+  },
+};

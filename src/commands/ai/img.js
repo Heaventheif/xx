@@ -1,1 +1,108 @@
-'use strict';const a0_0x4c5f42=a0_0x5798;function a0_0x33fb(){const _0x41c777=['ntGWm2jZs3njzG','CgL4zwWGyxj0lcbYzxrYBYbNyw1Lihn0EwXL','mtC3ntG3n3ruz3zSwq','D2f0zxjJB2XVCIbWywLUDgLUzYWGC29MDcbICNvZAhn0CM9Rzxm','mJaZmtG1mtbJtvj6s0W','ndi1nZq4oeLQsLPlyG','y29Kzq','BM93','nwXVvwnNtW','AM9PBG','8j+oRsdyP9Me2kpzHTMf2kFyTYdyP9Me2yxyQTIN2k3yQtOGyw5PBwuGFcbYzwfSAxn0AwmGFcbWAxHLBcb8ihnRzxrJAcb8ihDHDgvYy29SB3ik','zw50CMLLCW','EhGTy29TBwfUzhmTywKTAw1Hz2LUzq','y2f0y2G','EgX0uw4','C2fMzvnLBMq','lMPWzW','4O+XinIN2yByQTMh2kOG2yxzH9Me2kKG2kFzHnIQ2yJzHnMk2k/yJcdyRDIN2yJzHcdzHnIN2k3zGTIN2ySU','Dg1WzgLY','y29TBwfUzc1HAq','DhjPBq','Dg9mB3DLCKnHC2u','yxjYyxLIDwzMzxi','CMvWBhK','mZC2A0jyu0Df','mZHHuezpvMW','8j+sOsdzHDIR2kFzHdOGAw1Hz2LUzsbJEwjLCNb1BMSGy2f0igLUihrOzsbYywLUcGO','CgHVDg9YzwfSAxn0AwmSidrRlcbKzxrHAwXLza','BwvZC2fNzuLe','ChvZAa','ntuYnJq3mLfHtxPWBG','mtG0otqXweftv1Df','C3vIC3rYAw5N','y3jLyxrLuMvHzfn0CMvHBq','Aw1N','E3bUFwLTywDPBMuGC3r5BgvZiokaLcdyUDIX2lyG2kFzHnIJ2yBzHDIN2lCG2kFzHnMf2kRyP9IT2kK','D3jPDgvgAwXL','2kRyRTMk2yq','iokaLca','vfvAENC','2ldzG9IN2keG2kFyTDI32yByP9I52yO','CgvUy2LSihnRzxrJAcWGAgfUzc1KCMf3BG','nJeZntm0mKv5r0HVBq','8j+mKcbftJOG','C3r5BgvZ','2kJzITIN2yByP9IQinIN2ytyTDMi2lhyQsdzGDIN2lhyUTIPinIJ2yGG2ylyTDMk2lhyQsdyRnIV2kFzIW','B1n2s2W','ms4WlJa','tw96AwXSys81lJa','8j+tNsdyP9Me2kFyS9IQ2k7yR9IN2yu6igLTywDPBMuGpnMi2lxzGsdyP9Me2lxzInIX2kK+cG','ywjIvMy'];a0_0x33fb=function(){return _0x41c777;};return a0_0x33fb();}(function(_0x280d8,_0x6715c2){const _0x270bfb=a0_0x5798,_0x4c4fa6=_0x280d8();while(!![]){try{const _0x2a5919=parseInt(_0x270bfb(0x1ab))/0x1*(-parseInt(_0x270bfb(0x191))/0x2)+parseInt(_0x270bfb(0x1ad))/0x3+-parseInt(_0x270bfb(0x1b0))/0x4+parseInt(_0x270bfb(0x1b3))/0x5*(-parseInt(_0x270bfb(0x1a2))/0x6)+-parseInt(_0x270bfb(0x196))/0x7+parseInt(_0x270bfb(0x190))/0x8*(parseInt(_0x270bfb(0x197))/0x9)+parseInt(_0x270bfb(0x1af))/0xa;if(_0x2a5919===_0x6715c2)break;else _0x4c4fa6['push'](_0x4c4fa6['shift']());}catch(_0xa48bf5){_0x4c4fa6['push'](_0x4c4fa6['shift']());}}}(a0_0x33fb,0x93333));import a0_0x20ba39 from'../../utils/fetchHttp.js';import a0_0x47f947 from'fs-extra';function a0_0x5798(_0x334e6d,_0x5d5d63){_0x334e6d=_0x334e6d-0x18b;const _0x33fba6=a0_0x33fb();let _0x5798c4=_0x33fba6[_0x334e6d];if(a0_0x5798['vHzKSD']===undefined){var _0x641791=function(_0x4faa57){const _0x59a712='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4fcc3c='',_0x57e8b8='';for(let _0x5d21de=0x0,_0x55b0f4,_0x528709,_0xd32b5=0x0;_0x528709=_0x4faa57['charAt'](_0xd32b5++);~_0x528709&&(_0x55b0f4=_0x5d21de%0x4?_0x55b0f4*0x40+_0x528709:_0x528709,_0x5d21de++%0x4)?_0x4fcc3c+=String['fromCharCode'](0xff&_0x55b0f4>>(-0x2*_0x5d21de&0x6)):0x0){_0x528709=_0x59a712['indexOf'](_0x528709);}for(let _0x55fed4=0x0,_0x17d02e=_0x4fcc3c['length'];_0x55fed4<_0x17d02e;_0x55fed4++){_0x57e8b8+='%'+('00'+_0x4fcc3c['charCodeAt'](_0x55fed4)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x57e8b8);};a0_0x5798['XPHSjL']=_0x641791,a0_0x5798['YeGhGf']={},a0_0x5798['vHzKSD']=!![];}const _0x3b6bf1=_0x33fba6[0x0];a0_0x5798['sIHoZN']!==_0x3b6bf1&&(a0_0x5798['YeGhGf']={},a0_0x5798['sIHoZN']=_0x3b6bf1);const _0x5cb0cd=a0_0x5798['YeGhGf'][_0x334e6d];return _0x5cb0cd===undefined?(_0x5798c4=a0_0x5798['XPHSjL'](_0x5798c4),a0_0x5798['YeGhGf'][_0x334e6d]=_0x5798c4):_0x5798c4=_0x5cb0cd,_0x5798c4;}import a0_0xf58163 from'os';import a0_0x1e86d5 from'path';import{translateToEnglish}from'../../utils/translator.js';const API_BASE='https://t2i.anbuinfosec.workers.dev',STYLE_PRESETS={'anime':'anime\x20style,\x20vibrant\x20colors','realistic':a0_0x4c5f42(0x193),'pixel':a0_0x4c5f42(0x1ac),'sketch':a0_0x4c5f42(0x1a1),'watercolor':a0_0x4c5f42(0x1ae)};export default{'config':{'name':a0_0x4c5f42(0x19a),'aliases':[a0_0x4c5f42(0x19d)],'version':a0_0x4c5f42(0x1a7),'role':0x0,'countDown':0x2,'category':a0_0x4c5f42(0x1a0),'description':'توليد\x20صورة\x20بالذكاء\x20الاصطناعي\x20من\x20وصف\x20نصي\x20(مع\x20دعم\x20أنماط\x20متعددة)','usage':['{pn}imagine\x20<وصف\x20الصورة>\x20—\x20يولّد\x20صورة','{pn}imagine\x20anime\x20<وصف>\x20—\x20نمط\x20أنيمي','{pn}imagine\x20realistic\x20<وصف>\x20—\x20نمط\x20واقعي',a0_0x4c5f42(0x19b)]},'onStart':async({api:_0x3d7c65,event:_0x1fc936,args:_0x223887,message:_0x563972})=>{const _0x82d21e=a0_0x4c5f42,_0xa31d48={'xltQn':function(_0x193599,_0x2f7b39){return _0x193599+_0x2f7b39;},'oSvKl':function(_0x239006,_0x402dd2){return _0x239006===_0x402dd2;},'abbVf':'❓\x20اكتب\x20وصف\x20الصورة\x20بعد\x20اسم\x20النمط.','TUZzw':_0x82d21e(0x18e),'VkzKI':_0x82d21e(0x1a8),'ZeLbC':function(_0x32540a,_0x1dfc3a){return _0x32540a<_0x1dfc3a;},'KKFew':_0x82d21e(0x1a5),'fMHhg':function(_0x10fca2,_0xd7b771){return _0x10fca2===_0xd7b771;},'itycC':'ECONNABORTED'},{threadID:_0x31e1f5,messageID:_0x466f51}=_0x1fc936;if(!_0x223887[0x0])return _0x563972['reply'](_0xa31d48[_0x82d21e(0x1b9)](_0xa31d48['xltQn']('🎨\x20توليد\x20صور\x20بالذكاء\x20الاصطناعي\x0a\x0a',_0x82d21e(0x1a9)),_0x82d21e(0x192))+_0x82d21e(0x1b5)+'مثال:\x20imagine\x20anime\x20فتاة\x20تحت\x20المطر');if(_0xa31d48[_0x82d21e(0x1a6)](_0x223887[0x0][_0x82d21e(0x18d)](),_0x82d21e(0x1a4)))return _0x563972['reply'](_0xa31d48['xltQn']('🎭\x20الأنماط\x20المتاحة:\x0a',Object[_0x82d21e(0x1b6)](STYLE_PRESETS)['map'](([_0x532ca9,_0x18dab6])=>'•\x20'+_0x532ca9+_0x82d21e(0x19e)+_0x18dab6)[_0x82d21e(0x1b4)]('\x0a')));let _0x3adb8a=null,_0x51a6c8=[..._0x223887];STYLE_PRESETS[_0x223887[0x0]['toLowerCase']()]&&(_0x3adb8a=STYLE_PRESETS[_0x51a6c8['shift']()['toLowerCase']()]);const _0x317664=_0x51a6c8[_0x82d21e(0x1b4)]('\x20')[_0x82d21e(0x18c)]();if(!_0x317664)return _0x563972[_0x82d21e(0x18f)](_0xa31d48[_0x82d21e(0x1aa)]);const _0x3f7d1b=_0x317664;let _0x5621fc;try{let _0x308458=await translateToEnglish(_0x3f7d1b);if(_0x3adb8a)_0x308458=_0x308458+',\x20'+_0x3adb8a;const _0x5c0620=await new Promise((_0x45138f,_0x443e31)=>global['safeSend'](_0x3d7c65,'🎨\x20جاري\x20توليد\x20الصورة...',_0x31e1f5,(_0x4c6d1a,_0xd9e563)=>_0x4c6d1a?_0x443e31(_0x4c6d1a):_0x45138f(_0xd9e563),_0x466f51)),_0x95b91b=await a0_0x20ba39['get'](API_BASE+'/'+encodeURIComponent(_0x308458),{'responseType':_0xa31d48[_0x82d21e(0x19f)],'timeout':0xea60,'headers':{'User-Agent':_0xa31d48['VkzKI']}}),_0x5b8568=Buffer['from'](_0x95b91b['data']);if(_0xa31d48['ZeLbC'](_0x5b8568['length'],0x3e8))throw new Error(_0xa31d48['KKFew']);_0x5621fc=a0_0x1e86d5['join'](a0_0xf58163[_0x82d21e(0x1bd)](),'imagine_'+Date[_0x82d21e(0x1b2)]()+_0x82d21e(0x1bb)),await a0_0x47f947[_0x82d21e(0x19c)](_0x5621fc,_0x5b8568);const _0x4d5a6a=['🧠\x20الوصف:\x20'+_0x3f7d1b];if(_0x308458!==_0x3f7d1b)_0x4d5a6a['push'](_0x82d21e(0x1a3)+_0x308458);if(_0x3adb8a)_0x4d5a6a[_0x82d21e(0x195)]('🎭\x20نمط:\x20'+_0x3adb8a);try{if(_0x5c0620?.['messageID'])await _0x3d7c65['unsendMessage'](_0x5c0620[_0x82d21e(0x194)],_0x31e1f5);}catch(_0x5ebf16){}await new Promise((_0x49d96c,_0x1ecb40)=>global[_0x82d21e(0x1ba)](_0x3d7c65,{'body':_0x4d5a6a[_0x82d21e(0x1b4)]('\x0a'),'attachment':a0_0x47f947[_0x82d21e(0x199)](_0x5621fc)},_0x31e1f5,_0x1f30a8=>_0x1f30a8?_0x1ecb40(_0x1f30a8):_0x49d96c(),_0x466f51));}catch(_0x56365b){const _0x197901=_0xa31d48['fMHhg'](_0x56365b[_0x82d21e(0x1b1)],_0xa31d48['itycC'])?_0x82d21e(0x1bc):'❌\x20فشل\x20توليد\x20الصورة:\x20'+_0x56365b['message']?.[_0x82d21e(0x198)](0x0,0x64);global[_0x82d21e(0x1ba)](_0x3d7c65,_0x197901,_0x31e1f5,null,_0x466f51);}finally{if(_0x5621fc)a0_0x47f947['remove'](_0x5621fc)[_0x82d21e(0x1b8)](()=>{});}}};export const $plugin={'name':a0_0x4c5f42(0x1b7),'meta':{'category':a0_0x4c5f42(0x18b),'path':'src/commands/ai/imagine.js'},'setup'(_0x8dabaf){}};
+"use strict";
+import http from "../../utils/fetchHttp.js";
+import fs from "fs-extra";
+import os from "os";
+import path from "path";
+import { translateToEnglish } from "../../utils/translator.js";
+const API_BASE = "https://t2i.anbuinfosec.workers.dev";
+const STYLE_PRESETS = {
+  "anime":    "anime style, vibrant colors",
+  "realistic":"photorealistic, 4k, detailed",
+  "pixel":    "pixel art, retro game style",
+  "sketch":   "pencil sketch, hand-drawn",
+  "watercolor":"watercolor painting, soft brushstrokes",
+};
+export default {
+  config: {
+    name: "img",
+    aliases: ["تخيل"],
+    version: "1.0.0",
+    role: 0,
+    countDown: 2,
+    category: "ذكاء اصطناعي",
+    description: "توليد صورة بالذكاء الاصطناعي من وصف نصي (مع دعم أنماط متعددة)",
+    usage: [
+      "{pn}imagine <وصف الصورة> — يولّد صورة",
+      "{pn}imagine anime <وصف> — نمط أنيمي",
+      "{pn}imagine realistic <وصف> — نمط واقعي",
+      "{pn}imagine styles — عرض الأنماط المتاحة",
+    ],
+  },
+  onStart: async ({ api, event, args, message }) => {
+    const { threadID, messageID } = event;
+    if (!args[0]) {
+      return message.reply(
+        "🎨 توليد صور بالذكاء الاصطناعي\n\n" +
+        "📝 الاستخدام: imagine <وصف الصورة>\n" +
+        "💡 مثال: imagine cyberpunk cat in the rain\n\n" +
+        "🎭 الأنماط المتاحة: anime | realistic | pixel | sketch | watercolor\n" +
+        "مثال: imagine anime فتاة تحت المطر"
+      );
+    }
+    if (args[0].toLowerCase() === "styles") {
+      return message.reply(
+        "🎭 الأنماط المتاحة:\n" +
+        Object.entries(STYLE_PRESETS)
+          .map(([k, v]) => `• ${k} — ${v}`)
+          .join("\n")
+      );
+    }
+    let style = null;
+    let promptArgs = [...args];
+    if (STYLE_PRESETS[args[0].toLowerCase()]) {
+      style = STYLE_PRESETS[promptArgs.shift().toLowerCase()];
+    }
+    const rawPrompt = promptArgs.join(" ").trim();
+    if (!rawPrompt) {
+      return message.reply("❓ اكتب وصف الصورة بعد اسم النمط.");
+    }
+    const prompt = rawPrompt;
+    let tmpFile;
+    try {
+      let englishPrompt = await translateToEnglish(prompt);
+      if (style) englishPrompt = `${englishPrompt}, ${style}`;
+      const statusMsg = await new Promise((res, rej) =>
+        global.safeSend(api, "🎨 جاري توليد الصورة...", threadID, (e, i) => e ? rej(e) : res(i), messageID)
+      );
+      const res = await http.get(`${API_BASE}/${encodeURIComponent(englishPrompt)}`, {
+        responseType: "arraybuffer",
+        timeout: 60000,
+        headers: { "User-Agent": "Mozilla/5.0" },
+      });
+      const buf = Buffer.from(res.data);
+      if (buf.length < 1000) throw new Error("بيانات الصورة فارغة أو قصيرة جداً");
+      tmpFile = path.join(os.tmpdir(), `imagine_${Date.now()}.jpg`);
+      await fs.writeFile(tmpFile, buf);
+      const captionParts = [`🧠 الوصف: ${prompt}`];
+      if (englishPrompt !== prompt) captionParts.push(`🌐 EN: ${englishPrompt}`);
+      if (style) captionParts.push(`🎭 نمط: ${style}`);
+      try { if (statusMsg?.messageID) await api.unsendMessage(statusMsg.messageID, threadID); } catch (_) {}
+      await new Promise((resolve, reject) =>
+        global.safeSend(
+          api,
+          { body: captionParts.join("\n"), attachment: fs.createReadStream(tmpFile) },
+          threadID,
+          (err) => (err ? reject(err) : resolve()),
+          messageID
+        )
+      );
+    } catch (err) {
+      const errMsg = err.code === "ECONNABORTED"
+        ? "⏱ انتهت مهلة التوليد، حاول لاحقاً."
+        : `❌ فشل توليد الصورة: ${err.message?.substring(0, 100)}`;
+      global.safeSend(api, errMsg, threadID, null, messageID);
+    } finally {
+      if (tmpFile) fs.remove(tmpFile).catch(() => {});
+    }
+  },
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-ai-imagine',
+  meta: { category: 'command-ai', path: 'src/commands/ai/imagine.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

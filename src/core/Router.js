@@ -1,1 +1,232 @@
-'use strict';(function(_0x1f652f,_0x5763ad){const _0x1f02ea=a0_0x1dea,_0x189dc1=_0x1f652f();while(!![]){try{const _0xd3265c=-parseInt(_0x1f02ea(0x17f))/0x1+parseInt(_0x1f02ea(0x181))/0x2*(parseInt(_0x1f02ea(0x156))/0x3)+-parseInt(_0x1f02ea(0x165))/0x4*(parseInt(_0x1f02ea(0x15c))/0x5)+-parseInt(_0x1f02ea(0x196))/0x6+-parseInt(_0x1f02ea(0x16f))/0x7+parseInt(_0x1f02ea(0x18c))/0x8*(parseInt(_0x1f02ea(0x187))/0x9)+parseInt(_0x1f02ea(0x17d))/0xa*(parseInt(_0x1f02ea(0x154))/0xb);if(_0xd3265c===_0x5763ad)break;else _0x189dc1['push'](_0x189dc1['shift']());}catch(_0x3129dd){_0x189dc1['push'](_0x189dc1['shift']());}}}(a0_0x1cac,0xb91e1));import{buildMessageAPI,buildCommandContext}from'./Context.js';import{HANDLER_KEYS}from'./Loader.js';import{checkAuth}from'../middlewares/auth.js';import{checkAndSetCooldown}from'../middlewares/cooldown.js';import a0_0x510164 from'../utils/timing.js';const _threadInfoCache=new Map(),THREAD_CACHE_TTL=0x5*0x3c*0x3e8;async function getThreadInfoCached(_0x1636ee,_0x2b8a6a){const _0x19f9bf=a0_0x1dea,_0x491469={'DYdfo':function(_0x170451,_0x2eeb47){return _0x170451>_0x2eeb47;},'uKItX':function(_0x58458e,_0x13bd88){return _0x58458e+_0x13bd88;}},_0x5403a6=Date[_0x19f9bf(0x19b)](),_0x2f484f=_threadInfoCache[_0x19f9bf(0x178)](_0x2b8a6a);if(_0x2f484f&&_0x491469[_0x19f9bf(0x192)](_0x2f484f[_0x19f9bf(0x1a1)],_0x5403a6))return _0x2f484f[_0x19f9bf(0x180)];try{const _0x252c9b=await _0x1636ee[_0x19f9bf(0x183)](_0x2b8a6a);return _threadInfoCache[_0x19f9bf(0x185)](_0x2b8a6a,{'data':_0x252c9b,'expiresAt':_0x491469['uKItX'](_0x5403a6,THREAD_CACHE_TTL)}),_0x252c9b;}catch{return null;}}async function fetchAdminIDsFallback(_0x493935,_0x1e80a6){const _0x5c3ad8=a0_0x1dea,_0x180faf={'AZVsh':function(_0x2f0646,_0x330790){return _0x2f0646!==_0x330790;},'boQZB':function(_0x267272,_0x110823){return _0x267272>_0x110823;}};try{const _0x1342dd=_0x493935[_0x5c3ad8(0x17b)]||_0x493935;if(_0x180faf['AZVsh'](typeof _0x1342dd['getThreadInfo'],_0x5c3ad8(0x16d)))return[];const _0x382bbd=await _0x1342dd[_0x5c3ad8(0x183)](_0x1e80a6),_0x3e5fa7=_0x382bbd?.[_0x5c3ad8(0x191)];if(Array[_0x5c3ad8(0x161)](_0x3e5fa7)&&_0x3e5fa7[_0x5c3ad8(0x188)]>0x0)return _0x3e5fa7;if(Array[_0x5c3ad8(0x161)](_0x382bbd?.[_0x5c3ad8(0x18e)])){const _0x4acdec=_0x382bbd['userInfo']['filter'](_0x9152b7=>_0x9152b7?.[_0x5c3ad8(0x151)]||_0x9152b7?.['role']==='admin'||_0x9152b7?.['type']===_0x5c3ad8(0x19a))[_0x5c3ad8(0x1a2)](_0x4a36b5=>_0x4a36b5['id'])[_0x5c3ad8(0x152)](Boolean);if(_0x180faf[_0x5c3ad8(0x15e)](_0x4acdec[_0x5c3ad8(0x188)],0x0))return _0x4acdec;}return[];}catch{return[];}}setInterval(()=>{const _0x446cd6=a0_0x1dea,_0x270f78=Date[_0x446cd6(0x19b)]();for(const [_0xb5672e,_0x2b0e31]of _threadInfoCache){if(_0x2b0e31[_0x446cd6(0x1a1)]<=_0x270f78)_threadInfoCache[_0x446cd6(0x184)](_0xb5672e);}},0xa*0x3c*0x3e8);export function invalidateThreadInfoCache(_0x7dc849){const _0x3b872f=a0_0x1dea;if(_0x7dc849)_threadInfoCache[_0x3b872f(0x184)](String(_0x7dc849));}function extractAdminId(_0x2679dd){const _0x55c5cd=a0_0x1dea;if(!_0x2679dd)return null;if(typeof _0x2679dd===_0x55c5cd(0x18f)||typeof _0x2679dd===_0x55c5cd(0x172))return String(_0x2679dd);if(typeof _0x2679dd===_0x55c5cd(0x19e)&&_0x2679dd['id'])return String(_0x2679dd['id']);return null;}async function resolveGroupAdmin(_0x5e9c9f,_0x3f897b){const _0x4f33c1=a0_0x1dea,_0x371511={'OKMxY':function(_0x2d4342,_0x16934d){return _0x2d4342>_0x16934d;}};if(!_0x3f897b[_0x4f33c1(0x1a0)])return![];const _0x8927ec=String(_0x3f897b[_0x4f33c1(0x15a)]),_0xd8c6c5=await getThreadInfoCached(_0x5e9c9f,_0x3f897b[_0x4f33c1(0x171)]);let _0x461c80=_0xd8c6c5?.[_0x4f33c1(0x191)];(!Array[_0x4f33c1(0x161)](_0x461c80)||_0x461c80[_0x4f33c1(0x188)]===0x0)&&(_0x461c80=await fetchAdminIDsFallback(_0x5e9c9f,_0x3f897b[_0x4f33c1(0x171)]),_0x371511[_0x4f33c1(0x174)](_0x461c80[_0x4f33c1(0x188)],0x0)&&_0xd8c6c5&&(_0xd8c6c5[_0x4f33c1(0x191)]=_0x461c80));if(!_0x461c80?.['length'])return![];return _0x461c80[_0x4f33c1(0x15b)](_0x48c793=>extractAdminId(_0x48c793)===_0x8927ec);}export{getThreadInfoCached};export const handleMessage=async(_0x5e72ef,_0x2a6c9d)=>{const _0x514f28=a0_0x1dea,_0xf157ef={'ibXLd':'(فشل)','zfpWx':function(_0x35be06,_0x504bff){return _0x35be06===_0x504bff;},'aufDC':function(_0x1bbbed,_0x1a4b89,_0x89b2cc,_0x20b180){return _0x1bbbed(_0x1a4b89,_0x89b2cc,_0x20b180);},'qpEYz':function(_0x5781ab,_0x43091d){return _0x5781ab(_0x43091d);},'AuNkL':function(_0xf5fb98,_0x281a8f){return _0xf5fb98===_0x281a8f;},'TOJRl':function(_0x3299ce,_0x3f52a6){return _0x3299ce===_0x3f52a6;},'VrdRF':function(_0x110bb2,_0x513dc2,_0x26f6a3,_0x22bdc5){return _0x110bb2(_0x513dc2,_0x26f6a3,_0x22bdc5);},'jnoeV':function(_0x4f611e,_0x1cec65){return _0x4f611e===_0x1cec65;}},{threadID:_0x249e49,senderID:_0x16c6f1,body:_0x246b43,messageReply:_0x303977,messageID:_0x532adf}=_0x2a6c9d,_0x3cb858=_0x2a6c9d[_0x514f28(0x197)]?.['length']>0x0;if(!_0x246b43?.['trim']()&&!_0x3cb858)return;const _0x196e91=global[_0x514f28(0x18d)](_0x5e72ef),_0x4445be=_0x246b43?.['trim']()??'';if(!_0x2a6c9d[_0x514f28(0x1a0)])return;if(_0x303977&&global[_0x514f28(0x17e)][_0x514f28(0x162)]?.[_0x303977[_0x514f28(0x17a)]]){const _0x14f19d=global[_0x514f28(0x17e)][_0x514f28(0x162)][_0x303977[_0x514f28(0x17a)]];if(!_0x14f19d[_0x514f28(0x163)]||_0x14f19d[_0x514f28(0x163)]===_0x16c6f1){delete global['Kagenou']['replies'][_0x303977['messageID']];const _0x1c225f=_0x14f19d[_0x514f28(0x164)]?global[_0x514f28(0x19c)][_0x514f28(0x178)](_0x14f19d[_0x514f28(0x164)]):null,_0x4f9deb=_0x14f19d[_0x514f28(0x19d)]||_0x14f19d[_0x514f28(0x167)]||(_0x1c225f?.['onReply']?(..._0x5ed4a6)=>_0x1c225f['onReply'](..._0x5ed4a6):null);if(_0xf157ef[_0x514f28(0x150)](typeof _0x4f9deb,_0x514f28(0x16d))){const _0x54d8a7=_0xf157ef[_0x514f28(0x159)](buildMessageAPI,_0x196e91,_0x249e49,undefined);Promise[_0x514f28(0x189)](_0xf157ef['qpEYz'](_0x4f9deb,{'api':_0x196e91,'event':_0x2a6c9d,'message':_0x54d8a7,'Reply':_0x14f19d}))['catch'](_0x213177=>console[_0x514f28(0x190)]('[REPLY\x20ERROR]',_0x213177[_0x514f28(0x176)]));}}return;}const _0x1168f9=(global[_0x514f28(0x14f)]?.[_0x514f28(0x18a)]||[''])['map'](String);let _0x41fbe4=null,_0x1ec320='';for(const _0x3fb0e4 of _0x1168f9){if(_0xf157ef[_0x514f28(0x199)](_0x3fb0e4,'')||_0x4445be[_0x514f28(0x153)](_0x3fb0e4)){_0x1ec320=_0x3fb0e4,_0x41fbe4=_0x3fb0e4?_0x4445be[_0x514f28(0x177)](_0x3fb0e4[_0x514f28(0x188)])[_0x514f28(0x195)]():_0x4445be;break;}}let _0x388ce2=null,_0x11afbf=[],_0x139882=null;if(_0x41fbe4!==null){const _0x1cdf4c=_0x41fbe4['split'](/ +/);_0x388ce2=_0x1cdf4c[0x0]?.[_0x514f28(0x155)](),_0x11afbf=_0x1cdf4c[_0x514f28(0x177)](0x1),_0x139882=global['commands'][_0x514f28(0x178)](_0x388ce2);}if(!_0x139882){const _0x31c924=_0x4445be['split'](/ +/),_0x14c2fa=_0x31c924[0x0]?.['toLowerCase'](),_0x333f5e=_0x14c2fa?global['commands'][_0x514f28(0x178)](_0x14c2fa):null,_0x3fd493=_0xf157ef[_0x514f28(0x182)](_0x333f5e?.[_0x514f28(0x14f)]?.[_0x514f28(0x15d)],![])||_0x333f5e?.[_0x514f28(0x14f)]?.[_0x514f28(0x17c)]===!![];_0x333f5e&&_0x3fd493&&(_0x388ce2=_0x14c2fa,_0x11afbf=_0x31c924[_0x514f28(0x177)](0x1),_0x139882=_0x333f5e,_0x1ec320='');}if(!_0x139882)return;if(_0x139882[_0x514f28(0x14f)]?.[_0x514f28(0x19f)]===![]){_0x196e91[_0x514f28(0x18b)](_0x514f28(0x194),_0x249e49,null,_0x532adf);return;}_0x2a6c9d[_0x514f28(0x193)]=_0x388ce2;const _0x2e442a=_0x5e72ef?.['__botIndex']??null,_0x6a9ee=await resolveGroupAdmin(_0x196e91,_0x2a6c9d),_0x400a7e=checkAuth(_0x16c6f1,_0x139882,_0x2e442a,_0x6a9ee);if(_0x400a7e){_0x196e91[_0x514f28(0x18b)](_0x400a7e,_0x249e49,null,_0x532adf);return;}const _0x40b688=_0xf157ef[_0x514f28(0x16b)](checkAndSetCooldown,_0x16c6f1,_0x388ce2,_0x139882);if(_0x40b688){_0x196e91['sendMessage'](_0x40b688,_0x249e49,null,_0x532adf);return;}global[_0x514f28(0x160)]=global['_cmdAnalytics']||{};const _0x3e3668=global[_0x514f28(0x160)];if(!_0x3e3668[_0x388ce2])_0x3e3668[_0x388ce2]={'count':0x0,'lastUsed':null};_0x3e3668[_0x388ce2][_0x514f28(0x198)]++,_0x3e3668[_0x388ce2][_0x514f28(0x16a)]=new Date()[_0x514f28(0x16e)]();const _0x2eaded=global['getUserRole'](_0x16c6f1,_0x2e442a),_0x483628=!!_0x2a6c9d[_0x514f28(0x1a0)];if(_0x139882[_0x514f28(0x14f)]?.[_0x514f28(0x14c)]===!![]&&!_0x483628){_0x196e91['sendMessage']('⚠️\x20هذا\x20الأمر\x20يعمل\x20داخل\x20المجموعات\x20فقط.',_0x249e49,null,_0x532adf);return;}if(_0xf157ef[_0x514f28(0x175)](_0x139882['config']?.[_0x514f28(0x16c)],!![])&&_0x483628){_0x196e91[_0x514f28(0x18b)]('⚠️\x20هذا\x20الأمر\x20يعمل\x20في\x20الرسائل\x20الخاصة\x20فقط.',_0x249e49,null,_0x532adf);return;}const _0x4566d9=Date['now']();((async()=>{const _0x1af4f6=_0x514f28,_0x3f631a=a0_0x510164[_0x1af4f6(0x15f)]('command:'+_0x388ce2);try{const _0x59663c=buildCommandContext({'api':_0x196e91,'event':_0x2a6c9d,'args':_0x11afbf,'role':_0x2eaded,'prefix':_0x1ec320,'isGroupAdmin':_0x6a9ee}),_0x49c12a=HANDLER_KEYS[_0x1af4f6(0x1a2)](_0x277f0d=>_0x139882[_0x277f0d])[_0x1af4f6(0x157)](_0x5a87be=>typeof _0x5a87be===_0x1af4f6(0x16d));if(_0x49c12a)await _0x49c12a(_0x59663c);_0x3f631a[_0x1af4f6(0x158)](),global['perfManager']?.['trackRequest'](_0x4566d9);}catch(_0x2cab91){_0x3f631a['end'](_0xf157ef[_0x1af4f6(0x179)]),global[_0x1af4f6(0x166)]?.['trackError'](),console['error']('[command:'+_0x388ce2+']',_0x2cab91[_0x1af4f6(0x176)]),_0x196e91[_0x1af4f6(0x18b)]('⚠️\x20حدث\x20خطأ\x20أثناء\x20تنفيذ\x20الأمر\x20—\x20تم\x20إبلاغ\x20المطوّر\x20تلقائياً.',_0x249e49,null,_0x532adf);}})());};export const handleReaction=(_0x330f79,_0x52d3ad)=>{const _0xbd0255=a0_0x1dea,_0xd8f33a=_0x52d3ad['messageID'];if(!_0xd8f33a)return;const _0x4a54e4=global[_0xbd0255(0x169)]['reactionListener'][_0xd8f33a];if(!_0x4a54e4)return;if(_0x4a54e4[_0xbd0255(0x163)]&&_0x52d3ad['userID']!==_0x4a54e4[_0xbd0255(0x163)])return;global[_0xbd0255(0x14d)]['set'](_0xd8f33a,Date[_0xbd0255(0x19b)]()),Promise['resolve'](_0x4a54e4['callback']({'api':_0x330f79,'event':_0x52d3ad}))[_0xbd0255(0x14e)](_0x438ae2=>console['error'](_0xbd0255(0x170),_0x438ae2['message']));};function a0_0x1cac(){const _0x1ad569=['y2f0y2G','y29UzMLN','EMzWv3G','Axnbzg1PBG','zMLSDgvY','C3rHCNrZv2L0Aa','mta3mtaWmdD0v2TfzhG','Dg9mB3DLCKnHC2u','m2LZDLvVAW','zMLUza','zw5K','yxvMrem','C2vUzgvYsuq','C29Tzq','nZGWmdvovML4B1O','DxnLuhjLzML4','yM9rwKi','C3rHCNq','x2nTzefUywX5DgLJCW','AxnbCNjHEq','CMvWBgLLCW','yxv0Ag9Y','y29TBwfUze5HBwu','mJG0tLfkwfHp','CgvYzK1HBMfNzxi','y2fSBgjHy2S','B25dAgf0','y2XPzw50','BgfZDfvZzwq','vNjKuKy','zg1pBMX5','zNvUy3rPB24','Dg9ju09tDhjPBMC','mZG5nZGXn0nvtvLhqG','w1jfqunusu9oievsuL0','DgHYzwfKsuq','BNvTyMvY','yM9KEq','t0TnEfK','AM5Vzvy','BwvZC2fNzq','C2XPy2u','z2v0','Awjytgq','BwvZC2fNzuLe','x19YyxDbCgK','BM9UuhjLzML4','mZbKyMzRBNO','s2fNzw5VDq','mtiXndK1mu1pze1Xvq','zgf0yq','nJG3mZK4AfjNz09j','ve9kuMW','z2v0vgHYzwfKsw5MBW','zgvSzxrL','C2v0','C3bSAxq','ovHLsvn6ua','BgvUz3rO','CMvZB2X2zq','uhjLzML4','C2vUze1LC3nHz2u','nZq3otm2oeTABvz6yG','D3jHCefWAuzVCLnHzMv0Eq','DxnLCKLUzM8','C3rYAw5N','zxjYB3i','ywrTAw5jrhm','rfLKzM8','y29TBwfUza','4PQG77IpinMh2ldyPYdyP9Me2kpzHDIXinMf2lNyT9Mr2yqG2yxyPnMc2kRyP9MllG','DhjPBq','mZm3mtaYmMfVvNHWyq','yxr0ywnOBwvUDhm','y291BNq','qxvoA0W','ywrTAw4','BM93','y29TBwfUzhm','B25szxbSEq','B2jQzwn0','zw5HyMXLza','AxnhCM91Ca','zxHWAxjLC0f0','BwfW','z3jVDxbpBMX5','x3jLywn0Aw9UvgLTzxn0yw1WCW'];a0_0x1cac=function(){return _0x1ad569;};return a0_0x1cac();}export const handleEvent=async(_0x2fcf05,_0x52e851)=>{const _0x24ec7a=a0_0x1dea;if(!_0x52e851[_0x24ec7a(0x1a0)])return;const _0x17fd53=global['wrapApiForSafety'](_0x2fcf05),_0x38212e=_0x52e851[_0x24ec7a(0x173)]?.['trim']()[_0x24ec7a(0x186)](/ +/)[0x0]?.[_0x24ec7a(0x155)](),_0x1d78d7=_0x38212e?global[_0x24ec7a(0x19c)][_0x24ec7a(0x178)](_0x38212e):null;for(const _0x3a7e5b of global['eventCommands']){if(!_0x3a7e5b['onChat'])continue;const _0x20600c=_0x52e851['attachments']?.[_0x24ec7a(0x188)]>0x0;if(!_0x52e851['messageID']||!_0x52e851[_0x24ec7a(0x173)]&&!_0x20600c)continue;if(_0x1d78d7&&_0x1d78d7===_0x3a7e5b)continue;Promise[_0x24ec7a(0x189)](_0x3a7e5b[_0x24ec7a(0x168)]({'api':_0x17fd53,'event':_0x52e851,'message':buildMessageAPI(_0x17fd53,_0x52e851[_0x24ec7a(0x171)],_0x52e851[_0x24ec7a(0x17a)])}))['catch'](()=>{});}};function a0_0x1dea(_0x3aba70,_0x583b8e){_0x3aba70=_0x3aba70-0x14c;const _0x1cac25=a0_0x1cac();let _0x1deac0=_0x1cac25[_0x3aba70];if(a0_0x1dea['mcNZQe']===undefined){var _0x2fce40=function(_0x326a2d){const _0x4a0d1b='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x23bd73='',_0x1eaeea='';for(let _0x36eba4=0x0,_0x1e6af1,_0x44dc66,_0x505b88=0x0;_0x44dc66=_0x326a2d['charAt'](_0x505b88++);~_0x44dc66&&(_0x1e6af1=_0x36eba4%0x4?_0x1e6af1*0x40+_0x44dc66:_0x44dc66,_0x36eba4++%0x4)?_0x23bd73+=String['fromCharCode'](0xff&_0x1e6af1>>(-0x2*_0x36eba4&0x6)):0x0){_0x44dc66=_0x4a0d1b['indexOf'](_0x44dc66);}for(let _0x57f204=0x0,_0x362939=_0x23bd73['length'];_0x57f204<_0x362939;_0x57f204++){_0x1eaeea+='%'+('00'+_0x23bd73['charCodeAt'](_0x57f204)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x1eaeea);};a0_0x1dea['GxBSlP']=_0x2fce40,a0_0x1dea['gjTdhY']={},a0_0x1dea['mcNZQe']=!![];}const _0x1378f6=_0x1cac25[0x0];a0_0x1dea['zxwWvY']!==_0x1378f6&&(a0_0x1dea['gjTdhY']={},a0_0x1dea['zxwWvY']=_0x1378f6);const _0xc031ed=a0_0x1dea['gjTdhY'][_0x3aba70];return _0xc031ed===undefined?(_0x1deac0=a0_0x1dea['GxBSlP'](_0x1deac0),a0_0x1dea['gjTdhY'][_0x3aba70]=_0x1deac0):_0x1deac0=_0xc031ed,_0x1deac0;}export const $plugin={'name':'xx-core-router','meta':{'category':'core','path':'src/core/Router.js'},'setup'(_0x194a74){}};
+"use strict";
+import { buildMessageAPI, buildCommandContext } from "./Context.js";
+import { HANDLER_KEYS } from "./Loader.js";
+import { checkAuth } from "../middlewares/auth.js";
+import { checkAndSetCooldown } from "../middlewares/cooldown.js";
+import timing from "../utils/timing.js";
+
+// ─── Thread Info Cache ───────────────────────────────────────────
+// نجلب threadInfo مرة واحدة لكل مجموعة ونحتفظ بها 5 دقائق
+// لتجنب استدعاءات API مكررة من كل أمر بشكل منفصل
+const _threadInfoCache = new Map(); // threadID → { data, expiresAt }
+const THREAD_CACHE_TTL = 5 * 60 * 1000; // 5 دقائق
+
+async function getThreadInfoCached(api, threadID) {
+  const now = Date.now();
+  const cached = _threadInfoCache.get(threadID);
+  if (cached && cached.expiresAt > now) return cached.data;
+  try {
+    const data = await api.getThreadInfo(threadID);
+    _threadInfoCache.set(threadID, { data, expiresAt: now + THREAD_CACHE_TTL });
+    return data;
+  } catch {
+    return null;
+  }
+}
+
+// [FIX ADMIN] Helper: جلب adminIDs بطريقة بديلة إذا رجعت فارغة من getThreadInfo
+// getThreadInfo يستخدم doc_id ثابت قد لا يُرجع thread_admins دائماً
+async function fetchAdminIDsFallback(api, threadID) {
+  try {
+    // نُحاول جلب قائمة المشرفين من thread_info الـ legacy
+    const rawApi = api.__rawApi || api;
+    if (typeof rawApi.getThreadInfo !== "function") return [];
+    const info = await rawApi.getThreadInfo(threadID);
+    const admins = info?.adminIDs;
+    if (Array.isArray(admins) && admins.length > 0) return admins;
+    // fallback ثاني: من participantIDs + userInfo إذا كان الـ response يحملها
+    if (Array.isArray(info?.userInfo)) {
+      const adminList = info.userInfo
+        .filter(u => u?.isAdmin || u?.role === "admin" || u?.type === "admin")
+        .map(u => u.id)
+        .filter(Boolean);
+      if (adminList.length > 0) return adminList;
+    }
+    return [];
+  } catch {
+    return [];
+  }
+}
+
+// تنظيف الإدخالات المنتهية كل 10 دقائق لمنع تراكم الذاكرة
+setInterval(() => {
+  const now = Date.now();
+  for (const [id, entry] of _threadInfoCache) {
+    if (entry.expiresAt <= now) _threadInfoCache.delete(id);
+  }
+}, 10 * 60 * 1000);
+
+// [FIX ADMIN CACHE] عند تغيير مشرفي المجموعة نُبطل cache الـ threadInfo فوراً
+// حتى لا يبقى البوت يرفض المشرف الجديد لـ 5 دقائق
+export function invalidateThreadInfoCache(threadID) {
+  if (threadID) _threadInfoCache.delete(String(threadID));
+}
+
+// كشف هل المُرسِل مشرف في المجموعة
+// [FIX ADMIN] adminIDs يأتي بشكلين من FCA:
+//   - objects: [{id:"123"}, {id:"456"}]  ← من getThreadInfo / GraphQL
+//   - strings: ["123", "456"]            ← من thread-info-realtime-sync
+// نعالج كلا الشكلين
+function extractAdminId(entry) {
+  if (!entry) return null;
+  if (typeof entry === "string" || typeof entry === "number") return String(entry);
+  if (typeof entry === "object" && entry.id) return String(entry.id);
+  return null;
+}
+async function resolveGroupAdmin(api, event) {
+  if (!event.isGroup) return false;
+  const senderStr = String(event.senderID);
+  const threadInfo = await getThreadInfoCached(api, event.threadID);
+
+  // [FIX ADMIN] إذا adminIDs فارغة أو null (GraphQL لم يُرجعها)، نجرب جلبها مباشرة
+  let adminIDs = threadInfo?.adminIDs;
+  if (!Array.isArray(adminIDs) || adminIDs.length === 0) {
+    adminIDs = await fetchAdminIDsFallback(api, event.threadID);
+    // نُحدّث الـ cache بالـ adminIDs الجديدة إذا نجحنا
+    if (adminIDs.length > 0 && threadInfo) {
+      threadInfo.adminIDs = adminIDs;
+    }
+  }
+  if (!adminIDs?.length) return false;
+  return adminIDs.some(a => extractAdminId(a) === senderStr);
+}
+
+// تصدير الـ cache ليتمكن الأوامر من استخدامه مباشرةً بدل استدعاء getThreadInfo
+export { getThreadInfoCached };
+export const handleMessage = async (rawApi, event) => {
+  const { threadID, senderID, body, messageReply, messageID } = event;
+  const hasAttachment = (event.attachments?.length > 0);
+  if (!body?.trim() && !hasAttachment) return;
+  const api         = global.wrapApiForSafety(rawApi);
+  const messageText = body?.trim() ?? "";
+  // Group-only policy: do not read, answer, or otherwise process direct messages.
+  if (!event.isGroup) return;
+  if (messageReply && global.Kagenou.replies?.[messageReply.messageID]) {
+    const replyData = global.Kagenou.replies[messageReply.messageID];
+    if (!replyData.author || replyData.author === senderID) {
+      delete global.Kagenou.replies[messageReply.messageID];
+      const cmdForReply = replyData.commandName ? global.commands.get(replyData.commandName) : null;
+      const handler = replyData.onReply || replyData.callback ||
+        (cmdForReply?.onReply ? (...a) => cmdForReply.onReply(...a) : null);
+      if (typeof handler === "function") {
+        const replyMessage = buildMessageAPI(api, threadID, undefined);
+        Promise.resolve(handler({ api, event, message: replyMessage, Reply: replyData }))
+          .catch(e => console.error("[REPLY ERROR]", e.message));
+      }
+    }
+    return;
+  }
+  const prefixes = (global.config?.Prefix || [""]).map(String);
+  let resolvedText  = null;
+  let matchedPrefix = "";
+  for (const pfx of prefixes) {
+    if (pfx === "" || messageText.startsWith(pfx)) {
+      matchedPrefix = pfx;
+      resolvedText  = pfx ? messageText.slice(pfx.length).trim() : messageText;
+      break;
+    }
+  }
+  let commandName = null;
+  let args        = [];
+  let command     = null;
+  if (resolvedText !== null) {
+    const parts = resolvedText.split(/ +/);
+    commandName = parts[0]?.toLowerCase();
+    args        = parts.slice(1);
+    command     = global.commands.get(commandName);
+  }
+  if (!command) {
+    const rawParts = messageText.split(/ +/);
+    const rawName  = rawParts[0]?.toLowerCase();
+    const rawCmd   = rawName ? global.commands.get(rawName) : null;
+    const allowsNoPrefix = rawCmd?.config?.usePrefix === false || rawCmd?.config?.nonPrefix === true;
+    if (rawCmd && allowsNoPrefix) {
+      commandName   = rawName;
+      args          = rawParts.slice(1);
+      command       = rawCmd;
+      matchedPrefix = "";
+    }
+  }
+  if (!command) return;
+  if (command.config?.enabled === false) {
+    api.sendMessage("⚠️ هذا الأمر معطّل مؤقتاً.", threadID, null, messageID);
+    return;
+  }
+  event.command = commandName;
+  const _botIndex = rawApi?.__botIndex ?? null;
+  const isGroupAdmin = await resolveGroupAdmin(api, event);
+  const authError = checkAuth(senderID, command, _botIndex, isGroupAdmin);
+  if (authError) { api.sendMessage(authError, threadID, null, messageID); return; }
+  const cooldownError = checkAndSetCooldown(senderID, commandName, command);
+  if (cooldownError) { api.sendMessage(cooldownError, threadID, null, messageID); return; }
+
+  // Record usage for the analytics dashboard (in-memory, resets on restart)
+  global._cmdAnalytics = global._cmdAnalytics || {};
+  const _ca = global._cmdAnalytics;
+  if (!_ca[commandName]) _ca[commandName] = { count: 0, lastUsed: null };
+  _ca[commandName].count++;
+  _ca[commandName].lastUsed = new Date().toISOString();
+  const role    = global.getUserRole(senderID, _botIndex);
+  const isGroup = !!event.isGroup;
+  // فلترة: أوامر مقيّدة بالمجموعات أو الخاص فقط
+  if (command.config?.groupOnly === true && !isGroup) {
+    api.sendMessage("⚠️ هذا الأمر يعمل داخل المجموعات فقط.", threadID, null, messageID);
+    return;
+  }
+  if (command.config?.dmOnly === true && isGroup) {
+    api.sendMessage("⚠️ هذا الأمر يعمل في الرسائل الخاصة فقط.", threadID, null, messageID);
+    return;
+  }
+  const t0 = Date.now();
+  (async () => {
+    const timer = timing.start(`command:${commandName}`);
+    try {
+      const ctx = buildCommandContext({ api, event, args, role, prefix: matchedPrefix, isGroupAdmin });
+      const fn  = HANDLER_KEYS.map(k => command[k]).find(f => typeof f === "function");
+      if (fn) await fn(ctx);
+      timer.end();
+      global.perfManager?.trackRequest(t0);
+    } catch (err) {
+      timer.end("(فشل)");
+      global.perfManager?.trackError();
+      console.error(`[command:${commandName}]`, err.message);
+      api.sendMessage("⚠️ حدث خطأ أثناء تنفيذ الأمر — تم إبلاغ المطوّر تلقائياً.", threadID, null, messageID);
+    }
+  })();
+};
+export const handleReaction = (api, event) => {
+  const msgID = event.messageID;
+  if (!msgID) return;
+  const entry = global.client.reactionListener[msgID];
+  if (!entry) return;
+  if (entry.author && event.userID !== entry.author) return;
+  global._reactionTimestamps.set(msgID, Date.now());
+  Promise.resolve(entry.callback({ api, event }))
+    .catch(e => console.error("[REACTION ERR]", e.message));
+};
+export const handleEvent = async (rawApi, event) => {
+  if (!event.isGroup) return;
+  const api       = global.wrapApiForSafety(rawApi);
+  const firstWord = event.body?.trim().split(/ +/)[0]?.toLowerCase();
+  // نحسب مرة واحدة هل firstWord يُحيل إلى أيّ أمر (سواء باسمه أو alias)
+  const resolvedCmd = firstWord ? global.commands.get(firstWord) : null;
+  for (const cmd of global.eventCommands) {
+    if (!cmd.onChat) continue;
+    const hasAtt = (event.attachments?.length > 0);
+    if (!event.messageID || (!event.body && !hasAtt)) continue;
+    // تجاهل إذا كانت الرسالة تُطلق هذا الأمر بالذات (اسماً أو alias أو nonPrefix)
+    if (resolvedCmd && resolvedCmd === cmd) continue;
+    Promise.resolve(cmd.onChat({ api, event, message: buildMessageAPI(api, event.threadID, event.messageID) }))
+      .catch(() => {});
+  }
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-core-router',
+  meta: { category: 'core', path: 'src/core/Router.js' },
+  setup(_ctx) {
+    // provides: handleEvent, handleMessage, handleReaction
+  },
+};

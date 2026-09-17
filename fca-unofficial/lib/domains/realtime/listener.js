@@ -1,9 +1,7 @@
 var U = Object.defineProperty;
 var n = (m, q) => U(m, 'name', { value: q, configurable: !0 });
 import { getMqttReconnectDelay as $ } from '../../safety/stealth-profiles.js';
-// Keep a healthy MQTT session open. Reconnect remains enabled for real
-// transport/auth failures; periodic recycling is intentionally disabled.
-const j = 0,
+const j = 3600 * 1e3,
   G = 2e3,
   B = 5e3,
   Q = { cycleMs: j, reconnectDelayMs: G, autoReconnect: !0, reconnectAfterStop: !1 };
@@ -176,9 +174,6 @@ function W(m) {
     n(A, 'endQuietly');
     function v() {
       e._seqRetryAttempts || (e._seqRetryAttempts = 0);
-      // Stable Reset: if connected steadily for 30s, treat next disconnect as attempt 0.
-      const _stableMs = 30_000;
-      if (e._connectedAt && Date.now() - e._connectedAt >= _stableMs) e._seqRetryAttempts = 0;
       const r = $(e._seqRetryAttempts);
       (e._seqRetryAttempts++,
         t(`mqtt reconnect in ${r}ms (attempt ${e._seqRetryAttempts})`, 'info'),
@@ -216,8 +211,6 @@ function W(m) {
               e._getSeqRetryTimer &&
                 (clearTimeout(e._getSeqRetryTimer), (e._getSeqRetryTimer = null)),
               (e._ending = !0),
-              (e._seqRetryAttempts = 0),
-              (e._connectedAt = null),
               M(() =>
                 A(() => {
                   (t('mqtt stopped', 'info'), T(), (f = b(e, f)), f.reconnectAfterStop && v());

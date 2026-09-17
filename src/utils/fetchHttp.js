@@ -1,1 +1,209 @@
-'use strict';const a0_0x395b30=a0_0x4bf4;(function(_0x4d15ec,_0x288933){const _0x3ea5c6=a0_0x4bf4,_0x2d14ef=_0x4d15ec();while(!![]){try{const _0x579ba2=-parseInt(_0x3ea5c6(0xb9))/0x1+-parseInt(_0x3ea5c6(0xc1))/0x2+parseInt(_0x3ea5c6(0x94))/0x3+-parseInt(_0x3ea5c6(0xc3))/0x4*(parseInt(_0x3ea5c6(0x89))/0x5)+-parseInt(_0x3ea5c6(0xa7))/0x6+-parseInt(_0x3ea5c6(0xa5))/0x7*(-parseInt(_0x3ea5c6(0x8a))/0x8)+parseInt(_0x3ea5c6(0x9a))/0x9;if(_0x579ba2===_0x288933)break;else _0x2d14ef['push'](_0x2d14ef['shift']());}catch(_0x1c1f8a){_0x2d14ef['push'](_0x2d14ef['shift']());}}}(a0_0x259d,0x711f0));function a0_0x259d(){const _0x14d5dc=['mtiZmZK2nMj2yvDNAW','DgvZDa','revmrvrf','AxnbCNjHEq','C3rHDhvZvgv4Da','u1bvrum','mtuWnta3mdbbCxnvwLG','BMfTzq','ANnVBG','EhGTDxrPBhmTzMv0y2GTAhr0Ca','yMfZzvvsta','q29UDgvUDc1uExbL','twXXu3C','C2v0','veTSEhm','Dg9vChbLCKnHC2u','C3jJl3v0AwXZl2zLDgnOshr0Cc5QCW','n2P0BKfHCW','zNjVBuvUDhjPzxm','ndi0mZiZnMrVzvjprG','Ahr0Chm','A2DcrwW','uvzQBfi','CMvWBgfJzq','yxbWzw5K','Ahr0Ca','yxbWBgLJyxrPB24VANnVBG','CMvXDwvZDa','yM9KEq','Cg1ZsxO','AgvHzgvYCW','rvjsx0jbrf9tvefuvvnF','zMv0y2HiDhrWoIaNDxjSjYdzHDI32ytzInIO','zw50CMLLCW','yxjYyxLIDwzMzxi','BxmGzxHJzwvKzwq','y29Kzq','nde2mdu4B01RzerN','uMvXDwvZDcbMywLSzwqGD2L0AcbZDgf0DxmGy29Kzsa','ywjVCNq','ufvu','ru5fvfDpuKS','Buzgzvi','Dgv4Da','CLbPD0S','mJm3ote0quvxuMTZ','r0vu','nJG3mNrSBwHKDq','sNjztLC','rhL6r2y','z0HQCg0','v29dt0u','tMv0D29YAYbfCNjVCG','wMPuEK0','mJu3nwrtv3DUDG','nda1mZCWngnYrgvMvq','y2f1C2u','yxjYyxLcDwzMzxi','DgLTzw91DcbVzIa','CMvZCg9UC2u','CgfYC2u','C2LNBMfS','sevbra','C3rHDhvZ','sxbKCxO'];a0_0x259d=function(){return _0x14d5dc;};return a0_0x259d();}import{Readable}from'stream';import{Agent as a0_0x1adafd}from'http';import{Agent as a0_0x5ddd46}from'https';const _keepAliveAgents={'http':new a0_0x1adafd({'keepAlive':!![],'maxSockets':0x14}),'https':new a0_0x5ddd46({'keepAlive':!![],'maxSockets':0x14})},defaults={'baseURL':'','headers':{}},interceptors={'request':[],'response':[]};function buildUrl(_0x3ad1c7,_0x7e16a2,_0x3394bc){const _0x200411=a0_0x4bf4,_0x330dfc={'nSKiT':function(_0x20f2ed,_0x508efd){return _0x20f2ed&&_0x508efd;},'WoCOE':function(_0x2f2703,_0x144571){return _0x2f2703===_0x144571;}},_0x150125=/^https?:\/\//i[_0x200411(0x95)](String(_0x3ad1c7));let _0x155278=_0x3ad1c7;_0x330dfc['nSKiT'](!_0x150125,_0x3394bc)&&(_0x155278=_0x3394bc['replace'](/\/+$/,'')+'/'+String(_0x3ad1c7)[_0x200411(0xab)](/^\/+/,''));if(!_0x7e16a2)return _0x155278;const _0x1577ea=new URLSearchParams();for(const [_0x24aa4f,_0x3b7897]of Object[_0x200411(0xb5)](_0x7e16a2)){if(_0x330dfc[_0x200411(0xc7)](_0x3b7897,undefined)||_0x3b7897===null)continue;if(Array[_0x200411(0x97)](_0x3b7897)){for(const _0x58943e of _0x3b7897)_0x1577ea[_0x200411(0xac)](_0x24aa4f,_0x58943e);}else _0x1577ea[_0x200411(0xa1)](_0x24aa4f,String(_0x3b7897));}const _0x40a02f=_0x1577ea['toString']();if(!_0x40a02f)return _0x155278;return _0x155278+(_0x155278['includes']('?')?'&':'?')+_0x40a02f;}function defaultValidateStatus(_0x3a2a17){const _0x225095={'QWlIE':function(_0x140d2d,_0x29dfd9){return _0x140d2d<_0x29dfd9;}};return _0x3a2a17>=0xc8&&_0x225095['QWlIE'](_0x3a2a17,0x12c);}function wrapNetworkError(_0x380280,_0x138af1){const _0x274fad=a0_0x4bf4;if(_0x380280[_0x274fad(0x9b)]==='AbortError'){const _0x2b5b30=new Error(_0x274fad(0x8d)+_0x138af1+_0x274fad(0xb7));return _0x2b5b30['code']='ECONNABORTED',_0x2b5b30[_0x274fad(0x8e)]=undefined,_0x2b5b30;}const _0x4f6b5d=new Error(_0x380280['message']||_0x274fad(0x87));return _0x4f6b5d[_0x274fad(0xb8)]=_0x380280['cause']?.[_0x274fad(0xb8)]||_0x380280[_0x274fad(0xb8)]||_0x274fad(0xbd),_0x4f6b5d['cause']=_0x380280[_0x274fad(0x8b)]||_0x380280,_0x4f6b5d[_0x274fad(0x8e)]=undefined,_0x4f6b5d;}function isRetryable(_0x1a02d8){const _0x393fd6=a0_0x4bf4,_0xf1a46b={'HjQyj':_0x393fd6(0xbd)};if(_0x1a02d8[_0x393fd6(0xb8)]==='ECONNABORTED'||_0x1a02d8[_0x393fd6(0xb8)]===_0xf1a46b['HjQyj'])return!![];if(_0x1a02d8['response']&&_0x1a02d8['response'][_0x393fd6(0x92)]>=0x1f4)return!![];return![];}function a0_0x4bf4(_0x1ab67c,_0x1cbf9c){_0x1ab67c=_0x1ab67c-0x87;const _0x259d9f=a0_0x259d();let _0x4bf453=_0x259d9f[_0x1ab67c];if(a0_0x4bf4['PBiCLC']===undefined){var _0x69aa47=function(_0x1220e8){const _0x2461be='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x2367db='',_0x3d26ec='';for(let _0x574c90=0x0,_0x1b2464,_0x65964,_0xf9fbbb=0x0;_0x65964=_0x1220e8['charAt'](_0xf9fbbb++);~_0x65964&&(_0x1b2464=_0x574c90%0x4?_0x1b2464*0x40+_0x65964:_0x65964,_0x574c90++%0x4)?_0x2367db+=String['fromCharCode'](0xff&_0x1b2464>>(-0x2*_0x574c90&0x6)):0x0){_0x65964=_0x2461be['indexOf'](_0x65964);}for(let _0x4b1210=0x0,_0x421acc=_0x2367db['length'];_0x4b1210<_0x421acc;_0x4b1210++){_0x3d26ec+='%'+('00'+_0x2367db['charCodeAt'](_0x4b1210)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x3d26ec);};a0_0x4bf4['ctyoHP']=_0x69aa47,a0_0x4bf4['GoDvEK']={},a0_0x4bf4['PBiCLC']=!![];}const _0x4865af=_0x259d9f[0x0];a0_0x4bf4['xFbfAV']!==_0x4865af&&(a0_0x4bf4['GoDvEK']={},a0_0x4bf4['xFbfAV']=_0x4865af);const _0x4a488b=a0_0x4bf4['GoDvEK'][_0x1ab67c];return _0x4a488b===undefined?(_0x4bf453=a0_0x4bf4['ctyoHP'](_0x4bf453),a0_0x4bf4['GoDvEK'][_0x1ab67c]=_0x4bf453):_0x4bf453=_0x4a488b,_0x4bf453;}function sleep(_0x2765ce){return new Promise(_0x44d5fb=>setTimeout(_0x44d5fb,_0x2765ce));}async function performRequest(_0x579691){const _0x42da4c=a0_0x4bf4,_0x5bdc55={'pmsIz':_0x42da4c(0xc2),'kgBEl':_0x42da4c(0xb4),'MlqSw':function(_0x303f63,_0xbda246,_0x59351f,_0x276515){return _0x303f63(_0xbda246,_0x59351f,_0x276515);},'TKlxs':_0x42da4c(0x91),'JrYNW':function(_0x335f91,_0x5412de){return _0x335f91 instanceof _0x5412de;},'FqcRH':function(_0x35ced6,_0x13d13b){return _0x35ced6!==_0x13d13b;},'QVjlR':'undefined','DyzGf':function(_0x3e80ca,_0x576017,_0x369951){return _0x3e80ca(_0x576017,_0x369951);},'SPUEC':function(_0x550bd,_0x54172c){return _0x550bd(_0x54172c);},'ZjTzM':function(_0x63b238,_0xb8669){return _0x63b238===_0xb8669;},'molpv':_0x42da4c(0xb6),'gHjpm':function(_0x1c37b0,_0xc1f21b){return _0x1c37b0===_0xc1f21b;},'rPiwK':'stream','BVkOC':_0x42da4c(0xbf)},{url:_0x5504c9,method:method=_0x5bdc55[_0x42da4c(0xb1)],headers:headers={},params:_0x434ee5,data:_0x460bac,timeout:timeout=0x0,responseType:responseType=_0x42da4c(0x9c),validateStatus:validateStatus=defaultValidateStatus,baseURL:baseURL=defaults[_0x42da4c(0x9e)]}=_0x579691;if(!_0x5504c9)throw new Error(_0x5bdc55[_0x42da4c(0xa9)]);const _0x1e6f3e=_0x5bdc55[_0x42da4c(0xa0)](buildUrl,_0x5504c9,_0x434ee5,baseURL),_0x20b27f={...defaults[_0x42da4c(0xb2)],...headers};let _0x29e2ae;const _0x5f4c92=method[_0x42da4c(0xa3)]();if(_0x460bac!==undefined&&_0x5f4c92!==_0x42da4c(0xc2)&&_0x5f4c92!==_0x5bdc55[_0x42da4c(0xa2)]){const _0x30e905=_0x460bac!==null&&typeof _0x460bac==='object'&&!(_0x460bac instanceof Buffer)&&!_0x5bdc55[_0x42da4c(0xc4)](_0x460bac,URLSearchParams)&&!(_0x5bdc55['FqcRH'](typeof FormData,_0x5bdc55[_0x42da4c(0xaa)])&&_0x460bac instanceof FormData)&&!(_0x460bac instanceof ArrayBuffer)&&!ArrayBuffer['isView'](_0x460bac);_0x30e905?(_0x29e2ae=JSON['stringify'](_0x460bac),!Object['keys'](_0x20b27f)['some'](_0x27f5cd=>_0x27f5cd['toLowerCase']()==='content-type')&&(_0x20b27f[_0x42da4c(0x9f)]=_0x42da4c(0xae))):_0x29e2ae=_0x460bac;}const _0x32e0b1=timeout?new AbortController():null,_0x26e1dd=timeout?_0x5bdc55[_0x42da4c(0xc5)](setTimeout,()=>_0x32e0b1[_0x42da4c(0xbb)](),timeout):null,_0x4ec8fb=_0x1e6f3e['startsWith']('https');let _0x4f200d;try{_0x4f200d=await _0x5bdc55[_0x42da4c(0xc5)](fetch,_0x1e6f3e,{'method':_0x5f4c92,'headers':_0x20b27f,'body':_0x29e2ae,'signal':_0x32e0b1?_0x32e0b1[_0x42da4c(0x90)]:undefined,'agent':_0x4ec8fb?_keepAliveAgents[_0x42da4c(0xa8)]:_keepAliveAgents[_0x42da4c(0xad)]});}catch(_0x1d880a){if(_0x26e1dd)clearTimeout(_0x26e1dd);throw wrapNetworkError(_0x1d880a,timeout);}if(_0x26e1dd)_0x5bdc55[_0x42da4c(0x99)](clearTimeout,_0x26e1dd);const _0x470977=_0x4f200d['status'],_0x481d95=_0x4f200d[_0x42da4c(0x98)],_0x3c0076=Object[_0x42da4c(0xa6)](_0x4f200d[_0x42da4c(0xb2)][_0x42da4c(0xb5)]());if(!validateStatus(_0x470977)){let _0x20f0a6;try{const _0x4f2161=await _0x4f200d['text']();try{_0x20f0a6=_0x4f2161?JSON['parse'](_0x4f2161):undefined;}catch(_0xa5492e){_0x20f0a6=_0x4f2161;}}catch(_0x5db310){_0x20f0a6=undefined;}const _0x13f4ca=new Error(_0x42da4c(0xba)+_0x470977);_0x13f4ca['code']=_0x42da4c(0xb3)+_0x470977,_0x13f4ca[_0x42da4c(0x8e)]={'status':_0x470977,'statusText':_0x481d95,'headers':_0x3c0076,'data':_0x20f0a6};throw _0x13f4ca;}let _0x4833f4;if(_0x5bdc55[_0x42da4c(0x88)](responseType,_0x5bdc55['molpv']))_0x4833f4=Buffer['from'](await _0x4f200d[_0x42da4c(0x8c)]());else{if(_0x5bdc55[_0x42da4c(0xc6)](responseType,_0x5bdc55[_0x42da4c(0xc0)]))_0x4833f4=Readable['fromWeb'](_0x4f200d[_0x42da4c(0xb0)]);else{if(_0x5bdc55[_0x42da4c(0x88)](responseType,_0x5bdc55['BVkOC']))_0x4833f4=await _0x4f200d[_0x42da4c(0xbf)]();else{const _0x5460f3=await _0x4f200d['text']();if(!_0x5460f3)_0x4833f4=null;else try{_0x4833f4=JSON[_0x42da4c(0x8f)](_0x5460f3);}catch(_0x17e1d5){_0x4833f4=_0x5460f3;}}}}return{'data':_0x4833f4,'status':_0x470977,'statusText':_0x481d95,'headers':_0x3c0076};}async function request(_0x28f343={}){const _0x53a0b3=a0_0x4bf4,_0x17e4d6={'mFFeR':function(_0x1b9b38,_0x48c074){return _0x1b9b38(_0x48c074);}};let _0x3eef18=_0x28f343;for(const _0xb8c6fa of interceptors[_0x53a0b3(0xaf)]){_0x3eef18=await _0xb8c6fa(_0x3eef18)||_0x3eef18;}const _0x1ee5ab=_0x3eef18['retries']??0x0,_0x271f6f=_0x3eef18['retryDelay']??0x12c;let _0xcca64b=0x0;while(!![]){try{let _0x10c737=await performRequest(_0x3eef18);for(const _0x6fa9a4 of interceptors['response']){_0x10c737=await _0x17e4d6[_0x53a0b3(0xbe)](_0x6fa9a4,_0x10c737)||_0x10c737;}return _0x10c737;}catch(_0x239579){if(_0xcca64b<_0x1ee5ab&&_0x17e4d6[_0x53a0b3(0xbe)](isRetryable,_0x239579)){_0xcca64b++,await sleep(_0x271f6f*_0xcca64b);continue;}throw _0x239579;}}}function get(_0x3d12d6,_0x2e8fb8={}){const _0x9b8d18=a0_0x4bf4,_0x212826={'Ipdqz':function(_0x346ed6,_0x2d88a7){return _0x346ed6(_0x2d88a7);}};return _0x212826[_0x9b8d18(0x93)](request,{..._0x2e8fb8,'url':_0x3d12d6,'method':_0x9b8d18(0xc2)});}function post(_0x1899b0,_0x19a6ae,_0x517e4a={}){const _0x3feecc={'GhHkV':function(_0x136950,_0x190c3c){return _0x136950(_0x190c3c);}};return _0x3feecc['GhHkV'](request,{..._0x517e4a,'url':_0x1899b0,'method':'POST','data':_0x19a6ae});}function put(_0x259c7e,_0x2f0370,_0x24e07c={}){const _0x314fcb=a0_0x4bf4,_0x889200={'yyQpL':function(_0x1c1132,_0x436f8e){return _0x1c1132(_0x436f8e);}};return _0x889200['yyQpL'](request,{..._0x24e07c,'url':_0x259c7e,'method':_0x314fcb(0xbc),'data':_0x2f0370});}function del(_0x5a84bf,_0x50219f={}){const _0x3ecf13=a0_0x4bf4;return request({..._0x50219f,'url':_0x5a84bf,'method':_0x3ecf13(0x96)});}export default Object['assign'](request,{'get':get,'post':post,'put':put,'delete':del,'request':request,'defaults':defaults,'interceptors':interceptors});export const $plugin={'name':a0_0x395b30(0x9d),'meta':{'category':'utils','path':a0_0x395b30(0xa4)},'setup'(_0x3a21e5){}};
+"use strict";
+import { Readable } from "stream";
+import { Agent as HttpAgent } from "http";
+import { Agent as HttpsAgent } from "https";
+const _keepAliveAgents = {
+  http:  new HttpAgent({ keepAlive: true, maxSockets: 20 }),
+  https: new HttpsAgent({ keepAlive: true, maxSockets: 20 }),
+};
+const defaults = {
+  baseURL: "",
+  headers: {},
+};
+const interceptors = {
+  request: [],
+  response: [],
+};
+function buildUrl(url, params, baseURL) {
+  const isAbsolute = /^https?:\/\//i.test(String(url));
+  let finalUrl = url;
+  if (!isAbsolute && baseURL) {
+    finalUrl = baseURL.replace(/\/+$/, "") + "/" + String(url).replace(/^\/+/, "");
+  }
+  if (!params) return finalUrl;
+  const qs = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (value === undefined || value === null) continue;
+    if (Array.isArray(value)) {
+      for (const v of value) qs.append(key, v);
+    } else {
+      qs.set(key, String(value));
+    }
+  }
+  const queryString = qs.toString();
+  if (!queryString) return finalUrl;
+  return finalUrl + (finalUrl.includes("?") ? "&" : "?") + queryString;
+}
+function defaultValidateStatus(status) {
+  return status >= 200 && status < 300;
+}
+function wrapNetworkError(e, timeout) {
+  if (e.name === "AbortError") {
+    const err = new Error(`timeout of ${timeout}ms exceeded`);
+    err.code = "ECONNABORTED";
+    err.response = undefined;
+    return err;
+  }
+  const err = new Error(e.message || "Network Error");
+  err.code = e.cause?.code || e.code || "ENETWORK";
+  err.cause = e.cause || e;
+  err.response = undefined;
+  return err;
+}
+function isRetryable(err) {
+  if (err.code === "ECONNABORTED" || err.code === "ENETWORK") return true;
+  if (err.response && err.response.status >= 500) return true;
+  return false;
+}
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+async function performRequest(config) {
+  const {
+    url,
+    method = "GET",
+    headers = {},
+    params,
+    data,
+    timeout = 0,
+    responseType = "json",
+    validateStatus = defaultValidateStatus,
+    baseURL = defaults.baseURL,
+  } = config;
+  if (!url) throw new Error("fetchHttp: 'url' مطلوب");
+  const finalUrl = buildUrl(url, params, baseURL);
+  const finalHeaders = { ...defaults.headers, ...headers };
+  let body;
+  const upper = method.toUpperCase();
+  if (data !== undefined && upper !== "GET" && upper !== "HEAD") {
+    const isPlainObject =
+      data !== null &&
+      typeof data === "object" &&
+      !(data instanceof Buffer) &&
+      !(data instanceof URLSearchParams) &&
+      !(typeof FormData !== "undefined" && data instanceof FormData) &&
+      !(data instanceof ArrayBuffer) &&
+      !ArrayBuffer.isView(data);
+    if (isPlainObject) {
+      body = JSON.stringify(data);
+      if (!Object.keys(finalHeaders).some((h) => h.toLowerCase() === "content-type")) {
+        finalHeaders["Content-Type"] = "application/json";
+      }
+    } else {
+      body = data;
+    }
+  }
+  const controller = timeout ? new AbortController() : null;
+  const timer = timeout ? setTimeout(() => controller.abort(), timeout) : null;
+  const isHttps = finalUrl.startsWith("https");
+  let res;
+  try {
+    res = await fetch(finalUrl, {
+      method: upper,
+      headers: finalHeaders,
+      body,
+      signal: controller ? controller.signal : undefined,
+      agent: isHttps ? _keepAliveAgents.https : _keepAliveAgents.http,
+    });
+  } catch (e) {
+    if (timer) clearTimeout(timer);
+    throw wrapNetworkError(e, timeout);
+  }
+  if (timer) clearTimeout(timer);
+  const status = res.status;
+  const statusText = res.statusText;
+  const resHeaders = Object.fromEntries(res.headers.entries());
+  if (!validateStatus(status)) {
+    let errData;
+    try {
+      const text = await res.text();
+      try {
+        errData = text ? JSON.parse(text) : undefined;
+      } catch (_) {
+        errData = text;
+      }
+    } catch (_) {
+      errData = undefined;
+    }
+    const err = new Error(`Request failed with status code ${status}`);
+    err.code = `ERR_BAD_STATUS_${status}`;
+    err.response = { status, statusText, headers: resHeaders, data: errData };
+    throw err;
+  }
+  let responseData;
+  if (responseType === "arraybuffer") {
+    responseData = Buffer.from(await res.arrayBuffer());
+  } else if (responseType === "stream") {
+    responseData = Readable.fromWeb(res.body);
+  } else if (responseType === "text") {
+    responseData = await res.text();
+  } else {
+    const text = await res.text();
+    if (!text) {
+      responseData = null;
+    } else {
+      try {
+        responseData = JSON.parse(text);
+      } catch (_) {
+        responseData = text;
+      }
+    }
+  }
+  return { data: responseData, status, statusText, headers: resHeaders };
+}
+async function request(config = {}) {
+  let finalConfig = config;
+  for (const fn of interceptors.request) {
+    finalConfig = (await fn(finalConfig)) || finalConfig;
+  }
+  const retries = finalConfig.retries ?? 0;
+  const retryDelay = finalConfig.retryDelay ?? 300;
+  let attempt = 0;
+  while (true) {
+    try {
+      let res = await performRequest(finalConfig);
+      for (const fn of interceptors.response) {
+        res = (await fn(res)) || res;
+      }
+      return res;
+    } catch (err) {
+      if (attempt < retries && isRetryable(err)) {
+        attempt++;
+        await sleep(retryDelay * attempt);
+        continue;
+      }
+      throw err;
+    }
+  }
+}
+function get(url, config = {}) {
+  return request({ ...config, url, method: "GET" });
+}
+function post(url, data, config = {}) {
+  return request({ ...config, url, method: "POST", data });
+}
+function put(url, data, config = {}) {
+  return request({ ...config, url, method: "PUT", data });
+}
+function del(url, config = {}) {
+  return request({ ...config, url, method: "DELETE" });
+}
+export default Object.assign(request, {
+  get,
+  post,
+  put,
+  delete: del,
+  request,
+  defaults,
+  interceptors,
+});
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-fetch-http',
+  meta: { category: 'utils', path: 'src/utils/fetchHttp.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

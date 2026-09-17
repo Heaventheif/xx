@@ -1,1 +1,210 @@
-const a0_0x11f634=a0_0x24cd;(function(_0xbf0523,_0x31d9a8){const _0x469a43=a0_0x24cd,_0x52fd89=_0xbf0523();while(!![]){try{const _0xc93003=parseInt(_0x469a43(0x214))/0x1+-parseInt(_0x469a43(0x210))/0x2*(-parseInt(_0x469a43(0x1f4))/0x3)+parseInt(_0x469a43(0x1da))/0x4+-parseInt(_0x469a43(0x217))/0x5*(-parseInt(_0x469a43(0x209))/0x6)+parseInt(_0x469a43(0x1e9))/0x7*(-parseInt(_0x469a43(0x1e1))/0x8)+-parseInt(_0x469a43(0x20f))/0x9*(-parseInt(_0x469a43(0x1dc))/0xa)+-parseInt(_0x469a43(0x1ed))/0xb;if(_0xc93003===_0x31d9a8)break;else _0x52fd89['push'](_0x52fd89['shift']());}catch(_0x5201ca){_0x52fd89['push'](_0x52fd89['shift']());}}}(a0_0x51a2,0xba766));import a0_0x3ede23 from'../../utils/fetchHttp.js';import a0_0x5d5721 from'fs-extra';import a0_0x40ed1f from'os';import a0_0x182aab from'path';function a0_0x51a2(){const _0x34b09a=['mtG3ntm5mLH4CLj5Aq','BwvZC2fNzq','nte1ndeWtfzvtvzo','C3rYzwfT','2kRyRnIN2yJySTIQinI52yxzHnMk2kKG2kFzHnMf2lNyP9Me2kZyQsdyP9Me2yJzGTIQinIN2ytzHDIT2k/yRYdyP9Me2yxyS9Mf2yJyRsdyQnMhicHuAw1LB3v0ks4','2kFzHnIZ2lFySsdzHnINinMk2k3yQTMi2yOG2lNzHnMjinMg2luG2kRySDIS2yxyQsdyQnI52k8G2kFzHnMf2yJyTTI5l9IN2ytyQTMi2ylzITIQoIaI','zwrPDe1LC3nHz2u','mta2nZu2odHmB21zvhm','AgfZ','DvLqzeO','l3n1yNrPDgXLCI9ZDgf0DxmV','2kxyTTIN2yhyQsdyQTIX2kZzHDIPicJyQ9IN2kJyQTIPinIJ2yGG2llzHDMg2yRyQsKG2lNzHnMjinMb2yRyR9Mk2yGG2lNyQnIXinIN2ytySDIVinI52ytzITMh2iWG2yxyUsdyQTIT2ypzHsdyQnMf2yJyTTI5inIN2ytzHTI1inI52yxzInIV2yRyP9Ml','BwvZC2fNzv9YzxbSEq','zxHPC3rZ','4P2minIU2lFyOYdzGDMkinIN2ytyPDI52k/yP9IV2kFyQJOG2ytzHsdzITIQ2yuG2lByQnI3inIX2kFyQnI3ieHgx1nqqunfx1vstcdzGDMkinMf2kRyUTMk2lhyP9IQinIN2ytyQnMk2kByQsdyP9Me2k7yP9I12kKG2kJyP9Me2kJzInIQlG','n3vUsvvvta','zMLUAxnO','qwnMqNa','C29Tzq','mJmZnZqZmdDXy0DZAhq','2lhyRYdyUDMe2yKG2yhzITIV2yRzIcaRihTWBN3yQTIX2kZzHDIPmIa82lhzGTMfinIN2ytzHDMi2lByUsaXltu+idZyP9Me2yByTt4G4OcuinIQ2lhyRnMf2kKG2kVyP9IO2kRyQsdyQnMf2yJyTTI5inMf2k3yR9IV','C2vUze1LC3nHz2u','C3jJl2nVBw1HBMrZl21LzgLHl3n1yI5QCW','yxr0ywnOBwvUDhm','4P2minMe2yuG2kpyS9IQ2lFyUsdzGDMh2yuG2kpzIIdyS9I32leG2kRySDIS2yxyQsdyTDIN2ytyRsdzHDMginIN2ytzHTI1inIN2ytzHDMp2k/yRTMelG','2lhyRYdyUDMe2yKG2yhzITIV2yRzIcaRihTWBN3yQTIX2kZzHDIPmIa82lhzGTMfinIN2ytzHDMi2lByUt4Gmda6mdeGlsaWmdOWmYa82kFzHnMg2lu+iokaLcdyS9I32leG2kRySDIS2yxyQsdySTMf2yBzIIdyQnMf2yJyTTI5inMf2k3yR9IV','m0jXqufNBG','y3jLyxrLv3jPDgvtDhjLyw0','DgvZDa','zhner1a','ANnVBG','2ypyP9IO2ltzHG','2yJzGTIQinIN2ytzHTMh2kFzITIPinMk2kZyQcdyO9MginMk2ypzInMginIO2lNyRYdzInMc2kOG2kFzHnIO2k/yP9Mk2kK6ici','z2v0','EhHZvxy','zMLSDgvY','yxbWBgLJyxrPB24VANnVBG','BwfW','Bwf0y2G','4P2minIU2lFyOYdzGDMkinIQ2k3zHnMk2yqG2lxzITI62kKG2kFzHnIQ2lhyRnMf2kK6ia','C2fMzvnLBMq','BgvUz3rO','Cg9ZDa','DhjPBq','Cw1urhu','C3bSAxq','y3jLyxrLuMvHzfn0CMvHBq','mta4mfLLD1zdrq','2k3yR9IRinIU2lFyOYdyUTMk2leG2yxyUDIX2yJzGsdyO9IR2yByP9IHinMf2lNyP9Me2kZyQsdyP9Me2yxzITIV2yRyPYdyR9IN2k7zHcdyP9Me2yaGu3bHy2uU','wMLtswG','ChvZAa','4P2minMk2lhyRnMjinIN2lpyQTIU2k/yP9MfinIN2ytyO9Mf2leG2lNyQnIXinIN2ytySDIVicHszxbSEsKG2lNzHnMjinMf2ylyT9I5inMb2yRyR9Mk2yGH','zgf0yq','mtK4EuDqr1PK','mJG0nJy0ngHcuu1VzW','DMLKzw8','qKzJteC','y29TBwfUzc1TzwrPyq','mtiWodu2AgHxv3zo','4PYfinIQ2yuG2k/zHDISinIN2ytyQTIX2kZzHDIPinI52ytzIsdyP9Me2yhzITIV2yRzIcdyQnMg2kZyP9ITiq','A0jQA0i','mJK4otvequTwsgK','zxjYB3i','zg9Uzq','C3rHDhvZ','8j+tJsdzHDMi2kFyTTI5inIN2ytyUDMf2yJyRYaOwsK6ide92kpyUDMe2yKG2kFzHnI02kFyTnIP2iWGmTImidm92kFzHnMf2yByQTI12yhyJca0icJyP9Mb2kRySDIN2lBzIINyJca1pDIJ2lpzGDMeinIN2ytyTnIN2ltyQq','yMz1Aw4','EhGTy29TBwfUzhmTBwvKAweTC3vI','C3vIDgL0BgvKxW','wwTAtve','zMrJtLq','BKTivLC','w3n1yJPWCM9JzxnZxq','CgLWzq','vK5eyM0','BfbqALG','4O+ZinMk2kRzHsdyQTIT2yxzITMeinIN2ytzGDMk2k/zITMiinMi2yxyUDIN2ytyRnIQ2yCG2lNyQnIXieH1z2DPBMCGrMfJzsbtCgfJzDIminMk2lhyRnMjinIN2ytyP9Mg2kRyUnIN2leUlI4'];a0_0x51a2=function(){return _0x34b09a;};return a0_0x51a2();}import{getHfBaseOrNull,getInternalToken}from'../../utils/hfClient.js';export default{'config':{'name':'sub','aliases':[a0_0x11f634(0x1f9)],'role':0x0,'countDown':0x3c,'category':'وسائط\x20وتحميل','description':a0_0x11f634(0x1e5),'usage':['رد\x20على\x20فيديو\x20+\x20{pn}ترجمة2\x20<النص>\x20—\x20ترجمة\x20ثابتة\x20طوال\x20الفيديو\x20(الموضع\x20الافتراضي\x204)',a0_0x11f634(0x1ee),a0_0x11f634(0x1f3),'يمكن\x20تكرار\x20السطر\x20الأخير\x20عدة\x20مرات\x20(سطر\x20لكل\x20ترجمة)،\x20كل\x20سطر\x20بموضعه\x20وتوقيته\x20الخاص']},'onStart':async({api:_0x22a9ca,event:_0x46b167,args:_0x53e479})=>{const _0x3da25f=a0_0x11f634,_0x192e29={'AcfBp':'error','ToCuY':_0x3da25f(0x1e6),'bfuin':_0x3da25f(0x20d),'YkZMQ':'❌\x20الرسالة\x20التي\x20رددت\x20عليها\x20لا\x20تحتوي\x20على\x20فيديو\x20مدعوم!','dsDGP':function(_0x301ecb,_0x2fb238){return _0x301ecb||_0x2fb238;},'xxsUv':function(_0x5d17fd,_0x5bc942){return _0x5d17fd+_0x5bc942;},'qmTDu':'💡\x20يرجى\x20كتابة\x20نص\x20الترجمة\x20بعد\x20الأمر.\x0a\x0a','lPPjX':'🔹\x20ترجمة\x20زمنية\x20بموضع\x20محدد:\x0asub\x0a2\x2000:01\x20-\x2000:03\x20أهلاً\x20بكم\x0a5\x2000:04\x20-\x2000:07\x20في\x20مجموعتنا\x0a\x0a','kBjkB':function(_0x367939,_0x393e30){return _0x367939(_0x393e30);},'ZiSIh':_0x3da25f(0x1e8),'CFalY':function(_0x1f4b39,_0x148a63){return _0x1f4b39<_0x148a63;},'VNDbm':function(_0x3780bc,_0x10dc11){return _0x3780bc===_0x10dc11;},'NyzqK':_0x3da25f(0x1de),'BFcLG':function(_0x1619ef,_0x2e6dc0){return _0x1619ef(_0x2e6dc0);}},{threadID:_0x232271,messageID:_0x5a24af,type:_0x561ea,messageReply:_0x45637f,body:_0x2049e9}=_0x46b167;if(_0x561ea!==_0x192e29['ToCuY']||!_0x45637f||!_0x45637f[_0x3da25f(0x1f1)]||_0x45637f['attachments'][_0x3da25f(0x203)]===0x0)return _0x22a9ca[_0x3da25f(0x1ef)](_0x192e29[_0x3da25f(0x21c)],_0x232271,null,_0x5a24af);const _0x58b0f4=_0x45637f[_0x3da25f(0x1f1)][0x0];if(_0x58b0f4['type']!==_0x3da25f(0x211))return _0x22a9ca[_0x3da25f(0x1ef)](_0x192e29[_0x3da25f(0x21f)],_0x232271,null,_0x5a24af);const _0x4b8c84=_0x192e29[_0x3da25f(0x1f7)](_0x2049e9,''),_0x2e8a64=_0x4b8c84[_0x3da25f(0x200)](/^\S+\s([\s\S]*)$/),_0xd67168=_0x2e8a64?_0x2e8a64[0x1]['trim']():'';if(!_0xd67168)return _0x22a9ca['sendMessage'](_0x192e29[_0x3da25f(0x1fc)](_0x192e29[_0x3da25f(0x206)]+'🔹\x20ترجمة\x20ثابتة\x20(موضع\x20افتراضي\x204):\x0asub\x20النص\x20هنا\x0a\x0a'+'🔹\x20ترجمة\x20ثابتة\x20بموضع\x20محدد\x20(1\x20إلى\x205):\x0asub\x203\x20النص\x20هنا\x0a\x0a'+_0x192e29[_0x3da25f(0x1d8)],_0x3da25f(0x21b)),_0x232271,null,_0x5a24af);let _0x249331;try{_0x249331=parseSubtitleCues(_0xd67168);}catch(_0x4510e0){return _0x22a9ca[_0x3da25f(0x1ef)](_0x3da25f(0x201)+_0x4510e0[_0x3da25f(0x1db)],_0x232271,null,_0x5a24af);}if(!_0x249331[_0x3da25f(0x203)])return _0x22a9ca['sendMessage'](_0x3da25f(0x1f2),_0x232271,null,_0x5a24af);let _0x3310be=null;try{const _0x33c745=await new Promise((_0x46709c,_0x2faab1)=>_0x22a9ca[_0x3da25f(0x1ef)](_0x3da25f(0x1d9),_0x232271,(_0x17b14f,_0x130a35)=>_0x17b14f?_0x2faab1(_0x17b14f):_0x46709c(_0x130a35),_0x5a24af));_0x3310be=_0x33c745?.['messageID'];}catch(_0x1669f9){}const _0x821a90=async _0x381236=>{const _0x20e58b=_0x3da25f;try{if(_0x3310be)await _0x22a9ca[_0x20e58b(0x1e0)](_0x381236,_0x3310be);else await _0x22a9ca[_0x20e58b(0x1ef)](_0x381236,_0x232271,null,_0x5a24af);}catch(_0x1d87f8){}},_0x11b0f6=getHfBaseOrNull(),_0x3ff871=getInternalToken();if(!_0x11b0f6)return _0x192e29[_0x3da25f(0x216)](_0x821a90,_0x192e29[_0x3da25f(0x20b)]);const _0x224add=Date['now'](),_0x385a13=a0_0x182aab['join'](a0_0x40ed1f['tmpdir'](),_0x3da25f(0x21e)+_0x224add+'.mp4');try{const _0x6721cf=await a0_0x3ede23[_0x3da25f(0x204)](_0x11b0f6+'/subtitler/create',{'video_url':_0x58b0f4['url'],'cues':_0x249331},{'headers':{'Content-Type':_0x3da25f(0x1fe),'X-Internal-Token':_0x3ff871}}),{job_id:_0x442a85}=_0x6721cf[_0x3da25f(0x20e)];let _0x4d183f=null,_0x47edcb=0x0;const _0x55b4a0=0x1e;while(_0x192e29['CFalY'](_0x47edcb,_0x55b4a0)){await new Promise(_0x2af18a=>setTimeout(_0x2af18a,0x7d0)),_0x47edcb++;const _0x3157cb=await a0_0x3ede23[_0x3da25f(0x1fb)](_0x11b0f6+_0x3da25f(0x1e4)+_0x442a85,{'headers':{'X-Internal-Token':_0x3ff871},'responseType':_0x3da25f(0x1f8)});_0x4d183f=_0x3157cb['data'];if(_0x192e29[_0x3da25f(0x1d7)](_0x4d183f[_0x3da25f(0x21a)],_0x192e29[_0x3da25f(0x1eb)]))throw new Error(_0x4d183f['reason']||_0x3da25f(0x20a));if(_0x4d183f['status']===_0x3da25f(0x219))break;}if(!_0x4d183f||_0x4d183f['status']!=='done')throw new Error(_0x192e29['NyzqK']);const _0x354e4a=await a0_0x3ede23[_0x3da25f(0x1fb)](''+_0x11b0f6+_0x4d183f['download_url'],{'headers':{'X-Internal-Token':_0x3ff871},'responseType':_0x3da25f(0x1dd)}),_0x1aa707=a0_0x5d5721[_0x3da25f(0x1f5)](_0x385a13);_0x354e4a[_0x3da25f(0x20e)][_0x3da25f(0x1d6)](_0x1aa707),await new Promise((_0x5e07db,_0x56e947)=>{const _0x19a2f2=_0x3da25f;_0x1aa707['on'](_0x19a2f2(0x1ea),_0x5e07db),_0x1aa707['on'](_0x192e29[_0x19a2f2(0x1eb)],_0x56e947);});if(_0x3310be)try{await _0x22a9ca['unsendMessage'](_0x3310be,_0x232271);}catch(_0x4cafce){}await new Promise((_0x323877,_0x318f49)=>{const _0x227aa4=_0x3da25f;global[_0x227aa4(0x202)](_0x22a9ca,{'body':_0x227aa4(0x215),'attachment':a0_0x5d5721[_0x227aa4(0x208)](_0x385a13)},_0x232271,_0x424a84=>_0x424a84?_0x318f49(_0x424a84):_0x323877(),_0x5a24af);});}catch(_0x1dab61){console[_0x3da25f(0x218)]('Error\x20in\x20sub\x20command:',_0x1dab61['message']),console[_0x3da25f(0x218)](_0x3da25f(0x1d5),_0x1dab61['message']),await _0x192e29[_0x3da25f(0x212)](_0x821a90,'❌\x20فشل\x20معالجة\x20الفيديو\x20—\x20تم\x20إبلاغ\x20المطوّر.');}finally{await a0_0x5d5721[_0x3da25f(0x1e7)](_0x385a13)&&await a0_0x5d5721['remove'](_0x385a13);}}};const DEFAULT_POSITION=0x4,VALID_POSITIONS=new Set([0x1,0x2,0x3,0x4,0x5]),TIME_RE=/^(\d{1,2}:)?\d{1,2}:\d{2}$/;function timeToSeconds(_0x3b1e66){const _0xee0c6e=a0_0x11f634,_0x373b1e={'uYPdJ':function(_0x12e0b1,_0x437ef6){return _0x12e0b1+_0x437ef6;}},_0x3f4eb2=_0x3b1e66[_0xee0c6e(0x207)](':')['map'](Number);if(_0x3f4eb2[_0xee0c6e(0x1ec)](Number['isNaN']))throw new Error('صيغة\x20وقت\x20غير\x20صالحة:\x20\x22'+_0x3b1e66+'\x22');let _0x5237ea=0x0;for(const _0x54508b of _0x3f4eb2)_0x5237ea=_0x373b1e[_0xee0c6e(0x1e3)](_0x5237ea*0x3c,_0x54508b);return _0x5237ea;}function parseSubtitleLine(_0x320133){const _0x2cf02f=a0_0x11f634,_0x3e8dd2={'nKHVW':function(_0x5a0620,_0x45aa1b){return _0x5a0620(_0x45aa1b);}};let _0x441584=_0x320133[_0x2cf02f(0x205)]();if(!_0x441584)return null;let _0x1f5829=null,_0x67c459=null,_0x152150=null;const _0x3f4bb5=_0x441584['match'](/^([1-5])\s+(.+)$/s);if(_0x3f4bb5){const _0x5781e1=parseInt(_0x3f4bb5[0x1],0xa);VALID_POSITIONS[_0x2cf02f(0x1e2)](_0x5781e1)&&(_0x1f5829=_0x5781e1,_0x441584=_0x3f4bb5[0x2][_0x2cf02f(0x205)]());}const _0x4ddd42=_0x441584['match'](/^((?:\d{1,2}:)?\d{1,2}:\d{2})\s*-\s*((?:\d{1,2}:)?\d{1,2}:\d{2})\s*\|?\s*(.*)$/s);if(_0x4ddd42){const [,_0x69fe9d,_0x391028,_0x2ab03d]=_0x4ddd42;if(TIME_RE[_0x2cf02f(0x1f6)](_0x69fe9d)&&TIME_RE[_0x2cf02f(0x1f6)](_0x391028)){_0x67c459=_0x3e8dd2[_0x2cf02f(0x1d4)](timeToSeconds,_0x69fe9d),_0x152150=timeToSeconds(_0x391028);if(_0x152150<=_0x67c459)throw new Error(_0x2cf02f(0x1fa)+_0x320133[_0x2cf02f(0x205)]()+'\x22');_0x441584=_0x2ab03d['trim']();}}const _0x4e88de=_0x441584['trim']();if(!_0x4e88de)throw new Error(_0x2cf02f(0x1df)+_0x320133[_0x2cf02f(0x205)]()+'\x22');return{'position':_0x1f5829??DEFAULT_POSITION,'start':_0x67c459,'end':_0x152150,'text':_0x4e88de};}function a0_0x24cd(_0x4c71f5,_0x149cf1){_0x4c71f5=_0x4c71f5-0x1d4;const _0x51a2bd=a0_0x51a2();let _0x24cde9=_0x51a2bd[_0x4c71f5];if(a0_0x24cd['pTUsVI']===undefined){var _0x3310e1=function(_0x11bd31){const _0x389070='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x288971='',_0x394d26='';for(let _0x52c4b=0x0,_0x5f1f4a,_0x4cd8eb,_0x166af2=0x0;_0x4cd8eb=_0x11bd31['charAt'](_0x166af2++);~_0x4cd8eb&&(_0x5f1f4a=_0x52c4b%0x4?_0x5f1f4a*0x40+_0x4cd8eb:_0x4cd8eb,_0x52c4b++%0x4)?_0x288971+=String['fromCharCode'](0xff&_0x5f1f4a>>(-0x2*_0x52c4b&0x6)):0x0){_0x4cd8eb=_0x389070['indexOf'](_0x4cd8eb);}for(let _0x88b65e=0x0,_0x5b93d3=_0x288971['length'];_0x88b65e<_0x5b93d3;_0x88b65e++){_0x394d26+='%'+('00'+_0x288971['charCodeAt'](_0x88b65e)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x394d26);};a0_0x24cd['WlWfnR']=_0x3310e1,a0_0x24cd['mCUTnp']={},a0_0x24cd['pTUsVI']=!![];}const _0x6759ff=_0x51a2bd[0x0];a0_0x24cd['BFlWaF']!==_0x6759ff&&(a0_0x24cd['mCUTnp']={},a0_0x24cd['BFlWaF']=_0x6759ff);const _0x16287e=a0_0x24cd['mCUTnp'][_0x4c71f5];return _0x16287e===undefined?(_0x24cde9=a0_0x24cd['WlWfnR'](_0x24cde9),a0_0x24cd['mCUTnp'][_0x4c71f5]=_0x24cde9):_0x24cde9=_0x16287e,_0x24cde9;}function parseSubtitleCues(_0x5a289f){const _0x48576d=a0_0x11f634,_0x122b7f={'fdcNT':function(_0x4a1b8a,_0x4c47d5){return _0x4a1b8a(_0x4c47d5);}},_0x8b232b=_0x5a289f[_0x48576d(0x207)]('\x0a')[_0x48576d(0x1ff)](_0x435cac=>_0x435cac['trim']())[_0x48576d(0x1fd)](Boolean),_0xe7786b=[];for(const _0x2ed99b of _0x8b232b){const _0x3196a5=_0x122b7f[_0x48576d(0x220)](parseSubtitleLine,_0x2ed99b);if(_0x3196a5)_0xe7786b[_0x48576d(0x20c)](_0x3196a5);}return _0xe7786b;}export const $plugin={'name':a0_0x11f634(0x21d),'meta':{'category':a0_0x11f634(0x213),'path':a0_0x11f634(0x1f0)},'setup'(_0x456392){}};
+import http from '../../utils/fetchHttp.js';
+import fs from 'fs-extra';
+import os from 'os';
+import path from 'path';
+import { getHfBaseOrNull, getInternalToken  } from '../../utils/hfClient.js';
+export default {
+  config: {
+    name: "sub",
+    aliases: ["كابشن"],
+    role: 0, 
+    countDown: 60, 
+    category: "وسائط وتحميل",
+    description: "إضافة ترجمة (ثابتة أو زمنية) على فيديو عبر الرد عليه، مع تحكم بموضع النص عمودياً",
+    usage: [
+      "رد على فيديو + {pn}ترجمة2 <النص> — ترجمة ثابتة طوال الفيديو (الموضع الافتراضي 4)",
+      "رد على فيديو + {pn}ترجمة2 <رقم الموضع 1-5> <النص> — ترجمة ثابتة بموضع محدد",
+      "رد على فيديو + {pn}ترجمة2 <رقم الموضع> 00:01 - 00:03 <النص> — سطر ترجمة زمني بموضع محدد",
+      "يمكن تكرار السطر الأخير عدة مرات (سطر لكل ترجمة)، كل سطر بموضعه وتوقيته الخاص",
+    ],
+  },
+  onStart: async ({ api, event, args }) => {
+    const { threadID, messageID, type, messageReply, body } = event;
+    if (type !== "message_reply" || !messageReply || !messageReply.attachments || messageReply.attachments.length === 0) {
+      return api.sendMessage("❌ يرجى استخدام الأمر عبر الرد (Reply) على مقطع فيديو!", threadID, null, messageID);
+    }
+    const attachment = messageReply.attachments[0];
+    if (attachment.type !== "video") {
+      return api.sendMessage("❌ الرسالة التي رددت عليها لا تحتوي على فيديو مدعوم!", threadID, null, messageID);
+    }
+    const rawBody = body || "";
+    const bodyMatch = rawBody.match(/^\S+\s([\s\S]*)$/);
+    const subText = bodyMatch ? bodyMatch[1].trim() : "";
+    if (!subText) {
+      return api.sendMessage(
+        "💡 يرجى كتابة نص الترجمة بعد الأمر.\n\n" +
+        "🔹 ترجمة ثابتة (موضع افتراضي 4):\nsub النص هنا\n\n" +
+        "🔹 ترجمة ثابتة بموضع محدد (1 إلى 5):\nsub 3 النص هنا\n\n" +
+        "🔹 ترجمة زمنية بموضع محدد:\nsub\n2 00:01 - 00:03 أهلاً بكم\n5 00:04 - 00:07 في مجموعتنا\n\n" +
+        "📍 مواضع العمود (Y): 1=أعلى الشاشة، 2، 3=المنتصف، 4 (افتراضي)، 5=أسفل الشاشة",
+        threadID, null, messageID
+      );
+    }
+    let cues;
+    try {
+      cues = parseSubtitleCues(subText);
+    } catch (parseErr) {
+      return api.sendMessage(`❌ خطأ في تحليل صيغة الترجمة: ${parseErr.message}`, threadID, null, messageID);
+    }
+    if (!cues.length) {
+      return api.sendMessage("❌ لم أستطع فهم أي سطر ترجمة صالح من النص المُدخل.", threadID, null, messageID);
+    }
+    let statusMsgId = null;
+    try {
+      const sent = await new Promise((resolve, reject) =>
+        api.sendMessage(
+          "⏳ يتم تحميل الفيديو ومعالجته عبر Hugging Face Space، يرجى الانتظار...",
+          threadID,
+          (err, info) => (err ? reject(err) : resolve(info)),
+          messageID
+        )
+      );
+      statusMsgId = sent?.messageID;
+    } catch (_) {}
+    const updateStatus = async (text) => {
+      try {
+        if (statusMsgId) await api.editMessage(text, statusMsgId);
+        else await api.sendMessage(text, threadID, null, messageID);
+      } catch (_) {}
+    };
+    const HF_SPACE_URL = getHfBaseOrNull();
+    const INTERNAL_TOKEN = getInternalToken();
+    if (!HF_SPACE_URL) {
+      return updateStatus("❌ خطأ في الإعدادات: لم يتم ضبط رابط HF_SPACE_URL في متغيرات البيئة الخاصة بالبوت.");
+    }
+    const uniqueId = Date.now();
+    const tempFilePath = path.join(os.tmpdir(), `subtitled_${uniqueId}.mp4`);
+    try {
+      const createResponse = await http.post(`${HF_SPACE_URL}/subtitler/create`, {
+        video_url: attachment.url,
+        cues,
+      }, {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Internal-Token": INTERNAL_TOKEN
+        }
+      });
+      const { job_id } = createResponse.data;
+      let jobStatus = null;
+      let attempts = 0;
+      const maxAttempts = 30; 
+      while (attempts < maxAttempts) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        attempts++;
+        const statusResponse = await http.get(`${HF_SPACE_URL}/subtitler/status/${job_id}`, {
+          headers: { "X-Internal-Token": INTERNAL_TOKEN },
+          responseType: 'json'
+        });
+        jobStatus = statusResponse.data;
+        if (jobStatus.status === "error") {
+          throw new Error(jobStatus.reason || "حدث خطأ غير معروف أثناء معالجة الميديا داخل الـ Space.");
+        }
+        if (jobStatus.status === "done") {
+          break;
+        }
+      }
+      if (!jobStatus || jobStatus.status !== "done") {
+        throw new Error("تجاوزت عملية المعالجة الوقت المحدد المسموح به (Timeout).");
+      }
+      const downloadResponse = await http.get(`${HF_SPACE_URL}${jobStatus.download_url}`, {
+        headers: { "X-Internal-Token": INTERNAL_TOKEN },
+        responseType: 'stream'
+      });
+      const writer = fs.createWriteStream(tempFilePath);
+      downloadResponse.data.pipe(writer);
+      await new Promise((resolve, reject) => {
+        writer.on('finish', resolve);
+        writer.on('error', reject);
+      });
+      if (statusMsgId) {
+        try { await api.unsendMessage(statusMsgId, threadID); } catch (_) {}
+      }
+      await new Promise((resolve, reject) => {
+        global.safeSend(
+          api,
+          {
+            body: "✅ تم دمج الترجمة على الفيديو بنجاح!",
+            attachment: fs.createReadStream(tempFilePath)
+          },
+          threadID,
+          (err) => (err ? reject(err) : resolve()),
+          messageID
+        );
+      });
+    } catch (error) {
+      console.error("Error in sub command:", error.message);
+      console.error("[sub:process]", error.message);
+      await updateStatus("❌ فشل معالجة الفيديو — تم إبلاغ المطوّر.");
+    } finally {
+      if (await fs.exists(tempFilePath)) {
+        await fs.remove(tempFilePath);
+      }
+    }
+  }
+};
+const DEFAULT_POSITION = 4; 
+const VALID_POSITIONS = new Set([1, 2, 3, 4, 5]);
+const TIME_RE = /^(\d{1,2}:)?\d{1,2}:\d{2}$/;
+function timeToSeconds(t) {
+  const parts = t.split(":").map(Number);
+  if (parts.some(Number.isNaN)) throw new Error(`صيغة وقت غير صالحة: "${t}"`);
+  let seconds = 0;
+  for (const p of parts) seconds = seconds * 60 + p;
+  return seconds;
+}
+function parseSubtitleLine(line) {
+  let rest = line.trim();
+  if (!rest) return null;
+  let position = null;
+  let startSec = null;
+  let endSec = null;
+  const posMatch = rest.match(/^([1-5])\s+(.+)$/s);
+  if (posMatch) {
+    const candidate = parseInt(posMatch[1], 10);
+    if (VALID_POSITIONS.has(candidate)) {
+      position = candidate;
+      rest = posMatch[2].trim();
+    }
+  }
+  const timeMatch = rest.match(/^((?:\d{1,2}:)?\d{1,2}:\d{2})\s*-\s*((?:\d{1,2}:)?\d{1,2}:\d{2})\s*\|?\s*(.*)$/s);
+  if (timeMatch) {
+    const [, startRaw, endRaw, remaining] = timeMatch;
+    if (TIME_RE.test(startRaw) && TIME_RE.test(endRaw)) {
+      startSec = timeToSeconds(startRaw);
+      endSec = timeToSeconds(endRaw);
+      if (endSec <= startSec) {
+        throw new Error(`وقت النهاية يجب أن يكون بعد وقت البداية: "${line.trim()}"`);
+      }
+      rest = remaining.trim();
+    }
+  }
+  const text = rest.trim();
+  if (!text) {
+    throw new Error(`السطر لا يحتوي على نص ترجمة بعد الموضع/التوقيت: "${line.trim()}"`);
+  }
+  return {
+    position: position ?? DEFAULT_POSITION, 
+    start: startSec, 
+    end: endSec,     
+    text,
+  };
+}
+function parseSubtitleCues(fullText) {
+  const lines = fullText.split("\n").map(l => l.trim()).filter(Boolean);
+  const cues = [];
+  for (const line of lines) {
+    const cue = parseSubtitleLine(line);
+    if (cue) cues.push(cue);
+  }
+  return cues;
+}
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-media-sub',
+  meta: { category: 'command-media', path: 'src/commands/media/sub.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

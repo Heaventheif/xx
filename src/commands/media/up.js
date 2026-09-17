@@ -1,1 +1,263 @@
-const a0_0x28ecf9=a0_0x4501;(function(_0x2ac371,_0x5f4d23){const _0x401968=a0_0x4501,_0x234f52=_0x2ac371();while(!![]){try{const _0x39206c=-parseInt(_0x401968(0x1c8))/0x1*(parseInt(_0x401968(0x1d4))/0x2)+-parseInt(_0x401968(0x1f4))/0x3+-parseInt(_0x401968(0x1ca))/0x4+parseInt(_0x401968(0x1d7))/0x5*(parseInt(_0x401968(0x205))/0x6)+parseInt(_0x401968(0x1f9))/0x7+parseInt(_0x401968(0x202))/0x8+-parseInt(_0x401968(0x1c3))/0x9*(-parseInt(_0x401968(0x204))/0xa);if(_0x39206c===_0x5f4d23)break;else _0x234f52['push'](_0x234f52['shift']());}catch(_0x5c1437){_0x234f52['push'](_0x234f52['shift']());}}}(a0_0x52c3,0x63386));import a0_0x6b975f from'fs-extra';import a0_0x367662 from'path';import{pathToFileURL}from'url';const CACHE_ROOT=a0_0x367662['join'](import.meta.dir,'..','..','..',a0_0x28ecf9(0x1bb)),AI_DIRS=['ai_sessions_gptx'],MEDIA_DIRS=[],GLOBAL_SESSIONS=[];function readFirstExisting(_0x2e10fd){const _0x398ebc=a0_0x28ecf9,_0x4f2e18={'UDEzb':function(_0x2fc68d,_0xcd4597){return _0x2fc68d===_0xcd4597;}};for(const _0x31e6a9 of _0x2e10fd){try{const _0xe617d6=a0_0x6b975f[_0x398ebc(0x1c2)](_0x31e6a9,_0x398ebc(0x1b4))[_0x398ebc(0x19f)]();if(_0xe617d6&&_0xe617d6!=='max')return Number(_0xe617d6);if(_0x4f2e18['UDEzb'](_0xe617d6,_0x398ebc(0x1b0)))return null;}catch(_0x51ff39){}}return undefined;}function getContainerMemory(){const _0x56ef30=a0_0x28ecf9,_0x24157e={'aFrUv':function(_0x2533ba,_0x4d17e1){return _0x2533ba(_0x4d17e1);},'AQNap':_0x56ef30(0x1d8),'lxByU':function(_0x2ca47e,_0x49cd06){return _0x2ca47e(_0x49cd06);},'QPjYB':function(_0x2dbfdc,_0x446ff5){return _0x2dbfdc===_0x446ff5;},'PuUry':function(_0x44940f,_0x3df5a2){return _0x44940f>_0x3df5a2;},'iZifJ':function(_0x50ff37,_0x4ad2bb){return _0x50ff37!==_0x4ad2bb;},'PZyAM':function(_0x1eb8ea,_0x1e9288){return _0x1eb8ea===_0x1e9288;},'wXfpy':'number'};let _0x20814f=_0x24157e[_0x56ef30(0x20c)](readFirstExisting,[_0x56ef30(0x1e9)]),_0x2b8855=_0x24157e[_0x56ef30(0x20c)](readFirstExisting,[_0x24157e['AQNap']]);if(_0x20814f===undefined)_0x20814f=_0x24157e['lxByU'](readFirstExisting,[_0x56ef30(0x19e)]);if(_0x24157e['QPjYB'](_0x2b8855,undefined))_0x2b8855=readFirstExisting(['/sys/fs/cgroup/memory/memory.limit_in_bytes']);if(typeof _0x2b8855==='number'&&_0x24157e[_0x56ef30(0x20a)](_0x2b8855,0x38d7ea4c68000))_0x2b8855=null;if(_0x24157e['iZifJ'](typeof _0x20814f,'number'))return null;return{'usage':_0x20814f,'limit':_0x24157e[_0x56ef30(0x1fc)](typeof _0x2b8855,_0x24157e['wXfpy'])?_0x2b8855:null};}function formatBytes(_0x4bfd7f){const _0x377299=a0_0x28ecf9,_0x57003f={'MZPlJ':function(_0x20bd6d,_0x4db8a9){return _0x20bd6d<=_0x4db8a9;},'SceIi':function(_0x405a0e,_0x5ea14f){return _0x405a0e/_0x5ea14f;}};if(_0x57003f['MZPlJ'](_0x4bfd7f,0x0))return _0x377299(0x1d1);if(_0x4bfd7f<0x400)return _0x4bfd7f+'\x20B';if(_0x4bfd7f<0x100000)return(_0x4bfd7f/0x400)[_0x377299(0x1c6)](0x1)+_0x377299(0x1af);return _0x57003f[_0x377299(0x1bd)](_0x4bfd7f,0x100000)[_0x377299(0x1c6)](0x2)+'\x20MB';}function formatUptime(_0x12c40b){const _0x4d2ff0=a0_0x28ecf9,_0x4778a4={'PGdxH':function(_0x582e5e,_0x39a959){return _0x582e5e/_0x39a959;},'ponCL':function(_0x125200,_0x411697){return _0x125200/_0x411697;},'YNsXl':function(_0x387a55,_0x161f94){return _0x387a55%_0x161f94;}},_0xed474a=Math[_0x4d2ff0(0x1fb)](_0x4778a4[_0x4d2ff0(0x1f2)](_0x12c40b,0x15180)),_0x232c6f=Math[_0x4d2ff0(0x1fb)](_0x12c40b%0x15180/0xe10),_0x315e2f=Math[_0x4d2ff0(0x1fb)](_0x4778a4['ponCL'](_0x12c40b%0xe10,0x3c)),_0x549393=Math['floor'](_0x4778a4[_0x4d2ff0(0x212)](_0x12c40b,0x3c)),_0x20c23f=_0x3e883f=>String(_0x3e883f)[_0x4d2ff0(0x1aa)](0x2,'0'),_0x4133a2=_0x20c23f(_0x232c6f)+':'+_0x20c23f(_0x315e2f)+':'+_0x20c23f(_0x549393);return _0xed474a>0x0?_0xed474a+'ي\x20'+_0x4133a2:_0x4133a2;}function nowHHMMSS(){const _0x4e286c=a0_0x28ecf9,_0x42f5b5={'RrDwZ':'en-GB','CDLuB':_0x4e286c(0x20d),'vCWKr':_0x4e286c(0x1a2)};return new Date()[_0x4e286c(0x1d2)](_0x42f5b5['RrDwZ'],{'hour':_0x42f5b5['CDLuB'],'minute':_0x4e286c(0x20d),'second':_0x42f5b5['CDLuB'],'timeZone':process.env.TZ||_0x42f5b5[_0x4e286c(0x1be)]});}function usageBar(_0x236a0a){const _0x12a44c=a0_0x28ecf9,_0x3bfa9c={'eSiWh':function(_0xe192a5,_0x526574){return _0xe192a5*_0x526574;}},_0x54a7c8=0xa,_0x23bc81=Math['max'](0x0,Math['min'](_0x54a7c8,Math[_0x12a44c(0x1b2)](_0x3bfa9c['eSiWh'](_0x236a0a/0x64,_0x54a7c8))));return'▓'[_0x12a44c(0x1d0)](_0x23bc81)+'░'[_0x12a44c(0x1d0)](_0x54a7c8-_0x23bc81);}async function clearDir(_0x23bafe){const _0x45dd77=a0_0x28ecf9;let _0x13bb68=0x0,_0x3c5702=0x0;try{if(!await a0_0x6b975f['pathExists'](_0x23bafe))return{'deleted':0x0,'freed':0x0};const _0xdf00a8=await a0_0x6b975f['readdir'](_0x23bafe);for(const _0x3ed590 of _0xdf00a8){if(['Readme.me',_0x45dd77(0x1a0),_0x45dd77(0x1e6)][_0x45dd77(0x1e4)](_0x3ed590))continue;const _0x14b1d3=a0_0x367662[_0x45dd77(0x1e5)](_0x23bafe,_0x3ed590);try{const _0x56252b=await a0_0x6b975f['stat'](_0x14b1d3);_0x56252b[_0x45dd77(0x1e3)]()&&(await a0_0x6b975f[_0x45dd77(0x1b9)](_0x14b1d3),_0x13bb68++,_0x3c5702+=_0x56252b[_0x45dd77(0x1ad)]);}catch(_0x1b28df){}}}catch(_0x134560){}return{'deleted':_0x13bb68,'freed':_0x3c5702};}async function dirStats(_0x18658d){const _0x2755c4=a0_0x28ecf9,_0x549e9a={'jiDyc':'.gitkeep'};let _0x5005a7=0x0,_0x103289=0x0;try{if(!await a0_0x6b975f[_0x2755c4(0x1ea)](_0x18658d))return{'count':0x0,'size':0x0};const _0x2a2d3f=await a0_0x6b975f['readdir'](_0x18658d);for(const _0x32276a of _0x2a2d3f){if(['Readme.me',_0x2755c4(0x1a0),_0x549e9a[_0x2755c4(0x1b1)]]['includes'](_0x32276a))continue;try{const _0x18fbdc=await a0_0x6b975f['stat'](a0_0x367662[_0x2755c4(0x1e5)](_0x18658d,_0x32276a));_0x18fbdc['isFile']()&&(_0x5005a7++,_0x103289+=_0x18fbdc[_0x2755c4(0x1ad)]);}catch(_0xfa84b3){}}}catch(_0x1e3236){}return{'count':_0x5005a7,'size':_0x103289};}function clearGlobalSessions(){const _0x4baf39=a0_0x28ecf9,_0x5c0e90={'jlcFb':function(_0x5c48ff,_0x41e997){return _0x5c48ff===_0x41e997;},'uxBvb':'object'};let _0x35683b=0x0;for(const _0x1e18f7 of GLOBAL_SESSIONS){global[_0x1e18f7]&&_0x5c0e90[_0x4baf39(0x1e1)](typeof global[_0x1e18f7],_0x5c0e90[_0x4baf39(0x1f1)])&&(_0x35683b+=Object[_0x4baf39(0x1db)](global[_0x1e18f7])[_0x4baf39(0x1fd)],global[_0x1e18f7]={});}return _0x35683b;}function listCommandFiles(){const _0x569417=a0_0x28ecf9,_0x149e56=a0_0x367662[_0x569417(0x1e5)](import.meta.dir,'..'),_0x13841=[];try{for(const _0x449123 of a0_0x6b975f[_0x569417(0x206)](_0x149e56)){const _0xd43c73=a0_0x367662[_0x569417(0x1e5)](_0x149e56,_0x449123);if(!a0_0x6b975f[_0x569417(0x1f7)](_0xd43c73)[_0x569417(0x1a4)]())continue;for(const _0x1fe75f of a0_0x6b975f['readdirSync'](_0xd43c73)){if(_0x1fe75f[_0x569417(0x1b6)](_0x569417(0x1f0)))_0x13841['push'](a0_0x367662['join'](_0xd43c73,_0x1fe75f));}}}catch(_0x3a9a85){}return _0x13841;}function countCommandFiles(){const _0x11de3e=a0_0x28ecf9;try{return listCommandFiles()[_0x11de3e(0x1fd)];}catch(_0x4a9732){return 0x0;}}function a0_0x4501(_0x1925a4,_0x430a04){_0x1925a4=_0x1925a4-0x19a;const _0x52c32d=a0_0x52c3();let _0x45017b=_0x52c32d[_0x1925a4];if(a0_0x4501['PXBXor']===undefined){var _0x5aa553=function(_0x414c23){const _0x3841d4='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1f5337='',_0x291d75='';for(let _0x5ea732=0x0,_0x37639f,_0x4035f5,_0x5ab9bf=0x0;_0x4035f5=_0x414c23['charAt'](_0x5ab9bf++);~_0x4035f5&&(_0x37639f=_0x5ea732%0x4?_0x37639f*0x40+_0x4035f5:_0x4035f5,_0x5ea732++%0x4)?_0x1f5337+=String['fromCharCode'](0xff&_0x37639f>>(-0x2*_0x5ea732&0x6)):0x0){_0x4035f5=_0x3841d4['indexOf'](_0x4035f5);}for(let _0x1092f9=0x0,_0x43e903=_0x1f5337['length'];_0x1092f9<_0x43e903;_0x1092f9++){_0x291d75+='%'+('00'+_0x1f5337['charCodeAt'](_0x1092f9)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x291d75);};a0_0x4501['gntoDW']=_0x5aa553,a0_0x4501['BThbIg']={},a0_0x4501['PXBXor']=!![];}const _0x54b4be=_0x52c32d[0x0];a0_0x4501['TSITrk']!==_0x54b4be&&(a0_0x4501['BThbIg']={},a0_0x4501['TSITrk']=_0x54b4be);const _0x56849a=a0_0x4501['BThbIg'][_0x1925a4];return _0x56849a===undefined?(_0x45017b=a0_0x4501['gntoDW'](_0x45017b),a0_0x4501['BThbIg'][_0x1925a4]=_0x45017b):_0x45017b=_0x56849a,_0x45017b;}async function doReload(){const _0x4a0c01=a0_0x28ecf9,_0x5aa1c1={'EYgEV':_0x4a0c01(0x19d),'omCRE':function(_0x34c288,_0x501864){return _0x34c288===_0x501864;}};if(typeof global[_0x4a0c01(0x1c4)]===_0x5aa1c1[_0x4a0c01(0x209)]){const _0x4f7380=await global['reloadCommands']()||[];return{'ok':_0x4f7380[_0x4a0c01(0x1fd)]===0x0,'fileErrors':_0x4f7380};}const _0x36d2fd=[];try{const _0x82ae6b=listCommandFiles();global['commands']?.['clear']?.(),global[_0x4a0c01(0x1b3)]=[];for(const _0x366943 of _0x82ae6b){const _0x5992a8=a0_0x367662[_0x4a0c01(0x1dd)](_0x366943);try{const _0x388e61=await import(pathToFileURL(_0x366943)[_0x4a0c01(0x20e)]+_0x4a0c01(0x1ab)+Date[_0x4a0c01(0x1da)]()),_0x160728=_0x388e61[_0x4a0c01(0x200)]||_0x388e61;if(_0x160728[_0x4a0c01(0x19c)]?.[_0x4a0c01(0x1ee)]&&(_0x160728[_0x4a0c01(0x1fa)]||_0x160728[_0x4a0c01(0x20f)]||_0x160728[_0x4a0c01(0x1d9)])){const _0x177327=_0x160728['config'][_0x4a0c01(0x1ee)]['toLowerCase']();global[_0x4a0c01(0x1c1)]?.[_0x4a0c01(0x1cc)](_0x177327,_0x160728),(_0x160728['config'][_0x4a0c01(0x1e7)]||[])[_0x4a0c01(0x1ae)](_0x34ff72=>{const _0x5c5c17=_0x4a0c01;global['commands']?.['set'](_0x34ff72[_0x5c5c17(0x1e0)](),_0x160728);});}if(_0x160728[_0x4a0c01(0x1a1)]||_0x160728[_0x4a0c01(0x213)])global[_0x4a0c01(0x1b3)]?.[_0x4a0c01(0x1ba)](_0x160728);}catch(_0x25016f){_0x36d2fd[_0x4a0c01(0x1ba)]({'file':_0x5992a8,'message':_0x25016f['message']});}}return{'ok':_0x5aa1c1[_0x4a0c01(0x1e8)](_0x36d2fd[_0x4a0c01(0x1fd)],0x0),'fileErrors':_0x36d2fd};}catch(_0x3993d3){return{'ok':![],'err':_0x3993d3[_0x4a0c01(0x1b5)],'fileErrors':_0x36d2fd};}}function a0_0x52c3(){const _0x5e69d7=['mJm4otuZnK1Jy1jLBW','8j+vKca','C2v0','icdWN5k+inMf2kRyQnMc2y06ia','t2rpqKW','BgLTAxq','CMvWzwf0','mcbc','Dg9mB2nHBgvuAw1Lu3rYAw5N','inMf2ytzGsaO','ndCYnLrkvMHhra','tvnqBKG','2kxyR9IN2lhyQsdzInIL2ltySDIN2ye','mtaYoduXnwTWswTwBW','l3n5CY9MCY9Jz3jVDxaVBwvTB3j5lM1HEa','zxHLy3v0zq','BM93','A2v5CW','AgvHCfvZzwq','yMfZzw5HBwu','2kRyRDIV2yRyQW','ie1c','Dg9mB3DLCKnHC2u','AMXJrMi','z0v6vNi','AxngAwXL','Aw5JBhvKzxm','AM9PBG','lMDPDgTLzxa','ywXPyxnLCW','B21duKu','l3n5CY9MCY9Jz3jVDxaVBwvTB3j5lMn1CNjLBNq','Cgf0Aev4Axn0CW','icdIGkiG','4PYfieHVDcbszwXVywqG2yByRnIT','zw9wEe8','BMfTzq','inIS2ytyS9IPinMf2k3ySnMi2yhyQq','lMPZ','DxHcDMi','ueDKEeG','ie1cic8G','ntq1mdi4tw9KrKrS','DxnHz2u','Ahj0Aw1L','C3rHDfn5BMm','C2XPy2u','mZy4nJKWn3fmqwz1ra','B25tDgfYDa','zMXVB3i','ufP5qu0','BgvUz3rO','8j+tPIdySnIN2ypySDIPinIN2ytzGcbdB250ywLUzxi6','icdINjCG','zgvMyxvSDa','E3bUFDIQ2k3yR9Mk2kSG4OcuinIQ2yBzGDMk2laG2kxyUDIN2k/yQsdyP9Me2kRyRDMf2yRzHcdzInIN2ytyQTMg2lJzITMbinMi2lNySDI2inIN2ytyQTMc2lhzITIX','ntKYmZmYmgrWDezcyq','icdIMQdVUi8G2kFyS9IQ2yFzHnIN2ymG2yxySDIQ2yhyUsdIGjqG2lhyP9Mc2kGG2kFzHnIN2kRyRnIN2yC','mtbRwKrbBhC','nKjNywDWsW','CMvHzgrPCLn5BMm','CMvWBhK','Dw5KzwzPBMvK','rvLNrvy','uhvvCNK','BxmGicdIGkiG2llzHDMginIN2ytyUDMf2ytzITIPoIa','yuzYvxy','mI1KAwDPDa','AhjLzG','CNvU','zxH0zxjUywW','zvPYwgy','wu5ZwgW','AgfUzgXLrxzLBNq','4P2minMb2ltzHcbszwXVywq6ia','y29TBwfUzc1TzwrPyq','inMf2k3ySDIX2kK','icdIGkiGvxb0Aw1LoIaGia','y29UzMLN','zNvUy3rPB24','l3n5CY9MCY9Jz3jVDxaVBwvTB3j5l21LBw9YEs51C2fNzv9PBL9IExrLCW','DhjPBq','zw1WDhKUDhH0','B25dAgf0','qwzYAwnHl0fSz2LLCNm','icaG8j+tGIdyO9Mi2kFzHDIXoIa','AxneAxjLy3rVCNK','ie1cicJyP9Me2k3yRYdyUTMk2leG2yxyRDIV2y7zKDIVkq','CNnZ','icdIGkiGuLntoIa','C3jJl2nVBw1HBMrZl21LzgLHl3vWlMPZ','icdIGkyG2yG','CgfKu3rHCNq','p3vWzgf0zt0','8j+xKE+4JYdyP9Me2kRzHTI42yRzGtO','C2L6zq','zM9YrwfJAa','ieTc','Bwf4','AMLeEwm','CM91BMq','zxzLBNrdB21Tyw5KCW','DxrMoa','BwvZC2fNzq','zw5KC1DPDgG','icdIGkiGtg9VCcbmywC6ia','vuntBw8','Dw5SAw5R','ChvZAa','y2fJAgu','Dxb0Aw1L','u2nLswK','DKnxs3i','q2HJqwq','ie1cicaG4OcIieHLyxa6ia','y29TBwfUzhm','CMvHzezPBgvtEw5J','mZq1mZy1mu5KDMvvCa','CMvSB2fKq29TBwfUzhm','4PwA4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4Pwq4PwD','Dg9gAxHLza','zMLSzq','mJG0D3r2BK54','yMLNAw50'];a0_0x52c3=function(){return _0x5e69d7;};return a0_0x52c3();}export default{'config':{'name':'up','aliases':[a0_0x28ecf9(0x1de)],'version':'3.0.0','author':'SunkenBot\x20Developer','countDown':0xa,'role':0x2,'category':a0_0x28ecf9(0x1d6),'description':'إعادة\x20تحميل\x20الأوامر\x20(Hot\x20Reload)\x20+\x20تنظيف\x20الكاش\x20+\x20إحصاءات\x20النظام','usage':[a0_0x28ecf9(0x201)],'hidden':!![]},'onStart':async function({message:_0x396697}){const _0xbc9601=a0_0x28ecf9,_0x422218={'DWPcd':function(_0x38832c,_0x1fe6b5){return _0x38832c(_0x1fe6b5);},'UCSmo':function(_0xd90de5){return _0xd90de5();},'OdOBL':function(_0x340e62,_0x3724fe){return _0x340e62(_0x3724fe);},'eZrXf':_0xbc9601(0x208),'hjzPs':function(_0x3596e3,_0x26bab6){return _0x3596e3/_0x26bab6;},'ChcAd':function(_0x5362d2,_0x433976){return _0x5362d2/_0x433976;},'eoVxO':_0xbc9601(0x1ec),'MSPnH':function(_0x346dca,_0x55fcb){return _0x346dca>_0x55fcb;},'kHFdT':function(_0x41de18,_0xe5ccd9){return _0x41de18>_0xe5ccd9;},'gEzVr':function(_0x405c10,_0x121d58){return _0x405c10>=_0x121d58;}},_0x352e1a=Date[_0xbc9601(0x1da)](),{ok:_0x1d4eea,err:_0x27ae45,fileErrors:_0x197d9f}=await doReload(),_0x3d37b6=_0x422218[_0xbc9601(0x1b8)](countCommandFiles),_0x173dac=global['eventCommands']?.[_0xbc9601(0x1fd)]||0x0;let _0x573d64=0x0,_0x428f26=0x0;const _0xbdc5b9=[];for(const _0x447c0c of[...AI_DIRS,...MEDIA_DIRS]){const {deleted:_0x532ec0,freed:_0x5edd64}=await clearDir(a0_0x367662[_0xbc9601(0x1e5)](CACHE_ROOT,_0x447c0c));if(_0x532ec0>0x0){const _0x412b9d=AI_DIRS[_0xbc9601(0x1e4)](_0x447c0c)?'🤖':'🎬';_0xbdc5b9[_0xbc9601(0x1ba)]('\x20\x20'+_0x412b9d+'\x20'+_0x447c0c+':\x20'+_0x532ec0+'\x20ملف\x20('+_0x422218[_0xbc9601(0x1ce)](formatBytes,_0x5edd64)+')'),_0x573d64+=_0x532ec0,_0x428f26+=_0x5edd64;}}const _0xa942b3=clearGlobalSessions();let _0xcc2fc7=0x0,_0x273be4=0x0;for(const _0x92ff69 of[...AI_DIRS,...MEDIA_DIRS]){const {count:_0x432c58,size:_0x45ea32}=await dirStats(a0_0x367662[_0xbc9601(0x1e5)](CACHE_ROOT,_0x92ff69));_0xcc2fc7+=_0x432c58,_0x273be4+=_0x45ea32;}if(typeof Bun!==_0x422218[_0xbc9601(0x211)]&&typeof Bun['gc']===_0xbc9601(0x19d))try{Bun['gc'](!![]);}catch(_0x7392ce){}else{if(typeof global['gc']==='function')try{global['gc']();}catch(_0x1dde8f){}}const _0x1ca9d0=process['memoryUsage'](),_0x521ff7=_0x422218['hjzPs'](_0x1ca9d0[_0xbc9601(0x1a6)],0x100000)[_0xbc9601(0x1c6)](0x1),_0x3f5643=(_0x1ca9d0[_0xbc9601(0x1dc)]/0x100000)['toFixed'](0x1),_0x2b52c4=_0x422218[_0xbc9601(0x1bf)](_0x1ca9d0[_0xbc9601(0x210)],0x100000)[_0xbc9601(0x1c6)](0x1),_0x299d68=await new Promise(_0x7d61da=>{const _0x36c280=_0xbc9601,_0x44bc7a=process[_0x36c280(0x1f6)]['bigint']();_0x422218['DWPcd'](setImmediate,()=>_0x7d61da(Math[_0x36c280(0x1b2)](Number(process[_0x36c280(0x1f6)][_0x36c280(0x1c9)]()-_0x44bc7a)/0xf4240)));}),_0x679ea4=_0x422218[_0xbc9601(0x1ce)](formatUptime,Math[_0xbc9601(0x1fb)](process[_0xbc9601(0x1bc)]())),_0x5e8202=Date[_0xbc9601(0x1da)]()-_0x352e1a,_0x2eddcc=[];_0x2eddcc[_0xbc9601(0x1ba)]('╔══════════════════════╗'),_0x2eddcc[_0xbc9601(0x1ba)]('║\x20\x20\x20⚡\x20SunkenBot\x20—\x20UP\x20\x20\x20║'),_0x2eddcc['push'](_0xbc9601(0x1c5)),_0x2eddcc['push'](_0xbc9601(0x1cb)+nowHHMMSS()),_0x2eddcc[_0xbc9601(0x1ba)]('');if(_0x1d4eea)_0x2eddcc['push'](_0x422218[_0xbc9601(0x1ed)]);else{if(_0x27ae45)_0x2eddcc['push'](_0xbc9601(0x214)+_0x27ae45[_0xbc9601(0x1f8)](0x0,0x3c));else{_0x2eddcc['push']('⚠️\x20Hot\x20Reload\x20انتهى\x20مع\x20أخطاء\x20في\x20'+_0x197d9f[_0xbc9601(0x1fd)]+'\x20ملف:');for(const _0x150902 of _0x197d9f[_0xbc9601(0x1f8)](0x0,0x5)){_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1ff)+_0x150902[_0xbc9601(0x1c7)]+':\x20'+_0x150902[_0xbc9601(0x1b5)]['slice'](0x0,0x50));}if(_0x422218[_0xbc9601(0x1d5)](_0x197d9f[_0xbc9601(0x1fd)],0x5))_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1a9)+(_0x197d9f[_0xbc9601(0x1fd)]-0x5)+'\x20ملف\x20آخر');}}_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1a3)+_0x3d37b6+'\x20ملف\x20|\x20أحداث:\x20'+_0x173dac),_0x2eddcc['push'](''),_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1ac));_0x422218['kHFdT'](_0xbdc5b9['length'],0x0)?(_0xbdc5b9['forEach'](_0x50c78d=>_0x2eddcc[_0xbc9601(0x1ba)](_0x50c78d)),_0x2eddcc['push']('\x20\x20✅\x20'+_0x573d64+'\x20ملف\x20—\x20'+_0x422218[_0xbc9601(0x1ce)](formatBytes,_0x428f26)+_0xbc9601(0x19a))):_0x2eddcc[_0xbc9601(0x1ba)]('\x20\x20✅\x20الكاش\x20نظيف');if(_0xa942b3>0x0)_0x2eddcc[_0xbc9601(0x1ba)]('\x20\x20🧠\x20جلسات\x20RAM:\x20'+_0xa942b3+_0xbc9601(0x1ef));_0x2eddcc['push'](_0xbc9601(0x1cd)+_0xcc2fc7+_0xbc9601(0x1d3)+formatBytes(_0x273be4)+')'),_0x2eddcc[_0xbc9601(0x1ba)](''),_0x2eddcc['push']('🖥️\x20ذاكرة\x20العملية\x20(Node):'),_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1a7)+_0x521ff7+_0xbc9601(0x1c0)+_0x3f5643+'\x20MB\x20\x20\x20•\x20External:\x20'+_0x2b52c4+_0xbc9601(0x1df)),_0x2eddcc[_0xbc9601(0x1ba)]('');const _0x4becd7=_0x422218[_0xbc9601(0x1b8)](getContainerMemory);_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1fe));if(_0x4becd7){const _0x36caf1=_0x4becd7['usage']/0x100000;if(_0x4becd7['limit']){const _0x1b5ab9=_0x4becd7[_0xbc9601(0x1cf)]/0x100000,_0x54be6a=_0x4becd7[_0xbc9601(0x1f5)]/_0x4becd7[_0xbc9601(0x1cf)]*0x64;let _0x1ff802='🟢';if(_0x54be6a>=0x5a)_0x1ff802='🔴';else{if(_0x54be6a>=0x4b)_0x1ff802='🟠';else{if(_0x54be6a>=0x3c)_0x1ff802='🟡';}}_0x2eddcc[_0xbc9601(0x1ba)]('\x20\x20'+_0x422218['DWPcd'](usageBar,_0x54be6a)+'\x20'+_0x1ff802+'\x20'+_0x54be6a[_0xbc9601(0x1c6)](0x1)+'%'),_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1eb)+_0x36caf1['toFixed'](0x1)+_0xbc9601(0x1f3)+_0x1b5ab9['toFixed'](0x0)+'\x20MB');if(_0x422218['gEzVr'](_0x54be6a,0x5a))_0x2eddcc[_0xbc9601(0x1ba)]('\x20\x20⚠️\x20قريب\x20جداً\x20من\x20حد\x20OOM\x20—\x20خطر\x20إعادة\x20تشغيل\x20قسري!');else{if(_0x422218[_0xbc9601(0x1e2)](_0x54be6a,0x4b))_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x203));}}else _0x2eddcc['push']('\x20\x20•\x20مستخدَم:\x20'+_0x36caf1[_0xbc9601(0x1c6)](0x1)+_0xbc9601(0x1a5));}else _0x2eddcc[_0xbc9601(0x1ba)]('\x20\x20⚠️\x20غير\x20متاح\x20(لا\x20يوجد\x20cgroup\x20—\x20تشغيل\x20محلي\x20على\x20الأرجح)');_0x2eddcc[_0xbc9601(0x1ba)](''),_0x2eddcc['push']('📊\x20الأداء:'),_0x2eddcc[_0xbc9601(0x1ba)](_0xbc9601(0x1b7)+_0x299d68+_0xbc9601(0x20b)+_0x5e8202+'ms'),_0x2eddcc['push'](_0xbc9601(0x19b)+_0x679ea4),_0x396697[_0xbc9601(0x207)](_0x2eddcc['join']('\x0a'));}};export const $plugin={'name':'xx-commands-media-up','meta':{'category':a0_0x28ecf9(0x215),'path':a0_0x28ecf9(0x1a8)},'setup'(_0x142e9d){}};
+import fs from "fs-extra";
+import path from "path";
+import { pathToFileURL } from "url";
+const CACHE_ROOT = path.join(import.meta.dir, "..", "..", "..", "cache");
+const AI_DIRS    = ["ai_sessions_gptx"];
+const MEDIA_DIRS = [];
+const GLOBAL_SESSIONS = [];
+function readFirstExisting(paths) {
+    for (const p of paths) {
+        try {
+            const val = fs.readFileSync(p, "utf8").trim();
+            if (val && val !== "max") return Number(val);
+            if (val === "max") return null; 
+        } catch (_) {  }
+    }
+    return undefined; 
+}
+function getContainerMemory() {
+    let usage = readFirstExisting(["/sys/fs/cgroup/memory.current"]);
+    let limit = readFirstExisting(["/sys/fs/cgroup/memory.max"]);
+    if (usage === undefined) usage = readFirstExisting(["/sys/fs/cgroup/memory/memory.usage_in_bytes"]);
+    if (limit === undefined) limit = readFirstExisting(["/sys/fs/cgroup/memory/memory.limit_in_bytes"]);
+    if (typeof limit === "number" && limit > 1e15) limit = null;
+    if (typeof usage !== "number") return null; 
+    return { usage, limit: typeof limit === "number" ? limit : null };
+}
+function formatBytes(b) {
+    if (b <= 0)      return "0 B";
+    if (b < 1024)    return `${b} B`;
+    if (b < 1048576) return `${(b/1024).toFixed(1)} KB`;
+    return `${(b/1048576).toFixed(2)} MB`;
+}
+function formatUptime(sec) {
+    const d = Math.floor(sec / 86400);
+    const h = Math.floor((sec % 86400) / 3600);
+    const m = Math.floor((sec % 3600) / 60);
+    const s = Math.floor(sec % 60);
+    const pad = n => String(n).padStart(2, "0");
+    const hhmmss = `${pad(h)}:${pad(m)}:${pad(s)}`;
+    return d > 0 ? `${d}ي ${hhmmss}` : hhmmss;
+}
+function nowHHMMSS() {
+    return new Date().toLocaleTimeString("en-GB", {
+        hour: "2-digit", minute: "2-digit", second: "2-digit",
+        timeZone: process.env.TZ || "Africa/Algiers",
+    });
+}
+function usageBar(pct) {
+    const blocks = 10;
+    const filled = Math.max(0, Math.min(blocks, Math.round((pct / 100) * blocks)));
+    return "▓".repeat(filled) + "░".repeat(blocks - filled);
+}
+async function clearDir(dirPath) {
+    let deleted = 0, freed = 0;
+    try {
+        if (!await fs.pathExists(dirPath)) return { deleted: 0, freed: 0 };
+        const files = await fs.readdir(dirPath);
+        for (const f of files) {
+            if (["Readme.me","empty.txt",".gitkeep"].includes(f)) continue;
+            const fp = path.join(dirPath, f);
+            try {
+                const st = await fs.stat(fp);
+                if (st.isFile()) { await fs.unlink(fp); deleted++; freed += st.size; }
+            } catch (_) {}
+        }
+    } catch (_) {}
+    return { deleted, freed };
+}
+async function dirStats(dirPath) {
+    let count = 0, size = 0;
+    try {
+        if (!await fs.pathExists(dirPath)) return { count: 0, size: 0 };
+        const files = await fs.readdir(dirPath);
+        for (const f of files) {
+            if (["Readme.me","empty.txt",".gitkeep"].includes(f)) continue;
+            try {
+                const st = await fs.stat(path.join(dirPath, f));
+                if (st.isFile()) { count++; size += st.size; }
+            } catch (_) {}
+        }
+    } catch (_) {}
+    return { count, size };
+}
+function clearGlobalSessions() {
+    let total = 0;
+    for (const key of GLOBAL_SESSIONS) {
+        if (global[key] && typeof global[key] === "object") {
+            total += Object.keys(global[key]).length;
+            global[key] = {};
+        }
+    }
+    return total;
+}
+function listCommandFiles() {
+    const commandsRoot = path.join(import.meta.dir, "..");
+    const out = [];
+    try {
+        for (const category of fs.readdirSync(commandsRoot)) {
+            const catDir = path.join(commandsRoot, category);
+            if (!fs.statSync(catDir).isDirectory()) continue;
+            for (const file of fs.readdirSync(catDir)) {
+                if (file.endsWith(".js")) out.push(path.join(catDir, file));
+            }
+        }
+    } catch (_) {}
+    return out;
+}
+function countCommandFiles() {
+    try { return listCommandFiles().length; } catch (_) { return 0; }
+}
+async function doReload() {
+    if (typeof global.reloadCommands === "function") {
+        const errors = await global.reloadCommands() || [];
+        return { ok: errors.length === 0, fileErrors: errors };
+    }
+    const fileErrors = [];
+    try {
+        const files = listCommandFiles();
+        global.commands?.clear?.();
+        global.eventCommands = [];
+        for (const p of files) {
+            const file = path.basename(p);
+            try {
+                const cmd = await import(`${pathToFileURL(p).href}?update=${Date.now()}`);
+                const mod = cmd.default || cmd;
+                if (mod.config?.name && (mod.onStart || mod.run || mod.execute)) {
+                    const name = mod.config.name.toLowerCase();
+                    global.commands?.set(name, mod);
+                    (mod.config.aliases || []).forEach(a => {
+                        global.commands?.set(a.toLowerCase(), mod);
+                    });
+                }
+                if (mod.onChat || mod.handleEvent) global.eventCommands?.push(mod);
+            } catch (e) {
+                fileErrors.push({ file, message: e.message });
+            }
+        }
+        return { ok: fileErrors.length === 0, fileErrors };
+    } catch (e) {
+        return { ok: false, err: e.message, fileErrors };
+    }
+}
+export default {
+  config: {
+        name: "up",
+        aliases: ["تحديث"],
+        version: "3.0.0",
+        author: "SunkenBot Developer",
+        countDown: 10,
+        role: 2,
+        category: "إدارة وإشراف",
+        description: "إعادة تحميل الأوامر (Hot Reload) + تنظيف الكاش + إحصاءات النظام",
+        usage: ["{pn}تحديث — تنفيذ إعادة التحميل والتنظيف وعرض التقرير"],
+        hidden: true, 
+    },
+    onStart: async function ({ message }) {
+        const t0 = Date.now();
+        const { ok: reloadOk, err: reloadErr, fileErrors } = await doReload();
+        const fileCount   = countCommandFiles();
+        const eventsCount = global.eventCommands?.length || 0;
+        let totalDeleted = 0, totalFreed = 0;
+        const cleanLines = [];
+        for (const dir of [...AI_DIRS, ...MEDIA_DIRS]) {
+            const { deleted, freed } = await clearDir(path.join(CACHE_ROOT, dir));
+            if (deleted > 0) {
+                const label = AI_DIRS.includes(dir) ? "🤖" : "🎬";
+                cleanLines.push(`  ${label} ${dir}: ${deleted} ملف (${formatBytes(freed)})`);
+                totalDeleted += deleted;
+                totalFreed   += freed;
+            }
+        }
+        const clearedSessions = clearGlobalSessions();
+        let remFiles = 0, remSize = 0;
+        for (const dir of [...AI_DIRS, ...MEDIA_DIRS]) {
+            const { count, size } = await dirStats(path.join(CACHE_ROOT, dir));
+            remFiles += count; remSize += size;
+        }
+        if (typeof Bun !== "undefined" && typeof Bun.gc === "function") {
+            try { Bun.gc(true); } catch (_) {}
+        } else if (typeof global.gc === "function") {
+            try { global.gc(); } catch (_) {}
+        }
+        const mem  = process.memoryUsage();
+        const rss  = (mem.rss      / 1048576).toFixed(1);
+        const heap = (mem.heapUsed / 1048576).toFixed(1);
+        const ext  = (mem.external / 1048576).toFixed(1);
+        const pingMs = await new Promise(resolve => {
+            const start = process.hrtime.bigint();
+            setImmediate(() => resolve(Math.round(Number(process.hrtime.bigint() - start) / 1_000_000)));
+        });
+        const uptimeStr = formatUptime(Math.floor(process.uptime()));
+        const elapsed   = Date.now() - t0;
+        const L = [];
+        L.push("╔══════════════════════╗");
+        L.push("║   ⚡ SunkenBot — UP   ║");
+        L.push("╚══════════════════════╝");
+        L.push(`🕐 ${nowHHMMSS()}`);
+        L.push("");
+        if (reloadOk) {
+            L.push("✅ Hot Reload نجح");
+        } else if (reloadErr) {
+            L.push(`❌ فشل Reload: ${reloadErr.slice(0,60)}`);
+        } else {
+            L.push(`⚠️ Hot Reload انتهى مع أخطاء في ${fileErrors.length} ملف:`);
+            for (const fe of fileErrors.slice(0, 5)) {
+                L.push(`  ✗ ${fe.file}: ${fe.message.slice(0, 80)}`);
+            }
+            if (fileErrors.length > 5) L.push(`  … و${fileErrors.length - 5} ملف آخر`);
+        }
+        L.push(`   📂 أوامر: ${fileCount} ملف | أحداث: ${eventsCount}`);
+        L.push("");
+        L.push("🗑️ التنظيف:");
+        if (cleanLines.length > 0) {
+            cleanLines.forEach(l => L.push(l));
+            L.push(`  ✅ ${totalDeleted} ملف — ${formatBytes(totalFreed)} محررة`);
+        } else {
+            L.push("  ✅ الكاش نظيف");
+        }
+        if (clearedSessions > 0)
+            L.push(`  🧠 جلسات RAM: ${clearedSessions} جلسة محذوفة`);
+        L.push(`  💾 متبقٍ: ${remFiles} ملف (${formatBytes(remSize)})`);
+        L.push("");
+        L.push("🖥️ ذاكرة العملية (Node):");
+        L.push(`  • RSS: ${rss} MB   • Heap: ${heap} MB   • External: ${ext} MB`);
+        L.push("");
+        const containerMem = getContainerMemory();
+        L.push("📦 ذاكرة الـ Container:");
+        if (containerMem) {
+            const usedMB = containerMem.usage / 1048576;
+            if (containerMem.limit) {
+                const limitMB = containerMem.limit / 1048576;
+                const pct = (containerMem.usage / containerMem.limit) * 100;
+                let icon = "🟢";
+                if (pct >= 90) icon = "🔴";
+                else if (pct >= 75) icon = "🟠";
+                else if (pct >= 60) icon = "🟡";
+                L.push(`  ${usageBar(pct)} ${icon} ${pct.toFixed(1)}%`);
+                L.push(`  • ${usedMB.toFixed(1)} MB / ${limitMB.toFixed(0)} MB`);
+                if (pct >= 90) L.push(`  ⚠️ قريب جداً من حد OOM — خطر إعادة تشغيل قسري!`);
+                else if (pct >= 75) L.push(`  ⚠️ استهلاك مرتفع — راقب الاتجاه`);
+            } else {
+                L.push(`  • مستخدَم: ${usedMB.toFixed(1)} MB (الحد غير محدَّد)`);
+            }
+        } else {
+            L.push("  ⚠️ غير متاح (لا يوجد cgroup — تشغيل محلي على الأرجح)");
+        }
+        L.push("");
+        L.push("📊 الأداء:");
+        L.push(`  • Loop Lag: ${pingMs}ms   • زمن العملية: ${elapsed}ms`);
+        L.push(`  • Uptime:   ${uptimeStr}`);
+        message.reply(L.join("\n"));
+    }
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-media-up',
+  meta: { category: 'command-media', path: 'src/commands/media/up.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

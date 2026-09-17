@@ -1,1 +1,80 @@
-const a0_0x381029=a0_0x28bb;(function(_0x2c351b,_0x4560ef){const _0x3b77d0=a0_0x28bb,_0x3654e4=_0x2c351b();while(!![]){try{const _0x3bb53a=parseInt(_0x3b77d0(0xc8))/0x1+parseInt(_0x3b77d0(0xbb))/0x2+parseInt(_0x3b77d0(0xc5))/0x3*(parseInt(_0x3b77d0(0xda))/0x4)+parseInt(_0x3b77d0(0xdb))/0x5+parseInt(_0x3b77d0(0xc4))/0x6+parseInt(_0x3b77d0(0xca))/0x7+-parseInt(_0x3b77d0(0xc2))/0x8;if(_0x3bb53a===_0x4560ef)break;else _0x3654e4['push'](_0x3654e4['shift']());}catch(_0x1601e5){_0x3654e4['push'](_0x3654e4['shift']());}}}(a0_0x57b9,0xc9a11));function a0_0x57b9(){const _0x13030d=['4O+X77IpinIN2yByQTMh2kOG2yxzH9Me2kKG2kFzHnIN2kRyTDIN2yqG2kJyRTIV2yxyQsdyP9Me2kRySDIS2yxyQq','BwvZC2fNzq','z2v0','vvLkshi','C2XPy2u','ruHezM0','jMr0pxqMCt0','BgvUz3rO','2lhyRYdyUDMe2yKG2lhyS9IN2ytyQsaRihTWBN3yQTIX2kZzHDIPmsa82lhzHDIYx9IN2ytzHnI62kK+iokaLcdyQTIX2kZzHDIPinMg2luG2kFzHnIX2lpyP9Me2kKG2kFzHnMf2lhyR9Mi2k8G2lNzHnMk2yFyPW','y29Kzq','AM9PBG','Dg9mB3DLCKnHC2u','Aw5JBhvKzxm','mJi3mtK2zg5Jthf0','mJiWmde5mgfYBK9Swq','BMXIr2i','AxnbCNjHEq','zgf0yq','nZa2nJeYtgffBvfL','2kpyR9Mi2kFyQIdyUDIN2yxyQq','y29TBwfUzc1HAq','2kFyS9IQ2kZyP9IO2kKG2lRzITIXinMf2kRzInMc2lNyQsdzHDMginIU2k/zHDIPinIN2ytyQTIX2kZzHDIP2iWG2k3yP9Mi2yqG2ytyP9IT2ylyP9MllG','C2fMzvnLBMq','yM9KEq','zM9YrwfJAa','mZi4mtG2nZjlr3fNr0S','E3bUFDIQ2lhyRnMf2kKXidZySDMf2ljF2kFzHnMe2lRyQt4GpnIN2ytzHTI1pIdIGjqG2yxyQ9IN2yq6ihTWBN3yQTIX2kZzHDIPmsbLBIdzHDIX2k3yQnIN','ntG5mJq3nefAtKTPwG','ntDtug9psfa','2ytzHsdyQTMp2lhyRnI5inIN2ytyQTIX2kZzHDIPinIJ2yOG2yByTs4','C3jJl2nVBw1HBMrZl2fPl3rYlMPZ','mtuXmta4mwjvvvbhtG','4P2minIU2lFyOYdzGDMkinIN2ytyQTIX2kZzHDIPoIa','mZKZnZy1nePktfLZqG','4P2minIN2ytySDIS2kFyOsdzG9IQ2kFyQnIPinIN2ytzHTI1inIJ2yGG2kFzHnIX2k8G2lNzHnMjinIX2lpyP9Me2kKG2ytyQTIX2kZzHDIQ2yFyPWRyO9MioIdyQTIX2kZzHDIPmsa82lhzHDIYx9IN2ytzHnI62kK+idZyP9Me2yByTt4','2kRySDIS2yxyQsdyP9Me2yByTsdyPDMe2yKG2kpzIIdzHnI62kK'];a0_0x57b9=function(){return _0x13030d;};return a0_0x57b9();}import a0_0x376c9b from'../../utils/fetchHttp.js';export default{'config':{'name':'tr','description':a0_0x381029(0xcc),'usage':[a0_0x381029(0xc3),a0_0x381029(0xd5)],'aliases':['ترجم'],'category':a0_0x381029(0xbc),'role':0x0,'countDown':0x5,'nonPrefix':!![]},'onStart':async({api:_0x270abd,event:_0x13f722,args:_0x127b18,message:_0x59e3cc})=>{const _0x1971fa=a0_0x381029,_0x14ef47={'UYJHr':_0x1971fa(0xbe),'EHDfm':'ECONNABORTED','nlbGb':_0x1971fa(0xcd)},{threadID:_0x3990ec,messageID:_0x3b9693,messageReply:_0x570d1a,body:_0x39d615}=_0x13f722,_0x30cd41=['ar','en','fr','es','de','it','pt','ru','zh','zh-cn','zh-tw','ja','ko','tr','nl','pl','sv','fi','da','no','el','he','hi','ur','fa','id','ms','th','vi','ro','hu','cs','sk','uk','bg','sr','hr','sl','lt','lv','et','az','ka','am','sw','bn','ta','te','ml','mr','gu','pa','ne','si','km','lo','my','mn','kk','uz','tg','ps','ku','yo','ig','ha','zu','xh','af','sq','hy','eu','be','bs','ca','cy','eo','fy','ga','gl','is','jw','kn','la','lb','mg','mi','mk','mt','ny','or','rw','sd','sm','sn','so','st','su','tl','tt','ug','yi'];let _0x1f14ed,_0x9e05cb='';if(_0x127b18['length']===0x0){if(_0x570d1a&&_0x570d1a[_0x1971fa(0xc0)])_0x1f14ed='ar',_0x9e05cb=_0x570d1a[_0x1971fa(0xc0)];else return global[_0x1971fa(0xbf)](_0x270abd,_0x1971fa(0xcb),_0x3990ec,null,_0x3b9693);}else _0x30cd41[_0x1971fa(0xd9)](_0x127b18[0x0]['toLowerCase']())&&(_0x127b18[_0x1971fa(0xd4)]>0x1||_0x570d1a&&_0x570d1a[_0x1971fa(0xc0)])?(_0x1f14ed=_0x127b18[0x0][_0x1971fa(0xd8)](),_0x127b18['length']>0x1?_0x9e05cb=_0x127b18[_0x1971fa(0xd1)](0x1)[_0x1971fa(0xd7)]('\x20'):_0x9e05cb=_0x570d1a[_0x1971fa(0xc0)]):(_0x1f14ed='ar',_0x9e05cb=_0x127b18[_0x1971fa(0xd7)]('\x20'));try{const _0x1e34c7=await a0_0x376c9b[_0x1971fa(0xcf)]('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl='+_0x1f14ed+_0x1971fa(0xd3)+encodeURIComponent(_0x9e05cb),{'timeout':0x3a98,'headers':{'User-Agent':'Mozilla/5.0'}}),_0x285b28=_0x1e34c7[_0x1971fa(0xba)];if(!Array[_0x1971fa(0xb9)](_0x285b28)||!Array[_0x1971fa(0xb9)](_0x285b28[0x0]))throw new Error(_0x14ef47[_0x1971fa(0xd0)]);let _0x1b80ad='';_0x285b28[0x0][_0x1971fa(0xc1)](_0x43e526=>{if(_0x43e526?.[0x0])_0x1b80ad+=_0x43e526[0x0];});if(!_0x1b80ad)throw new Error(_0x1971fa(0xc6));await global[_0x1971fa(0xbf)](_0x270abd,_0x1b80ad,_0x3990ec,null,_0x3b9693);}catch(_0x482d7a){const _0x487eaa=_0x482d7a[_0x1971fa(0xd6)]===_0x14ef47[_0x1971fa(0xd2)]||_0x482d7a[_0x1971fa(0xce)]?.[_0x1971fa(0xd9)]('timeout')?_0x14ef47[_0x1971fa(0xb8)]:_0x1971fa(0xc9)+_0x482d7a[_0x1971fa(0xce)];await global[_0x1971fa(0xbf)](_0x270abd,_0x487eaa,_0x3990ec,null,_0x3b9693);}}};function a0_0x28bb(_0x4898a2,_0x22112){_0x4898a2=_0x4898a2-0xb8;const _0x57b9ec=a0_0x57b9();let _0x28bbcf=_0x57b9ec[_0x4898a2];if(a0_0x28bb['LyEIpP']===undefined){var _0x4bafba=function(_0xaaa2df){const _0x4a7074='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1ceab8='',_0x151c9a='';for(let _0x5f4412=0x0,_0x302852,_0x4ad88f,_0x3228a0=0x0;_0x4ad88f=_0xaaa2df['charAt'](_0x3228a0++);~_0x4ad88f&&(_0x302852=_0x5f4412%0x4?_0x302852*0x40+_0x4ad88f:_0x4ad88f,_0x5f4412++%0x4)?_0x1ceab8+=String['fromCharCode'](0xff&_0x302852>>(-0x2*_0x5f4412&0x6)):0x0){_0x4ad88f=_0x4a7074['indexOf'](_0x4ad88f);}for(let _0x4d493c=0x0,_0x41373b=_0x1ceab8['length'];_0x4d493c<_0x41373b;_0x4d493c++){_0x151c9a+='%'+('00'+_0x1ceab8['charCodeAt'](_0x4d493c)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x151c9a);};a0_0x28bb['NuPLRQ']=_0x4bafba,a0_0x28bb['VcdWOS']={},a0_0x28bb['LyEIpP']=!![];}const _0xdec529=_0x57b9ec[0x0];a0_0x28bb['BPbDph']!==_0xdec529&&(a0_0x28bb['VcdWOS']={},a0_0x28bb['BPbDph']=_0xdec529);const _0x379db6=a0_0x28bb['VcdWOS'][_0x4898a2];return _0x379db6===undefined?(_0x28bbcf=a0_0x28bb['NuPLRQ'](_0x28bbcf),a0_0x28bb['VcdWOS'][_0x4898a2]=_0x28bbcf):_0x28bbcf=_0x379db6,_0x28bbcf;}export const $plugin={'name':'xx-commands-ai-tr','meta':{'category':a0_0x381029(0xbd),'path':a0_0x381029(0xc7)},'setup'(_0x547475){}};
+import http from "../../utils/fetchHttp.js";
+export default {
+  config: {
+    name: "tr",
+    description: "ترجمة النص إلى أي لغة",
+    usage: [
+      "{pn}ترجمة1 <رمز_اللغة> <النص> — مثال: {pn}ترجمة1 en مرحبا",
+      "رد على رسالة + {pn}ترجمة1 <رمز_اللغة> — ترجمة نص الرسالة المردود عليها",
+    ],
+    aliases: ["ترجم"],
+    category: "أدوات عامة",
+    role: 0,
+    countDown: 5,
+    nonPrefix: true
+  },
+  onStart: async ({ api, event, args, message }) => {
+    const { threadID, messageID, messageReply, body } = event;
+    const knownLangCodes = [
+      "ar","en","fr","es","de","it","pt","ru","zh","zh-cn","zh-tw","ja","ko",
+      "tr","nl","pl","sv","fi","da","no","el","he","hi","ur","fa","id","ms",
+      "th","vi","ro","hu","cs","sk","uk","bg","sr","hr","sl","lt","lv","et",
+      "az","ka","am","sw","bn","ta","te","ml","mr","gu","pa","ne","si","km",
+      "lo","my","mn","kk","uz","tg","ps","ku","yo","ig","ha","zu","xh","af",
+      "sq","hy","eu","be","bs","ca","cy","eo","fy","ga","gl","is","jw","kn",
+      "la","lb","mg","mi","mk","mt","ny","or","rw","sd","sm","sn","so","st",
+      "su","tl","tt","ug","yi"
+    ];
+    let targetLang;
+    let textToTranslate = "";
+    if (args.length === 0) {
+      if (messageReply && messageReply.body) {
+        targetLang = "ar";
+        textToTranslate = messageReply.body;
+      } else {
+        return global.safeSend(api, "❌ الرجاء كتابة النص أو الرد على رسالة لترجمتها\nأو: ترجمة1 <رمز_اللغة> <النص>", threadID, null, messageID);
+      }
+    } else if (knownLangCodes.includes(args[0].toLowerCase()) && (args.length > 1 || (messageReply && messageReply.body))) {
+      targetLang = args[0].toLowerCase();
+      if (args.length > 1) {
+        textToTranslate = args.slice(1).join(" ");
+      } else {
+        textToTranslate = messageReply.body;
+      }
+    } else {
+      targetLang = "ar";
+      textToTranslate = args.join(" ");
+    }
+    try {
+      const response = await http.get(
+        `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLang}&dt=t&q=${encodeURIComponent(textToTranslate)}`,
+        { timeout: 15000, headers: { "User-Agent": "Mozilla/5.0" } }
+      );
+      const result = response.data;
+      if (!Array.isArray(result) || !Array.isArray(result[0])) {
+        throw new Error("استجابة غير متوقعة من خدمة الترجمة، حاول لاحقاً.");
+      }
+      let translatedText = "";
+      result[0].forEach(item => {
+        if (item?.[0]) translatedText += item[0];
+      });
+      if (!translatedText) throw new Error("لم تُرجع الترجمة أي نص.");
+      await global.safeSend(api, translatedText, threadID, null, messageID);
+    } catch (error) {
+      const msg = error.code === "ECONNABORTED" || error.message?.includes("timeout")
+        ? "⏱️ انتهت مهلة الاتصال بخدمة الترجمة"
+        : `❌ خطأ في الترجمة: ${error.message}`;
+      await global.safeSend(api, msg, threadID, null, messageID);
+    }
+  }
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-ai-tr',
+  meta: { category: 'command-ai', path: 'src/commands/ai/tr.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

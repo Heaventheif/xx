@@ -1,1 +1,133 @@
-'use strict';const a0_0x420374=a0_0x5933;(function(_0x57baea,_0x55f164){const _0x3c1d10=a0_0x5933,_0x3144c4=_0x57baea();while(!![]){try{const _0x3d319c=parseInt(_0x3c1d10(0x122))/0x1*(-parseInt(_0x3c1d10(0x14f))/0x2)+-parseInt(_0x3c1d10(0x12d))/0x3+parseInt(_0x3c1d10(0x128))/0x4+parseInt(_0x3c1d10(0x130))/0x5+parseInt(_0x3c1d10(0x146))/0x6*(-parseInt(_0x3c1d10(0x12b))/0x7)+parseInt(_0x3c1d10(0x13d))/0x8*(-parseInt(_0x3c1d10(0x151))/0x9)+parseInt(_0x3c1d10(0x142))/0xa;if(_0x3d319c===_0x55f164)break;else _0x3144c4['push'](_0x3144c4['shift']());}catch(_0x575912){_0x3144c4['push'](_0x3144c4['shift']());}}}(a0_0x12a2,0x7b128));import{handleMessage,handleEvent,handleReaction,invalidateThreadInfoCache}from'../core/Router.js';import{recordStoryEvent,recordFriendEvent}from'../server/dashboard/facebook-store.js';function detectStoryEvent(_0x12e27f){const _0x1cd58b=a0_0x5933,_0x19632e={'ssnTM':function(_0x45852f,_0x2bdb7e){return _0x45852f(_0x2bdb7e);},'yIVZu':_0x1cd58b(0x12c)},_0x329563=['story_reaction',_0x1cd58b(0x14a),_0x1cd58b(0x140)];if(_0x329563[_0x1cd58b(0x11d)](_0x12e27f[_0x1cd58b(0x144)])){_0x19632e[_0x1cd58b(0x123)](recordStoryEvent,{'storyID':_0x12e27f['storyID']||_0x12e27f[_0x1cd58b(0x158)]||null,'senderID':_0x12e27f[_0x1cd58b(0x12e)]||_0x12e27f[_0x1cd58b(0x120)]||null,'senderName':_0x12e27f[_0x1cd58b(0x126)]||null,'preview':_0x12e27f['body']||_0x12e27f['reactionType']||null,'timestamp':_0x12e27f[_0x1cd58b(0x15d)]||Date['now'](),'type':_0x12e27f['type']});return;}if(Array[_0x1cd58b(0x13b)](_0x12e27f[_0x1cd58b(0x15a)]))for(const _0x5ddec8 of _0x12e27f[_0x1cd58b(0x15a)]){const _0x2fc067=_0x5ddec8?.[_0x1cd58b(0x144)]||_0x5ddec8?.['mimeType']||'';if(_0x2fc067[_0x1cd58b(0x124)]()['includes'](_0x1cd58b(0x11c))||_0x5ddec8?.['url']?.[_0x1cd58b(0x11d)]('/stories/')||_0x5ddec8?.[_0x1cd58b(0x134)]){_0x19632e['ssnTM'](recordStoryEvent,{'storyID':_0x5ddec8[_0x1cd58b(0x134)]||_0x5ddec8[_0x1cd58b(0x12a)]||null,'senderID':_0x12e27f['senderID']||null,'senderName':null,'preview':_0x5ddec8['title']||_0x5ddec8[_0x1cd58b(0x138)]||_0x5ddec8[_0x1cd58b(0x152)]||null,'timestamp':_0x12e27f['timestamp']||Date[_0x1cd58b(0x133)](),'type':_0x1cd58b(0x157)});break;}}_0x12e27f['type']===_0x19632e[_0x1cd58b(0x148)]&&_0x12e27f[_0x1cd58b(0x132)]?.['includes'](_0x1cd58b(0x11c))&&recordStoryEvent({'storyID':_0x12e27f['messageID']||null,'senderID':_0x12e27f[_0x1cd58b(0x154)]||_0x12e27f[_0x1cd58b(0x12e)]||null,'senderName':null,'preview':_0x12e27f[_0x1cd58b(0x127)]||null,'timestamp':_0x12e27f['timestamp']||Date[_0x1cd58b(0x133)](),'type':_0x1cd58b(0x156)});}function a0_0x5933(_0x35b646,_0x2d8a19){_0x35b646=_0x35b646-0x11c;const _0x12a2a7=a0_0x12a2();let _0x593355=_0x12a2a7[_0x35b646];if(a0_0x5933['MxVQkA']===undefined){var _0x8903be=function(_0x1b796e){const _0x316d22='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x497774='',_0x2cbcd6='';for(let _0x4ff2b0=0x0,_0xc9e72d,_0x57c220,_0x47ebcf=0x0;_0x57c220=_0x1b796e['charAt'](_0x47ebcf++);~_0x57c220&&(_0xc9e72d=_0x4ff2b0%0x4?_0xc9e72d*0x40+_0x57c220:_0x57c220,_0x4ff2b0++%0x4)?_0x497774+=String['fromCharCode'](0xff&_0xc9e72d>>(-0x2*_0x4ff2b0&0x6)):0x0){_0x57c220=_0x316d22['indexOf'](_0x57c220);}for(let _0x574394=0x0,_0x349f8e=_0x497774['length'];_0x574394<_0x349f8e;_0x574394++){_0x2cbcd6+='%'+('00'+_0x497774['charCodeAt'](_0x574394)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2cbcd6);};a0_0x5933['pTiJMm']=_0x8903be,a0_0x5933['iDwEjP']={},a0_0x5933['MxVQkA']=!![];}const _0x8898a9=_0x12a2a7[0x0];a0_0x5933['EouyZS']!==_0x8898a9&&(a0_0x5933['iDwEjP']={},a0_0x5933['EouyZS']=_0x8898a9);const _0x5bd8ff=a0_0x5933['iDwEjP'][_0x35b646];return _0x5bd8ff===undefined?(_0x593355=a0_0x5933['pTiJMm'](_0x593355),a0_0x5933['iDwEjP'][_0x35b646]=_0x593355):_0x593355=_0x5bd8ff,_0x593355;}function detectFriendEvent(_0xbea5f4){const _0x2879ac=a0_0x5933,_0x5698e0={'GmonY':_0x2879ac(0x143),'nEPoV':_0x2879ac(0x149),'OSTKn':function(_0x221e57,_0x573544){return _0x221e57(_0x573544);}},_0x19ed9f=[_0x2879ac(0x13e),'friend_add',_0x5698e0[_0x2879ac(0x150)],_0x5698e0[_0x2879ac(0x15e)]];_0x19ed9f[_0x2879ac(0x11d)](_0xbea5f4[_0x2879ac(0x144)])&&_0x5698e0[_0x2879ac(0x13c)](recordFriendEvent,{'senderID':_0xbea5f4[_0x2879ac(0x12e)]||_0xbea5f4[_0x2879ac(0x120)]||null,'senderName':_0xbea5f4[_0x2879ac(0x126)]||null,'type':_0xbea5f4['type'],'timestamp':_0xbea5f4[_0x2879ac(0x15d)]||Date['now']()});}function a0_0x12a2(){const _0x31a40b=['Dg9mB3DLCKnHC2u','BwfYA0fZuMvHza','C2vUzgvYtMfTzq','Bg9NtwvZC2fNzujVzhK','mZmXmJm4nePdsNjjDG','iokaLcbJywnOzsdzHDMp2kJyT9Mo2yqU','yxr0ywnOBwvUDeLe','mtrzAM5oA3q','Bg9N','mJu3odGZnKvVAMTjCG','C2vUzgvYsuq','w0vwru5uievsuJO','mZu1nte5nxnTzhHhzG','BwvZC2fNzv9YzwfJDgLVBG','Bg9NtwvZC2fNzvr5Cgu','BM93','C3rVCNLjra','Axncyw5Uzwq','y2HHBMDLx3rOCMvHzf9Hzg1PBNm','C3LIyxq','zgvZy3jPChrPB24','z2v0q3vYCMvUDfvZzxjjra','qw5svNy','AxnbCNjHEq','t1nus24','ndi1mde2tvrpCwXs','zNjPzw5Kx3jLCxvLC3q','zNvUy3rPB24','C3rVCNLFBwvUDgLVBG','AhHduMi','mti1mtuZotbYu2LLtgO','zNjPzw5Kx2nVBMzPCM1Lza','DhLWzq','EhGTzxzLBNrZlw9Ulw1LC3nHz2u','mtiZmZC4rhfYDwPt','C3jJl2v2zw50CY9VBK1LC3nHz2uUANm','EuLwwNu','zNjPzw5KC2HPCa','C3rVCNLFCMvWBhK','zxjYB3i','zxzLBNq','AxnhCM91Ca','w01buKSTuKvbrdO','otqWrvDoBLzp','r21VBLK','mtq0AMjvtMDL','DxjS','C3bSAxq','yxv0Ag9Y','CgfYDgLJAxbHBNrjrhm','Bg9Nx3n0B3j5','C3rVCNLFyxr0ywnOBwvUDa','DgHYzwfKsuq','D2fYBG','yxr0ywnOBwvUDhm','m3W1Fdj8nhW2Fdf8ma','BwvZC2fNzv9YzxbSEq','DgLTzxn0yw1W','BKvqB1y','C3rVCNK','Aw5JBhvKzxm','BwvZC2fNzq','w0nbq0HfxsdWN5Er77IpiejVDcdyO9Mp2k7ySDISinMf2yyG2kFzHnMf2kZzHDMi2lNyQsa','ywn0B3jjra','C29Tzq','mte0meHArwfzAq','C3nUve0'];a0_0x12a2=function(){return _0x31a40b;};return a0_0x12a2();}export function dispatchMqttEvent(_0x1d01b3,_0x33b5d7,_0x21140c,_0x1dd2c3){const _0x547c73=a0_0x5933,_0x310861={'AnRVv':function(_0x48a48b,_0x546949,_0x13a730){return _0x48a48b(_0x546949,_0x13a730);},'hxCRb':function(_0x1f791c,_0x1fc070,_0x495392){return _0x1f791c(_0x1fc070,_0x495392);},'tXswq':function(_0x3f5d6,_0x119cb1){return _0x3f5d6===_0x119cb1;},'sybat':function(_0x1dbbf8,_0xdfa55c){return _0x1dbbf8(_0xdfa55c);}},_0x3119fa=_0x547c73(0x15b)[_0x547c73(0x153)]('|');let _0x55bb79=0x0;while(!![]){switch(_0x3119fa[_0x55bb79++]){case'0':if([_0x547c73(0x11e),_0x547c73(0x15c),_0x547c73(0x12c),'event'][_0x547c73(0x11d)](_0x33b5d7[_0x547c73(0x144)]))['message',_0x547c73(0x15c)]['includes'](_0x33b5d7[_0x547c73(0x144)])&&_0x33b5d7[_0x547c73(0x158)]&&setTimeout(()=>{const _0x6f41bc=_0x547c73;try{typeof _0x1d01b3[_0x6f41bc(0x125)]===_0x6f41bc(0x13f)&&_0x1d01b3[_0x6f41bc(0x125)](_0x33b5d7[_0x6f41bc(0x158)],!![],_0x275c4e=>{const _0x3a542=_0x6f41bc;if(_0x275c4e)console[_0x3a542(0x159)]('[MARK-READ:'+_0x21140c+']',_0x275c4e[_0x3a542(0x11e)]||_0x275c4e);});}catch(_0xfe7d20){console[_0x6f41bc(0x159)](_0x6f41bc(0x14e)+_0x21140c+']',_0xfe7d20['message']);}},0x320),_0x310861[_0x547c73(0x13a)](handleEvent,_0x1d01b3,_0x33b5d7)['catch'](_0xc0b48a=>console[_0x547c73(0x14b)](_0x547c73(0x12f)+_0x21140c+']',_0xc0b48a[_0x547c73(0x11e)])),_0x310861[_0x547c73(0x141)](handleMessage,_0x1d01b3,_0x33b5d7)['catch'](_0x1b7deb=>console['error']('[EVENT\x20ERR:'+_0x21140c+']',_0x1b7deb[_0x547c73(0x11e)]));else _0x33b5d7[_0x547c73(0x144)]===_0x547c73(0x131)&&handleReaction(_0x1d01b3,_0x33b5d7);continue;case'1':detectFriendEvent(_0x33b5d7);continue;case'2':_0x33b5d7['logMessageType']===_0x547c73(0x136)&&_0x33b5d7[_0x547c73(0x158)]&&invalidateThreadInfoCache(_0x33b5d7[_0x547c73(0x158)]);continue;case'3':if(global[_0x547c73(0x135)](_0x33b5d7['threadID'],_0x33b5d7[_0x547c73(0x12e)]??_0x33b5d7['userID']))return;continue;case'4':_0x310861['tXswq'](_0x33b5d7[_0x547c73(0x132)],'remove_from_group')&&_0x33b5d7[_0x547c73(0x158)]&&_0x33b5d7[_0x547c73(0x155)]?.[_0x547c73(0x121)](_0x205e42=>String(_0x205e42)===String(_0x1d01b3[_0x547c73(0x139)]?.()))&&(invalidateThreadInfoCache(_0x33b5d7[_0x547c73(0x158)]),console[_0x547c73(0x12c)](_0x547c73(0x11f)+_0x33b5d7[_0x547c73(0x158)]+_0x547c73(0x129)));continue;case'5':if(!_0x33b5d7[_0x547c73(0x14d)])return;continue;case'6':_0x310861[_0x547c73(0x137)](detectStoryEvent,_0x33b5d7);continue;}break;}}export const $plugin={'name':a0_0x420374(0x145),'meta':{'category':a0_0x420374(0x14c),'path':a0_0x420374(0x147)},'setup'(_0x23a011){}};
+"use strict";
+import { handleMessage, handleEvent, handleReaction, invalidateThreadInfoCache } from "../core/Router.js";
+import { recordStoryEvent, recordFriendEvent } from "../server/dashboard/facebook-store.js";
+
+/**
+ * Detect and capture story events from MQTT stream
+ * FCA passes through raw events — stories may appear with certain types or attachment structures
+ * @param {object} event - raw MQTT event
+ */
+function detectStoryEvent(event) {
+  // Check event type for story-like events
+  const storyTypes = ["story_reaction", "story_reply", "story_mention"];
+  if (storyTypes.includes(event.type)) {
+    recordStoryEvent({
+      storyID:   event.storyID || event.threadID || null,
+      senderID:  event.senderID || event.actorID || null,
+      senderName:event.senderName || null,
+      preview:   event.body || event.reactionType || null,
+      timestamp: event.timestamp || Date.now(),
+      type:      event.type,
+    });
+    return;
+  }
+
+  // Check attachments for story-related content
+  if (Array.isArray(event.attachments)) {
+    for (const att of event.attachments) {
+      const attType = att?.type || att?.mimeType || "";
+      if (
+        attType.toLowerCase().includes("story") ||
+        att?.url?.includes("/stories/") ||
+        att?.storyID
+      ) {
+        recordStoryEvent({
+          storyID:    att.storyID || att.attachmentID || null,
+          senderID:   event.senderID || null,
+          senderName: null,
+          preview:    att.title || att.description || att.url || null,
+          timestamp:  event.timestamp || Date.now(),
+          type:       "story_attachment",
+        });
+        break;
+      }
+    }
+  }
+
+  // Log:story — Facebook sometimes sends story events as log events
+  if (event.type === "log" && event.logMessageType?.includes("story")) {
+    recordStoryEvent({
+      storyID:   event.messageID || null,
+      senderID:  event.author || event.senderID || null,
+      senderName:null,
+      preview:   event.logMessageBody || null,
+      timestamp: event.timestamp || Date.now(),
+      type:      "log_story",
+    });
+  }
+}
+
+/**
+ * Detect friend-related events from MQTT
+ * @param {object} event - raw MQTT event
+ */
+function detectFriendEvent(event) {
+  const friendEventTypes = ["friend_request", "friend_add", "friend_confirmed", "friendship"];
+  if (friendEventTypes.includes(event.type)) {
+    recordFriendEvent({
+      senderID:   event.senderID || event.actorID || null,
+      senderName: event.senderName || null,
+      type:       event.type,
+      timestamp:  event.timestamp || Date.now(),
+    });
+  }
+}
+
+export function dispatchMqttEvent(api, event, label, acceptedThreads) {
+  if (global.isBanned(event.threadID, event.senderID ?? event.userID)) return;
+
+  // Group-only policy: ignore DMs and message requests without replying or accepting them.
+  if (!event.isGroup) return;
+
+  // [FIX ADMIN CACHE] إبطال cache المجموعة فوراً عند تغيير المشرفين
+  if (event.logMessageType === "change_thread_admins" && event.threadID) {
+    invalidateThreadInfoCache(event.threadID);
+  }
+
+  // [FIX CACHE EVICT] Invalidate thread cache when the bot itself is removed
+  // from a group — otherwise stale data lingers for up to 5 min and causes
+  // confusing "not an admin" errors if the bot rejoins the same group.
+  if (
+    event.logMessageType === "remove_from_group" &&
+    event.threadID &&
+    event.participantIDs?.some(id => String(id) === String(api.getCurrentUserID?.()))
+  ) {
+    invalidateThreadInfoCache(event.threadID);
+    console.log(`[CACHE] 🗑️ Bot أُخرج من المجموعة ${event.threadID} — cache مُبطَل.`);
+  }
+
+  // Detect and store story/friend events for the dashboard
+  detectStoryEvent(event);
+  detectFriendEvent(event);
+
+  if (["message", "message_reply", "log", "event"].includes(event.type)) {
+    // تمييز الرسالة كمقروءة — نؤخّره 800ms لضمان أن mqttClient جاهز بعد listenMqtt
+    if (["message", "message_reply"].includes(event.type) && event.threadID) {
+      setTimeout(() => {
+        try {
+          if (typeof api.markAsRead === "function") {
+            api.markAsRead(event.threadID, true, (err) => {
+              if (err) console.warn(`[MARK-READ:${label}]`, err.message || err);
+            });
+          }
+        } catch (e) {
+          console.warn(`[MARK-READ:${label}]`, e.message);
+        }
+      }, 800);
+    }
+    handleEvent(api, event).catch(e => console.error(`[EVENT ERR:${label}]`, e.message));
+    handleMessage(api, event).catch(e => console.error(`[EVENT ERR:${label}]`, e.message));
+  } else if (event.type === "message_reaction") {
+    handleReaction(api, event);
+  }
+}
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-events-on-message',
+  meta: { category: 'event', path: 'src/events/onMessage.js' },
+  setup(_ctx) {
+    // provides: dispatchMqttEvent
+  },
+};

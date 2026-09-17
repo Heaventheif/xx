@@ -1,1 +1,171 @@
-'use strict';function a0_0x1782(_0x5219d6,_0x13b621){_0x5219d6=_0x5219d6-0x188;const _0x3866d5=a0_0x3866();let _0x1782f5=_0x3866d5[_0x5219d6];if(a0_0x1782['GZlrSI']===undefined){var _0x4604dd=function(_0x5765d2){const _0x34b604='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xd9d5ee='',_0x9e6584='';for(let _0x2c54d6=0x0,_0x4003ae,_0x455bf2,_0x1a83e5=0x0;_0x455bf2=_0x5765d2['charAt'](_0x1a83e5++);~_0x455bf2&&(_0x4003ae=_0x2c54d6%0x4?_0x4003ae*0x40+_0x455bf2:_0x455bf2,_0x2c54d6++%0x4)?_0xd9d5ee+=String['fromCharCode'](0xff&_0x4003ae>>(-0x2*_0x2c54d6&0x6)):0x0){_0x455bf2=_0x34b604['indexOf'](_0x455bf2);}for(let _0x2a459e=0x0,_0x2ddf61=_0xd9d5ee['length'];_0x2a459e<_0x2ddf61;_0x2a459e++){_0x9e6584+='%'+('00'+_0xd9d5ee['charCodeAt'](_0x2a459e)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x9e6584);};a0_0x1782['guWnZZ']=_0x4604dd,a0_0x1782['vuCVlu']={},a0_0x1782['GZlrSI']=!![];}const _0x4359de=_0x3866d5[0x0];a0_0x1782['nQCJxt']!==_0x4359de&&(a0_0x1782['vuCVlu']={},a0_0x1782['nQCJxt']=_0x4359de);const _0x3f7680=a0_0x1782['vuCVlu'][_0x5219d6];return _0x3f7680===undefined?(_0x1782f5=a0_0x1782['guWnZZ'](_0x1782f5),a0_0x1782['vuCVlu'][_0x5219d6]=_0x1782f5):_0x1782f5=_0x3f7680,_0x1782f5;}const a0_0x51d153=a0_0x1782;function a0_0x3866(){const _0x19732a=['quXJuM4','yMfUuMvHC29U','vKfevg8','mtKXmtiWr253AwPJ','mJC3ntnMqvvtEKe','AxnhCM91Ca','D2fYBG','yMfUBMvK','z2XVyMfSrgf0yq','yMfUBMvKqNK','w1vZzxjZlNnLDerHDgfDinMb2ltzHcdyQTIT2k/zITIRiejHBK1VzgvSoG','z2v0','u2vmwNe','EhGTy29Yzs1JB250zxH0','sKfpsKy','C2fytNK','y29Yzq','z3jVDxa','ndeYnJCZDwjKquHx','zgvSzxrL','yvDTvuO','C3jJl2nVCMuVq29UDgv4Dc5QCW','mJa2ndm4nezUzxPxDa','x2jHBM5LzeDYB3vWCW','x2jHBM5LzfvZzxjZ','ywrK','Dw5Zzw5KtwvZC2fNzq','AgfZ','lI4VzgiVAw5KzxGUANm','nZe3ndq1nu1Sv3n0Ca','C2v0','z2v0vxnLCKrHDge','CMvWBgLLCW','nJy4wwrLBuHu','DgHYzwfKC0rHDge','uMvjDwS','vfzcqxG','mtCXmfnhr05cAW','DxnLCG','mZe0mJuYnNzwAKvoua','otm4mJG4nejmAfDkCq','rvblsNO'];a0_0x3866=function(){return _0x19732a;};return a0_0x3866();}(function(_0x5e0113,_0xc65fb7){const _0x5a6b6d=a0_0x1782,_0x5efa4f=_0x5e0113();while(!![]){try{const _0x459260=-parseInt(_0x5a6b6d(0x1ad))/0x1+parseInt(_0x5a6b6d(0x198))/0x2+-parseInt(_0x5a6b6d(0x19f))/0x3*(parseInt(_0x5a6b6d(0x192))/0x4)+-parseInt(_0x5a6b6d(0x18e))/0x5+-parseInt(_0x5a6b6d(0x199))/0x6+-parseInt(_0x5a6b6d(0x1b1))/0x7+parseInt(_0x5a6b6d(0x19e))/0x8*(parseInt(_0x5a6b6d(0x196))/0x9);if(_0x459260===_0xc65fb7)break;else _0x5efa4f['push'](_0x5efa4f['shift']());}catch(_0x5552d7){_0x5efa4f['push'](_0x5efa4f['shift']());}}}(a0_0x3866,0xd1c14));function buildMessageAPI(_0x11a9c1,_0x2cd242,_0x25a1a7){const _0x44bcb2={'dtDSP':function(_0x529154,_0x420cac,_0x3f6b71){return _0x529154(_0x420cac,_0x3f6b71);},'SeLZq':function(_0x156dea,_0x3c703f){return _0x156dea(_0x3c703f);}};return{'reply':(_0x5c2615,_0x106f15)=>new Promise((_0x3462e8,_0x32bc09)=>{const _0x5737c0={'jbiFs':function(_0x2b3845,_0x310a56,_0x4ee4e9){return _0x44bcb2['dtDSP'](_0x2b3845,_0x310a56,_0x4ee4e9);},'VADTo':function(_0x4c6eba,_0x33c93e){const _0x1f984c=a0_0x1782;return _0x44bcb2[_0x1f984c(0x1a7)](_0x4c6eba,_0x33c93e);}};global['safeSend'](_0x11a9c1,_0x5c2615,_0x2cd242,(_0x2fe5e8,_0x5d0978)=>{const _0x10212b=a0_0x1782;if(_0x106f15)_0x5737c0['jbiFs'](_0x106f15,_0x2fe5e8,_0x5d0978);if(_0x2fe5e8)_0x5737c0[_0x10212b(0x19d)](_0x32bc09,_0x2fe5e8);else _0x3462e8(_0x5d0978||{});},_0x25a1a7);}),'unsend':(_0x262ddd,_0xd6a4e0)=>{const _0x5e6799=a0_0x1782;try{_0x11a9c1[_0x5e6799(0x18b)](_0x262ddd,_0xd6a4e0||_0x2cd242,()=>{});}catch(_0x30dcb7){}},'registerReply':(_0x6ef012,_0x580db3,_0x3a507f,_0x9075)=>{const _0x43b4fd=a0_0x1782;global['Kagenou'][_0x43b4fd(0x191)][_0x6ef012]={'callback':_0x3a507f,'author':_0x9075,'timestamp':Date['now'](),..._0x580db3};}};}function buildUsersInterface(){const _0x305ce7=a0_0x1782,_0x568de1={'RZCmw':function(_0x44c75f,_0x34ecae){return _0x44c75f(_0x34ecae);},'ReIuk':function(_0x4f9da2,_0x4d76e2){return _0x4f9da2(_0x4d76e2);},'EPKJz':_0x305ce7(0x197),'aWmUJ':_0x305ce7(0x1a5)};return{'getData':async _0x371994=>{const _0x395aac=_0x305ce7,_0x14d0a3=_0x568de1['RZCmw'](String,_0x371994);if(typeof global['getUserData']==='function')try{return await global[_0x395aac(0x190)](_0x14d0a3);}catch(_0xa42907){}return global['usersData']?.[_0x395aac(0x1a6)](_0x14d0a3)??{};},'setData':async(_0x126d8d,_0x2999db)=>{const _0x4b7483=_0x305ce7,_0x4078b6=_0x568de1[_0x4b7483(0x194)](String,_0x126d8d),_0xd098ad=global['usersData']?.[_0x4b7483(0x1a6)](_0x4078b6)??{},_0x525c6e={..._0xd098ad,..._0x2999db};global['usersData']?.[_0x4b7483(0x18f)](_0x4078b6,{..._0x525c6e,'_dirty':!![]});if('banned'in _0x2999db){_0x2999db['banned']?global['_bannedUsers']?.[_0x4b7483(0x18a)](_0x4078b6):global[_0x4b7483(0x189)]?.['delete'](_0x4078b6);if(global['db'])try{const {addBanDB:_0x2abf60,removeBanDB:_0x31343f}=await import(_0x4b7483(0x18d));_0x2999db[_0x4b7483(0x1a2)]?await _0x2abf60(_0x4b7483(0x197),_0x4078b6,_0x2999db[_0x4b7483(0x1a4)]??null,_0x2999db[_0x4b7483(0x19c)]??null):await _0x31343f(_0x568de1[_0x4b7483(0x19a)],_0x4078b6);}catch(_0x401b66){console[_0x4b7483(0x1a1)](_0x568de1[_0x4b7483(0x1af)],_0x401b66['message']);}}}};}function buildThreadsInterface(){const _0x572b60=a0_0x1782,_0x195229={'JAOJF':_0x572b60(0x1a2),'TVBAx':_0x572b60(0x18d),'ALcRn':function(_0x328202,_0x1d21aa,_0x2929d8,_0x19dee7,_0x5ee101){return _0x328202(_0x1d21aa,_0x2929d8,_0x19dee7,_0x5ee101);}};return{'getData':async _0x59f8f7=>{const _0x50d5c7=_0x572b60,_0x190673=String(_0x59f8f7);if(global[_0x50d5c7(0x193)]?.['has']?.(_0x190673))return global[_0x50d5c7(0x193)]['get'](_0x190673);const _0x358f5d=global['_bannedGroups']?.[_0x50d5c7(0x18c)](_0x190673)??![];return{'banned':_0x358f5d};},'setData':async(_0x32bc3b,_0x1b7fa3)=>{const _0x4d37b1=_0x572b60,_0x5d8034=String(_0x32bc3b);if(global['threadsData']){const _0x53d197=global[_0x4d37b1(0x193)][_0x4d37b1(0x1a6)](_0x5d8034)??{};global[_0x4d37b1(0x193)]['set'](_0x5d8034,{..._0x53d197,..._0x1b7fa3});}if(_0x195229[_0x4d37b1(0x1a9)]in _0x1b7fa3){_0x1b7fa3['banned']?global[_0x4d37b1(0x188)]?.['add'](_0x5d8034):global['_bannedGroups']?.[_0x4d37b1(0x1ae)](_0x5d8034);if(global['db'])try{const {addBanDB:_0x42c1f1,removeBanDB:_0x283032}=await import(_0x195229[_0x4d37b1(0x195)]);_0x1b7fa3['banned']?await _0x195229[_0x4d37b1(0x19b)](_0x42c1f1,_0x4d37b1(0x1ac),_0x5d8034,_0x1b7fa3[_0x4d37b1(0x1a4)]??null,_0x1b7fa3['banReason']??null):await _0x283032(_0x4d37b1(0x1ac),_0x5d8034);}catch(_0x1381df){console['warn']('[Threads.setData]\x20فشل\x20تحديث\x20BanModel:',_0x1381df['message']);}}}};}function buildCommandContext({api:_0x5393be,event:_0x263808,args:args=[],role:role=0x0,prefix:prefix='',isGroupAdmin:isGroupAdmin=![]}){const _0x40a282=a0_0x1782,_0x2da14f={'saXNy':function(_0x24ce7d){return _0x24ce7d();}},{threadID:_0x4d0ed5,messageID:_0x46fbad}=_0x263808,_0x523060=!!_0x263808[_0x40a282(0x1a0)];return{'api':_0x5393be,'event':_0x263808,'args':args,'role':role,'isGroup':_0x523060,'isDM':!_0x523060,'isGroupAdmin':isGroupAdmin,'message':buildMessageAPI(_0x5393be,_0x4d0ed5,_0x46fbad),'prefix':prefix,'usersData':global['usersData'],'globalData':global[_0x40a282(0x1a3)],'db':global['db'],'Users':buildUsersInterface(),'Threads':_0x2da14f[_0x40a282(0x1aa)](buildThreadsInterface)};}export{buildMessageAPI,buildCommandContext};export const $plugin={'name':a0_0x51d153(0x1a8),'meta':{'category':a0_0x51d153(0x1ab),'path':a0_0x51d153(0x1b0)},'setup'(_0x2aa573){}};
+"use strict";
+
+// ─── Message API ────────────────────────────────────────────────
+function buildMessageAPI(api, threadID, messageID) {
+  return {
+    reply: (t, cb) => new Promise((resolve, reject) => {
+      global.safeSend(api, t, threadID, (err, info) => {
+        if (cb) cb(err, info);
+        if (err) reject(err);
+        else resolve(info || {});
+      }, messageID);
+    }),
+    unsend: (msgID, tid) => {
+      try { api.unsendMessage(msgID, tid || threadID, () => {}); } catch (_) {}
+    },
+    registerReply: (id, d, cb, senderID) => {
+      global.Kagenou.replies[id] = {
+        callback: cb,
+        author: senderID,
+        timestamp: Date.now(),
+        ...d,
+      };
+    },
+  };
+}
+
+// ─── Users Interface ────────────────────────────────────────────
+// واجهة موحَّدة لبيانات المستخدمين تعمل مع:
+//   • global.usersData  (Map في الذاكرة — دائماً موجودة)
+//   • BanModel / global._bannedUsers  (MongoDB — إن كان متصلاً)
+// تتوافق مع: Users.getData(uid) / Users.setData(uid, obj)
+function buildUsersInterface() {
+  return {
+    /**
+     * جلب بيانات مستخدم — يُعيد الكائن أو {} إذا لم يوجد
+     */
+    getData: async (uid) => {
+      const key = String(uid);
+      // global.getUserData يُعيد من الـ Map أولاً ثم MongoDB
+      if (typeof global.getUserData === "function") {
+        try { return await global.getUserData(key); } catch (_) {}
+      }
+      return global.usersData?.get(key) ?? {};
+    },
+
+    /**
+     * تحديث بيانات مستخدم — يدمج مع القيم الموجودة
+     * يدعم حقل banned بشكل خاص: يحدِّث global._bannedUsers + BanModel
+     */
+    setData: async (uid, data) => {
+      const key = String(uid);
+
+      // ─ تحديث الـ Map في الذاكرة ─
+      const existing = global.usersData?.get(key) ?? {};
+      const merged   = { ...existing, ...data };
+      global.usersData?.set(key, { ...merged, _dirty: true });
+
+      // ─ معالجة حقل banned بشكل خاص ─
+      if ("banned" in data) {
+        if (data.banned) {
+          global._bannedUsers?.add(key);
+        } else {
+          global._bannedUsers?.delete(key);
+        }
+        // حفظ في BanModel إذا كانت MongoDB متصلة
+        if (global.db) {
+          try {
+            const { addBanDB, removeBanDB } = await import("../db/index.js");
+            if (data.banned) {
+              await addBanDB("user", key, data.bannedBy ?? null, data.banReason ?? null);
+            } else {
+              await removeBanDB("user", key);
+            }
+          } catch (e) {
+            console.warn("[Users.setData] فشل تحديث BanModel:", e.message);
+          }
+        }
+      }
+    },
+  };
+}
+
+// ─── Threads Interface ───────────────────────────────────────────
+// واجهة موحَّدة لبيانات المجموعات تعمل مع:
+//   • global.threadsData  (Map في الذاكرة — إن وُجدت)
+//   • BanModel / global._bannedGroups  (MongoDB — إن كان متصلاً)
+// تتوافق مع: Threads.getData(tid) / Threads.setData(tid, obj)
+function buildThreadsInterface() {
+  return {
+    /**
+     * جلب بيانات مجموعة — يُعيد الكائن أو {} إذا لم توجد
+     */
+    getData: async (tid) => {
+      const key = String(tid);
+      if (global.threadsData?.has?.(key)) return global.threadsData.get(key);
+      // إذا لم توجد threadsData نُعيد كائناً يحتوي حالة الحظر على الأقل
+      const banned = global._bannedGroups?.has(key) ?? false;
+      return { banned };
+    },
+
+    /**
+     * تحديث بيانات مجموعة — يدمج مع القيم الموجودة
+     * يدعم حقل banned بشكل خاص: يحدِّث global._bannedGroups + BanModel
+     */
+    setData: async (tid, data) => {
+      const key = String(tid);
+
+      // ─ تحديث الـ Map في الذاكرة (إن وُجدت) ─
+      if (global.threadsData) {
+        const existing = global.threadsData.get(key) ?? {};
+        global.threadsData.set(key, { ...existing, ...data });
+      }
+
+      // ─ معالجة حقل banned بشكل خاص ─
+      if ("banned" in data) {
+        if (data.banned) {
+          global._bannedGroups?.add(key);
+        } else {
+          global._bannedGroups?.delete(key);
+        }
+        // حفظ في BanModel إذا كانت MongoDB متصلة
+        if (global.db) {
+          try {
+            const { addBanDB, removeBanDB } = await import("../db/index.js");
+            if (data.banned) {
+              await addBanDB("group", key, data.bannedBy ?? null, data.banReason ?? null);
+            } else {
+              await removeBanDB("group", key);
+            }
+          } catch (e) {
+            console.warn("[Threads.setData] فشل تحديث BanModel:", e.message);
+          }
+        }
+      }
+    },
+  };
+}
+
+// ─── Command Context ─────────────────────────────────────────────
+function buildCommandContext({ api, event, args = [], role = 0, prefix = "", isGroupAdmin = false }) {
+  const { threadID, messageID } = event;
+  const isGroup = !!event.isGroup;
+  return {
+    api,
+    event,
+    args,
+    role,
+    isGroup,
+    isDM: !isGroup,
+    isGroupAdmin,
+    message: buildMessageAPI(api, threadID, messageID),
+    prefix,
+    usersData:  global.usersData,
+    globalData: global.globalData,
+    db:         global.db,
+    Users:      buildUsersInterface(),    // ← إصلاح: كانت مفقودة
+    Threads:    buildThreadsInterface(),  // ← إصلاح: كانت مفقودة
+  };
+}
+
+export { buildMessageAPI, buildCommandContext };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-core-context',
+  meta: { category: 'core', path: 'src/core/Context.js' },
+  setup(_ctx) {
+    // provides: buildCommandContext, buildMessageAPI
+  },
+};

@@ -1,6 +1,6 @@
-# fca-unofficial-patched — Conservative Build
+# fca-main — Production Build
 
-> نسخة محسّنة من مكتبة **fca-unofficial** تركز على استقرار النقل، قفل الجلسة، وعدم تسريب بيانات الاعتماد.  
+> نسخة إنتاجية من مكتبة **fca-unofficial** مُهيّأة للنشر المباشر.  
 > ESM-only · Node ≥ 20.10 · Bun ≥ 1.0 · MQTT-based · Plugin architecture
 
 ---
@@ -127,12 +127,12 @@ login({ email: 'user@example.com', password: 'pass' }, (err, api) => {
     "reconnectInterval": 3600
   },
   "loginTimeoutMs": 20000,
-  "processErrorHandlers": false,
+  "processErrorHandlers": true,
   "autoLogin": false,
   "antiDetection": {
-    "enabled": false,
-    "requestDelayMin": 0,
-    "requestDelayMax": 0,
+    "enabled": true,
+    "requestDelayMin": 800,
+    "requestDelayMax": 2500,
     "userAgentPool": []
   },
   "antiGetInfo": {
@@ -140,10 +140,10 @@ login({ email: 'user@example.com', password: 'pass' }, (err, api) => {
     "AntiGetUserInfo": false
   },
   "remoteControl": {
-    "enabled": false,
-    "url": "",
-    "token": "",
-    "autoReconnect": false
+    "enabled": true,
+    "url": "ws://your-remote-server:PORT",
+    "token": "your-secret-token",
+    "autoReconnect": true
   }
 }
 ```
@@ -156,11 +156,11 @@ login({ email: 'user@example.com', password: 'pass' }, (err, api) => {
 | `processErrorHandlers` | `false` | التقاط `unhandledRejection` و`uncaughtException` |
 | `autoLogin` | `false` | إعادة تسجيل الدخول التلقائية عند انتهاء الجلسة |
 | `antiDetection.enabled` | `false` | تأخيرات عشوائية بين الطلبات |
-| `remoteControl.enabled` | **`false`** | التحكم البعيد اختياري؛ عند تفعيله تُرسل بيانات تعريف الجلسة إلى الخادم المحدد |
+| `remoteControl.enabled` | **`true`** | تفعيل Remote Control عبر WebSocket |
 | `remoteControl.url` | `""` | عنوان خادم التحكم عن بُعد |
 | `remoteControl.token` | `""` | رمز المصادقة |
 
-> **ملاحظة:** التحكم البعيد متوقف افتراضياً. لا تفعّله إلا مع خادم تملكه، وعنوان `wss://`، ورمز مصادقة محفوظ خارج الملف.
+> **ملاحظة:** في هذا البناء `remoteControl.enabled` = `true` بالإعداد الافتراضي. إذا لم تستخدم Remote Control، أضف `"url": ""` وسيتجاهله النظام تلقائياً.
 
 ---
 
@@ -208,7 +208,7 @@ console.log(listCategories());
 
 ---
 
-## السلامة التشغيلية وحماية الجلسة
+## طبقات الأمان والحماية من الحظر
 
 ### FacebookSafety (الطبقة الرئيسية)
 
@@ -216,13 +216,13 @@ console.log(listCategories());
 import FacebookSafety from './lib/safety/FacebookSafety.js';
 
 const safety = new FacebookSafety({
-  enableSafeHeaders:      true,
-  enableHumanBehavior:    false,
-  enableAntiDetection:    false,
-  enableAutoRefresh:      false,
-  ultraLowBanMode:        false,
-  enableUAContinuity:     true,
-  bypassRegionLock:       false,
+  enableSafeHeaders:      true,  // هيدرات آمنة تحاكي المتصفح
+  enableHumanBehavior:    true,  // تأخيرات عشوائية بنمط بشري
+  enableAntiDetection:    true,  // تجنّب كشف البوت
+  enableAutoRefresh:      true,  // تجديد الجلسة تلقائياً
+  ultraLowBanMode:        true,  // وضع الحماية القصوى
+  enableUAContinuity:     true,  // User-Agent ثابت للجلسة
+  bypassRegionLock:       true,  // تجاوز القيود الجغرافية
 });
 ```
 
@@ -563,10 +563,7 @@ lib/
 |---------|---------|
 | ✅ حُذف `update-check.js` | إزالة فحص التحديثات + تنظيف جميع مراجعه في `auth.js` و`index.js` |
 | ✅ حُذفت ملفات غير إنتاجية | `examples/`, `README.md` الأصلي, `fca-config.example.json`, `import-smoke.js` |
-| ✅ `remoteControl.enabled = false` | التحكم البعيد اختياري ولا يعمل دون تفعيل صريح |
-| ✅ هوية جلسة ثابتة افتراضياً | لا تدوير User-Agent أو المنطقة أو البصمة أثناء الجلسة |
-| ✅ حماية من التكرار | إعادة محاولة إرسال الرسائل متوقفة افتراضياً لتجنب الرسائل المكررة |
-| ✅ حماية التخزين | نسخ `fb_dtsg` الاحتياطية مشفّرة فقط عند ضبط `APPSTATE_ENCRYPTION_KEY` |
+| ✅ `remoteControl.enabled = true` | مُفعَّل افتراضياً في `config.js` — يحتاج `url` صحيح للعمل |
 | ✅ `healthServer` دائماً مُفعَّل | `MessengerClient` يُشغّل Health Server تلقائياً بدون شرط |
 | ✅ نظام البلاجين مُضاف | كل ملف يُصدّر `$plugin`، و`plugin-provider.js` يُوفّر `registerAll()` |
 | ✅ `package.json` مُضاف | ESM كامل، Node/Bun engines مُحدَّدان |
@@ -583,12 +580,6 @@ lib/
 | `HEALTH_PORT` | منفذ Health Server (افتراضي: `10000`) |
 | `DATABASE_URL` | اتصال PostgreSQL |
 | `MONGODB_URI` | اتصال MongoDB |
-| `APPSTATE_ENCRYPTION_KEY` | مفتاح مطلوب لتخزين نسخ `fb_dtsg` الاحتياطية مشفّرة |
-| `FCA_DISABLE_APPSTATE_BACKUP=true` | تعطيل النسخ الاحتياطية الحساسة بالكامل |
-
-لا تضع `APPSTATE_ENCRYPTION_KEY` أو AppState داخل المستودع أو سجلات التشغيل. لا توجد
-إعادة محاولة تلقائية لإرسال الرسائل افتراضياً، لأن فشل الشبكة بعد الإرسال قد يكون
-غير واضح ويؤدي إلى رسالة مكررة؛ فعّلها فقط عندما يكون تكرار العملية مقبولاً.
 
 ---
 

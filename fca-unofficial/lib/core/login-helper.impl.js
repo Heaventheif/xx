@@ -16,7 +16,6 @@ import * as Ne from './request.js';
 import * as Te from './thread-info-realtime-sync.js';
 import * as Z from './state.js';
 import * as Ke from '../safety/backup-crypto.js';
-import { extractDtsg } from '../utils/extract-dtsg.js';
 const Me = { default: ve },
   O = { default: be },
   o = { default: Ue };
@@ -551,9 +550,12 @@ function de(n, s, c, a, d, g) {
               const e = y(l),
                 I = await M(e),
                 F =
-                  extractDtsg(e).fb_dtsg,
+                  (0, z.getFrom)(e, '"DTSGInitData",[],{"token":"', '",') ||
+                  e.match(/name="fb_dtsg"\s+value="([^"]+)"/)?.[1],
                 L =
-                  extractDtsg(e).jazoest,
+                  (0, z.getFrom)(e, 'name="jazoest" value="', '"') ||
+                  (0, z.getFrom)(e, 'jazoest=', '",') ||
+                  e.match(/name="jazoest"\s+value="([^"]+)"/)?.[1],
                 x =
                   (0, z.getFrom)(e, '["LSD",[],{"token":"', '"}') ||
                   e.match(/name="lsd"\s+value="([^"]+)"/)?.[1];
@@ -680,9 +682,12 @@ function de(n, s, c, a, d, g) {
                 const P = S(A),
                   ye = await he(P),
                   ke =
-                    extractDtsg(P).fb_dtsg,
+                    (0, z.getFrom)(P, '"DTSGInitData",[],{"token":"', '",') ||
+                    P.match(/name="fb_dtsg"\s+value="([^"]+)"/)?.[1],
                   Ie =
-                    extractDtsg(P).jazoest,
+                    (0, z.getFrom)(P, 'name="jazoest" value="', '"') ||
+                    (0, z.getFrom)(P, 'jazoest=', '",') ||
+                    P.match(/name="jazoest"\s+value="([^"]+)"/)?.[1],
                   De =
                     (0, z.getFrom)(P, '["LSD",[],{"token":"', '"}') ||
                     P.match(/name="lsd"\s+value="([^"]+)"/)?.[1];
@@ -888,8 +893,8 @@ function de(n, s, c, a, d, g) {
         } catch (f) {
           if (f instanceof Error && f.message.includes('Auto-login failed')) throw f;
         }
-        const { fb_dtsg: _dtsgMain } = extractDtsg(i);
-        if (_dtsgMain) l = _dtsgMain;
+        const I = i.match(/DTSGInitialData.*?token":"(.*?)"/);
+        I && (l = I[1]);
         try {
           m && (await qe(u, m));
         } catch {}

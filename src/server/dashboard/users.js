@@ -1,1 +1,125 @@
-'use strict';const a0_0x5a3397=a0_0x3809;(function(_0x59fde7,_0x94e684){const _0x1ec312=a0_0x3809,_0x36ae79=_0x59fde7();while(!![]){try{const _0x2224c2=parseInt(_0x1ec312(0x1a5))/0x1*(-parseInt(_0x1ec312(0x172))/0x2)+-parseInt(_0x1ec312(0x185))/0x3+parseInt(_0x1ec312(0x194))/0x4*(-parseInt(_0x1ec312(0x17c))/0x5)+-parseInt(_0x1ec312(0x173))/0x6*(parseInt(_0x1ec312(0x18c))/0x7)+-parseInt(_0x1ec312(0x16e))/0x8*(-parseInt(_0x1ec312(0x19d))/0x9)+-parseInt(_0x1ec312(0x17f))/0xa+parseInt(_0x1ec312(0x18b))/0xb;if(_0x2224c2===_0x94e684)break;else _0x36ae79['push'](_0x36ae79['shift']());}catch(_0x69fd7f){_0x36ae79['push'](_0x36ae79['shift']());}}}(a0_0x253d,0x5b250));import a0_0xa0830a from'fs-extra';import a0_0x345a30 from'path';import a0_0x1ce36e from'crypto';import{DashboardUserModel}from'../../db/schemas.js';let _usersFilePath=null,_cache=null;function init(_0x45b377){const _0x1346f8=a0_0x3809,_0x39aa6a={'jMngq':_0x1346f8(0x177),'gSSkq':_0x1346f8(0x198),'FZDGP':'[DASHBOARD-USERS]\x20⚠️\x20تعذّرت\x20قراءة\x20dashboardUsers.json:'};_usersFilePath=a0_0x345a30['join'](_0x45b377,_0x39aa6a[_0x1346f8(0x1a2)]),_cache=new Map();try{if(a0_0xa0830a['existsSync'](_usersFilePath)){const _0x3ad71e=JSON[_0x1346f8(0x17b)](a0_0xa0830a[_0x1346f8(0x184)](_usersFilePath,_0x39aa6a['gSSkq']));for(const _0x459756 of Array[_0x1346f8(0x192)](_0x3ad71e)?_0x3ad71e:[]){if(_0x459756?.[_0x1346f8(0x189)])_cache[_0x1346f8(0x179)](String(_0x459756[_0x1346f8(0x189)])[_0x1346f8(0x187)](),_0x459756);}}}catch(_0x59fa0a){console[_0x1346f8(0x16c)](_0x39aa6a[_0x1346f8(0x197)],_0x59fa0a['message']);}}function persist(){const _0x383bfe=a0_0x3809,_0x474e88={'MNbFP':function(_0x19bea0,_0x4d9f67){return _0x19bea0+_0x4d9f67;}};if(!_usersFilePath)return;const _0x3a3909=_0x474e88['MNbFP'](_usersFilePath,_0x383bfe(0x19a));try{a0_0xa0830a['writeFileSync'](_0x3a3909,JSON[_0x383bfe(0x1a3)]([..._cache[_0x383bfe(0x16d)]()],null,0x2),'utf8');try{a0_0xa0830a['chmodSync'](_0x3a3909,0x180);}catch(_0x32c724){}a0_0xa0830a[_0x383bfe(0x175)](_0x3a3909,_usersFilePath);}catch(_0x1efa5d){try{if(a0_0xa0830a['existsSync'](_0x3a3909))a0_0xa0830a[_0x383bfe(0x16a)](_0x3a3909);}catch(_0xaa37fc){}console[_0x383bfe(0x170)](_0x383bfe(0x18f),_0x1efa5d[_0x383bfe(0x176)]);}}function usingMongo(){return!!global['db'];}function escapeRegex(_0x20b23f){const _0x4b7150=a0_0x3809,_0xee8782={'xWdpo':function(_0x45050c,_0x2c0fc9){return _0x45050c(_0x2c0fc9);}};return _0xee8782[_0x4b7150(0x181)](String,_0x20b23f)[_0x4b7150(0x171)](/[.*+?^${}()|[\]\\]/g,'\x5c$&');}function scryptHash(_0x5b4072,_0x542d56){const _0x377636=a0_0x3809,_0x2dd94d={'MGZCF':function(_0x277d89,_0x4f5365){return _0x277d89(_0x4f5365);}};return a0_0x1ce36e[_0x377636(0x1a1)](_0x2dd94d[_0x377636(0x1a4)](String,_0x5b4072),_0x542d56,0x40)['toString'](_0x377636(0x18a));}function a0_0x3809(_0x26a170,_0x5ee3fd){_0x26a170=_0x26a170-0x16a;const _0x253dbd=a0_0x253d();let _0x3809ea=_0x253dbd[_0x26a170];if(a0_0x3809['rsxpLd']===undefined){var _0x525b75=function(_0x1256e){const _0x63eb5='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x219849='',_0x1a1d0a='';for(let _0xf1fd22=0x0,_0x1c89d1,_0x335757,_0x58e245=0x0;_0x335757=_0x1256e['charAt'](_0x58e245++);~_0x335757&&(_0x1c89d1=_0xf1fd22%0x4?_0x1c89d1*0x40+_0x335757:_0x335757,_0xf1fd22++%0x4)?_0x219849+=String['fromCharCode'](0xff&_0x1c89d1>>(-0x2*_0xf1fd22&0x6)):0x0){_0x335757=_0x63eb5['indexOf'](_0x335757);}for(let _0x30ee14=0x0,_0x13c9a4=_0x219849['length'];_0x30ee14<_0x13c9a4;_0x30ee14++){_0x1a1d0a+='%'+('00'+_0x219849['charCodeAt'](_0x30ee14)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x1a1d0a);};a0_0x3809['mZAhQn']=_0x525b75,a0_0x3809['NyzTCK']={},a0_0x3809['rsxpLd']=!![];}const _0x4edfc1=_0x253dbd[0x0];a0_0x3809['KiPFgY']!==_0x4edfc1&&(a0_0x3809['NyzTCK']={},a0_0x3809['KiPFgY']=_0x4edfc1);const _0x585005=a0_0x3809['NyzTCK'][_0x26a170];return _0x585005===undefined?(_0x3809ea=a0_0x3809['mZAhQn'](_0x3809ea),a0_0x3809['NyzTCK'][_0x26a170]=_0x3809ea):_0x3809ea=_0x585005,_0x3809ea;}function validateCredentials(_0x1d768f,_0x4acdb9){const _0x23817f=a0_0x3809,_0xe3be40={'qXlsm':function(_0x2f074c,_0x504e8c){return _0x2f074c(_0x504e8c);},'YijSx':function(_0x56f0de,_0x487079){return _0x56f0de||_0x487079;},'NSxqU':function(_0x28d24c,_0x13e122){return _0x28d24c||_0x13e122;},'bMzzx':function(_0x1470e2,_0x3916df){return _0x1470e2<_0x3916df;},'UmrWJ':_0x23817f(0x17a)},_0x1ad269=_0xe3be40['qXlsm'](String,_0xe3be40[_0x23817f(0x195)](_0x1d768f,''))['trim'](),_0x244de1=String(_0xe3be40[_0x23817f(0x19b)](_0x4acdb9,''));if(!/^[a-zA-Z0-9_\-.]{3,32}$/['test'](_0x1ad269))return _0x23817f(0x18d);if(_0xe3be40['bMzzx'](_0x244de1['length'],0x6))return _0xe3be40[_0x23817f(0x188)];return null;}async function userExists(_0x58522b){const _0x480ed9=a0_0x3809,_0x5b8d9e={'WXsOu':function(_0x36a3d2,_0x27040a){return _0x36a3d2(_0x27040a);},'LPxcr':function(_0x14d59c){return _0x14d59c();}},_0x8ce9bd=_0x5b8d9e[_0x480ed9(0x182)](String,_0x58522b||'')[_0x480ed9(0x187)]();if(_0x5b8d9e[_0x480ed9(0x19c)](usingMongo))try{return!!await DashboardUserModel['exists']({'username':new RegExp('^'+escapeRegex(_0x8ce9bd)+'$','i')});}catch{return _cache['has'](_0x8ce9bd);}return _cache[_0x480ed9(0x186)](_0x8ce9bd);}function userCount(){const _0x1185c4={'lySVy':function(_0x187ed7){return _0x187ed7();}};return _0x1185c4['lySVy'](usingMongo)?null:_cache['size'];}async function createUser(_0x171029,_0x1a6c0f){const _0x45f7f3=a0_0x3809,_0x1126fe={'HXRRy':function(_0x18e4e4,_0x1fcf6e){return _0x18e4e4(_0x1fcf6e);},'hMAci':function(_0x875a6f,_0x482e07,_0x39aa5b){return _0x875a6f(_0x482e07,_0x39aa5b);},'PyBxe':'hex','uTkIK':function(_0x46187f,_0x23bec6,_0x7ff1d9){return _0x46187f(_0x23bec6,_0x7ff1d9);},'AFmXM':function(_0x1bfa53,_0x1aa939){return _0x1bfa53===_0x1aa939;},'qCCgc':'اسم\x20المستخدم\x20مستخدم\x20بالفعل','jGEHU':'تعذّر\x20إنشاء\x20الحساب\x20حالياً\x20—\x20حاول\x20مرة\x20أخرى','iJEUe':function(_0x324cee){return _0x324cee();}},_0x2691fb=_0x1126fe['HXRRy'](String,_0x171029||'')['trim'](),_0x28c540=_0x1126fe['hMAci'](validateCredentials,_0x2691fb,_0x1a6c0f);if(_0x28c540)return{'ok':![],'error':_0x28c540};if(await userExists(_0x2691fb))return{'ok':![],'error':'اسم\x20المستخدم\x20مستخدم\x20بالفعل'};const _0x27ca6c=a0_0x1ce36e[_0x45f7f3(0x180)](0x10)['toString'](_0x1126fe[_0x45f7f3(0x17d)]),_0x37f6c2=_0x1126fe[_0x45f7f3(0x183)](scryptHash,_0x1a6c0f,_0x27ca6c);if(usingMongo())try{return await DashboardUserModel[_0x45f7f3(0x174)]({'username':_0x2691fb,'salt':_0x27ca6c,'hash':_0x37f6c2}),{'ok':!![]};}catch(_0x4b774a){if(_0x1126fe[_0x45f7f3(0x178)](_0x4b774a?.['code'],0x2af8))return{'ok':![],'error':_0x1126fe[_0x45f7f3(0x19f)]};return console['error']('[DASHBOARD-USERS]\x20❌\x20فشل\x20إنشاء\x20الحساب\x20في\x20MongoDB:',_0x4b774a['message']),{'ok':![],'error':_0x1126fe['jGEHU']};}const _0x39b175={'username':_0x2691fb,'salt':_0x27ca6c,'hash':_0x37f6c2,'createdAt':Date['now']()};return _cache['set'](_0x2691fb[_0x45f7f3(0x187)](),_0x39b175),_0x1126fe[_0x45f7f3(0x193)](persist),{'ok':!![]};}async function verifyUser(_0x2c016a,_0x3c206d){const _0x271b9e=a0_0x3809,_0xedb7ec={'bIPFT':function(_0x510166,_0x1c288b){return _0x510166||_0x1c288b;},'RSpRl':_0x271b9e(0x16b)};let _0x348e9f=null;if(usingMongo())try{_0x348e9f=await DashboardUserModel[_0x271b9e(0x196)]({'username':new RegExp('^'+escapeRegex(String(_0xedb7ec[_0x271b9e(0x19e)](_0x2c016a,''))['toLowerCase']())+'$','i')})['lean']();}catch(_0x13e7f7){console[_0x271b9e(0x170)]('[DASHBOARD-USERS]\x20❌\x20فشل\x20الاستعلام\x20من\x20MongoDB:',_0x13e7f7[_0x271b9e(0x176)]);}else _0x348e9f=_cache[_0x271b9e(0x18e)](String(_0x2c016a||'')[_0x271b9e(0x187)]())||null;if(!_0x348e9f)return{'ok':![],'error':_0x271b9e(0x16b)};const _0x258342=scryptHash(_0x3c206d,_0x348e9f['salt']),_0x100267=Buffer['from'](_0x258342,'hex'),_0x3bfe7a=Buffer[_0x271b9e(0x199)](_0x348e9f['hash'],_0x271b9e(0x18a)),_0x564e15=_0x100267['length']===_0x3bfe7a['length']&&a0_0x1ce36e[_0x271b9e(0x17e)](_0x100267,_0x3bfe7a);if(!_0x564e15)return{'ok':![],'error':_0xedb7ec[_0x271b9e(0x16f)]};return{'ok':!![],'username':_0x348e9f['username']};}export{init,userExists,userCount,createUser,verifyUser};function a0_0x253d(){const _0x758e0b=['zxjYB3i','CMvWBgfJzq','ntuYntrWufHcBLO','mtK0nZG0CgniuxLJ','y3jLyxrL','CMvUyw1Lu3LUyW','BwvZC2fNzq','zgfZAgjVyxjKvxnLCNmUANnVBG','quzTwe0','C2v0','2ypzHnMf2kKG2kFzHnMf2lhzInIXinMk2kZyQcdyO9MginIQ2ypzInMgidyG2kpyRDIX2yeG2lNzHnMjinIN2ytyO9Mc2yq','CgfYC2u','nwjjDNrPBW','uhLcEgu','DgLTAw5Nu2fMzuvXDwfS','ndC2nJKXmgTItK95vq','CMfUzg9TqNL0zxm','EfDKCg8','v1HZt3u','DvrRsuS','CMvHzezPBgvtEw5J','nteWmdG3AML2r1zR','AgfZ','Dg9mB3DLCKnHC2u','vw1Yv0O','DxnLCM5HBwu','Agv4','mJy4ntm0ndjmExDAEhy','otHxqKPUwuy','2kFyS9MfinIN2ytzHDIZ2kRyRTIV2yuG2yRyRnIOinIJ2yyG2yRzG9Mi2yyGmY0ZmIdyRDIX2yhyP9MlicJyO9IT2lhzGs/yO9IX2ylyP9Mfl18GlsaUinMb2ylyTYK','z2v0','w0rbu0Hct0fsrc1vu0vsu10G4P2minMb2ltzHcdyRDMb2lGGzgfZAgjVyxjKvxnLCNmUANnVBJO','EhGTC2vYDMvYlwrHC2HIB2fYzc11C2vYCW','C2vYDMvYlwrHC2HIB2fYza','AxnbCNjHEq','AuPfvwu','mJC4otGYohHSq2PYEG','wwLQu3G','zMLUze9Uzq','rLPer1a','DxrMoa','zNjVBq','lNrTCa','tLn4Cvu','tfb4y3i','mZzgr21btvi','yKLqrLq','Cundz2m','C3jJl3nLCNzLCI9KyxnOyM9HCMqVDxnLCNmUANm','C2nYExb0u3LUyW','AK1Uz3e','C3rYAw5NAwz5','tuDAq0y','mtf3wNjvBgC','Dw5SAw5Ru3LUyW','2kJzITIN2yByP9IQinIN2ytyR9IU2yJzHcdyUTMk2leG2lxyRDMk2k3yQq','D2fYBG','DMfSDwvZ','nJKZntjWswPJuKu','uLnWuMW'];a0_0x253d=function(){return _0x758e0b;};return a0_0x253d();}export const $plugin={'name':a0_0x5a3397(0x190),'meta':{'category':a0_0x5a3397(0x191),'path':a0_0x5a3397(0x1a0)},'setup'(_0x111021){}};
+"use strict";
+import fs from "fs-extra";
+import path from "path";
+import crypto from "crypto";
+import { DashboardUserModel } from "../../db/schemas.js";
+let _usersFilePath = null;
+let _cache = null; 
+function init(projectRoot) {
+  _usersFilePath = path.join(projectRoot, "dashboardUsers.json");
+  _cache = new Map();
+  try {
+    if (fs.existsSync(_usersFilePath)) {
+      const raw = JSON.parse(fs.readFileSync(_usersFilePath, "utf8"));
+      for (const u of Array.isArray(raw) ? raw : []) {
+        if (u?.username) _cache.set(String(u.username).toLowerCase(), u);
+      }
+    }
+  } catch (e) {
+    console.warn("[DASHBOARD-USERS] ⚠️ تعذّرت قراءة dashboardUsers.json:", e.message);
+  }
+}
+function persist() {
+  if (!_usersFilePath) return;
+  const tmpPath = _usersFilePath + ".tmp";
+  try {
+    fs.writeFileSync(tmpPath, JSON.stringify([..._cache.values()], null, 2), "utf8");
+    try { fs.chmodSync(tmpPath, 0o600); } catch (_) {}
+    fs.renameSync(tmpPath, _usersFilePath);
+  } catch (e) {
+    try { if (fs.existsSync(tmpPath)) fs.unlinkSync(tmpPath); } catch (_) {}
+    console.error("[DASHBOARD-USERS] ❌ فشل حفظ dashboardUsers.json:", e.message);
+  }
+}
+function usingMongo() {
+  return !!global.db;
+}
+// يهرب الأحرف الخاصة بالـ RegExp حتى لا يتحول اسم المستخدم (مثل "ali.x") إلى
+// نمط بحث يطابق أسماء أخرى («.» تطابق أي حرف) — ثغرة حقن Regex بسيطة.
+function escapeRegex(str) {
+  return String(str).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+function scryptHash(password, salt) {
+  return crypto.scryptSync(String(password), salt, 64).toString("hex");
+}
+function validateCredentials(username, password) {
+  const name = String(username || "").trim();
+  const pass = String(password || "");
+  if (!/^[a-zA-Z0-9_\-.]{3,32}$/.test(name)) {
+    return "اسم المستخدم يجب أن يكون 3-32 حرفاً (أحرف/أرقام/_ - . فقط)";
+  }
+  if (pass.length < 6) {
+    return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+  }
+  return null;
+}
+async function userExists(username) {
+  const name = String(username || "").toLowerCase();
+  if (usingMongo()) {
+    try {
+      return !!(await DashboardUserModel.exists({ username: new RegExp(`^${escapeRegex(name)}$`, "i") }));
+    } catch {
+      return _cache.has(name); 
+    }
+  }
+  return _cache.has(name);
+}
+function userCount() {
+  return usingMongo() ? null : _cache.size; 
+}
+async function createUser(username, password) {
+  const name = String(username || "").trim();
+  const err = validateCredentials(name, password);
+  if (err) return { ok: false, error: err };
+  if (await userExists(name)) {
+    return { ok: false, error: "اسم المستخدم مستخدم بالفعل" };
+  }
+  const salt = crypto.randomBytes(16).toString("hex");
+  const hash = scryptHash(password, salt);
+  if (usingMongo()) {
+    try {
+      await DashboardUserModel.create({ username: name, salt, hash });
+      return { ok: true };
+    } catch (e) {
+      if (e?.code === 11000) return { ok: false, error: "اسم المستخدم مستخدم بالفعل" };
+      console.error("[DASHBOARD-USERS] ❌ فشل إنشاء الحساب في MongoDB:", e.message);
+      return { ok: false, error: "تعذّر إنشاء الحساب حالياً — حاول مرة أخرى" };
+    }
+  }
+  const record = { username: name, salt, hash, createdAt: Date.now() };
+  _cache.set(name.toLowerCase(), record);
+  persist();
+  return { ok: true };
+}
+async function verifyUser(username, password) {
+  let record = null;
+  if (usingMongo()) {
+    try {
+      record = await DashboardUserModel.findOne({
+        username: new RegExp(`^${escapeRegex(String(username || "").toLowerCase())}$`, "i"),
+      }).lean();
+    } catch (e) {
+      console.error("[DASHBOARD-USERS] ❌ فشل الاستعلام من MongoDB:", e.message);
+    }
+  } else {
+    record = _cache.get(String(username || "").toLowerCase()) || null;
+  }
+  if (!record) return { ok: false, error: "بيانات الدخول غير صحيحة" };
+  const candidateHash = scryptHash(password, record.salt);
+  const a = Buffer.from(candidateHash, "hex");
+  const b = Buffer.from(record.hash, "hex");
+  const matches = a.length === b.length && crypto.timingSafeEqual(a, b);
+  if (!matches) return { ok: false, error: "بيانات الدخول غير صحيحة" };
+  return { ok: true, username: record.username };
+}
+export { init, userExists, userCount, createUser, verifyUser };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-server-dashboard-users',
+  meta: { category: 'server-dashboard', path: 'src/server/dashboard/users.js' },
+  setup(_ctx) {
+    // provides: createUser, init, userCount, userExists, verifyUser
+  },
+};

@@ -1,1 +1,127 @@
-'use strict';function a0_0x325d(_0x5a68d3,_0x1947b9){_0x5a68d3=_0x5a68d3-0xf1;const _0x597537=a0_0x5975();let _0x325d60=_0x597537[_0x5a68d3];if(a0_0x325d['MYAWLs']===undefined){var _0x256679=function(_0x4cd94d){const _0x483f92='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4628f0='',_0x4192a6='';for(let _0x2ecbcf=0x0,_0x3d4625,_0x53bfcf,_0x3965cb=0x0;_0x53bfcf=_0x4cd94d['charAt'](_0x3965cb++);~_0x53bfcf&&(_0x3d4625=_0x2ecbcf%0x4?_0x3d4625*0x40+_0x53bfcf:_0x53bfcf,_0x2ecbcf++%0x4)?_0x4628f0+=String['fromCharCode'](0xff&_0x3d4625>>(-0x2*_0x2ecbcf&0x6)):0x0){_0x53bfcf=_0x483f92['indexOf'](_0x53bfcf);}for(let _0xee164b=0x0,_0x2f6e78=_0x4628f0['length'];_0xee164b<_0x2f6e78;_0xee164b++){_0x4192a6+='%'+('00'+_0x4628f0['charCodeAt'](_0xee164b)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x4192a6);};a0_0x325d['dIgUxF']=_0x256679,a0_0x325d['nFYTnu']={},a0_0x325d['MYAWLs']=!![];}const _0x44144e=_0x597537[0x0];a0_0x325d['TganYG']!==_0x44144e&&(a0_0x325d['nFYTnu']={},a0_0x325d['TganYG']=_0x44144e);const _0x209338=a0_0x325d['nFYTnu'][_0x5a68d3];return _0x209338===undefined?(_0x325d60=a0_0x325d['dIgUxF'](_0x325d60),a0_0x325d['nFYTnu'][_0x5a68d3]=_0x325d60):_0x325d60=_0x209338,_0x325d60;}const a0_0xf9a7c4=a0_0x325d;(function(_0x423912,_0x985993){const _0x77a373=a0_0x325d,_0x21e74d=_0x423912();while(!![]){try{const _0x531381=parseInt(_0x77a373(0x10d))/0x1+-parseInt(_0x77a373(0x11a))/0x2*(-parseInt(_0x77a373(0x102))/0x3)+-parseInt(_0x77a373(0x117))/0x4*(-parseInt(_0x77a373(0x125))/0x5)+parseInt(_0x77a373(0x108))/0x6+parseInt(_0x77a373(0x12b))/0x7*(parseInt(_0x77a373(0x123))/0x8)+-parseInt(_0x77a373(0x12c))/0x9+-parseInt(_0x77a373(0x11c))/0xa;if(_0x531381===_0x985993)break;else _0x21e74d['push'](_0x21e74d['shift']());}catch(_0x20be6e){_0x21e74d['push'](_0x21e74d['shift']());}}}(a0_0x5975,0xf092c));import a0_0x428578 from'fs-extra';import a0_0x38c64d from'path';import{pathToFileURL}from'url';const HANDLER_KEYS=[a0_0xf9a7c4(0x11f),a0_0xf9a7c4(0xf6),a0_0xf9a7c4(0x119),'main','handle',a0_0xf9a7c4(0x103),a0_0xf9a7c4(0x101),a0_0xf9a7c4(0x100)];function resolveModule(_0x548d65,_0x5f3662){const _0x3f2442=a0_0xf9a7c4,_0x15c086={'UjrDp':_0x3f2442(0x126),'YWoJd':function(_0x23aa2b,_0x511cdd){return _0x23aa2b===_0x511cdd;},'pUgls':function(_0x224505,_0x39a736){return _0x224505&&_0x39a736;},'BBcqk':_0x3f2442(0x10a)},_0x107c17=_0x548d65[_0x3f2442(0x106)]&&typeof _0x548d65[_0x3f2442(0x106)]===_0x15c086[_0x3f2442(0xf3)]?_0x548d65['default']:typeof _0x548d65[_0x3f2442(0x106)]==='function'?_0x548d65['default']:_0x548d65;if(_0x15c086[_0x3f2442(0x12d)](typeof _0x107c17,'function')){const _0x596826=a0_0x38c64d[_0x3f2442(0x12f)](_0x5f3662,'.js')[_0x3f2442(0x137)]();return{'name':_0x596826,'mod':{'run':_0x107c17},'handler':_0x107c17,'onChat':null,'onReply':null};}const _0x506ecb=HANDLER_KEYS['find'](_0x178abc=>typeof _0x107c17[_0x178abc]===_0x3f2442(0x131)),_0x52b1ca=!_0x506ecb?HANDLER_KEYS['find'](_0x6d9a99=>typeof _0x548d65[_0x6d9a99]===_0x3f2442(0x131)):null;if(_0x15c086['pUgls'](!_0x506ecb,!_0x52b1ca)&&!_0x107c17['onChat']&&!_0x548d65[_0x3f2442(0x114)])return null;const _0x5e81e7=_0x52b1ca?{..._0x548d65,..._0x107c17}:_0x107c17,_0x421dc0=_0x5e81e7[_0x3f2442(0x132)]?.['name']||a0_0x38c64d[_0x3f2442(0x12f)](_0x5f3662,_0x15c086['BBcqk']),_0x432e2e=String(_0x421dc0)[_0x3f2442(0x137)]();return{'name':_0x432e2e,'mod':_0x5e81e7,'handler':_0x5e81e7[_0x506ecb||_0x52b1ca]||null,'onChat':_0x5e81e7[_0x3f2442(0x114)]||_0x548d65[_0x3f2442(0x114)]||null,'onReply':_0x5e81e7[_0x3f2442(0x121)]||_0x548d65[_0x3f2442(0x121)]||null};}function collectCommandFiles(_0x5a6a20){const _0x5ae3c0=a0_0xf9a7c4,_0x2afce4=[];if(!a0_0x428578['existsSync'](_0x5a6a20))return _0x2afce4;for(const _0x5a2cad of a0_0x428578['readdirSync'](_0x5a6a20)){const _0x8f1ccd=a0_0x38c64d['join'](_0x5a6a20,_0x5a2cad);if(!a0_0x428578['statSync'](_0x8f1ccd)[_0x5ae3c0(0xfd)]())continue;for(const _0x15a0cf of a0_0x428578[_0x5ae3c0(0xf5)](_0x8f1ccd)){if(_0x15a0cf[_0x5ae3c0(0x115)](_0x5ae3c0(0x10a)))_0x2afce4[_0x5ae3c0(0xfc)](a0_0x38c64d[_0x5ae3c0(0x10e)](_0x8f1ccd,_0x15a0cf));}}return _0x2afce4;}function loadOverrides(_0x4be97c){const _0x3d395e=a0_0xf9a7c4,_0x2fe0ae={'NqhZo':'cmd-overrides.json','xSRRL':_0x3d395e(0xf4)},_0x281681=a0_0x38c64d[_0x3d395e(0x10e)](_0x4be97c,'..','..',_0x2fe0ae[_0x3d395e(0x135)]);global[_0x3d395e(0x107)]=a0_0x38c64d[_0x3d395e(0x10b)](_0x281681);try{if(a0_0x428578[_0x3d395e(0xf2)](_0x281681))return JSON['parse'](a0_0x428578['readFileSync'](_0x281681,_0x2fe0ae[_0x3d395e(0x12a)]));}catch(_0x414438){}return{};}export async function loadCommands(_0x9e3f36){const _0x228bef=a0_0xf9a7c4,_0x2b396f={'ZROnv':function(_0x24bbd6,_0x10dcb7){return _0x24bbd6(_0x10dcb7);},'NydbV':function(_0x5462e1,_0x2ec9c5){return _0x5462e1===_0x2ec9c5;},'vMGkD':_0x228bef(0x122)},_0x38bce9=_0x2b396f[_0x228bef(0xf1)](loadOverrides,_0x9e3f36),_0x34532b=[],_0x17b0fa=_0x2b396f[_0x228bef(0xf1)](collectCommandFiles,_0x9e3f36),_0x22677b=Date[_0x228bef(0x134)]();console[_0x228bef(0x105)]('[CMDS]\x20📦\x20بدء\x20تحميل\x20'+_0x17b0fa[_0x228bef(0x127)]+_0x228bef(0x110));const _0x35028c=await Promise[_0x228bef(0x113)](_0x17b0fa[_0x228bef(0x10f)](_0x2d8187=>import(pathToFileURL(_0x2d8187)[_0x228bef(0x12e)]+_0x228bef(0x109)+_0x22677b))),_0x19fd66=new Map(),_0x33ad0f=[];for(let _0x5557dd=0x0;_0x5557dd<_0x17b0fa['length'];_0x5557dd++){const _0x20ba2a=_0x17b0fa[_0x5557dd],_0x897633=a0_0x38c64d['basename'](_0x20ba2a),_0x15e236=_0x35028c[_0x5557dd];if(_0x15e236[_0x228bef(0xff)]===_0x228bef(0x11b)){console[_0x228bef(0x120)](_0x228bef(0x129)+_0x897633+'\x20❌\x20'+_0x15e236['reason']?.[_0x228bef(0x130)]),_0x34532b[_0x228bef(0xfc)]({'file':_0x897633,'message':_0x15e236[_0x228bef(0xfb)]?.[_0x228bef(0x130)]});continue;}try{const _0x4a968f=resolveModule(_0x15e236[_0x228bef(0x118)],_0x897633);if(!_0x4a968f){console[_0x228bef(0x105)]('[CMDS]\x20\x20\x20↳\x20'+_0x897633+_0x228bef(0x112));continue;}const {name:_0x562b2c,mod:_0x32ec4b,onChat:_0x29adf6,onReply:_0x4ee38a}=_0x4a968f;if(!_0x32ec4b[_0x228bef(0x132)])_0x32ec4b[_0x228bef(0x132)]={};const _0x145f06=_0x38bce9[_0x562b2c];if(_0x145f06){if(_0x2b396f[_0x228bef(0x128)](typeof _0x145f06['enabled'],_0x2b396f['vMGkD']))_0x32ec4b[_0x228bef(0x132)][_0x228bef(0x136)]=_0x145f06[_0x228bef(0x136)];if(typeof _0x145f06[_0x228bef(0x111)]==='boolean')_0x32ec4b[_0x228bef(0x132)][_0x228bef(0x111)]=_0x145f06[_0x228bef(0x111)];}_0x19fd66['set'](_0x562b2c,_0x32ec4b),(_0x32ec4b['config']?.[_0x228bef(0x10c)]||[])[_0x228bef(0xf7)](_0x24679f=>_0x19fd66['set'](String(_0x24679f)['toLowerCase'](),_0x32ec4b));if(_0x4ee38a){if(!_0x32ec4b['onReply'])_0x32ec4b['onReply']=_0x4ee38a;}if(_0x29adf6){if(!_0x32ec4b[_0x228bef(0x114)])_0x32ec4b[_0x228bef(0x114)]=_0x29adf6;_0x33ad0f['push'](_0x32ec4b);}console['log'](_0x228bef(0x129)+_0x897633+_0x228bef(0xf8)+_0x562b2c+')');}catch(_0x280b72){console[_0x228bef(0x120)](_0x228bef(0x129)+_0x897633+_0x228bef(0xf9)+_0x280b72['message']),_0x34532b[_0x228bef(0xfc)]({'file':_0x897633,'message':_0x280b72[_0x228bef(0x130)]});}}global['commands']['clear']();for(const [_0x24c3bd,_0x13d791]of _0x19fd66)global[_0x228bef(0x116)][_0x228bef(0xfa)](_0x24c3bd,_0x13d791);return global['eventCommands']=_0x33ad0f,console['log'](_0x228bef(0x11e)+global['commands']['size']+_0x228bef(0x11d)+_0x17b0fa[_0x228bef(0x127)]+_0x228bef(0x104)),_0x34532b;}export{HANDLER_KEYS};export const $plugin={'name':a0_0xf9a7c4(0x133),'meta':{'category':a0_0xf9a7c4(0x124),'path':a0_0xf9a7c4(0xfe)},'setup'(_0x2f03a9){}};function a0_0x5975(){const _0x3e0416=['Dg9mB3DLCKnHC2u','wLjpBNy','zxHPC3rZu3LUyW','vwPYrha','DxrMoa','CMvHzgrPCLn5BMm','CNvU','zM9YrwfJAa','iokCHsaO','iokDJca','C2v0','CMvHC29U','ChvZAa','AxneAxjLy3rVCNK','C3jJl2nVCMuVtg9HzgvYlMPZ','C3rHDhvZ','y2fSBa','Aw5PDa','m0zhuKTOEG','B25nzxnZywDL','inMf2ytzGq','Bg9N','zgvMyxvSDa','y21Kt3zLCNjPzgvZugf0Aa','nJy0mduWmgXIA1j5ra','p3vWzgf0zt0','lMPZ','CMvZB2X2zq','ywXPyxnLCW','mtC4odCXnhbwCuPpsW','AM9PBG','BwfW','inMf2ytzGsaO2yxyQTMi2kFySTMkks4UlG','AgLKzgvU','iokpRE+4JW','ywXSu2v0DgXLza','B25dAgf0','zw5KC1DPDgG','y29TBwfUzhm','mteYngDuyK5zta','DMfSDwu','zxHLy3v0zq','nZKYnZu0EMXkqLH6','CMvQzwn0zwq','mZmZnJq0odbkvuzgtg0','inIJ2yxySsdzHDMginIJ2lxzHca','w0LorK9DinIQ2yuG2kRyRDMf2yRzHca','B25tDgfYDa','D2fYBG','B25szxbSEq','yM9VBgvHBG','odbmvg5lC1q','y29Yzq','mZe4nxfUEKjzCG','B2jQzwn0','BgvUz3rO','tNLKyLy','w0nnrfnDicaG4OAZia','EfnsuKW','odC5otC3DfP5zxLV','mZy1ntaWohfszfjvBq','wvDVsMq','AhjLzG','yMfZzw5HBwu','BwvZC2fNzq','zNvUy3rPB24','y29UzMLN','EhGTy29Yzs1SB2fKzxi','BM93','tNfOwM8','zw5HyMXLza'];a0_0x5975=function(){return _0x3e0416;};return a0_0x5975();}
+"use strict";
+import fs from "fs-extra";
+import path from "path";
+import { pathToFileURL } from "url";
+
+const HANDLER_KEYS = ["onStart", "run", "execute", "main", "handle", "onMessage", "init", "call"];
+
+function resolveModule(raw, file) {
+  const mod = (raw.default && typeof raw.default === "object") ? raw.default
+    : (typeof raw.default === "function")                       ? raw.default
+    : raw;
+  if (typeof mod === "function") {
+    const name = path.basename(file, ".js").toLowerCase();
+    return { name, mod: { run: mod }, handler: mod, onChat: null, onReply: null };
+  }
+  const handlerKey   = HANDLER_KEYS.find(k => typeof mod[k] === "function");
+  const namedHandler = !handlerKey ? HANDLER_KEYS.find(k => typeof raw[k] === "function") : null;
+  if (!handlerKey && !namedHandler && !mod.onChat && !raw.onChat) return null;
+  const resolved = namedHandler ? { ...raw, ...mod } : mod;
+  const rawName  = resolved.config?.name || path.basename(file, ".js");
+  const name     = String(rawName).toLowerCase();
+  return {
+    name,
+    mod:     resolved,
+    handler: resolved[handlerKey || namedHandler] || null,
+    onChat:  resolved.onChat  || raw.onChat  || null,
+    onReply: resolved.onReply || raw.onReply || null,
+  };
+}
+
+function collectCommandFiles(commandsDir) {
+  const out = [];
+  if (!fs.existsSync(commandsDir)) return out;
+  for (const category of fs.readdirSync(commandsDir)) {
+    const catDir = path.join(commandsDir, category);
+    if (!fs.statSync(catDir).isDirectory()) continue;
+    for (const file of fs.readdirSync(catDir)) {
+      if (file.endsWith(".js")) out.push(path.join(catDir, file));
+    }
+  }
+  return out;
+}
+
+function loadOverrides(commandsDir) {
+  const overridesPath = path.join(commandsDir, "..", "..", "cmd-overrides.json");
+  global.cmdOverridesPath = path.resolve(overridesPath);
+  try {
+    if (fs.existsSync(overridesPath)) {
+      return JSON.parse(fs.readFileSync(overridesPath, "utf8"));
+    }
+  } catch (_) {}
+  return {};
+}
+
+export async function loadCommands(commandsDir) {
+  const overrides  = loadOverrides(commandsDir);
+  const fileErrors = [];
+  const filePaths  = collectCommandFiles(commandsDir);
+  const stamp      = Date.now();
+
+  console.log(`[CMDS] 📦 بدء تحميل ${filePaths.length} ملف (متوازي)...`);
+
+  const results = await Promise.allSettled(
+    filePaths.map(p => import(`${pathToFileURL(p).href}?update=${stamp}`))
+  );
+
+  // نبني الخرائط الجديدة في الذاكرة أولاً ثم نُبدّلها دفعةً واحدة (atomic swap)
+  // هذا يمنع نافذة الفراغ التي تحدث عند clear() ثم الانتظار حتى إعادة التحميل
+  const newCommands     = new Map();
+  const newEventCmds    = [];
+
+  for (let i = 0; i < filePaths.length; i++) {
+    const p      = filePaths[i];
+    const file   = path.basename(p);
+    const result = results[i];
+
+    if (result.status === "rejected") {
+      console.warn(`[CMDS]   ↳ ${file} ❌ ${result.reason?.message}`);
+      fileErrors.push({ file, message: result.reason?.message });
+      continue;
+    }
+
+    try {
+      const resolved = resolveModule(result.value, file);
+      if (!resolved) { console.log(`[CMDS]   ↳ ${file} ⏭️`); continue; }
+
+      const { name, mod, onChat, onReply } = resolved;
+      if (!mod.config) mod.config = {};
+
+      const ov = overrides[name];
+      if (ov) {
+        if (typeof ov.enabled === "boolean") mod.config.enabled = ov.enabled;
+        if (typeof ov.hidden  === "boolean") mod.config.hidden  = ov.hidden;
+      }
+
+      newCommands.set(name, mod);
+      (mod.config?.aliases || []).forEach(a => newCommands.set(String(a).toLowerCase(), mod));
+
+      if (onReply) { if (!mod.onReply) mod.onReply = onReply; }
+      if (onChat)  { if (!mod.onChat)  mod.onChat  = onChat;  newEventCmds.push(mod); }
+
+      console.log(`[CMDS]   ↳ ${file} ✅ (${name})`);
+    } catch (err) {
+      console.warn(`[CMDS]   ↳ ${file} ❌ ${err.message}`);
+      fileErrors.push({ file, message: err.message });
+    }
+  }
+
+  // تبديل ذري: الرسائل الواردة أثناء التحميل تجد global.commands كاملاً دائماً
+  global.commands.clear();
+  for (const [k, v] of newCommands) global.commands.set(k, v);
+  global.eventCommands = newEventCmds;
+
+  console.log(`[INFO] تم تحميل ${global.commands.size} أمر من أصل ${filePaths.length} ملف`);
+  return fileErrors;
+}
+
+export { HANDLER_KEYS };
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-core-loader',
+  meta: { category: 'core', path: 'src/core/Loader.js' },
+  setup(_ctx) {
+    // provides: HANDLER_KEYS, loadCommands
+  },
+};

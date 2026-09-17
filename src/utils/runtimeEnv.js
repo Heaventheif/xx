@@ -1,1 +1,63 @@
-'use strict';function a0_0x37aa(){const _0x239f3e=['w1jfrefdvevexq','odm4odG1BNvqq3jq','B2jQzwn0','mJC4mhL2BxrPtq','AgnOz24','mtu5mM1NDePkrG','DMfSDwu','mte4ody1uuzZzvnW','w0jvr11B','BuXOuem','sMfbB0q','BgvUz3rO','zNjVBuvUDhjPzxm','swLeBLu','DMjwvem','nJK0odi3mujADMrhwa','mJm2mZi4v05Iufv6','qvbqu1rbveuGAxmGBwLZC2LUzZSGChjVDMLKzsbHihzHBgLKiePtt04Gy29VA2LLigfYCMf5lG','qvbqu1rbveu','nMXbvM1kwG','CgfYC2u','BMfTzq','Dg9ju09tDhjPBMC','C2XPy2u','odu0nZK2vNniyK1z','Be5AzKi','vxbKyxrLzcbbufbtvefursbPBIbTzw1VCNK','vxbKyxrLzcbbufbtvefursbTDxn0igjLigeGBM9UlwvTChr5igfYCMf5lG','uu5OrMS','qvbqu1rbveuGy29VA2LLia','qvrSEgi','DhjPBq','BeHkEw0','nZjHvfbuBe8','BwfW','sw52ywXPzcbbufbtvefursbku09ooIa','rgv2Ae0','AxnbCNjHEq','mJq1nZLVrLPHuMW','D2fYBG','sevTD24','mtKZnJjKyxrivwu'];a0_0x37aa=function(){return _0x239f3e;};return a0_0x37aa();}(function(_0x4f00df,_0x415790){const _0x2e8de1=a0_0x3f88,_0x4e29b7=_0x4f00df();while(!![]){try{const _0x33132a=parseInt(_0x2e8de1(0xc5))/0x1+parseInt(_0x2e8de1(0xad))/0x2*(-parseInt(_0x2e8de1(0xaa))/0x3)+-parseInt(_0x2e8de1(0xb2))/0x4+parseInt(_0x2e8de1(0xa1))/0x5*(-parseInt(_0x2e8de1(0xbb))/0x6)+parseInt(_0x2e8de1(0xc3))/0x7*(parseInt(_0x2e8de1(0xc9))/0x8)+parseInt(_0x2e8de1(0xc0))/0x9*(-parseInt(_0x2e8de1(0xc7))/0xa)+parseInt(_0x2e8de1(0xa9))/0xb;if(_0x33132a===_0x415790)break;else _0x4e29b7['push'](_0x4e29b7['shift']());}catch(_0x4bf1b5){_0x4e29b7['push'](_0x4e29b7['shift']());}}}(a0_0x37aa,0x8087b));function a0_0x3f88(_0x5e2667,_0x4250d2){_0x5e2667=_0x5e2667-0xa1;const _0x37aa38=a0_0x37aa();let _0x3f88dc=_0x37aa38[_0x5e2667];if(a0_0x3f88['GRoczr']===undefined){var _0x290325=function(_0x25e7a2){const _0x46c1d1='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x48768f='',_0x4fe65c='';for(let _0x315387=0x0,_0x25bfe9,_0x3ee28c,_0x259eb2=0x0;_0x3ee28c=_0x25e7a2['charAt'](_0x259eb2++);~_0x3ee28c&&(_0x25bfe9=_0x315387%0x4?_0x25bfe9*0x40+_0x3ee28c:_0x3ee28c,_0x315387++%0x4)?_0x48768f+=String['fromCharCode'](0xff&_0x25bfe9>>(-0x2*_0x315387&0x6)):0x0){_0x3ee28c=_0x46c1d1['indexOf'](_0x3ee28c);}for(let _0x52ec79=0x0,_0x54a462=_0x48768f['length'];_0x52ec79<_0x54a462;_0x52ec79++){_0x4fe65c+='%'+('00'+_0x48768f['charCodeAt'](_0x52ec79)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x4fe65c);};a0_0x3f88['VcUrId']=_0x290325,a0_0x3f88['fqIZqL']={},a0_0x3f88['GRoczr']=!![];}const _0x4580f5=_0x37aa38[0x0];a0_0x3f88['LAlpXi']!==_0x4580f5&&(a0_0x3f88['fqIZqL']={},a0_0x3f88['LAlpXi']=_0x4580f5);const _0x118ddd=a0_0x3f88['fqIZqL'][_0x5e2667];return _0x118ddd===undefined?(_0x3f88dc=a0_0x3f88['VcUrId'](_0x3f88dc),a0_0x3f88['fqIZqL'][_0x5e2667]=_0x3f88dc):_0x3f88dc=_0x118ddd,_0x3f88dc;}const SECRET_KEYS=/^(appstate|cookie|token|authorization|password|secret|api[_-]?key|database_url|mongo_uri)$/i;function isDevEnabled(){const _0x318211=a0_0x3f88,_0x33b01d={'lHJym':function(_0x216c2f,_0x19ec04){return _0x216c2f(_0x19ec04);}};return _0x33b01d[_0x318211(0xba)](String,process.env.DEV||'')[_0x318211(0xb9)]()['toLowerCase']()==='on';}function redact(_0x3f6276,_0xa09ab6=''){const _0x2bf1c4=a0_0x3f88,_0x394a48={'hchgn':function(_0x1bea0e,_0x48de8b){return _0x1bea0e(_0x48de8b);},'vbVTC':_0x2bf1c4(0xc4),'IiDnU':function(_0x4da5d2,_0x3d74c5){return _0x4da5d2 instanceof _0x3d74c5;}};if(SECRET_KEYS['test'](_0x394a48[_0x2bf1c4(0xc8)](String,_0xa09ab6)))return _0x394a48[_0x2bf1c4(0xa8)];if(_0x394a48[_0x2bf1c4(0xa7)](_0x3f6276,Error))return{'name':_0x3f6276[_0x2bf1c4(0xaf)],'message':_0x3f6276['message']};if(Array['isArray'](_0x3f6276))return _0x3f6276[_0x2bf1c4(0xb1)](0x0,0x32)[_0x2bf1c4(0xbc)](_0x4f7c7f=>redact(_0x4f7c7f));if(_0x3f6276&&typeof _0x3f6276==='object')return Object[_0x2bf1c4(0xa6)](Object['entries'](_0x3f6276)[_0x2bf1c4(0xb1)](0x0,0x32)[_0x2bf1c4(0xbc)](([_0xa2443d,_0x5d3820])=>[_0xa2443d,redact(_0x5d3820,_0xa2443d)]));if(typeof _0x3f6276==='string'&&_0x3f6276[_0x2bf1c4(0xa5)]>0x3e8)return _0x3f6276[_0x2bf1c4(0xb1)](0x0,0x3e8)+'…[truncated]';return _0x3f6276;}export function bugLog(_0x18ff5f,_0x4cbc14,_0xaed951){const _0x1c60c2=a0_0x3f88;if(!isDevEnabled())return;const _0x40e34b=_0xaed951===undefined?'':'\x20'+JSON['stringify'](redact(_0xaed951));console['error'](_0x1c60c2(0xa2)+new Date()[_0x1c60c2(0xb0)]()+']['+_0x18ff5f+']\x20'+String(_0x4cbc14)+_0x40e34b);}export function readAppStateFromEnv({required:required=![]}={}){const _0x4cd64d=a0_0x3f88,_0x127d49={'mLhPC':function(_0x277b80,_0x1498ea){return _0x277b80!==_0x1498ea;},'lNZfB':function(_0x155c64,_0x3520b6){return _0x155c64===_0x3520b6;},'JaAoD':function(_0x53ad3a,_0x3e6e2d,_0x4a60c8){return _0x53ad3a(_0x3e6e2d,_0x4a60c8);},'DevhM':'APPSTATE','KLaTV':'APPSTATE\x20must\x20be\x20a\x20non-empty\x20JSON\x20array.','QNhFk':function(_0x520ade,_0x194708,_0x3cac0b,_0xd1ce56){return _0x520ade(_0x194708,_0x3cac0b,_0xd1ce56);}},_0x5ebead=process.env.APPSTATE;if(_0x5ebead==null||_0x127d49[_0x4cd64d(0xb3)](_0x5ebead[_0x4cd64d(0xb9)](),'')){const _0x1f313d=_0x4cd64d(0xab);if(required)throw new Error(_0x1f313d);return _0x127d49[_0x4cd64d(0xa4)](bugLog,_0x127d49[_0x4cd64d(0xbe)],_0x1f313d),null;}try{const _0x48d381=JSON[_0x4cd64d(0xae)](_0x5ebead);if(!Array[_0x4cd64d(0xbf)](_0x48d381)||_0x48d381[_0x4cd64d(0xa5)]===0x0)throw new Error(_0x127d49['KLaTV']);const _0x22f734=_0x48d381['map']((_0xfac1b6,_0x492a71)=>{const _0x562e6b=_0x4cd64d;if(!_0xfac1b6||_0x127d49[_0x562e6b(0xa3)](typeof _0xfac1b6,_0x562e6b(0xc6)))throw new Error(_0x562e6b(0xb7)+_0x492a71+'\x20is\x20not\x20an\x20object.');const _0x51dd0b=String(_0xfac1b6['key']??_0xfac1b6[_0x562e6b(0xaf)]??'')['trim'](),_0x1e153a=String(_0xfac1b6[_0x562e6b(0xca)]??'');if(!_0x51dd0b)throw new Error('APPSTATE\x20cookie\x20'+_0x492a71+'\x20has\x20no\x20key/name.');return{..._0xfac1b6,'key':_0x51dd0b,'value':_0x1e153a};});return _0x127d49[_0x4cd64d(0xb6)](bugLog,_0x127d49['DevhM'],'Loaded\x20APPSTATE\x20from\x20environment',{'cookieCount':_0x22f734[_0x4cd64d(0xa5)]}),_0x22f734;}catch(_0x996959){const _0x4b607e=_0x4cd64d(0xbd)+_0x996959['message'];if(required)throw new Error(_0x4b607e,{'cause':_0x996959});return console[_0x4cd64d(0xc1)]('[APPSTATE]\x20'+_0x4b607e),null;}}export function updateAppStateInMemory(_0x41b01a){const _0x2b6c33=a0_0x3f88,_0x2dbb4e={'HEmwn':function(_0x464433,_0x162fc4){return _0x464433===_0x162fc4;},'ATlxb':function(_0x19efa3,_0x528be0,_0x441dd5,_0x49f858){return _0x19efa3(_0x528be0,_0x441dd5,_0x49f858);},'VIZBb':_0x2b6c33(0xac)};if(!Array[_0x2b6c33(0xbf)](_0x41b01a)||_0x2dbb4e[_0x2b6c33(0xc2)](_0x41b01a[_0x2b6c33(0xa5)],0x0))throw new TypeError(_0x2b6c33(0xb5));return process.env.APPSTATE=JSON['stringify'](_0x41b01a),globalThis['appState']=_0x41b01a,_0x2dbb4e[_0x2b6c33(0xb8)](bugLog,_0x2dbb4e['VIZBb'],_0x2b6c33(0xb4),{'cookieCount':_0x41b01a['length']}),process.env.APPSTATE;}export{isDevEnabled,redact};export default{'bugLog':bugLog,'readAppStateFromEnv':readAppStateFromEnv,'updateAppStateInMemory':updateAppStateInMemory,'isDevEnabled':isDevEnabled,'redact':redact};
+"use strict";
+
+const SECRET_KEYS = /^(appstate|cookie|token|authorization|password|secret|api[_-]?key|database_url|mongo_uri)$/i;
+
+function isDevEnabled() {
+  return String(process.env.DEV || "").trim().toLowerCase() === "on";
+}
+
+function redact(value, key = "") {
+  if (SECRET_KEYS.test(String(key))) return "[REDACTED]";
+  if (value instanceof Error) return { name: value.name, message: value.message };
+  if (Array.isArray(value)) return value.slice(0, 50).map((item) => redact(item));
+  if (value && typeof value === "object") {
+    return Object.fromEntries(Object.entries(value).slice(0, 50).map(([childKey, childValue]) => [childKey, redact(childValue, childKey)]));
+  }
+  if (typeof value === "string" && value.length > 1000) return `${value.slice(0, 1000)}…[truncated]`;
+  return value;
+}
+
+export function bugLog(scope, message, details) {
+  if (!isDevEnabled()) return;
+  const safeDetails = details === undefined ? "" : ` ${JSON.stringify(redact(details))}`;
+  console.error(`[BUG][${new Date().toISOString()}][${scope}] ${String(message)}${safeDetails}`);
+}
+
+export function readAppStateFromEnv({ required = false } = {}) {
+  const raw = process.env.APPSTATE;
+  if (raw == null || raw.trim() === "") {
+    const message = "APPSTATE is missing; provide a valid JSON cookie array.";
+    if (required) throw new Error(message);
+    bugLog("APPSTATE", message);
+    return null;
+  }
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed) || parsed.length === 0) throw new Error("APPSTATE must be a non-empty JSON array.");
+    const normalized = parsed.map((cookie, index) => {
+      if (!cookie || typeof cookie !== "object") throw new Error(`APPSTATE cookie ${index} is not an object.`);
+      const key = String(cookie.key ?? cookie.name ?? "").trim();
+      const value = String(cookie.value ?? "");
+      if (!key) throw new Error(`APPSTATE cookie ${index} has no key/name.`);
+      return { ...cookie, key, value };
+    });
+    bugLog("APPSTATE", "Loaded APPSTATE from environment", { cookieCount: normalized.length });
+    return normalized;
+  } catch (error) {
+    const message = `Invalid APPSTATE JSON: ${error.message}`;
+    if (required) throw new Error(message, { cause: error });
+    console.warn(`[APPSTATE] ${message}`);
+    return null;
+  }
+}
+
+export function updateAppStateInMemory(nextState) {
+  if (!Array.isArray(nextState) || nextState.length === 0) throw new TypeError("Updated APPSTATE must be a non-empty array.");
+  process.env.APPSTATE = JSON.stringify(nextState);
+  globalThis.appState = nextState;
+  bugLog("APPSTATE", "Updated APPSTATE in memory", { cookieCount: nextState.length });
+  return process.env.APPSTATE;
+}
+
+export { isDevEnabled, redact };
+export default { bugLog, readAppStateFromEnv, updateAppStateInMemory, isDevEnabled, redact };

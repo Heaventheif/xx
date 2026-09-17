@@ -1,1 +1,24 @@
-'use strict';function a0_0x90ad(_0x3d7b92,_0x147364){_0x3d7b92=_0x3d7b92-0xa9;const _0x5517af=a0_0x5517();let _0x90ad4e=_0x5517af[_0x3d7b92];if(a0_0x90ad['ZbZCsS']===undefined){var _0x2f1a44=function(_0x36f3d1){const _0x1c53aa='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x5cec4a='',_0x5a49d1='';for(let _0x369c48=0x0,_0x584469,_0x2a5f20,_0x141d3c=0x0;_0x2a5f20=_0x36f3d1['charAt'](_0x141d3c++);~_0x2a5f20&&(_0x584469=_0x369c48%0x4?_0x584469*0x40+_0x2a5f20:_0x2a5f20,_0x369c48++%0x4)?_0x5cec4a+=String['fromCharCode'](0xff&_0x584469>>(-0x2*_0x369c48&0x6)):0x0){_0x2a5f20=_0x1c53aa['indexOf'](_0x2a5f20);}for(let _0x175e56=0x0,_0x278f40=_0x5cec4a['length'];_0x175e56<_0x278f40;_0x175e56++){_0x5a49d1+='%'+('00'+_0x5cec4a['charCodeAt'](_0x175e56)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x5a49d1);};a0_0x90ad['AkEMvP']=_0x2f1a44,a0_0x90ad['arnDiF']={},a0_0x90ad['ZbZCsS']=!![];}const _0x50f70c=_0x5517af[0x0];a0_0x90ad['mlXhwn']!==_0x50f70c&&(a0_0x90ad['arnDiF']={},a0_0x90ad['mlXhwn']=_0x50f70c);const _0x3f7897=a0_0x90ad['arnDiF'][_0x3d7b92];return _0x3f7897===undefined?(_0x90ad4e=a0_0x90ad['AkEMvP'](_0x90ad4e),a0_0x90ad['arnDiF'][_0x3d7b92]=_0x90ad4e):_0x90ad4e=_0x3f7897,_0x90ad4e;}const a0_0x3f704b=a0_0x90ad;(function(_0x14da79,_0x13b076){const _0x55b834=a0_0x90ad,_0x3e11a0=_0x14da79();while(!![]){try{const _0x208e9c=parseInt(_0x55b834(0xb0))/0x1+-parseInt(_0x55b834(0xae))/0x2*(-parseInt(_0x55b834(0xba))/0x3)+parseInt(_0x55b834(0xaf))/0x4*(-parseInt(_0x55b834(0xb3))/0x5)+parseInt(_0x55b834(0xa9))/0x6*(parseInt(_0x55b834(0xb6))/0x7)+parseInt(_0x55b834(0xb1))/0x8*(parseInt(_0x55b834(0xb4))/0x9)+-parseInt(_0x55b834(0xad))/0xa*(parseInt(_0x55b834(0xac))/0xb)+-parseInt(_0x55b834(0xaa))/0xc;if(_0x208e9c===_0x13b076)break;else _0x3e11a0['push'](_0x3e11a0['shift']());}catch(_0x30894c){_0x3e11a0['push'](_0x3e11a0['shift']());}}}(a0_0x5517,0xa4c28));global['_bannedGroups']=new Set(),global[a0_0x3f704b(0xbc)]=new Set();function buildBanSets(){const _0x416614=a0_0x3f704b;global[_0x416614(0xb5)]=new Set((global[_0x416614(0xb8)][_0x416614(0xb7)]||[])['map'](String)),global[_0x416614(0xbc)]=new Set((global['config'][_0x416614(0xab)]||[])[_0x416614(0xbd)](String));}function isBanned(_0x438990,_0xb64c76){const _0x31d1e9=a0_0x3f704b,_0x41fcd5={'EAOxJ':function(_0x30c2cf,_0x4d2a4f){return _0x30c2cf!==_0x4d2a4f;},'pKbOr':function(_0x6935c1,_0x1129ec){return _0x6935c1(_0x1129ec);},'ylvjZ':function(_0x320b29,_0x319b6f){return _0x320b29!==_0x319b6f;}};if(_0x41fcd5['EAOxJ'](_0x438990,undefined)&&global[_0x31d1e9(0xb5)]['has'](_0x41fcd5[_0x31d1e9(0xbb)](String,_0x438990)))return!![];if(_0x41fcd5['ylvjZ'](_0xb64c76,undefined)&&global[_0x31d1e9(0xbc)][_0x31d1e9(0xb2)](_0x41fcd5[_0x31d1e9(0xbb)](String,_0xb64c76)))return!![];return![];}global['isBanned']=isBanned;export{buildBanSets,isBanned};function a0_0x5517(){const _0x54a801=['mJy0odC5owXSBejJra','x2jHBM5LzeDYB3vWCW','mtKXofjeCeHZDq','yMfUBMvKr3jVDxbZ','y29UzMLN','DxrPBhm','mZe5mtf1CxPSqxi','CeTIt3i','x2jHBM5LzfvZzxjZ','BwfW','C3jJl3v0AwXZl2jHBKXPC3qUANm','mJq0mJzXsuHAwfi','otiZndCWoe5WC0nMtW','yMfUBMvKvxnLCNm','mta1mZHOyNLrAei','ndC4mer4qLfPrq','mMDnufj1BG','mJiWmJuZnMHkruLgCW','otK0ntGZB3rst2Lu','mJriA05KBuC','AgfZ','mtbTrxrOqMm'];a0_0x5517=function(){return _0x54a801;};return a0_0x5517();}export const $plugin={'name':'xx-utils-ban-list','meta':{'category':a0_0x3f704b(0xb9),'path':a0_0x3f704b(0xbe)},'setup'(_0x38c0d5){}};
+"use strict";
+global._bannedGroups = new Set();
+global._bannedUsers = new Set();
+function buildBanSets() {
+  global._bannedGroups = new Set((global.config.bannedGroups || []).map(String));
+  global._bannedUsers = new Set((global.config.bannedUsers || []).map(String));
+}
+function isBanned(threadID, senderID) {
+  if (threadID !== undefined && global._bannedGroups.has(String(threadID))) return true;
+  if (senderID !== undefined && global._bannedUsers.has(String(senderID))) return true;
+  return false;
+}
+global.isBanned = isBanned;
+export { buildBanSets, isBanned };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-ban-list',
+  meta: { category: 'utils', path: 'src/utils/banList.js' },
+  setup(_ctx) {
+    // provides: buildBanSets, isBanned
+  },
+};

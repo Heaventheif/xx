@@ -1,1 +1,159 @@
-const a0_0x186121=a0_0x23c3;(function(_0x4f079a,_0x457aa6){const _0x16c92e=a0_0x23c3,_0x1144ec=_0x4f079a();while(!![]){try{const _0x566d5e=parseInt(_0x16c92e(0x149))/0x1+-parseInt(_0x16c92e(0x164))/0x2*(parseInt(_0x16c92e(0x15d))/0x3)+parseInt(_0x16c92e(0x157))/0x4+parseInt(_0x16c92e(0x168))/0x5*(parseInt(_0x16c92e(0x165))/0x6)+parseInt(_0x16c92e(0x17c))/0x7+-parseInt(_0x16c92e(0x132))/0x8+parseInt(_0x16c92e(0x174))/0x9*(parseInt(_0x16c92e(0x143))/0xa);if(_0x566d5e===_0x457aa6)break;else _0x1144ec['push'](_0x1144ec['shift']());}catch(_0x4bef18){_0x1144ec['push'](_0x1144ec['shift']());}}}(a0_0xcb89,0xf1caf));const LAZY_REGISTRY=[['admin',()=>import('./src/commands/admin/acp.js')],[a0_0x186121(0x137),()=>import(a0_0x186121(0x161))],[a0_0x186121(0x137),()=>import(a0_0x186121(0x17b))],['admin',()=>import('./src/commands/admin/gid.js')],[a0_0x186121(0x137),()=>import(a0_0x186121(0x166))],[a0_0x186121(0x137),()=>import(a0_0x186121(0x145))],[a0_0x186121(0x137),()=>import(a0_0x186121(0x160))],[a0_0x186121(0x137),()=>import(a0_0x186121(0x16f))],[a0_0x186121(0x137),()=>import('./src/commands/admin/unsend.js')],['ai',()=>import('./src/commands/ai/draw.js')],['ai',()=>import(a0_0x186121(0x150))],['ai',()=>import(a0_0x186121(0x146))],['ai',()=>import(a0_0x186121(0x179))],['ai',()=>import(a0_0x186121(0x151))],['ai',()=>import(a0_0x186121(0x16b))],['ai',()=>import(a0_0x186121(0x176))],['ai',()=>import('./src/commands/ai/tts.js')],[a0_0x186121(0x172),()=>import('./src/commands/fun/animal.js')],['fun',()=>import(a0_0x186121(0x162))],[a0_0x186121(0x172),()=>import(a0_0x186121(0x153))],['fun',()=>import('./src/commands/fun/manga.js')],[a0_0x186121(0x172),()=>import(a0_0x186121(0x138))],['fun',()=>import('./src/commands/fun/quran.js')],['fun',()=>import(a0_0x186121(0x16e))],[a0_0x186121(0x177),()=>import('./src/commands/general/help.js')],[a0_0x186121(0x13f),()=>import('./src/commands/media/autodl.js')],[a0_0x186121(0x13f),()=>import(a0_0x186121(0x14c))],[a0_0x186121(0x13f),()=>import(a0_0x186121(0x13d))],[a0_0x186121(0x13f),()=>import('./src/commands/media/random.js')],[a0_0x186121(0x13f),()=>import(a0_0x186121(0x14b))],['media',()=>import(a0_0x186121(0x144))],['media',()=>import('./src/commands/media/up.js')],['media',()=>import('./src/commands/media/yt.js')],[a0_0x186121(0x152),()=>import('./src/config/index.js')],[a0_0x186121(0x158),()=>import(a0_0x186121(0x14f))],[a0_0x186121(0x158),()=>import(a0_0x186121(0x175))],[a0_0x186121(0x158),()=>import(a0_0x186121(0x142))],[a0_0x186121(0x158),()=>import(a0_0x186121(0x15b))],['db',()=>import(a0_0x186121(0x15e))],['db',()=>import(a0_0x186121(0x13e))],['events',()=>import(a0_0x186121(0x171))],[a0_0x186121(0x17d),()=>import(a0_0x186121(0x16c))],['middleware',()=>import('./src/middlewares/auth.js')],[a0_0x186121(0x139),()=>import('./src/middlewares/cooldown.js')],[a0_0x186121(0x170),()=>import('./src/server/dashboard/facebook-store.js')],['server',()=>import(a0_0x186121(0x140))],['server',()=>import('./src/server/dashboard/users.js')],[a0_0x186121(0x170),()=>import(a0_0x186121(0x15c))],[a0_0x186121(0x170),()=>import('./src/server/webServer.js')],['utils',()=>import(a0_0x186121(0x147))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x14a))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x134))],['utils',()=>import(a0_0x186121(0x16a))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x13b))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x15f))],['utils',()=>import(a0_0x186121(0x167))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x17e))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x136))],[a0_0x186121(0x15a),()=>import('./src/utils/mediaStream.js')],['utils',()=>import(a0_0x186121(0x155))],[a0_0x186121(0x15a),()=>import('./src/utils/reactionPicker.js')],[a0_0x186121(0x15a),()=>import('./src/utils/roles.js')],[a0_0x186121(0x15a),()=>import('./src/utils/safeSend.js')],[a0_0x186121(0x15a),()=>import('./src/utils/sharedSession.js')],['utils',()=>import(a0_0x186121(0x133))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x169))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x148))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x141))],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x13a))],[a0_0x186121(0x15a),()=>import('./src/utils/ytEngine.js')],[a0_0x186121(0x15a),()=>import(a0_0x186121(0x14d))]],_loaded=new Map();function a0_0xcb89(){const _0x20963b=['lI9ZCMmVDxrPBhmVzgLYzwn0u2vUzc5QCW','zMLSDgvY','lI9ZCMmVy29TBwfUzhmVBwvKAweVCgLUlMPZ','lI9ZCMmVzgiVC2nOzw1HCY5QCW','BwvKAwe','lI9ZCMmVC2vYDMvYl2rHC2HIB2fYzc9PBMrLEc5QCW','lI9ZCMmVDxrPBhmVDxjStM9YBwfSAxPLCI5QCW','lI9ZCMmVy29Yzs9mB2fKzxiUANm','mtGZodaZmJb6sgPTzMC','lI9ZCMmVy29TBwfUzhmVBwvKAweVC3vIlMPZ','lI9ZCMmVy29TBwfUzhmVywrTAw4VA2LJAY5QCW','lI9ZCMmVy29TBwfUzhmVywKVz3b0Ec5QCW','lI9ZCMmVDxrPBhmVyMfUtgLZDc5QCW','lI9ZCMmVDxrPBhmVDhjHBNnSyxrVCI5QCW','mJmZmZK4q1fLDfD6','lI9ZCMmVDxrPBhmVyM90lwvUAgfUy2vYlMPZ','lI9ZCMmVy29TBwfUzhmVBwvKAweVC29UzY5QCW','lI9ZCMmVy29TBwfUzhmVBwvKAweVy2fUDMeUANm','lI9ZCMmVDxrPBhmVExrqCM92AwrLCNmUANm','z2v0','lI9ZCMmVy29Yzs9dBgLLBNqUANm','lI9ZCMmVy29TBwfUzhmVywKVz2vTAw5PlMPZ','lI9ZCMmVy29TBwfUzhmVywKVAw1Hz2LUzs5QCW','y29UzMLN','lI9ZCMmVy29TBwfUzhmVzNvUl2nVBwLJlMPZ','AgfZ','lI9ZCMmVDxrPBhmVCgLUDgvYzxn0uhjVDMLKzxjZlMPZ','jhbSDwDPBG','mJmZmZGYmhDvC3jABG','y29Yzq','BMfTzq','DxrPBhm','lI9ZCMmVy29Yzs9sB3v0zxiUANm','lI9ZCMmVC2vYDMvYl3bSyxLNCM91BMqVAw5KzxGUANm','ntm4ntKZoxfcDw1cra','lI9ZCMmVzgiVAw5KzxGUANm','lI9ZCMmVDxrPBhmVzw52q2HLy2SUANm','lI9ZCMmVy29TBwfUzhmVywrTAw4VC3rHDhmUANm','lI9ZCMmVy29TBwfUzhmVywrTAw4VywrKDxnLCI5QCW','lI9ZCMmVy29TBwfUzhmVzNvUl2nOzxnZlMPZ','ywXS','mMr1CxHJDa','nNHjAMHKsa','lI9ZCMmVy29TBwfUzhmVywrTAw4Vz3jVDxbSAxn0lMPZ','lI9ZCMmVDxrPBhmVzMv0y2HiDhrWlMPZ','mti5ota2nvHPuvDtua','lI9ZCMmVDxrPBhmVDgLTAw5NlMPZ','lI9ZCMmVDxrPBhmVy29Uy3vYCMvUDerVD25SB2fKlMPZ','lI9ZCMmVy29TBwfUzhmVywKVC3r0lMPZ','lI9ZCMmVzxzLBNrZl29UuMvHzhKUANm','BwfW','lI9ZCMmVy29TBwfUzhmVzNvUl3nSyxaUANm','lI9ZCMmVy29TBwfUzhmVywrTAw4VDwLKlMPZ','C2vYDMvY','lI9ZCMmVzxzLBNrZl29UtwvZC2fNzs5QCW','zNvU','AhbluLC','owj4veDNEG','lI9ZCMmVy29Yzs9dB250zxH0lMPZ','lI9ZCMmVy29TBwfUzhmVywKVDhiUANm','z2vUzxjHBa','BgvUz3rO','lI9ZCMmVy29TBwfUzhmVywKVz3jVCs5QCW','C29YDa','lI9ZCMmVy29TBwfUzhmVywrTAw4VyMfUlMPZ','mJa0mZK3mLvfvvzjqG','zxzLBNrZ','lI9ZCMmVDxrPBhmVAgzdBgLLBNqUANm','Aw5JBhvKzxm','mZm2nZK4ngDRAwXtrq','lI9ZCMmVDxrPBhmVDgvTCenSzwfUDxaUANm','lI9ZCMmVDxrPBhmVy2fJAguUANm','AxnbCNjHEq','lI9ZCMmVDxrPBhmVBwvKAwftCgXPDhrLCI5QCW','ywrTAw4','lI9ZCMmVy29TBwfUzhmVzNvUl25VDMvSlMPZ','BwLKzgXLD2fYzq','lI9ZCMmVDxrPBhmVDMfSAwrHDguUANm'];a0_0xcb89=function(){return _0x20963b;};return a0_0xcb89();}async function _load(_0x432dd0){const _0x8e7c48=a0_0x186121,_0x23cb99={'hpKRW':function(_0xda775d){return _0xda775d();}};if(_loaded['has'](_0x432dd0))return _loaded[_0x8e7c48(0x14e)](_0x432dd0);const [,_0x1b7a1a]=LAZY_REGISTRY[_0x432dd0],_0x10fccb=await _0x23cb99[_0x8e7c48(0x173)](_0x1b7a1a),_0x5b4331=_0x10fccb[_0x8e7c48(0x156)];return _loaded['set'](_0x432dd0,_0x5b4331),_0x5b4331;}async function _loadAll(){const _0xa3857=a0_0x186121;return Promise[_0xa3857(0x163)](LAZY_REGISTRY['map']((_0xb1b5bd,_0x1fc89d)=>_load(_0x1fc89d)));}export async function registerAll(_0x2a4078,_0x3ef3e3={}){const _0x4ed277=a0_0x186121,{categories:_0x200b58,names:_0x41d0d4,exclude:exclude=[]}=_0x3ef3e3;let _0x2dfb13=LAZY_REGISTRY[_0x4ed277(0x16d)]((_0x1cc042,_0x2ff5c0)=>_0x2ff5c0);if(Array[_0x4ed277(0x135)](_0x200b58)&&_0x200b58[_0x4ed277(0x178)])_0x2dfb13=_0x2dfb13[_0x4ed277(0x13c)](_0x5b364f=>_0x200b58['includes'](LAZY_REGISTRY[_0x5b364f][0x0]));const _0x1819e7=await Promise['all'](_0x2dfb13[_0x4ed277(0x16d)](_0x240ff3=>_load(_0x240ff3)));let _0x4e1fbc=_0x1819e7;if(Array[_0x4ed277(0x135)](_0x41d0d4)&&_0x41d0d4[_0x4ed277(0x178)])_0x4e1fbc=_0x4e1fbc[_0x4ed277(0x13c)](_0x160cf0=>_0x41d0d4[_0x4ed277(0x17f)](_0x160cf0['name']));if(exclude[_0x4ed277(0x178)])_0x4e1fbc=_0x4e1fbc[_0x4ed277(0x13c)](_0x51f3bd=>!exclude[_0x4ed277(0x17f)](_0x51f3bd['name']));for(const _0x4289a9 of _0x4e1fbc)if(!_0x2a4078[_0x4ed277(0x154)](_0x4289a9[_0x4ed277(0x159)]))await _0x2a4078['register'](_0x4289a9);}export async function registerByCategory(_0x403eb2,_0x2da570){return registerAll(_0x403eb2,{'categories':[_0x2da570]});}export async function getPlugin(_0x548fb5){const _0x9121a6=a0_0x186121,_0x53a930=await _loadAll();return _0x53a930['find'](_0x102bf6=>_0x102bf6[_0x9121a6(0x159)]===_0x548fb5);}export function listCategories(){const _0xf463e6=a0_0x186121;return[...new Set(LAZY_REGISTRY[_0xf463e6(0x16d)](([_0x1941a8])=>_0x1941a8))][_0xf463e6(0x17a)]();}function a0_0x23c3(_0x408726,_0x345c25){_0x408726=_0x408726-0x132;const _0xcb89b5=a0_0xcb89();let _0x23c39b=_0xcb89b5[_0x408726];if(a0_0x23c3['jWRlfv']===undefined){var _0x2ef91f=function(_0x170451){const _0x23d2f9='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x4a8b95='',_0x2a0387='';for(let _0x16b6b1=0x0,_0x4b5d4e,_0x3b9b52,_0x3a3441=0x0;_0x3b9b52=_0x170451['charAt'](_0x3a3441++);~_0x3b9b52&&(_0x4b5d4e=_0x16b6b1%0x4?_0x4b5d4e*0x40+_0x3b9b52:_0x3b9b52,_0x16b6b1++%0x4)?_0x4a8b95+=String['fromCharCode'](0xff&_0x4b5d4e>>(-0x2*_0x16b6b1&0x6)):0x0){_0x3b9b52=_0x23d2f9['indexOf'](_0x3b9b52);}for(let _0x3ee489=0x0,_0xb52449=_0x4a8b95['length'];_0x3ee489<_0xb52449;_0x3ee489++){_0x2a0387+='%'+('00'+_0x4a8b95['charCodeAt'](_0x3ee489)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x2a0387);};a0_0x23c3['vYDbej']=_0x2ef91f,a0_0x23c3['sxGkqo']={},a0_0x23c3['jWRlfv']=!![];}const _0x2dc60f=_0xcb89b5[0x0];a0_0x23c3['NnivbA']!==_0x2dc60f&&(a0_0x23c3['sxGkqo']={},a0_0x23c3['NnivbA']=_0x2dc60f);const _0xf22777=a0_0x23c3['sxGkqo'][_0x408726];return _0xf22777===undefined?(_0x23c39b=a0_0x23c3['vYDbej'](_0x23c39b),a0_0x23c3['sxGkqo'][_0x408726]=_0x23c39b):_0x23c39b=_0xf22777,_0x23c39b;}export default{'registerAll':registerAll,'registerByCategory':registerByCategory,'getPlugin':getPlugin,'listCategories':listCategories};
+/**
+ * @file plugin-provider.js
+ * @description مزوّد البلاجينات المركزي لمشروع xx-main
+ *              يستخدم LAZY_REGISTRY لتجنب تحميل 72 ملف عند الإقلاع.
+ *              كل plugin يُحمَّل فقط عند الحاجة (on-demand).
+ *
+ * @example
+ *   import { registerAll, getPlugin, listCategories } from './plugin-provider.js';
+ *   await registerAll(pluginSystem);
+ *   await registerAll(ps, { categories: ['core', 'db'] });
+ *   await registerAll(ps, { exclude: ['xx-src-utils-bot-enhancer'] });
+ *
+ * @typedef {{
+ *   name:        string,
+ *   meta?:       { category?: string, path?: string },
+ *   middlewares?: Function[],
+ *   commands?:    Array<{name:string, handler:Function, options?:object}>,
+ *   events?:      Record<string, Function>,
+ *   setup?:      (ctx: object) => void | Promise<void>,
+ * }} XxPlugin
+ */
+
+// ─── LAZY_REGISTRY: لا import مباشر — يُحمَّل كل ملف عند الطلب فقط ──────────
+/** @type {Array<[string, () => Promise<{$plugin: XxPlugin}>]>} */
+const LAZY_REGISTRY = [
+  ['admin',    () => import('./src/commands/admin/acp.js')],
+  ['admin',    () => import('./src/commands/admin/adduser.js')],
+  ['admin',    () => import('./src/commands/admin/ban.js')],
+  ['admin',    () => import('./src/commands/admin/gid.js')],
+  ['admin',    () => import('./src/commands/admin/grouplist.js')],
+  ['admin',    () => import('./src/commands/admin/kick.js')],
+  ['admin',    () => import('./src/commands/admin/stats.js')],
+  ['admin',    () => import('./src/commands/admin/uid.js')],
+  ['admin',    () => import('./src/commands/admin/unsend.js')],
+  ['ai',       () => import('./src/commands/ai/draw.js')],
+  ['ai',       () => import('./src/commands/ai/gemini.js')],
+  ['ai',       () => import('./src/commands/ai/gptx.js')],
+  ['ai',       () => import('./src/commands/ai/groq.js')],
+  ['ai',       () => import('./src/commands/ai/imagine.js')],
+  ['ai',       () => import('./src/commands/ai/stt.js')],
+  ['ai',       () => import('./src/commands/ai/tr.js')],
+  ['ai',       () => import('./src/commands/ai/tts.js')],
+  ['fun',      () => import('./src/commands/fun/animal.js')],
+  ['fun',      () => import('./src/commands/fun/chess.js')],
+  ['fun',      () => import('./src/commands/fun/comic.js')],
+  ['fun',      () => import('./src/commands/fun/manga.js')],
+  ['fun',      () => import('./src/commands/fun/novel.js')],
+  ['fun',      () => import('./src/commands/fun/quran.js')],
+  ['fun',      () => import('./src/commands/fun/slap.js')],
+  ['general',  () => import('./src/commands/general/help.js')],
+  ['media',    () => import('./src/commands/media/autodl.js')],
+  ['media',    () => import('./src/commands/media/canva.js')],
+  ['media',    () => import('./src/commands/media/pin.js')],
+  ['media',    () => import('./src/commands/media/random.js')],
+  ['media',    () => import('./src/commands/media/song.js')],
+  ['media',    () => import('./src/commands/media/sub.js')],
+  ['media',    () => import('./src/commands/media/up.js')],
+  ['media',    () => import('./src/commands/media/yt.js')],
+  ['config',   () => import('./src/config/index.js')],
+  ['core',     () => import('./src/core/Client.js')],
+  ['core',     () => import('./src/core/Context.js')],
+  ['core',     () => import('./src/core/Loader.js')],
+  ['core',     () => import('./src/core/Router.js')],
+  ['db',       () => import('./src/db/index.js')],
+  ['db',       () => import('./src/db/schemas.js')],
+  ['events',   () => import('./src/events/onMessage.js')],
+  ['events',   () => import('./src/events/onReady.js')],
+  ['middleware',() => import('./src/middlewares/auth.js')],
+  ['middleware',() => import('./src/middlewares/cooldown.js')],
+  ['server',   () => import('./src/server/dashboard/facebook-store.js')],
+  ['server',   () => import('./src/server/dashboard/index.js')],
+  ['server',   () => import('./src/server/dashboard/users.js')],
+  ['server',   () => import('./src/server/playground/index.js')],
+  ['server',   () => import('./src/server/webServer.js')],
+  ['utils',    () => import('./src/utils/banList.js')],
+  ['utils',    () => import('./src/utils/bot-enhancer.js')],
+  ['utils',    () => import('./src/utils/cache.js')],
+  ['utils',    () => import('./src/utils/concurrentDownload.js')],
+  ['utils',    () => import('./src/utils/directSend.js')],
+  ['utils',    () => import('./src/utils/envCheck.js')],
+  ['utils',    () => import('./src/utils/fetchHttp.js')],
+  ['utils',    () => import('./src/utils/hfClient.js')],
+  ['utils',    () => import('./src/utils/mediaSplitter.js')],
+  ['utils',    () => import('./src/utils/mediaStream.js')],
+  ['utils',    () => import('./src/utils/pinterestProviders.js')],
+  ['utils',    () => import('./src/utils/reactionPicker.js')],
+  ['utils',    () => import('./src/utils/roles.js')],
+  ['utils',    () => import('./src/utils/safeSend.js')],
+  ['utils',    () => import('./src/utils/sharedSession.js')],
+  ['utils',    () => import('./src/utils/tempCleanup.js')],
+  ['utils',    () => import('./src/utils/timing.js')],
+  ['utils',    () => import('./src/utils/translator.js')],
+  ['utils',    () => import('./src/utils/urlNormalizer.js')],
+  ['utils',    () => import('./src/utils/validate.js')],
+  ['utils',    () => import('./src/utils/ytEngine.js')],
+  ['utils',    () => import('./src/utils/ytProviders.js')],
+];
+
+// ─── كاش للوحدات المُحمَّلة ───────────────────────────────────────────────────
+/** @type {Map<number, XxPlugin>} */
+const _loaded = new Map();
+
+async function _load(idx) {
+  if (_loaded.has(idx)) return _loaded.get(idx);
+  const [, loader] = LAZY_REGISTRY[idx];
+  const mod = await loader();
+  const plugin = mod.$plugin;
+  _loaded.set(idx, plugin);
+  return plugin;
+}
+
+// ─── تحميل الكل ──────────────────────────────────────────────────────────────
+async function _loadAll() {
+  return Promise.all(LAZY_REGISTRY.map((_, i) => _load(i)));
+}
+
+// ─── registerAll ──────────────────────────────────────────────────────────────
+/**
+ * @param {{ register(p:XxPlugin):Promise<any>, has(name:string):boolean }} pluginSystem
+ * @param {{ categories?:string[], names?:string[], exclude?:string[] }} [options]
+ */
+export async function registerAll(pluginSystem, options = {}) {
+  const { categories, names, exclude = [] } = options;
+
+  // تحميل المحدد فقط لتسريع الإقلاع عند تصفية بالفئة
+  let indices = LAZY_REGISTRY.map((_, i) => i);
+  if (Array.isArray(categories) && categories.length)
+    indices = indices.filter(i => categories.includes(LAZY_REGISTRY[i][0]));
+
+  const plugins = await Promise.all(indices.map(i => _load(i)));
+
+  let list = plugins;
+  if (Array.isArray(names) && names.length)
+    list = list.filter(p => names.includes(p.name));
+  if (exclude.length)
+    list = list.filter(p => !exclude.includes(p.name));
+
+  for (const plugin of list)
+    if (!pluginSystem.has(plugin.name)) await pluginSystem.register(plugin);
+}
+
+// ─── registerByCategory ───────────────────────────────────────────────────────
+export async function registerByCategory(pluginSystem, category) {
+  return registerAll(pluginSystem, { categories: [category] });
+}
+
+// ─── getPlugin ────────────────────────────────────────────────────────────────
+/** @param {string} name @returns {Promise<XxPlugin|undefined>} */
+export async function getPlugin(name) {
+  const all = await _loadAll();
+  return all.find(p => p.name === name);
+}
+
+// ─── listCategories ───────────────────────────────────────────────────────────
+export function listCategories() {
+  return [...new Set(LAZY_REGISTRY.map(([cat]) => cat))].sort();
+}
+
+export default { registerAll, registerByCategory, getPlugin, listCategories };

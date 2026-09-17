@@ -5,19 +5,14 @@ export default function sendMessageWithRetryFactory(defaultFuncs, api, ctx) {
       options = {};
     }
 
-    // Retrying a send after an ambiguous network failure can duplicate a
-    // message. Keep sends single-attempt unless the caller explicitly opts in.
-    const maxRetries = Math.max(0, Math.min(Number(options.maxRetries ?? 0), 5));
+    const maxRetries = Math.max(0, Math.min(Number(options.maxRetries ?? 3), 5));
     const baseDelay = Math.max(100, Math.min(Number(options.baseDelay ?? 1500), 10_000));
     const maxDelay = Math.max(baseDelay, Math.min(Number(options.maxDelay ?? 15_000), 60_000));
     const jitter = options.jitter !== false;
     const retryOn =
       typeof options.retryOn === 'function'
         ? options.retryOn
-        : (err) =>
-            err?.retryable === true &&
-            !err?.ambiguous &&
-            !String(err?.error ?? err?.message ?? '').includes('blocked');
+        : (err) => !String(err?.error ?? err?.message ?? '').includes('blocked');
 
     const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 

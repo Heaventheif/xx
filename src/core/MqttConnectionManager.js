@@ -1,1 +1,341 @@
-const a0_0x5b007b=a0_0x5a61;function a0_0x5a61(_0xf4257c,_0x53d3c4){_0xf4257c=_0xf4257c-0x168;const _0x237f31=a0_0x237f();let _0x5a614a=_0x237f31[_0xf4257c];if(a0_0x5a61['yPGJDM']===undefined){var _0x4df54b=function(_0x3e6928){const _0xf8a673='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0xdc98a0='',_0x15079f='';for(let _0x188f46=0x0,_0x5531d1,_0x21c575,_0x13c131=0x0;_0x21c575=_0x3e6928['charAt'](_0x13c131++);~_0x21c575&&(_0x5531d1=_0x188f46%0x4?_0x5531d1*0x40+_0x21c575:_0x21c575,_0x188f46++%0x4)?_0xdc98a0+=String['fromCharCode'](0xff&_0x5531d1>>(-0x2*_0x188f46&0x6)):0x0){_0x21c575=_0xf8a673['indexOf'](_0x21c575);}for(let _0x2a25fc=0x0,_0x199a0c=_0xdc98a0['length'];_0x2a25fc<_0x199a0c;_0x2a25fc++){_0x15079f+='%'+('00'+_0xdc98a0['charCodeAt'](_0x2a25fc)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x15079f);};a0_0x5a61['VqYnMP']=_0x4df54b,a0_0x5a61['FpekZl']={},a0_0x5a61['yPGJDM']=!![];}const _0x43fe9e=_0x237f31[0x0];a0_0x5a61['pVZxPY']!==_0x43fe9e&&(a0_0x5a61['FpekZl']={},a0_0x5a61['pVZxPY']=_0x43fe9e);const _0x58427c=a0_0x5a61['FpekZl'][_0xf4257c];return _0x58427c===undefined?(_0x5a614a=a0_0x5a61['VqYnMP'](_0x5a614a),a0_0x5a61['FpekZl'][_0xf4257c]=_0x5a614a):_0x5a614a=_0x58427c,_0x5a614a;}(function(_0x5ba746,_0x10f101){const _0x43d563=a0_0x5a61,_0x24c0dd=_0x5ba746();while(!![]){try{const _0x43a01a=parseInt(_0x43d563(0x179))/0x1*(-parseInt(_0x43d563(0x198))/0x2)+parseInt(_0x43d563(0x1c2))/0x3+parseInt(_0x43d563(0x18b))/0x4*(-parseInt(_0x43d563(0x1d9))/0x5)+parseInt(_0x43d563(0x1b3))/0x6+-parseInt(_0x43d563(0x1de))/0x7*(-parseInt(_0x43d563(0x186))/0x8)+parseInt(_0x43d563(0x1da))/0x9*(parseInt(_0x43d563(0x1e3))/0xa)+-parseInt(_0x43d563(0x170))/0xb*(parseInt(_0x43d563(0x1a4))/0xc);if(_0x43a01a===_0x10f101)break;else _0x24c0dd['push'](_0x24c0dd['shift']());}catch(_0x41b92d){_0x24c0dd['push'](_0x24c0dd['shift']());}}}(a0_0x237f,0xc8885));import{EventEmitter}from'node:events';const DEFAULTS={'staleAfterMs':0x8*0xea60,'initialGraceMs':0x2*0xea60,'watchdogIntervalMs':0x7530,'stableWindowMs':0x5*0xea60,'reconnectBaseMs':0x7d0,'reconnectCapMs':0x5*0xea60,'cooldownMs':0xf*0xea60,'maxFastAttempts':0xa,'pingIntervalMs':0x1d4c0},sleep=_0xcac30b=>new Promise(_0x450cdf=>setTimeout(_0x450cdf,_0xcac30b));function getErrorText(_0x1e28d0){const _0x6c4ca3=a0_0x5a61,_0xf8f0f3={'ZFNKg':function(_0x2526aa,_0x37c609){return _0x2526aa(_0x37c609);}};return _0xf8f0f3[_0x6c4ca3(0x1be)](String,_0x1e28d0?.[_0x6c4ca3(0x193)]||_0x1e28d0||_0x6c4ca3(0x175));}export function classifyMqttError(_0x1cda05){const _0x30ef2b=a0_0x5a61,_0x1bf25c={'iUFhC':function(_0x156afa,_0x2c2918){return _0x156afa(_0x2c2918);}},_0x138b14=_0x1bf25c[_0x30ef2b(0x16d)](getErrorText,_0x1cda05)[_0x30ef2b(0x1c5)](),_0x2bf34b=Number(_0x1cda05?.['statusCode']??_0x1cda05?.[_0x30ef2b(0x1c7)]??_0x1cda05?.[_0x30ef2b(0x1ab)]);if(_0x2bf34b===0x191||_0x2bf34b===0x193||/not logged in|login_blocked|blocked the login|checkpoint|invalid.*session|not.*authenticated|session.*expired|credentials.*invalid/[_0x30ef2b(0x1bd)](_0x138b14))return _0x30ef2b(0x16f);if(/rate.?limit|too many requests|429/[_0x30ef2b(0x1bd)](_0x138b14))return _0x30ef2b(0x1ca);if(/timeout|keep.?alive|socket|econnreset|enetunreach|eai_again|connection refused|closed|disconnect/[_0x30ef2b(0x1bd)](_0x138b14))return _0x30ef2b(0x168);return'UNKNOWN';}function fullJitter(_0x344ab8,_0x25d540,_0x5b17d3){const _0x481baa=a0_0x5a61,_0x3e7661=Math[_0x481baa(0x172)](_0x5b17d3,_0x25d540*0x2**Math['min'](_0x344ab8,0xc));return Math[_0x481baa(0x19c)](0x1f4,Math[_0x481baa(0x1c8)](Math[_0x481baa(0x182)]()*Math[_0x481baa(0x19c)](_0x25d540,_0x3e7661)));}function a0_0x237f(){const _0x22dbd0=['A2fdCfm','Dg9ju09tDhjPBMC','BwfUDwfS','C3rVCeXPC3rLBMLUz0fZEw5J','yMzUBfu','odGZmNnyEfvQra','C3rHBgvbzNrLCK1Z','CMvJB25Uzwn0qxr0zw1WDhm','nxWWFdj8mxWZFdq','CMvJB25Uzwn0qMfZzu1Z','yxbP','vuvHrgC','y29Kzq','zNvUy3rPB24','uvz3ELa','C29JA2v0x25VDf9HBgL2zq','C2XPy2u','C3rHyMXLv2LUzg93txm','z2HcEeu','zLrpu0C','nde2nZq2mMXYte9Ova','x2vTAxrtDgf0zq','tgf2B2u','C3rVChbLza','x21XDhrdBgLLBNq','C3rHCNr1Ca','v0fgBwC','Dg90ywXszwnVBM5Ly3rZ','yvntBM8','BgfZDevYCM9Yqxq','DgvZDa','wKzos2C','q09otKvdveve','C3bSAxq','s1foswm','mtq2odm0n0noyKrZCG','rvzftLrFseforeXfuG','AgvHBhrO','Dg9mB3DLCKnHC2u','tvfuva','C3rHDhvZ','zMXVB3i','uKvdt05orunusu5h','uKfurv9msu1jveve','Bwf4rMfZDef0DgvTChrZ','v0fuq0Het0C','C3rHCNrLza','CgLUz19MywLSzwq','Dw5Yzwy','x29UrxzLBNq','x2n0Ea','wNjkvhu','yxv0Af9MywLSzwq','qMzszuu','BgfZDfbPBMDbDa','x21XDhq','r2LqCgK','x3jLy29Yzev2zw50','mtyWzNLpCKXb','mZa2rKDtAwXu','y29UC2vJDxrPDMvfCNjVCNm','v2jHsuK','Dw5RBM93BG','mJfJv3n3vM8','BM93','y29VBgrVD25nCW','zxjYB3jZ','y2XVC2vK','nti3mZbIAKvXCxy','BgfZDfjLy29UBMvJDfjLyxnVBG','y29UBMvJDgvKu2LUy2u','CgLUz0LUDgvYDMfStxm','x3jLC2v0uMvJB25Uzwn0qNvKz2v0swztDgfIBgu','zxjYB3jFB2jZzxj2zwq','BgfZDevYCM9Yq2XHC3m','AuvJEMe','vfjbtLnjru5u','CMvJB25Uzwn0uhjVBwLZzq','x3nJAgvKDwXLv2f0y2HKB2C','C3rHBgu','x3jLy29YzevYCM9Y','AvvgAem','AwPfBhu','qvvusf9gquLmruq','ntuWvhLtsK1v','x3nJAgvKDwXLugLUzW','BwLU','Bxf0DenSAwvUDa','vhnIuNi','Dw5RBM93BIbLCNjVCG','Bwv0CMLJCW','BgfZDerPC2nVBM5Ly3rbDa','B25fDMvUDa','mtm0mJfPzNPHBgC','zw1PDa','y29VBgrVD25vBNrPBa','zgrWwNy','BgfIzwW','u1rpuf9msvnuru5fuG','x2nVBM5Ly3rpBMnL','yNHItuC','u1rpufbfra','CMfUzg9T','uxnvB2u','BgfZDenVBM5Ly3rbDa','B3b0Aw9UCW','mJK3ody4ogjstxveyq','BgLZDgvUzxi','qwvQzhi','CMvJB25Uzwn0','C3rHDgu','otG0mfznzejrvW','t0vnAgu','C3rVCeXPC3rLBMLUzW','uKvdt05orunux1Dbsvq','x3nVy2TLDefSAxzL','zxzLBNrZuMvJzwL2zwq','D2f0y2HKB2DuAw1LCG','CgLUz19VAW','BwvZC2fNzq','CgLUz1rPBwvY','q09otKvdveLorW','BgfZDev2zw50qxq','x3n0B3bmAxn0zw5LCG','mJmWEMH0BenK','BgfZDev2zw50vhLWzq','BgLZDgvUtxf0Da','uNnnwM4','Bwf4','B25tDgf0zq','Aw5PDgLHBeDYywnLtxm'];a0_0x237f=function(){return _0x22dbd0;};return a0_0x237f();}export class MqttConnectionManager extends EventEmitter{constructor(_0xce9143,_0x406dab={}){const _0x469765=a0_0x5a61,_0x483d70={'OEMhe':function(_0x2d7482,_0x238cd1){return _0x2d7482===_0x238cd1;},'UEaDg':_0x469765(0x1ac)};super(),this[_0x469765(0x1a9)]=_0xce9143,this['label']=_0x406dab[_0x469765(0x17d)]||_0x469765(0x1c6),this['botIndex']=_0x406dab['botIndex']??null,this[_0x469765(0x185)]={...DEFAULTS,..._0x406dab},this[_0x469765(0x187)]=null,this[_0x469765(0x1cd)]=![],this['stopped']=!![],this[_0x469765(0x18a)]='STOPPED',this['reconnectPromise']=null,this[_0x469765(0x191)]=null,this[_0x469765(0x194)]=null,this['cooldownUntil']=0x0,this[_0x469765(0x1e5)]=0x0,this[_0x469765(0x196)]=0x0,this[_0x469765(0x1d5)]=0x0,this[_0x469765(0x184)]=0x0,this['lastDisconnectAt']=null,this['lastErrorAt']=null,this['lastError']=null,this['lastErrorClass']=null,this[_0x469765(0x1e4)]=null,this[_0x469765(0x1a6)]=0x0,this['totalReconnects']=0x0,this[_0x469765(0x190)]=0x0,this[_0x469765(0x1e1)]=0x0,this[_0x469765(0x1db)]=0x0,this[_0x469765(0x199)]=null,this[_0x469765(0x1d0)]=_0x483d70[_0x469765(0x18c)](typeof _0x406dab[_0x469765(0x178)],_0x483d70[_0x469765(0x1aa)])?_0x406dab['onEvent']:null,this['_onState']=typeof _0x406dab[_0x469765(0x19d)]===_0x483d70[_0x469765(0x1aa)]?_0x406dab[_0x469765(0x19d)]:null;}['start'](){const _0x1e59d6=a0_0x5a61,_0x402ebb={'ijElu':_0x1e59d6(0x1c9),'Aejdr':_0x1e59d6(0x1b8)};if(this[_0x1e59d6(0x1cd)]&&!this[_0x1e59d6(0x1b6)])return this;return this[_0x1e59d6(0x1cd)]=!![],this['stopped']=![],this[_0x1e59d6(0x18a)]=_0x402ebb[_0x1e59d6(0x16e)],this[_0x1e59d6(0x196)]=Date[_0x1e59d6(0x1df)](),this[_0x1e59d6(0x16a)](),this['_schedulePing'](),void this[_0x1e59d6(0x17f)](_0x402ebb[_0x1e59d6(0x188)]),this;}async['stop'](){const _0x824ff9=a0_0x5a61,_0x1d3ed6={'ghBxE':function(_0x13958f,_0x11ba1b){return _0x13958f(_0x11ba1b);},'iEcza':function(_0x58e5b7,_0x510f7){return _0x58e5b7(_0x510f7);}};this[_0x824ff9(0x1b6)]=!![],this['started']=![],this[_0x824ff9(0x18a)]=_0x824ff9(0x181),_0x1d3ed6[_0x824ff9(0x1b1)](clearTimeout,this[_0x824ff9(0x191)]),_0x1d3ed6[_0x824ff9(0x1ea)](clearTimeout,this[_0x824ff9(0x194)]),this['watchdogTimer']=null,this[_0x824ff9(0x194)]=null,await this[_0x824ff9(0x197)](),this['_emitState']();}[a0_0x5b007b(0x189)](_0x399bb6=a0_0x5b007b(0x1a1)){const _0x17caa1=a0_0x5b007b;if(this[_0x17caa1(0x1b6)])return![];if(this[_0x17caa1(0x169)])return this[_0x17caa1(0x169)];return this[_0x17caa1(0x1e4)]=_0x399bb6,this['reconnectPromise']=this['_reconnect'](_0x399bb6)['finally'](()=>{this['reconnectPromise']=null;}),this['reconnectPromise'];}['health'](){const _0x5f36b4=a0_0x5b007b,_0x3a3d33={'GiPpi':function(_0x5759bd,_0x45da0e){return _0x5759bd-_0x45da0e;},'RsMZn':function(_0xd87f08,_0x5e5eab){return _0xd87f08===_0x5e5eab;},'FNGjO':function(_0x589f69,_0x58279b){return _0x589f69!==_0x58279b;}},_0x2a4797=Date[_0x5f36b4(0x1df)](),_0x50ae11=this[_0x5f36b4(0x1b7)](),_0x465e53=_0x50ae11?.['connected']===!![],_0x3bb3ab=Math['max'](this[_0x5f36b4(0x196)],this[_0x5f36b4(0x1d5)]),_0x3f67d9=_0x3bb3ab?Math[_0x5f36b4(0x19c)](0x0,_0x2a4797-_0x3bb3ab):null,_0x539850=this[_0x5f36b4(0x1e5)]?Math[_0x5f36b4(0x19c)](0x0,_0x3a3d33[_0x5f36b4(0x1d7)](_0x2a4797,this['connectedSince'])):0x0,_0x2666b4=!this[_0x5f36b4(0x1b6)]&&_0x3a3d33[_0x5f36b4(0x19b)](this[_0x5f36b4(0x18a)],_0x5f36b4(0x1bf))&&_0x465e53&&_0x3a3d33['FNGjO'](_0x3f67d9,null)&&_0x3f67d9<this['options'][_0x5f36b4(0x1a5)];return{'ok':_0x2666b4,'state':this[_0x5f36b4(0x18a)],'socketConnected':_0x465e53,'staleForMs':_0x3f67d9,'stableForMs':_0x539850,'connectedSince':this['connectedSince']?new Date(this[_0x5f36b4(0x1e5)])[_0x5f36b4(0x1a0)]():null,'lastEventAt':this['lastEventAt']?new Date(this['lastEventAt'])[_0x5f36b4(0x1a0)]():null,'lastPingAt':this[_0x5f36b4(0x1d5)]?new Date(this['lastPingAt'])[_0x5f36b4(0x1a0)]():null,'lastConnectAt':this['lastConnectAt']?new Date(this['lastConnectAt'])[_0x5f36b4(0x1a0)]():null,'lastDisconnectAt':this['lastDisconnectAt']?new Date(this[_0x5f36b4(0x177)])[_0x5f36b4(0x1a0)]():null,'lastErrorAt':this['lastErrorAt']?new Date(this[_0x5f36b4(0x1bc)])['toISOString']():null,'lastErrorClass':this[_0x5f36b4(0x1e9)],'lastError':this['lastError'],'lastReconnectReason':this['lastReconnectReason'],'reconnectAttempts':this[_0x5f36b4(0x1a6)],'totalReconnects':this[_0x5f36b4(0x1ba)],'consecutiveErrors':this['consecutiveErrors'],'eventsReceived':this['eventsReceived'],'lastEventType':this[_0x5f36b4(0x199)],'cooldownUntil':this[_0x5f36b4(0x17b)]>_0x2a4797?new Date(this[_0x5f36b4(0x17b)])[_0x5f36b4(0x1a0)]():null};}[a0_0x5b007b(0x176)](){const _0x4d4b02=a0_0x5b007b;return this[_0x4d4b02(0x1c4)]();}['_mqttClient'](){const _0x25c791=a0_0x5b007b;return this['api']?.[_0x25c791(0x1b7)]??this['api']?.[_0x25c791(0x1d1)]?.[_0x25c791(0x173)]??this['api']?.[_0x25c791(0x1d1)]?.['mqtt']??this['api']?.[_0x25c791(0x1d6)]??null;}[a0_0x5b007b(0x18f)](){const _0x1f6e5c=a0_0x5b007b,_0x123e23={'Lavoe':function(_0x16ea78,_0x149cd2){return _0x16ea78!==_0x149cd2;}},_0x2bdce3=this['_mqttClient']();return _0x2bdce3?.['connected']===!![]&&_0x2bdce3?.['disconnecting']!==!![]&&_0x123e23[_0x1f6e5c(0x1b5)](_0x2bdce3?.[_0x1f6e5c(0x1e2)],!![]);}async[a0_0x5b007b(0x17f)](_0x1bd8ad){const _0x381f8b=a0_0x5b007b,_0x293c02={'kaCpS':'listener_error','ZrJTu':_0x381f8b(0x1c3),'bfnlU':'connected'};if(this['stopped']||this['listener'])return!![];this['state']=_0x381f8b(0x1c9),this['_emitState']();try{return this[_0x381f8b(0x187)]=this[_0x381f8b(0x1a9)][_0x381f8b(0x19a)]((_0x4342ef,_0x47f117)=>{const _0x2c146d=_0x381f8b;if(_0x4342ef){this['_recordError'](_0x4342ef),void this[_0x2c146d(0x189)](_0x293c02[_0x2c146d(0x19f)]);return;}this['_recordEvent'](_0x47f117);try{this[_0x2c146d(0x1d0)]?.(_0x47f117);}catch(_0x18cb6c){this[_0x2c146d(0x16c)](_0x18cb6c,_0x293c02[_0x2c146d(0x1d2)]);}}),this['connectedSince']=Date['now'](),this['lastConnectAt']=this['connectedSince'],this['lastEventAt']=this['connectedSince'],this[_0x381f8b(0x18a)]=_0x381f8b(0x195),this[_0x381f8b(0x1db)]=0x0,this[_0x381f8b(0x1b4)](),this['emit'](_0x293c02[_0x381f8b(0x1a3)],{'reason':_0x1bd8ad}),!![];}catch(_0x1f87e4){return this[_0x381f8b(0x16c)](_0x1f87e4),await this['_stopListener'](),![];}}async['_reconnect'](_0x35dcbb){const _0x3dd87d=a0_0x5b007b,_0x4f1216={'BfReE':function(_0x49348f,_0xb44111){return _0x49348f===_0xb44111;},'aSSno':'AUTH_FAILED','WAFmg':function(_0x556a5f,_0x13814e){return _0x556a5f<_0x13814e;},'QsUoe':_0x3dd87d(0x18e),'oGCYo':_0x3dd87d(0x1c9),'wWyAa':function(_0x4fb74c,_0x1e793a){return _0x4fb74c+_0x1e793a;}};if(this[_0x3dd87d(0x1b6)])return![];const _0x29c6ad=this[_0x3dd87d(0x1e9)];if(_0x4f1216[_0x3dd87d(0x1d4)](_0x29c6ad,_0x4f1216[_0x3dd87d(0x1bb)]))return this[_0x3dd87d(0x18a)]=_0x4f1216[_0x3dd87d(0x1bb)],this['_emitState'](),this[_0x3dd87d(0x17a)](_0x3dd87d(0x1d3),this['health']()),![];if(_0x4f1216[_0x3dd87d(0x1b9)](Date['now'](),this[_0x3dd87d(0x17b)]))return this[_0x3dd87d(0x18a)]=_0x4f1216[_0x3dd87d(0x183)],this[_0x3dd87d(0x1b4)](),![];const _0x4f3870=++this[_0x3dd87d(0x1a6)],_0x5649b6=fullJitter(_0x4f3870-0x1,this[_0x3dd87d(0x185)][_0x3dd87d(0x1a8)],this['options']['reconnectCapMs']);this['state']=_0x4f1216['QsUoe'],this[_0x3dd87d(0x1b4)](),await sleep(_0x5649b6);if(this[_0x3dd87d(0x1b6)])return![];await this[_0x3dd87d(0x197)](),this[_0x3dd87d(0x18a)]=_0x4f1216['oGCYo'],this['_emitState']();const _0x28d431=await this[_0x3dd87d(0x17f)](_0x35dcbb);return this['totalReconnects']++,!_0x28d431&&this['reconnectAttempts']>=this['options'][_0x3dd87d(0x1cb)]&&(this['cooldownUntil']=_0x4f1216['wWyAa'](Date[_0x3dd87d(0x1df)](),this[_0x3dd87d(0x185)][_0x3dd87d(0x1e0)]),this[_0x3dd87d(0x18a)]=_0x3dd87d(0x18e),this[_0x3dd87d(0x17a)]('cooldown',this['health']())),_0x28d431;}async['_stopListener'](){const _0x3da69c=a0_0x5b007b,_0xe836b4={'lubPz':_0x3da69c(0x17e)},_0x2b56cf=this['listener'];this['listener']=null;if(!_0x2b56cf)return;this[_0x3da69c(0x177)]=Date[_0x3da69c(0x1df)]();try{if(typeof _0x2b56cf['stopListeningAsync']===_0x3da69c(0x1ac))await _0x2b56cf[_0x3da69c(0x1a2)]();else await _0x2b56cf[_0x3da69c(0x18d)]?.();}catch(_0x38f719){this['_recordError'](_0x38f719,_0xe836b4['lubPz']);}}[a0_0x5b007b(0x1d8)](_0x3f0db7){const _0x87480=a0_0x5b007b,_0xe5b5b9={'TsbRr':function(_0x1ffe3a,_0xea6995){return _0x1ffe3a>=_0xea6995;}},_0x56da68=_0x87480(0x1a7)[_0x87480(0x1c0)]('|');let _0x3a0649=0x0;while(!![]){switch(_0x56da68[_0x3a0649++]){case'0':this['eventsReceived']++;continue;case'1':this['connectedSince']&&_0xe5b5b9[_0x87480(0x174)](Date['now']()-this['connectedSince'],this[_0x87480(0x185)][_0x87480(0x1b0)])&&(this[_0x87480(0x1a6)]=0x0,this[_0x87480(0x17b)]=0x0,this[_0x87480(0x1db)]=0x0);continue;case'2':this['lastEventType']=_0x3f0db7?.['type']||_0x87480(0x1dd);continue;case'3':this[_0x87480(0x18a)]=_0x87480(0x1bf);continue;case'4':this[_0x87480(0x1b4)]();continue;case'5':this[_0x87480(0x196)]=Date[_0x87480(0x1df)]();continue;}break;}}['_recordError'](_0x494ba0,_0x3bf163=null){const _0x566be9=a0_0x5b007b,_0xcf219f={'fTOSG':function(_0x4930ec,_0x2ca190){return _0x4930ec(_0x2ca190);},'KQNIc':_0x566be9(0x16f),'WeelP':_0x566be9(0x181),'ddpZv':_0x566be9(0x1e8)},_0x75eec6=_0xcf219f[_0x566be9(0x1b2)](getErrorText,_0x494ba0)[_0x566be9(0x1af)](0x0,0x12c),_0x1f7087=_0x3bf163||classifyMqttError(_0x494ba0);this[_0x566be9(0x1e1)]++,this[_0x566be9(0x1db)]++,this[_0x566be9(0x1bc)]=Date[_0x566be9(0x1df)](),this['lastError']=_0x75eec6,this[_0x566be9(0x1e9)]=_0x1f7087,this[_0x566be9(0x177)]=Date[_0x566be9(0x1df)]();if(_0x1f7087===_0xcf219f[_0x566be9(0x1c1)])this[_0x566be9(0x18a)]=_0x566be9(0x16f);else{if(this[_0x566be9(0x18a)]!==_0xcf219f['WeelP'])this['state']='DEGRADED';}this[_0x566be9(0x17a)](_0xcf219f[_0x566be9(0x17c)],{'errorClass':_0x1f7087,'message':_0x75eec6,'at':this['lastErrorAt']}),this[_0x566be9(0x1b4)]();}[a0_0x5b007b(0x16a)](){const _0x4422e9=a0_0x5b007b,_0x112755={'GvpGb':function(_0x5ea2ec,_0x353836){return _0x5ea2ec>_0x353836;},'mtKjX':_0x4422e9(0x1cc)};clearTimeout(this[_0x4422e9(0x191)]);if(this[_0x4422e9(0x1b6)])return;this[_0x4422e9(0x191)]=setTimeout(async()=>{const _0x434165=_0x4422e9;try{const _0x18996a=Math[_0x434165(0x19c)](this['lastEventAt'],this[_0x434165(0x1d5)]),_0x5da306=Date[_0x434165(0x1df)]()-_0x18996a,_0xce0ceb=_0x112755['GvpGb'](this[_0x434165(0x1e5)],0x0)&&Date[_0x434165(0x1df)]()-this['connectedSince']<this[_0x434165(0x185)][_0x434165(0x19e)];!_0xce0ceb&&(!this[_0x434165(0x18f)]()||_0x5da306>=this[_0x434165(0x185)][_0x434165(0x1a5)])&&await this[_0x434165(0x189)](this['_socketAlive']()?_0x434165(0x16b):_0x434165(0x1ae));}catch(_0x3254ae){this['_recordError'](_0x3254ae,_0x112755['mtKjX']);}finally{this['_scheduleWatchdog']();}},this['options']['watchdogIntervalMs']),this[_0x4422e9(0x191)]['unref']?.();}['_schedulePing'](){const _0x43e3d2=a0_0x5b007b,_0x3130af={'QVwzP':'AUTH_FAILED','bxbMG':_0x43e3d2(0x1bf),'WbaII':function(_0x41c2bc,_0x38ae53){return _0x41c2bc(_0x38ae53);}};_0x3130af[_0x43e3d2(0x1dc)](clearTimeout,this[_0x43e3d2(0x194)]);if(this[_0x43e3d2(0x1b6)])return;this[_0x43e3d2(0x194)]=setTimeout(()=>{const _0x5bb2df=_0x43e3d2;if(this['_socketAlive']())this['lastPingAt']=Date[_0x5bb2df(0x1df)](),this[_0x5bb2df(0x18a)]!==_0x3130af[_0x5bb2df(0x1ad)]&&this['state']!==_0x3130af[_0x5bb2df(0x180)]&&(this[_0x5bb2df(0x18a)]=_0x5bb2df(0x1bf),this[_0x5bb2df(0x1b4)]()),this[_0x5bb2df(0x1e7)](),this['emit'](_0x5bb2df(0x192),this[_0x5bb2df(0x1c4)]());else{if(this[_0x5bb2df(0x18a)]!=='AUTH_FAILED')void this[_0x5bb2df(0x189)](_0x5bb2df(0x1ce));}this[_0x5bb2df(0x171)]();},this['options'][_0x43e3d2(0x1e6)]),this['pingTimer'][_0x43e3d2(0x1cf)]?.();}[a0_0x5b007b(0x1b4)](){const _0x1535b3=a0_0x5b007b;try{this['_onState']?.(this[_0x1535b3(0x1c4)]());}catch(_0x1b6eb6){}}[a0_0x5b007b(0x1e7)](){const _0x4e1a05=a0_0x5b007b,_0x479e64='4|1|3|0|2'[_0x4e1a05(0x1c0)]('|');let _0x35e15f=0x0;while(!![]){switch(_0x479e64[_0x35e15f++]){case'0':this['cooldownUntil']=0x0;continue;case'1':if(Date[_0x4e1a05(0x1df)]()-this[_0x4e1a05(0x1e5)]<this['options'][_0x4e1a05(0x1b0)])return;continue;case'2':this['consecutiveErrors']=0x0;continue;case'3':this[_0x4e1a05(0x1a6)]=0x0;continue;case'4':if(!this[_0x4e1a05(0x1e5)])return;continue;}break;}}}export function createMqttConnectionManager(_0x442a84,_0x904868){return new MqttConnectionManager(_0x442a84,_0x904868);}export default MqttConnectionManager;
+import { EventEmitter } from "node:events";
+
+const DEFAULTS = {
+  staleAfterMs: 8 * 60_000,   // 8 min: gives ping (2 min) safe headroom under Bun timer drift
+  initialGraceMs: 2 * 60_000, // do not recycle a newly-started listener while transport state settles
+  watchdogIntervalMs: 30_000,
+  stableWindowMs: 5 * 60_000,
+  reconnectBaseMs: 2_000,
+  reconnectCapMs: 5 * 60_000,
+  cooldownMs: 15 * 60_000,
+  maxFastAttempts: 10,
+  pingIntervalMs: 120_000,
+};
+
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+function getErrorText(error) {
+  return String(error?.message || error || "unknown error");
+}
+
+export function classifyMqttError(error) {
+  const text = getErrorText(error).toLowerCase();
+  const status = Number(error?.statusCode ?? error?.status ?? error?.code);
+
+  if (
+    status === 401 || status === 403 ||
+    // Keep the pattern specific: avoid matching transient strings like "authorization timeout"
+    // or "auth error" that appear in normal WebSocket errors and are NOT real session failures.
+    /not logged in|login_blocked|blocked the login|checkpoint|invalid.*session|not.*authenticated|session.*expired|credentials.*invalid/.test(text)
+  ) return "AUTH_FAILED";
+
+  if (/rate.?limit|too many requests|429/.test(text)) return "RATE_LIMITED";
+  if (/timeout|keep.?alive|socket|econnreset|enetunreach|eai_again|connection refused|closed|disconnect/.test(text)) {
+    return "TRANSIENT";
+  }
+  return "UNKNOWN";
+}
+
+function fullJitter(attempt, baseMs, capMs) {
+  const ceiling = Math.min(capMs, baseMs * (2 ** Math.min(attempt, 12)));
+  // Minimum 500 ms so the first reconnect never fires at 0 ms (avoids FB rate-limit).
+  return Math.max(500, Math.floor(Math.random() * Math.max(baseMs, ceiling)));
+}
+
+export class MqttConnectionManager extends EventEmitter {
+  constructor(api, options = {}) {
+    super();
+    this.api = api;
+    this.label = options.label || "MQTT";
+    this.botIndex = options.botIndex ?? null;
+    this.options = { ...DEFAULTS, ...options };
+
+    this.listener = null;
+    this.started = false;
+    this.stopped = true;
+    this.state = "STOPPED";
+    this.reconnectPromise = null;
+    this.watchdogTimer = null;
+    this.pingTimer = null;
+    this.cooldownUntil = 0;
+    this.connectedSince = 0;
+    this.lastEventAt = 0;
+    this.lastPingAt = 0;
+    this.lastConnectAt = 0;
+    this.lastDisconnectAt = null;
+    this.lastErrorAt = null;
+    this.lastError = null;
+    this.lastErrorClass = null;
+    this.lastReconnectReason = null;
+    this.reconnectAttempts = 0;
+    this.totalReconnects = 0;
+    this.eventsReceived = 0;
+    this.errors = 0;
+    this.consecutiveErrors = 0;
+    this.lastEventType = null;
+    this._onEvent = typeof options.onEvent === "function" ? options.onEvent : null;
+    this._onState = typeof options.onState === "function" ? options.onState : null;
+  }
+
+  start() {
+    if (this.started && !this.stopped) return this;
+    this.started = true;
+    this.stopped = false;
+    this.state = "RECONNECTING";
+    this.lastEventAt = Date.now();
+    this._scheduleWatchdog();
+    this._schedulePing();
+    void this._connectOnce("startup");
+    return this;
+  }
+
+  async stop() {
+    this.stopped = true;
+    this.started = false;
+    this.state = "STOPPED";
+    clearTimeout(this.watchdogTimer);
+    clearTimeout(this.pingTimer);
+    this.watchdogTimer = null;
+    this.pingTimer = null;
+    await this._stopListener();
+    this._emitState();
+  }
+
+  reconnect(reason = "manual") {
+    if (this.stopped) return false;
+    if (this.reconnectPromise) return this.reconnectPromise;
+    this.lastReconnectReason = reason;
+    this.reconnectPromise = this._reconnect(reason).finally(() => {
+      this.reconnectPromise = null;
+    });
+    return this.reconnectPromise;
+  }
+
+  health() {
+    const now = Date.now();
+    const client = this._mqttClient();
+    const socketConnected = client?.connected === true;
+    const lastActivityAt = Math.max(this.lastEventAt, this.lastPingAt);
+    const staleForMs = lastActivityAt ? Math.max(0, now - lastActivityAt) : null;
+    const stableForMs = this.connectedSince ? Math.max(0, now - this.connectedSince) : 0;
+    const healthy = !this.stopped && this.state === "CONNECTED" && socketConnected &&
+      staleForMs !== null && staleForMs < this.options.staleAfterMs;
+
+    return {
+      ok: healthy,
+      state: this.state,
+      socketConnected,
+      staleForMs,
+      stableForMs,
+      connectedSince: this.connectedSince ? new Date(this.connectedSince).toISOString() : null,
+      lastEventAt: this.lastEventAt ? new Date(this.lastEventAt).toISOString() : null,
+      lastPingAt: this.lastPingAt ? new Date(this.lastPingAt).toISOString() : null,
+      lastConnectAt: this.lastConnectAt ? new Date(this.lastConnectAt).toISOString() : null,
+      lastDisconnectAt: this.lastDisconnectAt ? new Date(this.lastDisconnectAt).toISOString() : null,
+      lastErrorAt: this.lastErrorAt ? new Date(this.lastErrorAt).toISOString() : null,
+      lastErrorClass: this.lastErrorClass,
+      lastError: this.lastError,
+      lastReconnectReason: this.lastReconnectReason,
+      reconnectAttempts: this.reconnectAttempts,
+      totalReconnects: this.totalReconnects,
+      consecutiveErrors: this.consecutiveErrors,
+      eventsReceived: this.eventsReceived,
+      lastEventType: this.lastEventType,
+      cooldownUntil: this.cooldownUntil > now ? new Date(this.cooldownUntil).toISOString() : null,
+    };
+  }
+
+  metrics() {
+    return this.health();
+  }
+
+  _mqttClient() {
+    return this.api?._mqttClient ?? this.api?._ctx?.mqttClient ?? this.api?._ctx?.mqtt ?? this.api?._mqtt ?? null;
+  }
+
+  _socketAlive() {
+    const client = this._mqttClient();
+    return client?.connected === true && client?.disconnecting !== true && client?.closed !== true;
+  }
+
+  async _connectOnce(reason) {
+    if (this.stopped || this.listener) return true;
+    this.state = "RECONNECTING";
+    this._emitState();
+
+    try {
+      this.listener = this.api.listenMqtt((error, event) => {
+        if (error) {
+          this._recordError(error);
+          void this.reconnect("listener_error");
+          return;
+        }
+        this._recordEvent(event);
+        try {
+          this._onEvent?.(event);
+        } catch (handlerError) {
+          this._recordError(handlerError, "EVENT_HANDLER");
+        }
+      });
+
+      this.connectedSince = Date.now();
+      this.lastConnectAt = this.connectedSince;
+      // Keep lastEventAt current so the watchdog doesn't fire immediately;
+      // state moves to CONNECTED on the first real event from _recordEvent().
+      this.lastEventAt = this.connectedSince;
+      this.state = "CONNECTING";
+      this.consecutiveErrors = 0;
+      this._emitState();
+      this.emit("connected", { reason });
+      return true;
+    } catch (error) {
+      this._recordError(error);
+      await this._stopListener();
+      return false;
+    }
+  }
+
+  async _reconnect(reason) {
+    if (this.stopped) return false;
+    const kind = this.lastErrorClass;
+    if (kind === "AUTH_FAILED") {
+      this.state = "AUTH_FAILED";
+      this._emitState();
+      this.emit("auth_failed", this.health());
+      return false;
+    }
+
+    if (Date.now() < this.cooldownUntil) {
+      this.state = "RECONNECT_WAIT";
+      this._emitState();
+      return false;
+    }
+
+    const attempt = ++this.reconnectAttempts;
+    const delay = fullJitter(attempt - 1, this.options.reconnectBaseMs, this.options.reconnectCapMs);
+    this.state = "RECONNECT_WAIT";
+    this._emitState();
+    await sleep(delay);
+    if (this.stopped) return false;
+
+    await this._stopListener();
+    this.state = "RECONNECTING";
+    this._emitState();
+    const ok = await this._connectOnce(reason);
+    this.totalReconnects++;
+
+    if (!ok && this.reconnectAttempts >= this.options.maxFastAttempts) {
+      this.cooldownUntil = Date.now() + this.options.cooldownMs;
+      this.state = "RECONNECT_WAIT";
+      this.emit("cooldown", this.health());
+    }
+    return ok;
+  }
+
+  async _stopListener() {
+    const old = this.listener;
+    this.listener = null;
+    if (!old) return;
+    this.lastDisconnectAt = Date.now();
+    try {
+      if (typeof old.stopListeningAsync === "function") await old.stopListeningAsync();
+      else await old.stopListening?.();
+    } catch (error) {
+      this._recordError(error, "STOP_LISTENER");
+    }
+  }
+
+  _recordEvent(event) {
+    this.lastEventAt = Date.now();
+    this.eventsReceived++;
+    this.lastEventType = event?.type || "unknown";
+    if (this.connectedSince && Date.now() - this.connectedSince >= this.options.stableWindowMs) {
+      this.reconnectAttempts = 0;
+      this.cooldownUntil = 0;
+      // Reset consecutive error count once the session has been stable for stableWindowMs.
+      this.consecutiveErrors = 0;
+    }
+    this.state = "CONNECTED";
+    this._emitState();
+  }
+
+  _recordError(error, forcedClass = null) {
+    const message = getErrorText(error).slice(0, 300);
+    const errorClass = forcedClass || classifyMqttError(error);
+    this.errors++;
+    this.consecutiveErrors++;
+    this.lastErrorAt = Date.now();
+    this.lastError = message;
+    this.lastErrorClass = errorClass;
+    this.lastDisconnectAt = Date.now();
+    if (errorClass === "AUTH_FAILED") this.state = "AUTH_FAILED";
+    else if (this.state !== "STOPPED") this.state = "DEGRADED";
+    this.emit("error_observed", { errorClass, message, at: this.lastErrorAt });
+    this._emitState();
+  }
+
+  _scheduleWatchdog() {
+    clearTimeout(this.watchdogTimer);
+    if (this.stopped) return;
+    this.watchdogTimer = setTimeout(async () => {
+      try {
+        const lastActivityAt = Math.max(this.lastEventAt, this.lastPingAt);
+        const staleFor = Date.now() - lastActivityAt;
+        const settling = this.connectedSince > 0 &&
+          Date.now() - this.connectedSince < this.options.initialGraceMs;
+        // The FCA listener may expose its MQTT client a little after listenMqtt()
+        // returns. Do not tear down a new, otherwise error-free session during
+        // that settling window; the transport's own error/close handlers remain
+        // responsible for immediate failures.
+        if (!settling && (!this._socketAlive() || staleFor >= this.options.staleAfterMs)) {
+          await this.reconnect(this._socketAlive() ? "stale" : "socket_not_alive");
+        }
+      } catch (error) {
+        this._recordError(error, "WATCHDOG");
+      } finally {
+        this._scheduleWatchdog();
+      }
+    }, this.options.watchdogIntervalMs);
+    this.watchdogTimer.unref?.();
+  }
+
+  _schedulePing() {
+    clearTimeout(this.pingTimer);
+    if (this.stopped) return;
+    this.pingTimer = setTimeout(() => {
+      if (this._socketAlive()) {
+        this.lastPingAt = Date.now();
+        // A quiet account may not emit an application event after connect.
+        // The transport ping is still a valid readiness signal; otherwise a
+        // healthy idle bot would remain stuck in CONNECTING forever.
+        if (this.state !== "AUTH_FAILED" && this.state !== "CONNECTED") {
+          this.state = "CONNECTED";
+          this._emitState();
+        }
+        this._resetReconnectBudgetIfStable();
+        this.emit("ping_ok", this.health());
+      }
+      else if (this.state !== "AUTH_FAILED") void this.reconnect("ping_failed");
+      this._schedulePing();
+    }, this.options.pingIntervalMs);
+    this.pingTimer.unref?.();
+  }
+
+  _emitState() {
+    try { this._onState?.(this.health()); } catch (_) {}
+  }
+
+  _resetReconnectBudgetIfStable() {
+    if (!this.connectedSince) return;
+    if (Date.now() - this.connectedSince < this.options.stableWindowMs) return;
+    this.reconnectAttempts = 0;
+    this.cooldownUntil = 0;
+    this.consecutiveErrors = 0;
+  }
+}
+
+export function createMqttConnectionManager(api, options) {
+  return new MqttConnectionManager(api, options);
+}
+
+export default MqttConnectionManager;

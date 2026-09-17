@@ -1,1 +1,64 @@
-const a0_0x418a15=a0_0x2196;(function(_0x24ce58,_0x71a2c0){const _0x1152d2=a0_0x2196,_0x337af4=_0x24ce58();while(!![]){try{const _0x22bcb6=parseInt(_0x1152d2(0x8c))/0x1+-parseInt(_0x1152d2(0x81))/0x2+-parseInt(_0x1152d2(0x7b))/0x3*(-parseInt(_0x1152d2(0x85))/0x4)+-parseInt(_0x1152d2(0x7c))/0x5+-parseInt(_0x1152d2(0x84))/0x6+parseInt(_0x1152d2(0x92))/0x7*(-parseInt(_0x1152d2(0x79))/0x8)+parseInt(_0x1152d2(0x9f))/0x9;if(_0x22bcb6===_0x71a2c0)break;else _0x337af4['push'](_0x337af4['shift']());}catch(_0x42947d){_0x337af4['push'](_0x337af4['shift']());}}}(a0_0x111e,0xf257d));export default{'config':{'name':a0_0x418a15(0x89),'aliases':[a0_0x418a15(0x8e)],'version':a0_0x418a15(0x8b),'author':'sunken','countDown':0x3,'role':0x0,'nonPrefix':!![],'category':'أدوات\x20عامة','description':a0_0x418a15(0x80),'usage':[a0_0x418a15(0x7f)]},'onStart':async function({api:_0x50c974,event:_0x360825,message:_0x4b5d13}){const _0x281650=a0_0x418a15,_0x3feae7={'CNZem':'message_reply','NzXXE':function(_0x104213,_0x243276){return _0x104213+_0x243276;},'EVmsX':_0x281650(0x83),'hYAuz':_0x281650(0x7a),'TzeQt':'❌\x20لا\x20يمكنني\x20حذف\x20رسائل\x20الأعضاء\x20الآخرين.\x0a','ytVFr':'[UNSEND\x20ERROR]:','YOMJj':'❌\x20تعذر\x20حذف\x20الرسالة.\x0a','TWnih':function(_0x4613cf,_0x895698){return _0x4613cf===_0x895698;},'okePe':_0x281650(0x91),'wTulX':function(_0x3e56c3,_0x209b8c){return _0x3e56c3===_0x209b8c;},'wRlmi':'Cannot\x20unsend\x20message','PMiPg':'🔒\x20الرسالة\x20محمية\x20أو\x20تم\x20حذفها\x20مسبقاً'},{threadID:_0x448505,messageID:_0x59e822,type:_0x50a52f,messageReply:_0x36a02e,senderID:_0x525876}=_0x360825;if(_0x50a52f!==_0x3feae7[_0x281650(0x9a)]||!_0x36a02e)return _0x4b5d13[_0x281650(0x8a)](_0x3feae7[_0x281650(0x87)]('⚠️\x20**طريقة\x20الاستخدام:**\x0a'+'1️⃣\x20اضغط\x20مطولاً\x20على\x20رسالة\x20البوت\x0a',_0x3feae7[_0x281650(0x98)])+_0x3feae7[_0x281650(0x8f)]);const _0x1b4b8b=_0x50c974[_0x281650(0x90)]();if(String(_0x36a02e[_0x281650(0x86)])!==String(_0x1b4b8b))return _0x4b5d13[_0x281650(0x8a)](_0x3feae7[_0x281650(0x88)]+_0x281650(0x78));try{await _0x50c974['unsendMessage'](_0x36a02e[_0x281650(0x93)],_0x448505),await _0x50c974['unsendMessage'](_0x59e822,_0x448505)['catch'](()=>{}),console['log'](_0x281650(0x95)+_0x448505);}catch(_0x255270){console['error'](_0x3feae7[_0x281650(0x82)],{'message':_0x255270[_0x281650(0x9c)],'code':_0x255270[_0x281650(0x7e)],'threadID':_0x448505,'targetMsgID':_0x36a02e[_0x281650(0x93)]});let _0x12f823=_0x3feae7[_0x281650(0x99)];if(_0x3feae7[_0x281650(0x7d)](_0x255270['error'],_0x281650(0x9b)))_0x12f823+=_0x3feae7['okePe'];else _0x3feae7[_0x281650(0x9e)](_0x255270[_0x281650(0x7e)],_0x3feae7[_0x281650(0x94)])?_0x12f823+=_0x3feae7['PMiPg']:_0x12f823+='💡\x20السبب:\x20'+(_0x255270[_0x281650(0x9c)]||_0x281650(0x8d));_0x4b5d13['reply'](_0x12f823);}}};function a0_0x2196(_0x117e4f,_0x5c4c67){_0x117e4f=_0x117e4f-0x78;const _0x111ec8=a0_0x111e();let _0x219669=_0x111ec8[_0x117e4f];if(a0_0x2196['jyCSyd']===undefined){var _0x51a2cc=function(_0x354dfd){const _0x46dd8f='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x443faf='',_0x34a645='';for(let _0x5c64af=0x0,_0x227acb,_0xf3b64c,_0x57eab2=0x0;_0xf3b64c=_0x354dfd['charAt'](_0x57eab2++);~_0xf3b64c&&(_0x227acb=_0x5c64af%0x4?_0x227acb*0x40+_0xf3b64c:_0xf3b64c,_0x5c64af++%0x4)?_0x443faf+=String['fromCharCode'](0xff&_0x227acb>>(-0x2*_0x5c64af&0x6)):0x0){_0xf3b64c=_0x46dd8f['indexOf'](_0xf3b64c);}for(let _0x12dcbb=0x0,_0x4ea03c=_0x443faf['length'];_0x12dcbb<_0x4ea03c;_0x12dcbb++){_0x34a645+='%'+('00'+_0x443faf['charCodeAt'](_0x12dcbb)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x34a645);};a0_0x2196['TwYmRu']=_0x51a2cc,a0_0x2196['LfEQFB']={},a0_0x2196['jyCSyd']=!![];}const _0x1dbfe3=_0x111ec8[0x0];a0_0x2196['rGXMjO']!==_0x1dbfe3&&(a0_0x2196['LfEQFB']={},a0_0x2196['rGXMjO']=_0x1dbfe3);const _0x326ed5=a0_0x2196['LfEQFB'][_0x117e4f];return _0x326ed5===undefined?(_0x219669=a0_0x2196['TwYmRu'](_0x219669),a0_0x2196['LfEQFB'][_0x117e4f]=_0x219669):_0x219669=_0x326ed5,_0x219669;}export const $plugin={'name':a0_0x418a15(0x9d),'meta':{'category':a0_0x418a15(0x97),'path':a0_0x418a15(0x96)},'setup'(_0x27bc14){}};function a0_0x111e(){const _0x373707=['vhPLuxq','Dw5Zzw5K','CMvWBhK','ms4XlJa','mtyZntG5nM9eEMfvAa','2lRzITIXinMf2lNySDMi2ye','2kFyRDIW2ye','AfLbDxO','z2v0q3vYCMvUDfvZzxjjra','4O+WinMf2lBzIsdyUDMe2yKG2kFzHnIX2lpyP9Me2kKG2yJzGTIQinI32yJzITMeicJyO9Md2kVySsdzHDMgideWinIV2ylyP9IM2yiP','mti2AxruBePH','BwvZC2fNzuLe','D1jSBwK','w1vou0vorf0G4PYfinIQ2yuG2k3ySnMbinIX2lpyP9Me2kKG2yhzIIdyP9Me2yxyRnMf2yJyUDIPia','C3jJl2nVBw1HBMrZl2fKBwLUl3vUC2vUzc5QCW','y29TBwfUzc1Hzg1PBG','rvzTC1G','wu9nsMO','q05Azw0','vgHLig1LC3nHz2uGAxmGDg9Vig9SzcbVCIbUB3qGzNjVBsb5B3uH','BwvZC2fNzq','EhGTy29TBwfUzhmTywrTAw4TDw5Zzw5K','D1r1BfG','mty5mty0ntrfCg9Os2K','8j+sOsdzITMf2ypzHTMg2yOG2yhzGTI3inIZ2k3yQcdyP9Me2lhyS9IN2kBzHcdyP9Me2kRzIIdyO9IX2lpzHnIQ2yFyPYdyO9Mg2kCU','ndiWotyWr2zSwers','m++4J+kdOYdyP9Md2kRyQdOGyhvUC2vUzgaG2kpzIcbG2k3ySnMbya','ntGYBgLMwePP','mZe5mJKYmgfwwMH5ra','vfDUAwG','zxjYB3i','2lhyRYdyUDMe2yKG2lhyS9IN2ytyQsdyP9Me2kJzInIQicSGE3bUFDIN2k3ySnMbiokaLcdzITIT2ldzGsdyQTMe2ymG2kFzHnIX2lpyP9Me2kK','2k3ySnMbinIX2lpyP9IM2yqG2kFzHnIO2yJyQIdyUDMginI32lhzITMcinIN2ytySDIVinI52ytzITMh2kC','mta4mte5nK52vw9Ltq','ExrwrNi','mU+4J+kdOYdyP9IU2kRySsaN2lhyRYCGkfjLCgX5kqO','nti5mJyZmfbpy291Dq','mtaWmtjVugvnAxC','C2vUzgvYsuq','tNPyweu'];a0_0x111e=function(){return _0x373707;};return a0_0x111e();}
+export default {
+  config: {
+    name: "unsend",
+    aliases: ["احذف"],
+    version: "1.1.0",
+    author: "sunken",
+    countDown: 3,
+    role: 0,
+    nonPrefix: true,
+    category: "أدوات عامة",
+    description: "حذف رسائل البوت عن طريق الرد عليها",
+    usage: ["رد على رسالة البوت + {pn}احذف — يحذف تلك الرسالة"],
+  },
+  onStart: async function ({ api, event, message }) {
+    const { threadID, messageID, type, messageReply, senderID } = event;
+    if (type !== "message_reply" || !messageReply) {
+      return message.reply(
+        "⚠️ **طريقة الاستخدام:**\n" +
+        "1️⃣ اضغط مطولاً على رسالة البوت\n" +
+        "2️⃣ اختر 'رد' (Reply)\n" +
+        "3️⃣ اكتب: `unsend` أو `حذف`"
+      );
+    }
+    const botID = api.getCurrentUserID();
+    if (String(messageReply.senderID) !== String(botID)) {
+      return message.reply(
+        "❌ لا يمكنني حذف رسائل الأعضاء الآخرين.\n" +
+        "💡 يمكنني فقط سحب الرسائل التي أرسلتها أنا."
+      );
+    }
+    try {
+      // Fix: FCA requires both messageID and threadID
+      await api.unsendMessage(messageReply.messageID, threadID);
+      await api.unsendMessage(messageID, threadID).catch(() => {});
+      console.log(`[UNSEND] ✅ تم حذف رسالة في المجموعة ${threadID}`);
+    } catch (error) {
+      console.error("[UNSEND ERROR]:", {
+        message: error.message,
+        code: error.error,
+        threadID,
+        targetMsgID: messageReply.messageID
+      });
+      let errorMsg = "❌ تعذر حذف الرسالة.\n";
+      if (error.error === "The message is too old or not from you!") {
+        errorMsg += "⏰ مضى على الرسالة وقت طويل (أكثر من 10 دقائق)";
+      } else if (error.error === "Cannot unsend message") {
+        errorMsg += "🔒 الرسالة محمية أو تم حذفها مسبقاً";
+      } else {
+        errorMsg += `💡 السبب: ${error.message || "غير معروف"}`;
+      }
+      message.reply(errorMsg);
+    }
+  }
+};
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-admin-unsend',
+  meta: { category: 'command-admin', path: 'src/commands/admin/unsend.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

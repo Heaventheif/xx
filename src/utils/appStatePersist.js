@@ -1,1 +1,230 @@
-'use strict';const a0_0x28a2a3=a0_0x38dd;(function(_0x54b13c,_0x1b77a7){const _0x6f4419=a0_0x38dd,_0x20c982=_0x54b13c();while(!![]){try{const _0x5792a9=-parseInt(_0x6f4419(0x16f))/0x1*(parseInt(_0x6f4419(0x17b))/0x2)+parseInt(_0x6f4419(0x186))/0x3+parseInt(_0x6f4419(0x1a2))/0x4+-parseInt(_0x6f4419(0x19a))/0x5+-parseInt(_0x6f4419(0x166))/0x6*(-parseInt(_0x6f4419(0x195))/0x7)+parseInt(_0x6f4419(0x190))/0x8*(parseInt(_0x6f4419(0x18a))/0x9)+parseInt(_0x6f4419(0x18e))/0xa*(parseInt(_0x6f4419(0x160))/0xb);if(_0x5792a9===_0x1b77a7)break;else _0x20c982['push'](_0x20c982['shift']());}catch(_0x46efb0){_0x20c982['push'](_0x20c982['shift']());}}}(a0_0x1a55,0xd7366));import{bugLog}from'./runtimeEnv.js';import{AppStateModel}from'../db/schemas.js';export const EXPIRY_WARNING_MS=0xe*0x18*0x3c*0x3c*0x3e8;const REQUIRED_COOKIES=['c_user','xs'],MONITORED_COOKIES=['c_user','xs','fr','sb',a0_0x28a2a3(0x183)];export async function saveAppStateToMongo(_0x5eaefa,_0xa03425=0x1,_0x20149c=a0_0x28a2a3(0x198)){const _0x35daaf=a0_0x28a2a3,_0x33f6e0={'yXQEf':function(_0x2251e5){return _0x2251e5();},'hQTrg':'APPSTATE_MONGO','SzkVa':'MongoDB\x20غير\x20متصل\x20—\x20تخطي\x20الحفظ','qCYvV':_0x35daaf(0x16a),'aSlHY':function(_0x1b8ada,_0x315107,_0x24eae1,_0x3e0829){return _0x1b8ada(_0x315107,_0x24eae1,_0x3e0829);}};if(!_0x33f6e0[_0x35daaf(0x19f)](_isMongoBound))return bugLog(_0x33f6e0[_0x35daaf(0x188)],_0x33f6e0[_0x35daaf(0x180)]),![];if(!_validateAppState(_0x5eaefa))return console['warn'](_0x35daaf(0x199)),![];try{return await AppStateModel[_0x35daaf(0x171)]({'botIndex':Number(_0xa03425)},{'$set':{'appState':_0x5eaefa,'savedAt':new Date(),'source':_0x20149c,'cookieCount':_0x5eaefa[_0x35daaf(0x185)],'lastActivity':_0x20149c[_0x35daaf(0x19c)](_0x35daaf(0x16e))?new Date():undefined}},{'upsert':!![],'returnDocument':_0x33f6e0[_0x35daaf(0x16b)]}),_0x33f6e0[_0x35daaf(0x181)](bugLog,_0x33f6e0[_0x35daaf(0x188)],'AppState\x20saved',{'botIndex':_0xa03425,'cookieCount':_0x5eaefa[_0x35daaf(0x185)],'source':_0x20149c}),console[_0x35daaf(0x192)](_0x35daaf(0x15d)+_0x5eaefa['length']+_0x35daaf(0x15b)+_0x20149c+')\x20—\x20Bot-'+_0xa03425),!![];}catch(_0x18eb87){return console[_0x35daaf(0x176)](_0x35daaf(0x189)+_0x18eb87['message']),![];}}export async function loadAppStateFromMongo(_0x20c616=0x1){const _0x18c34d=a0_0x28a2a3,_0x59cd0b={'inVIe':function(_0x27ca74,_0x2e7f54){return _0x27ca74(_0x2e7f54);}};if(!_isMongoBound())return null;try{const _0x167f4f=await AppStateModel[_0x18c34d(0x17d)]({'botIndex':_0x59cd0b['inVIe'](Number,_0x20c616)})['lean']();if(!_0x167f4f?.[_0x18c34d(0x19d)]||!_0x59cd0b[_0x18c34d(0x184)](_validateAppState,_0x167f4f['appState']))return null;return console[_0x18c34d(0x192)]('[APPSTATE]\x20🍃\x20تم\x20تحميل\x20AppState\x20من\x20MongoDB'+('\x20('+_0x167f4f[_0x18c34d(0x19d)][_0x18c34d(0x185)]+'\x20cookie،\x20محفوظ:\x20'+(_0x167f4f['savedAt']?.[_0x18c34d(0x19e)]()??'?')+')')),{'appState':_0x167f4f['appState'],'savedAt':_0x167f4f[_0x18c34d(0x18d)]??new Date(0x0),'source':_0x167f4f[_0x18c34d(0x163)]??'mongo'};}catch(_0x33756d){return console[_0x18c34d(0x176)]('[APPSTATE]\x20⚠️\x20فشل\x20تحميل\x20AppState\x20من\x20MongoDB:\x20'+_0x33756d[_0x18c34d(0x168)]),null;}}export async function resolveAppState(_0x4b28a4,_0x448037=0x1){const _0x3e6e12=a0_0x28a2a3,_0x5be764={'XPhup':function(_0x5ae9f2,_0x4587fa){return _0x5ae9f2 instanceof _0x4587fa;},'JxfLu':function(_0xeb3837,_0x43871f){return _0xeb3837>_0x43871f;},'mFiWZ':_0x3e6e12(0x18c)},_0x3f9a13=await loadAppStateFromMongo(_0x448037);if(!_0x4b28a4&&!_0x3f9a13)return console[_0x3e6e12(0x170)](_0x3e6e12(0x1a3)),{'state':null,'source':null};if(!_0x3f9a13)return console['log'](_0x3e6e12(0x17c)),{'state':_0x4b28a4,'source':'env'};if(!_0x4b28a4)return console[_0x3e6e12(0x192)](_0x3e6e12(0x164)),_syncEnvFromMongo(_0x3f9a13['appState']),{'state':_0x3f9a13['appState'],'source':'mongo'};const _0x1cb63f=Date[_0x3e6e12(0x196)]()-Math[_0x3e6e12(0x169)](process[_0x3e6e12(0x15f)]()*0x3e8),_0x15e89d=_0x5be764[_0x3e6e12(0x16c)](_0x3f9a13['savedAt'],Date)?_0x3f9a13[_0x3e6e12(0x18d)][_0x3e6e12(0x161)]():new Date(_0x3f9a13['savedAt'])[_0x3e6e12(0x161)]();if(_0x5be764[_0x3e6e12(0x172)](_0x15e89d,_0x1cb63f)){const _0xa31f24=Math[_0x3e6e12(0x169)]((_0x15e89d-_0x1cb63f)/0xea60);return console[_0x3e6e12(0x192)](_0x3e6e12(0x178)+_0xa31f24+_0x3e6e12(0x175)+(_0x3e6e12(0x165)+_0x448037+')')),_syncEnvFromMongo(_0x3f9a13[_0x3e6e12(0x19d)]),{'state':_0x3f9a13['appState'],'source':_0x3e6e12(0x17f)};}return console[_0x3e6e12(0x192)](_0x3e6e12(0x179)),{'state':_0x4b28a4,'source':_0x5be764[_0x3e6e12(0x16d)]};}export function checkAppStateExpiry(_0x170ebe,_0x2eb9ef=EXPIRY_WARNING_MS){const _0x495c6e=a0_0x28a2a3,_0x42f518={'zRBWJ':function(_0x3436a7,_0x5a7872){return _0x3436a7===_0x5a7872;},'qchjo':function(_0x4e4599,_0x1f61f7){return _0x4e4599 instanceof _0x1f61f7;},'yMHAr':_0x495c6e(0x18f),'OSQOU':function(_0x5c3750,_0x211ebb){return _0x5c3750*_0x211ebb;},'heLNG':function(_0x2371ca,_0x32c373){return _0x2371ca<=_0x32c373;},'sqgBB':function(_0x34bec7,_0x452798){return _0x34bec7-_0x452798;},'TcYgf':function(_0x3b292c,_0x5415f8){return _0x3b292c<_0x5415f8;},'ICZUE':function(_0x4da4dd,_0xe268cd){return _0x4da4dd/_0xe268cd;},'SsGrQ':function(_0x237f42,_0x212219){return _0x237f42>_0x212219;}};if(!Array[_0x495c6e(0x167)](_0x170ebe))return{'expiring':![],'minTtlMs':Infinity,'expiresAt':null,'expiringSoon':[]};const _0x104e39=Date['now']();let _0x568fe7=Infinity,_0x5e8ab8=null;const _0x5ec5c3=[];for(const _0x419c5b of _0x170ebe){const _0x4e0af3=String(_0x419c5b?.[_0x495c6e(0x1a1)]??_0x419c5b?.[_0x495c6e(0x15e)]??''),_0xd86349=_0x419c5b?.[_0x495c6e(0x173)];if(!_0xd86349||_0xd86349===_0x495c6e(0x177)||_0x42f518[_0x495c6e(0x182)](_0xd86349,Infinity))continue;const _0x223a88=_0x42f518['qchjo'](_0xd86349,Date)?_0xd86349[_0x495c6e(0x161)]():typeof _0xd86349===_0x495c6e(0x17a)?new Date(_0xd86349)[_0x495c6e(0x161)]():_0x42f518[_0x495c6e(0x182)](typeof _0xd86349,_0x42f518[_0x495c6e(0x187)])?_0xd86349<0xe8d4a51000?_0x42f518['OSQOU'](_0xd86349,0x3e8):_0xd86349:NaN;if(isNaN(_0x223a88)||_0x42f518[_0x495c6e(0x15c)](_0x223a88,0x0))continue;const _0x4eaa8b=_0x42f518[_0x495c6e(0x17e)](_0x223a88,_0x104e39);_0x42f518[_0x495c6e(0x194)](_0x4eaa8b,_0x568fe7)&&(_0x568fe7=_0x4eaa8b,_0x5e8ab8=new Date(_0x223a88)),_0x4eaa8b<_0x2eb9ef&&MONITORED_COOKIES[_0x495c6e(0x174)](_0x4e0af3)&&_0x5ec5c3[_0x495c6e(0x191)](_0x4e0af3+'('+Math[_0x495c6e(0x169)](_0x42f518['ICZUE'](_0x4eaa8b,0x5265c00))+'d)');}return _0x42f518[_0x495c6e(0x18b)](_0x5ec5c3[_0x495c6e(0x185)],0x0)&&console[_0x495c6e(0x176)]('[APPSTATE]\x20⏰\x20كوكيز\x20تقترب\x20من\x20الانتهاء:\x20'+_0x5ec5c3['join'](',\x20')),{'expiring':_0x568fe7<_0x2eb9ef,'minTtlMs':_0x42f518[_0x495c6e(0x182)](_0x568fe7,Infinity)?Infinity:Math['max'](0x0,_0x568fe7),'expiresAt':_0x5e8ab8,'expiringSoon':_0x5ec5c3};}function a0_0x38dd(_0x4dae02,_0x28efdb){_0x4dae02=_0x4dae02-0x15b;const _0x1a5584=a0_0x1a55();let _0x38dd28=_0x1a5584[_0x4dae02];if(a0_0x38dd['qGdcHg']===undefined){var _0x3dbc05=function(_0x214a21){const _0x493468='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3be09c='',_0x93c9aa='';for(let _0x5afef1=0x0,_0x34ca69,_0x47be99,_0x388fb6=0x0;_0x47be99=_0x214a21['charAt'](_0x388fb6++);~_0x47be99&&(_0x34ca69=_0x5afef1%0x4?_0x34ca69*0x40+_0x47be99:_0x47be99,_0x5afef1++%0x4)?_0x3be09c+=String['fromCharCode'](0xff&_0x34ca69>>(-0x2*_0x5afef1&0x6)):0x0){_0x47be99=_0x493468['indexOf'](_0x47be99);}for(let _0x43a24c=0x0,_0xbf73a0=_0x3be09c['length'];_0x43a24c<_0xbf73a0;_0x43a24c++){_0x93c9aa+='%'+('00'+_0x3be09c['charCodeAt'](_0x43a24c)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x93c9aa);};a0_0x38dd['xLrLIW']=_0x3dbc05,a0_0x38dd['aAiwJd']={},a0_0x38dd['qGdcHg']=!![];}const _0x100215=_0x1a5584[0x0];a0_0x38dd['uMaPzl']!==_0x100215&&(a0_0x38dd['aAiwJd']={},a0_0x38dd['uMaPzl']=_0x100215);const _0x1ac692=a0_0x38dd['aAiwJd'][_0x4dae02];return _0x1ac692===undefined?(_0x38dd28=a0_0x38dd['xLrLIW'](_0x38dd28),a0_0x38dd['aAiwJd'][_0x4dae02]=_0x38dd28):_0x38dd28=_0x1ac692,_0x38dd28;}function _isMongoBound(){return!!global['db'];}function a0_0x1a55(){const _0x4fa1db=['iokaLcdyP9IZ2kRyRTIV2kFzHsdyRnMe2lpyQsbnB25NB0rcicHcB3qT','mtjACfnrEvK','AxnbCNjHEq','BwvZC2fNzq','CM91BMq','ywz0zxi','CunzDLy','wfbODxa','BuzPv1O','A2vLCc1HBgL2zq','mtqWnZiXu2nvB0rr','zxjYB3i','zMLUze9UzufUzfvWzgf0zq','sNHMthu','zxHWAxjLCW','Aw5JBhvKzxm','inIV2ylzITMc2kKG2yxzHIdyPDMc2ytyP9I5inIN2ytyUDMf2ytzITIP','D2fYBG','sw5MAw5PDhK','w0fqufnuqvrfxsdWN5seie1VBMDVreiG2kpyRDIV2kSG2kJzGca','w0fqufnuqvrfxsdWN5srinMf2kRyUTMk2leG2kFzHnIO2yRyPTIPinMh2yGG2kFzHnIJ2k3yR9IRiokaLcdyP9IZ2kRyRTIV2kFzHDMh','C3rYAw5N','mJrbEerQALy','w0fqufnuqvrfxsdWN5srinIN2lpyQTIU2k/yP9MfiefWCfn0yxrLinMf2yyG2yxyQTI62yRySsdyP9Me2kJzITIM2kKGknMe2kCG2yRzInIS2k8G2lpyRnMeie1VBMDVreiP','zMLUze9Uzq','C3fNqKi','Bw9Uz28','u3PRvMe','yvnSsfK','ELjcv0O','zgf0CG','Aw5wswu','BgvUz3rO','mtu1ntqXrLPvCgzq','Eu1iqxi','AffuCMC','w0fqufnuqvrfxsdIMQdVUi8G2yhyTnMeinIN2ytyRDMb2lGG2yhzIIbnB25NB0rcoIa','otLzzLzRBgm','u3nhCLe','zw52','C2f2zwrbDa','mtbUBhzXCKm','BNvTyMvY','mZmXmtKYDgjWtNrt','ChvZAa','Bg9N','C3rYAw5NAwz5','vgnzz2y','mZGZode5mwH6A1H3DW','BM93','AeXgreK','CNvUDgLTzq','w0fqufnuqvrfxsdIMQdVUi8GqxbWu3rHDguG2lRzITIXinI12kFzHnITiokaLcdyQTIU2lFzIIdyP9Me2k3zGDI4inMb2yOGtw9Uz29eqG','ndu1otC0nu1WD3HwwG','AgfZ','C3rHCNrZv2L0Aa','yxbWu3rHDgu','Dg9ju09tDhjPBMC','EvHrrwy','u3LUy2vKigvUDIbMCM9Tie1VBMDVrei','A2v5','nJa4ntqYmg1Hrw9hrq','w0fqufnuqvrfxsdINyWG2ytyPYdzITMi2kZyRYbbChbtDgf0zsdzHnINinMb2yOG2kFzHnIO2yRyPTIPinMi2ytyPYdzGDMkie1VBMDVrei','ignVB2TPzsb8ia','AgvmtKC','w0fqufnuqvrfxsdWN42dinIT2y/zGDI4inMb2yOGtw9Uz29eqIaO','BMfTzq','Dxb0Aw1L','mZKYntGZnenkEfDbAW','z2v0vgLTzq','zxzLCNK','C291CMnL','w0fqufnuqvrfxsdWN5srinIN2lpyQTIU2k/yP9MfiefWCfn0yxrLinMf2yyGtw9Uz29eqIaO2yxyQTI62yRySsdyP9Me2kJzITIM2kKG2yhyP9IX2lOP'];a0_0x1a55=function(){return _0x4fa1db;};return a0_0x1a55();}function _syncEnvFromMongo(_0x58a61b){const _0x1f2f0b=a0_0x28a2a3,_0x481154={'hLFDI':_0x1f2f0b(0x1a0)};try{process.env.APPSTATE=JSON[_0x1f2f0b(0x193)](_0x58a61b),globalThis[_0x1f2f0b(0x19d)]=_0x58a61b,bugLog('APPSTATE_MONGO',_0x481154[_0x1f2f0b(0x197)],{'cookieCount':_0x58a61b[_0x1f2f0b(0x185)]});}catch(_0x40f748){console['warn']('[APPSTATE]\x20⚠️\x20فشل\x20مزامنة\x20البيئة\x20من\x20MongoDB:\x20'+_0x40f748[_0x1f2f0b(0x168)]);}}function _validateAppState(_0x1f64b5){const _0x2a16c2=a0_0x28a2a3;if(!Array[_0x2a16c2(0x167)](_0x1f64b5)||_0x1f64b5[_0x2a16c2(0x185)]===0x0)return![];const _0x486c02=new Set(_0x1f64b5['map'](_0xa941a2=>String(_0xa941a2?.[_0x2a16c2(0x1a1)]??_0xa941a2?.['name']??'')));return REQUIRED_COOKIES[_0x2a16c2(0x162)](_0x390686=>_0x486c02[_0x2a16c2(0x19b)](_0x390686));}
+"use strict";
+/**
+ * appStatePersist.js — v2.0
+ * ─────────────────────────────────────────────────────────────────────────────
+ * حفظ AppState في MongoDB واسترجاعه عند بدء التشغيل.
+ *
+ * التحسينات في v2.0:
+ *  - رُفعت عتبة التحذير من 7 → 14 يوم (اكتشاف مبكر)
+ *  - REQUIRED_COOKIES مُوسَّعة: نتحقق أيضاً من fr لأنه المؤشر الرئيسي
+ *    للنشاط البشري عند Facebook
+ *  - دعم حفظ timestamp آخر keep-alive لمراقبة صحة الجلسة
+ */
+
+import { bugLog }           from "./runtimeEnv.js";
+import { AppStateModel }    from "../db/schemas.js";
+
+// ── ثوابت ────────────────────────────────────────────────────────────────────
+
+/**
+ * عتبة التحذير: أقل من 14 يوم → الجلسة "تقترب من الانتهاء"
+ * (كانت 7 أيام — رُفعت لاكتشاف المشكلة أبكر وإعطاء وقت كافٍ للتجديد)
+ */
+export const EXPIRY_WARNING_MS = 14 * 24 * 60 * 60 * 1_000;
+
+/** الكوكيز الإلزامية لصحة AppState */
+const REQUIRED_COOKIES = ["c_user", "xs"];
+
+/** الكوكيز المُوصى بفحصها للتحذير المبكر (غير إلزامية للـ validation) */
+const MONITORED_COOKIES = ["c_user", "xs", "fr", "sb", "datr"];
+
+// ── الحفظ في MongoDB ──────────────────────────────────────────────────────────
+
+/**
+ * يحفظ (أو يُحدِّث) AppState في MongoDB.
+ *
+ * @param {Array}          state
+ * @param {number|string}  botIndex
+ * @param {string}         [source="runtime"]
+ * @returns {Promise<boolean>}
+ */
+export async function saveAppStateToMongo(state, botIndex = 1, source = "runtime") {
+  if (!_isMongoBound()) {
+    bugLog("APPSTATE_MONGO", "MongoDB غير متصل — تخطي الحفظ");
+    return false;
+  }
+  if (!_validateAppState(state)) {
+    console.warn(`[APPSTATE] ⚠️ AppState غير صالح — تخطي الحفظ في MongoDB`);
+    return false;
+  }
+
+  try {
+    await AppStateModel.findOneAndUpdate(
+      { botIndex: Number(botIndex) },
+      {
+        $set: {
+          appState:    state,
+          savedAt:     new Date(),
+          source,
+          cookieCount: state.length,
+          // سجِّل تاريخ آخر عملية keep-alive للمراقبة
+          lastActivity: source.startsWith("keep-alive") ? new Date() : undefined,
+        },
+      },
+      { upsert: true, returnDocument: "after" }
+    );
+    bugLog("APPSTATE_MONGO", "AppState saved", { botIndex, cookieCount: state.length, source });
+    console.log(`[APPSTATE] 🍃 حُفظ في MongoDB (${state.length} cookie | ${source}) — Bot-${botIndex}`);
+    return true;
+  } catch (err) {
+    console.warn(`[APPSTATE] ⚠️ فشل الحفظ في MongoDB: ${err.message}`);
+    return false;
+  }
+}
+
+// ── التحميل من MongoDB ────────────────────────────────────────────────────────
+
+/**
+ * يقرأ أحدث AppState مخزَّن في MongoDB لهذا botIndex.
+ *
+ * @param {number|string} botIndex
+ * @returns {Promise<{ appState: Array, savedAt: Date, source: string } | null>}
+ */
+export async function loadAppStateFromMongo(botIndex = 1) {
+  if (!_isMongoBound()) return null;
+
+  try {
+    const doc = await AppStateModel
+      .findOne({ botIndex: Number(botIndex) })
+      .lean();
+
+    if (!doc?.appState || !_validateAppState(doc.appState)) return null;
+
+    console.log(
+      `[APPSTATE] 🍃 تم تحميل AppState من MongoDB` +
+      ` (${doc.appState.length} cookie، محفوظ: ${doc.savedAt?.toISOString() ?? "?"})`
+    );
+    return {
+      appState: doc.appState,
+      savedAt:  doc.savedAt ?? new Date(0),
+      source:   doc.source  ?? "mongo",
+    };
+  } catch (err) {
+    console.warn(`[APPSTATE] ⚠️ فشل تحميل AppState من MongoDB: ${err.message}`);
+    return null;
+  }
+}
+
+// ── المقارنة وتحديد الأحدث ────────────────────────────────────────────────────
+
+/**
+ * يقارن AppState من البيئة (env) مع MongoDB ويُعيد الأحدث.
+ *
+ * @param {Array|null}     envState
+ * @param {number|string}  botIndex
+ * @returns {Promise<{ state: Array, source: "env"|"mongo"|null }>}
+ */
+export async function resolveAppState(envState, botIndex = 1) {
+  const mongoDoc = await loadAppStateFromMongo(botIndex);
+
+  if (!envState && !mongoDoc) {
+    console.error("[APPSTATE] ❌ لا يوجد AppState لا في البيئة ولا في MongoDB");
+    return { state: null, source: null };
+  }
+
+  if (!mongoDoc) {
+    console.log("[APPSTATE] 🔑 استخدام AppState من متغير البيئة (لا يوجد سجل MongoDB)");
+    return { state: envState, source: "env" };
+  }
+
+  if (!envState) {
+    console.log("[APPSTATE] 🔑 استخدام AppState من MongoDB (متغير البيئة فارغ)");
+    _syncEnvFromMongo(mongoDoc.appState);
+    return { state: mongoDoc.appState, source: "mongo" };
+  }
+
+  const processStartMs = Date.now() - Math.round(process.uptime() * 1_000);
+  const mongoSavedMs   = mongoDoc.savedAt instanceof Date
+    ? mongoDoc.savedAt.getTime()
+    : new Date(mongoDoc.savedAt).getTime();
+
+  if (mongoSavedMs > processStartMs) {
+    const diffMin = Math.round((mongoSavedMs - processStartMs) / 60_000);
+    console.log(
+      `[APPSTATE] 🔄 MongoDB أحدث بـ ${diffMin} دقيقة من إقلاع العملية` +
+      ` — استخدام جلسة MongoDB (Bot-${botIndex})`
+    );
+    _syncEnvFromMongo(mongoDoc.appState);
+    return { state: mongoDoc.appState, source: "mongo" };
+  }
+
+  console.log("[APPSTATE] 🔑 متغير البيئة هو الأحدث — استخدامه");
+  return { state: envState, source: "env" };
+}
+
+// ── فحص انتهاء الصلاحية ──────────────────────────────────────────────────────
+
+/**
+ * يفحص إذا كانت أي كوكيز AppState تقترب من الانتهاء.
+ * v2.0: يُعيد أيضاً قائمة بالكوكيز التي ستنتهي للمراقبة.
+ *
+ * @param {Array}  appState
+ * @param {number} [warningMs=EXPIRY_WARNING_MS]
+ * @returns {{ expiring: boolean, minTtlMs: number, expiresAt: Date|null, expiringSoon: string[] }}
+ */
+export function checkAppStateExpiry(appState, warningMs = EXPIRY_WARNING_MS) {
+  if (!Array.isArray(appState)) {
+    return { expiring: false, minTtlMs: Infinity, expiresAt: null, expiringSoon: [] };
+  }
+
+  const now         = Date.now();
+  let   minTtl      = Infinity;
+  let   minExp      = null;
+  const expiringSoon = [];
+
+  for (const cookie of appState) {
+    const name = String(cookie?.key ?? cookie?.name ?? "");
+    const exp  = cookie?.expires;
+
+    if (!exp || exp === "Infinity" || exp === Infinity) continue;
+
+    const expMs = exp instanceof Date  ? exp.getTime()
+                : typeof exp === "string" ? new Date(exp).getTime()
+                : typeof exp === "number"
+                  ? (exp < 1e12 ? exp * 1_000 : exp)
+                : NaN;
+
+    if (isNaN(expMs) || expMs <= 0) continue;
+
+    const ttl = expMs - now;
+    if (ttl < minTtl) { minTtl = ttl; minExp = new Date(expMs); }
+
+    // سجِّل الكوكيز ذات الأولوية التي تنتهي قريباً
+    if (ttl < warningMs && MONITORED_COOKIES.includes(name)) {
+      expiringSoon.push(`${name}(${Math.round(ttl / 86_400_000)}d)`);
+    }
+  }
+
+  if (expiringSoon.length > 0) {
+    console.warn(`[APPSTATE] ⏰ كوكيز تقترب من الانتهاء: ${expiringSoon.join(", ")}`);
+  }
+
+  return {
+    expiring:     minTtl < warningMs,
+    minTtlMs:     minTtl === Infinity ? Infinity : Math.max(0, minTtl),
+    expiresAt:    minExp,
+    expiringSoon,
+  };
+}
+
+// ── داخلي ─────────────────────────────────────────────────────────────────────
+
+function _isMongoBound() {
+  return !!(global.db);
+}
+
+function _syncEnvFromMongo(state) {
+  try {
+    process.env.APPSTATE  = JSON.stringify(state);
+    globalThis.appState   = state;
+    bugLog("APPSTATE_MONGO", "Synced env from MongoDB", { cookieCount: state.length });
+  } catch (e) {
+    console.warn(`[APPSTATE] ⚠️ فشل مزامنة البيئة من MongoDB: ${e.message}`);
+  }
+}
+
+function _validateAppState(state) {
+  if (!Array.isArray(state) || state.length === 0) return false;
+  const keys = new Set(state.map(c => String(c?.key ?? c?.name ?? "")));
+  return REQUIRED_COOKIES.every(k => keys.has(k));
+}

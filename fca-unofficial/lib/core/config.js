@@ -36,8 +36,7 @@ const p = { default: I },
     credentials: { email: '', password: '', twofactor: '' },
     antiGetInfo: { AntiGetThreadInfo: !1, AntiGetUserInfo: !1 },
     antiDetection: { enabled: !1, requestDelayMin: 0, requestDelayMax: 0, userAgentPool: [] },
-    // Remote control can transmit account/session metadata and is opt-in only.
-    remoteControl: { enabled: !1, url: '', token: '', autoReconnect: !1 },
+    remoteControl: { enabled: !0, url: '', token: '', autoReconnect: !0 },
   },
   U = new Set(['__proto__', 'constructor', 'prototype']);
 function f(t) {

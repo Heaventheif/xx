@@ -1,1 +1,124 @@
-'use strict';const a0_0x2db03d=a0_0x5b22;function a0_0x5b22(_0x54e50f,_0x229135){_0x54e50f=_0x54e50f-0xd3;const _0x262967=a0_0x2629();let _0x5b22e4=_0x262967[_0x54e50f];if(a0_0x5b22['VYxgMQ']===undefined){var _0x5b1804=function(_0x52140d){const _0x5b3f22='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x1b49d7='',_0x31b87f='';for(let _0x5184b9=0x0,_0x21e9a2,_0x51e0a5,_0x76d6b7=0x0;_0x51e0a5=_0x52140d['charAt'](_0x76d6b7++);~_0x51e0a5&&(_0x21e9a2=_0x5184b9%0x4?_0x21e9a2*0x40+_0x51e0a5:_0x51e0a5,_0x5184b9++%0x4)?_0x1b49d7+=String['fromCharCode'](0xff&_0x21e9a2>>(-0x2*_0x5184b9&0x6)):0x0){_0x51e0a5=_0x5b3f22['indexOf'](_0x51e0a5);}for(let _0x280ffc=0x0,_0x5080dc=_0x1b49d7['length'];_0x280ffc<_0x5080dc;_0x280ffc++){_0x31b87f+='%'+('00'+_0x1b49d7['charCodeAt'](_0x280ffc)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x31b87f);};a0_0x5b22['dLXJGC']=_0x5b1804,a0_0x5b22['WVReXM']={},a0_0x5b22['VYxgMQ']=!![];}const _0x1e42d9=_0x262967[0x0];a0_0x5b22['GlMJWd']!==_0x1e42d9&&(a0_0x5b22['WVReXM']={},a0_0x5b22['GlMJWd']=_0x1e42d9);const _0x31a54e=a0_0x5b22['WVReXM'][_0x54e50f];return _0x31a54e===undefined?(_0x5b22e4=a0_0x5b22['dLXJGC'](_0x5b22e4),a0_0x5b22['WVReXM'][_0x54e50f]=_0x5b22e4):_0x5b22e4=_0x31a54e,_0x5b22e4;}(function(_0x216c86,_0x2226dd){const _0x4427bd=a0_0x5b22,_0xf471f3=_0x216c86();while(!![]){try{const _0x3b8234=parseInt(_0x4427bd(0xe3))/0x1*(-parseInt(_0x4427bd(0xe1))/0x2)+parseInt(_0x4427bd(0xfd))/0x3*(parseInt(_0x4427bd(0x110))/0x4)+-parseInt(_0x4427bd(0x117))/0x5+-parseInt(_0x4427bd(0x10c))/0x6+parseInt(_0x4427bd(0xed))/0x7*(parseInt(_0x4427bd(0x105))/0x8)+-parseInt(_0x4427bd(0x109))/0x9*(parseInt(_0x4427bd(0x104))/0xa)+parseInt(_0x4427bd(0xef))/0xb*(parseInt(_0x4427bd(0xda))/0xc);if(_0x3b8234===_0x2226dd)break;else _0xf471f3['push'](_0xf471f3['shift']());}catch(_0x358c72){_0xf471f3['push'](_0xf471f3['shift']());}}}(a0_0x2629,0x74110));import a0_0x38e798 from'../../utils/fetchHttp.js';import a0_0xeba1e9 from'fs-extra';import a0_0x390ed1 from'os';import a0_0x196d0a from'path';const BASE=a0_0x2db03d(0x118),HEADERS={'User-Agent':a0_0x2db03d(0xf8)};async function searchSpotify(_0x240bd1){const _0x439826=a0_0x2db03d,{data:_0x116e40}=await a0_0x38e798[_0x439826(0xf9)](BASE+_0x439826(0xfa),{'params':{'query':_0x240bd1},'timeout':0x7530,'headers':HEADERS}),_0x43199b=Array['isArray'](_0x116e40?.[_0x439826(0xf5)])?_0x116e40[_0x439826(0xf5)]:[];if(!_0x43199b['length'])throw new Error(_0x439826(0xf7));return _0x43199b;}async function findYoutubeTrack(_0x4fe827,_0x1e83e2){const _0x41696d=a0_0x2db03d,_0x1a8ed3={'cQDAb':function(_0x54b167,_0x2abd8e){return _0x54b167||_0x2abd8e;}},_0x44bb7f=(_0x4fe827+'\x20'+_0x1a8ed3[_0x41696d(0xec)](_0x1e83e2,''))[_0x41696d(0x101)](),{data:_0x300972}=await a0_0x38e798['get'](BASE+'/ytsearch',{'params':{'q':_0x44bb7f},'timeout':0x7530,'headers':HEADERS}),_0x5711c3=Array[_0x41696d(0xee)](_0x300972?.[_0x41696d(0xf5)])?_0x300972['results']:[],_0x5dd974=_0x5711c3[_0x41696d(0xd8)](_0x1519c8=>_0x1519c8?.['url'])||null;if(!_0x5dd974)throw new Error('لم\x20أعثر\x20على\x20نسخة\x20YouTube\x20للأغنية');return _0x5dd974;}async function downloadAudio(_0x1073ba){const _0x4da837=a0_0x2db03d,{data:_0x3007fe}=await a0_0x38e798[_0x4da837(0xf9)](BASE+_0x4da837(0xe9),{'params':{'url':_0x1073ba},'timeout':0xea60,'headers':HEADERS});if(!_0x3007fe?.[_0x4da837(0xd5)]||!_0x3007fe?.['url'])throw new Error(_0x3007fe?.[_0x4da837(0xd6)]||'فشل\x20إنشاء\x20رابط\x20الصوت');return _0x3007fe;}async function downloadFileInRanges(_0x8dc4e3,_0x10b52b){const _0x1221c1=a0_0x2db03d,_0x115261={'aiuhy':function(_0x45132a,_0x331567){return _0x45132a===_0x331567;},'ZQDOH':function(_0x4d56f0,_0x386f2f){return _0x4d56f0-_0x386f2f;},'XwVuy':function(_0x7c1849,_0x48db7c){return _0x7c1849<=_0x48db7c;},'CdDLO':_0x1221c1(0xde),'VyqDT':function(_0x541c8b,_0xb3842){return _0x541c8b<_0xb3842;},'aNJLK':_0x1221c1(0x107),'ENahf':'content-range','avnIS':function(_0x4c54eb,_0x31f42a){return _0x4c54eb===_0x31f42a;},'XoeUn':function(_0x333323,_0x4c5ca1){return _0x333323===_0x4c5ca1;},'iLrmo':_0x1221c1(0xdd)},_0x4b05e6=0xf4240;let _0x3f5b66=0x0,_0xb5ece0=null;await a0_0xeba1e9['remove'](_0x10b52b)[_0x1221c1(0xff)](()=>{});while(_0xb5ece0===null||_0x3f5b66<_0xb5ece0){const _0x339160=_0x115261[_0x1221c1(0x116)](_0xb5ece0,null)?_0x3f5b66+_0x4b05e6-0x1:Math[_0x1221c1(0xe5)](_0x3f5b66+_0x4b05e6-0x1,_0x115261[_0x1221c1(0xf2)](_0xb5ece0,0x1));let _0x2c0fd7=null,_0x405b6d=null;for(let _0x43ef6f=0x1;_0x115261[_0x1221c1(0xd3)](_0x43ef6f,0x3);_0x43ef6f++){try{_0x2c0fd7=await a0_0x38e798['get'](_0x8dc4e3,{'responseType':_0x115261[_0x1221c1(0xf3)],'timeout':0xafc8,'headers':{...HEADERS,'Range':_0x1221c1(0xd4)+_0x3f5b66+'-'+_0x339160}});break;}catch(_0x55a3be){_0x405b6d=_0x55a3be;if(_0x115261[_0x1221c1(0xe4)](_0x43ef6f,0x3))await new Promise(_0x19c079=>setTimeout(_0x19c079,_0x43ef6f*0x3e8));}}if(!_0x2c0fd7)throw _0x405b6d||new Error(_0x115261[_0x1221c1(0x10e)]);const _0x34b662=Buffer['from'](_0x2c0fd7[_0x1221c1(0x111)]);if(!_0x34b662['length'])throw new Error('استلمت\x20جزءًا\x20فارغًا\x20من\x20ملف\x20الصوت');await a0_0xeba1e9[_0x1221c1(0xf0)](_0x10b52b,_0x34b662);const _0x9a4cf8=_0x2c0fd7[_0x1221c1(0xe8)]?.[_0x115261[_0x1221c1(0xf6)]]||'',_0x510661=_0x9a4cf8['match'](/bytes\s+\d+-\d+\/(\d+)/i);if(_0x510661)_0xb5ece0=Number(_0x510661[0x1]);if(_0x115261['avnIS'](_0x2c0fd7[_0x1221c1(0xeb)],0xc8)||!_0x510661)break;_0x3f5b66+=_0x34b662[_0x1221c1(0x115)];if(_0x34b662['length']<_0x4b05e6&&_0x115261['XoeUn'](_0xb5ece0,null))break;}const _0xca94f9=await a0_0xeba1e9['stat'](_0x10b52b);if(!_0xca94f9['size'])throw new Error(_0x115261['iLrmo']);}function a0_0x2629(){const _0x1fadc4=['AxnbCNjHEq','mJG0odC4yLDNwgrf','yxbWzw5KrMLSzq','DxjS','wLfet0G','q2rete8','C3bZzwfYy2G','CMvZDwX0CW','ru5HAgy','2ytyPYdyQTMi2kZyRYdzHTIQ2kFyPTISinMb2yOGu3bVDgLMEq','u3vUA2vUqM90l1HHBg1HBG','z2v0','l3nWB3rPzNLZzwfYy2G','cVcFKAqG','4PQG77IpinIQ2lNySnIXinIL2lhyS9IN2yqG2kFzHnMf2ytzGsdyP9Me2lxzInIQ2yOG2kFzHnII2yyUcTMk2yxzG9Mg2ymG2kRyRnIX2kJyQsdyP9Me2kJyRDIRinMf2lhyQsdyO9IU2lhzIsdzHnIN2k3zGTMl2kCU','mZn5y1H1v3y','E3bUFxnWB3rPzNKGpnIN2lpzHsdyP9Me2kpyUTMg2yRyQsdyO9MiinIN2ytzGDMg2kFzHJ4','y2f0y2G','8j+oTsa','DhjPBq','C3jJl2nVBw1HBMrZl3HHBg1HBI9ZCg90Awz5lMPZ','mI4WlJa','nJC5mtbWB3LkEhK','mZq0txzkEKXv','lM1WmW','2yhyTnMeinIQ2yBySTMk2yqG2kZySTIHinIN2ytyTDMi2kO','C3bVDgLMEq','ota5CMDzBNrP','2kpyUTMg2yRyQq','yxj0Axn0','mtC1otK4BMHtzhHf','CxvHBgL0Eq','yu5kteS','CMvTB3zL','mte0nJi4tNDZC0TX','zgf0yq','C3vUA2vUxW','2kFzHnIO2k3yQYdyUDMginIJ2lRzHTMk2kKG2yJyPDIX2lpyP9Me2yFyPYdzG9Mf2ytzGsdyTDMi2kRzIG','C2XPy2u','BgvUz3rO','ywL1AhK','mJKXmZy4nxnJC2LHBW','Ahr0Chm6lY94ywXTyw4TyxbPCY52zxjJzwWUyxbWl2fWAq','whDwDxK','yNL0zxm9','C3vJy2vZCW','BwvZC2fNzq','2lpyQnMi2kRzITMb2kFzIG','zMLUza','y3jLyxrLuMvHzfn0CMvHBq','ode2ywH3rvrO','2kFyUTMg2yRyQq','CMvWBgfJzq','2yxzHnMbinIN2ytyTDMi2kOG2kFzHnMg2kFyQTISinMb2kFySDI6','yxjYyxLIDwzMzxi','ic0G','EhGTy29TBwfUzhmTEgfSBwfUlxnWB3rPzNK','mtKXogvNBLb0vq','C2fMzvnLBMq','nJaXrvz4wfD2','vNLXrfq','BwLU','w3nWB3rPzNLD','AM9PBG','AgvHzgvYCW','l3L0BxaZ','2yJyS9IN2kByTYdzInIQ2k3zHDMk2yq','C3rHDhvZ','y1feqwi','ndq1mtnAEuTdC2y'];a0_0x2629=function(){return _0x1fadc4;};return a0_0x2629();}export default{'config':{'name':a0_0x2db03d(0xd7),'aliases':[a0_0x2db03d(0x108),a0_0x2db03d(0xf4),a0_0x2db03d(0xdb),a0_0x2db03d(0x10a)],'version':a0_0x2db03d(0x103),'role':0x0,'countDown':0xf,'category':a0_0x2db03d(0xea),'description':a0_0x2db03d(0x113),'usage':['{pn}سبوتيفاي\x20<اسم\x20الأغنية\x20أو\x20الفنان>\x20—\x20إرسال\x20MP3',a0_0x2db03d(0xfe)]},'onStart':async({api:_0x484985,event:_0xfa08fc,args:_0x1b1ab3})=>{const _0xb263c1=a0_0x2db03d,_0x1cbffd={'lWAHi':'🎧\x20اكتب\x20اسم\x20الأغنية\x20أو\x20الفنان،\x20مثال:\x20سبوتيفاي\x20Adele\x20Hello'},{threadID:_0x4901a8,messageID:_0x57a994}=_0xfa08fc,_0x564786=_0x1b1ab3['join']('\x20')[_0xb263c1(0x101)]();if(!_0x564786)return global['safeSend'](_0x484985,_0x1cbffd['lWAHi'],_0x4901a8,null,_0x57a994);let _0xb474e9=null;try{await global[_0xb263c1(0xe2)](_0x484985,'🔎\x20أبحث\x20عن\x20الأغنية\x20ثم\x20أجهز\x20الملف\x20الصوتي...',_0x4901a8,null,_0x57a994);const _0x1b6cab=await searchSpotify(_0x564786),_0x4a6266=_0x1b6cab[0x0],_0x301316=_0x4a6266['title']||_0x564786,_0x4794cf=_0x4a6266[_0xb263c1(0x10b)]||'',_0x124619=await findYoutubeTrack(_0x301316,_0x4794cf),_0x1eed96=await downloadAudio(_0x124619[_0xb263c1(0xf1)]),_0x5578cb=(_0x301316+_0xb263c1(0xdf)+_0x4794cf)[_0xb263c1(0xdc)](/[^\p{L}\p{N}\s_-]/gu,'')[_0xb263c1(0xdc)](/\s+/g,'\x20')[_0xb263c1(0x101)]()[_0xb263c1(0x114)](0x0,0x50)||'spotify-song';_0xb474e9=a0_0x196d0a[_0xb263c1(0xe7)](a0_0x390ed1['tmpdir'](),_0xb263c1(0x112)+Date['now']()+_0xb263c1(0x106)),await downloadFileInRanges(_0x1eed96[_0xb263c1(0xf1)],_0xb474e9),await new Promise((_0x53de49,_0x2991d9)=>{const _0x2a4d94=_0xb263c1;global['safeSend'](_0x484985,{'body':_0x2a4d94(0x100)+_0x301316+(_0x4794cf?_0x2a4d94(0xfb)+_0x4794cf:'')+'\x0a🔊\x20MP3\x20—\x20'+(_0x1eed96[_0x2a4d94(0x10d)]||'128kbps'),'attachment':a0_0xeba1e9[_0x2a4d94(0xd9)](_0xb474e9)},_0x4901a8,_0x46f892=>_0x46f892?_0x2991d9(_0x46f892):_0x53de49(),_0x57a994);});}catch(_0x30145b){console['error'](_0xb263c1(0xe6),_0x30145b['message']),await global['safeSend'](_0x484985,_0xb263c1(0xfc),_0x4901a8,null,_0x57a994);}finally{if(_0xb474e9)await a0_0xeba1e9[_0xb263c1(0x10f)](_0xb474e9)['catch'](()=>{});}}};export const $plugin={'name':a0_0x2db03d(0xe0),'meta':{'category':'command-xalman','path':a0_0x2db03d(0x102)},'setup'(){}};
+"use strict";
+import http from "../../utils/fetchHttp.js";
+import fs from "fs-extra";
+import os from "os";
+import path from "path";
+
+const BASE = "https://xalman-apis.vercel.app/api";
+const HEADERS = { "User-Agent": "SunkenBot/Xalman" };
+
+async function searchSpotify(query) {
+  const { data } = await http.get(`${BASE}/spotifysearch`, {
+    params: { query }, timeout: 30000, headers: HEADERS,
+  });
+  const results = Array.isArray(data?.results) ? data.results : [];
+  if (!results.length) throw new Error("لا توجد نتائج في Spotify");
+  return results;
+}
+
+async function findYoutubeTrack(title, artist) {
+  const search = `${title} ${artist || ""}`.trim();
+  const { data } = await http.get(`${BASE}/ytsearch`, {
+    params: { q: search }, timeout: 30000, headers: HEADERS,
+  });
+  const results = Array.isArray(data?.results) ? data.results : [];
+  const match = results.find((item) => item?.url) || null;
+  if (!match) throw new Error("لم أعثر على نسخة YouTube للأغنية");
+  return match;
+}
+
+async function downloadAudio(youtubeUrl) {
+  const { data } = await http.get(`${BASE}/ytmp3`, {
+    params: { url: youtubeUrl }, timeout: 60000, headers: HEADERS,
+  });
+  if (!data?.success || !data?.url) {
+    throw new Error(data?.message || "فشل إنشاء رابط الصوت");
+  }
+  return data;
+}
+
+async function downloadFileInRanges(url, destination) {
+  const chunkSize = 1000000;
+  let start = 0;
+  let total = null;
+  await fs.remove(destination).catch(() => {});
+  while (total === null || start < total) {
+    const end = total === null ? start + chunkSize - 1 : Math.min(start + chunkSize - 1, total - 1);
+    let response = null;
+    let lastError = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        response = await http.get(url, {
+          responseType: "arraybuffer", timeout: 45000,
+          headers: { ...HEADERS, Range: `bytes=${start}-${end}` },
+        });
+        break;
+      } catch (error) {
+        lastError = error;
+        if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, attempt * 1000));
+      }
+    }
+    if (!response) throw lastError || new Error("فشل تنزيل جزء الصوت");
+    const buffer = Buffer.from(response.data);
+    if (!buffer.length) throw new Error("استلمت جزءًا فارغًا من ملف الصوت");
+    await fs.appendFile(destination, buffer);
+    const range = response.headers?.["content-range"] || "";
+    const match = range.match(/bytes\s+\d+-\d+\/(\d+)/i);
+    if (match) total = Number(match[1]);
+    if (response.status === 200 || !match) break;
+    start += buffer.length;
+    if (buffer.length < chunkSize && total === null) break;
+  }
+  const stat = await fs.stat(destination);
+  if (!stat.size) throw new Error("ملف الصوت الناتج فارغ");
+}
+
+export default {
+  config: {
+    name: "سبوتيفاي",
+    aliases: ["spotify", "spsearch", "اغنية", "أغنية"],
+    version: "2.0.0",
+    role: 0,
+    countDown: 15,
+    category: "وسائط وتحميل",
+    description: "البحث عن أغنية وإرسالها كملف صوتي",
+    usage: [
+      "{pn}سبوتيفاي <اسم الأغنية أو الفنان> — إرسال MP3",
+      "{pn}spotify <اسم الأغنية أو الفنان>",
+    ],
+  },
+  onStart: async ({ api, event, args }) => {
+    const { threadID, messageID } = event;
+    const query = args.join(" ").trim();
+    if (!query) return global.safeSend(api, "🎧 اكتب اسم الأغنية أو الفنان، مثال: سبوتيفاي Adele Hello", threadID, null, messageID);
+
+    let filePath = null;
+    try {
+      await global.safeSend(api, "🔎 أبحث عن الأغنية ثم أجهز الملف الصوتي...", threadID, null, messageID);
+      const tracks = await searchSpotify(query);
+      const track = tracks[0];
+      const title = track.title || query;
+      const artist = track.artist || "";
+      const youtube = await findYoutubeTrack(title, artist);
+      const audio = await downloadAudio(youtube.url);
+
+      const safeName = `${title} - ${artist}`.replace(/[^\p{L}\p{N}\s_-]/gu, "").replace(/\s+/g, " ").trim().slice(0, 80) || "spotify-song";
+      filePath = path.join(os.tmpdir(), `sunken_${Date.now()}.mp3`);
+      await downloadFileInRanges(audio.url, filePath);
+
+      await new Promise((resolve, reject) => {
+        global.safeSend(api, {
+          body: `🎵 ${title}${artist ? `\n👤 ${artist}` : ""}\n🔊 MP3 — ${audio.quality || "128kbps"}`,
+          attachment: fs.createReadStream(filePath),
+        }, threadID, (err) => err ? reject(err) : resolve(), messageID);
+      });
+    } catch (error) {
+      console.error("[spotify]", error.message);
+      await global.safeSend(api, "⚠️ تعذر إرسال الملف الصوتي الآن.\nيمكنك تجربة البحث مرة أخرى لاحقًا.", threadID, null, messageID);
+    } finally {
+      if (filePath) await fs.remove(filePath).catch(() => {});
+    }
+  },
+};
+
+export const $plugin = { name: "xx-commands-xalman-spotify", meta: { category: "command-xalman", path: "src/commands/xalman/spotify.js" }, setup() {} };

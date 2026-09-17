@@ -1,1 +1,122 @@
-'use strict';const a0_0x3f40df=a0_0x5f5d;(function(_0x4473d4,_0x2a944b){const _0x3981d3=a0_0x5f5d,_0xe2ef37=_0x4473d4();while(!![]){try{const _0x3dbaf5=parseInt(_0x3981d3(0xef))/0x1*(parseInt(_0x3981d3(0x102))/0x2)+-parseInt(_0x3981d3(0xe7))/0x3+parseInt(_0x3981d3(0x117))/0x4*(parseInt(_0x3981d3(0x114))/0x5)+parseInt(_0x3981d3(0x111))/0x6*(parseInt(_0x3981d3(0x10a))/0x7)+parseInt(_0x3981d3(0x119))/0x8+-parseInt(_0x3981d3(0x115))/0x9+-parseInt(_0x3981d3(0xee))/0xa*(-parseInt(_0x3981d3(0xec))/0xb);if(_0x3dbaf5===_0x2a944b)break;else _0xe2ef37['push'](_0xe2ef37['shift']());}catch(_0x286c2d){_0xe2ef37['push'](_0xe2ef37['shift']());}}}(a0_0x18fb,0x243cd));import a0_0x289c89 from'fs-extra';import a0_0x15ab86 from'os';import a0_0x103d7f from'path';import{execFile}from'child_process';const MAX_PART_BYTES=0x18*0x400*0x400,TARGET_PART_BYTES=Math['floor'](MAX_PART_BYTES*0.9),MAX_SPLIT_ATTEMPTS=0x3;function NEEDS_SPLIT(_0x18e4e1){return _0x18e4e1>MAX_PART_BYTES;}function a0_0x5f5d(_0x29c8dc,_0x3b855c){_0x29c8dc=_0x29c8dc-0xe6;const _0x18fb37=a0_0x18fb();let _0x5f5d7e=_0x18fb37[_0x29c8dc];if(a0_0x5f5d['lRNpxU']===undefined){var _0x248f56=function(_0x3c1df6){const _0x43acc7='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x314bc7='',_0x501a93='';for(let _0x1dccfd=0x0,_0x3fb984,_0x22a120,_0x83bd36=0x0;_0x22a120=_0x3c1df6['charAt'](_0x83bd36++);~_0x22a120&&(_0x3fb984=_0x1dccfd%0x4?_0x3fb984*0x40+_0x22a120:_0x22a120,_0x1dccfd++%0x4)?_0x314bc7+=String['fromCharCode'](0xff&_0x3fb984>>(-0x2*_0x1dccfd&0x6)):0x0){_0x22a120=_0x43acc7['indexOf'](_0x22a120);}for(let _0x3fef70=0x0,_0x1c8da6=_0x314bc7['length'];_0x3fef70<_0x1c8da6;_0x3fef70++){_0x501a93+='%'+('00'+_0x314bc7['charCodeAt'](_0x3fef70)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x501a93);};a0_0x5f5d['qnhDrX']=_0x248f56,a0_0x5f5d['oqdyjb']={},a0_0x5f5d['lRNpxU']=!![];}const _0x23b047=_0x18fb37[0x0];a0_0x5f5d['hpvtso']!==_0x23b047&&(a0_0x5f5d['oqdyjb']={},a0_0x5f5d['hpvtso']=_0x23b047);const _0x551a86=a0_0x5f5d['oqdyjb'][_0x29c8dc];return _0x551a86===undefined?(_0x5f5d7e=a0_0x5f5d['qnhDrX'](_0x5f5d7e),a0_0x5f5d['oqdyjb'][_0x29c8dc]=_0x5f5d7e):_0x5f5d7e=_0x551a86,_0x5f5d7e;}function runFfprobe(_0x2bf853){const _0x1f6216=a0_0x5f5d,_0x3eb6a6={'BZoTH':function(_0x426fad,_0xbeafbd){return _0x426fad(_0xbeafbd);},'FIrsp':function(_0x403798,_0x28bf30){return _0x403798(_0x28bf30);},'dslhI':_0x1f6216(0x10b),'hlZzr':_0x1f6216(0x112)};return new Promise((_0x37bd19,_0x3c6e30)=>{const _0x77a900=_0x1f6216;execFile(_0x77a900(0xf5),['-v',_0x3eb6a6['dslhI'],_0x3eb6a6[_0x77a900(0xf2)],_0x77a900(0x104),_0x77a900(0x118),'default=noprint_wrappers=1:nokey=1',_0x2bf853],{'timeout':0x7530},(_0x3a856a,_0x1fcd35)=>{const _0x406e04=_0x77a900;if(_0x3a856a)return _0x3c6e30(_0x3a856a);const _0x359db3=parseFloat(String(_0x1fcd35)[_0x406e04(0xff)]());if(!_0x359db3||!_0x3eb6a6[_0x406e04(0x116)](isFinite,_0x359db3)||_0x359db3<=0x0)return _0x3c6e30(new Error('تعذّر\x20قراءة\x20مدة\x20الملف\x20عبر\x20ffprobe'));_0x3eb6a6[_0x406e04(0x120)](_0x37bd19,_0x359db3);});});}function runFfmpegSegment(_0x124c01,_0x331b79,_0x52d227,_0xbd2827){const _0x1e98db=a0_0x5f5d,_0x1f7c8f={'QjKIL':function(_0x2ec26b,_0x45d645){return _0x2ec26b(_0x45d645);},'zxzTo':function(_0x3bd583){return _0x3bd583();},'uRDgH':function(_0x1e9eaa,_0x3b94ea,_0x2e40f6,_0x4f8694,_0x36e418){return _0x1e9eaa(_0x3b94ea,_0x2e40f6,_0x4f8694,_0x36e418);},'QwKIK':_0x1e98db(0x10e),'cYvQL':_0x1e98db(0x110),'sVEcM':'-segment_time','VkylQ':function(_0x48dfa2,_0x2434a1){return _0x48dfa2*_0x2434a1;},'gPuEi':function(_0x50d1e4,_0x3769b1){return _0x50d1e4*_0x3769b1;},'acjOF':function(_0x576233,_0x493a45){return _0x576233*_0x493a45;}},_0x2f895f=a0_0x103d7f[_0x1e98db(0xf6)](_0xbd2827,'part_%03d.'+_0x331b79);return new Promise((_0x380d13,_0x7d3b58)=>{const _0x4bdf0a=_0x1e98db;_0x1f7c8f[_0x4bdf0a(0xf3)](execFile,_0x1f7c8f[_0x4bdf0a(0xed)],['-y','-i',_0x124c01,'-c',_0x1f7c8f[_0x4bdf0a(0x122)],'-map','0','-f','segment',_0x1f7c8f[_0x4bdf0a(0x11d)],String(Math[_0x4bdf0a(0x11b)](0x1,Math[_0x4bdf0a(0xf0)](_0x52d227))),_0x4bdf0a(0x10f),'1',_0x2f895f],{'timeout':_0x1f7c8f[_0x4bdf0a(0xfb)](0xa*0x3c,0x3e8),'maxBuffer':_0x1f7c8f[_0x4bdf0a(0x103)](_0x1f7c8f[_0x4bdf0a(0x125)](0x400,0x400),0xa)},(_0x613748,_0x26fe13,_0xe61249)=>{const _0x48fd3e=_0x4bdf0a;if(_0x613748)return _0x1f7c8f[_0x48fd3e(0x108)](_0x7d3b58,new Error('ffmpeg\x20فشل:\x20'+(_0xe61249?.[_0x48fd3e(0x101)]()['slice'](-0x12c)||_0x613748['message'])));_0x1f7c8f[_0x48fd3e(0xeb)](_0x380d13);});});}async function segmentOnce(_0x2e2a59,_0x26dc84,_0x31fa18,_0x209fe3){const _0x8ce91a=a0_0x5f5d,_0x51ad3d=await runFfprobe(_0x2e2a59),_0x84946b=_0x31fa18/_0x51ad3d,_0x4cd783=Math[_0x8ce91a(0x11b)](0x1,TARGET_PART_BYTES/_0x84946b);await runFfmpegSegment(_0x2e2a59,_0x26dc84,_0x4cd783,_0x209fe3);const _0x2af539=(await a0_0x289c89['readdir'](_0x209fe3))[_0x8ce91a(0xf9)](_0x404e91=>_0x404e91['startsWith']('part_'))[_0x8ce91a(0xf7)]()[_0x8ce91a(0xfc)](_0x1bffbd=>a0_0x103d7f[_0x8ce91a(0xf6)](_0x209fe3,_0x1bffbd));if(_0x2af539[_0x8ce91a(0x11f)]===0x0)throw new Error(_0x8ce91a(0x105));return _0x2af539;}async function splitFile(_0x2c9e1a,_0x51766f=a0_0x3f40df(0x121)){const _0x2586f0=a0_0x3f40df,_0x1c4133={'GHulc':function(_0x38f755,_0x46e349){return _0x38f755>_0x46e349;},'jRecA':_0x2586f0(0xf8),'DPpvU':function(_0x5c9753,_0xe85259){return _0x5c9753===_0xe85259;},'hAnQE':'FILE_TOO_LARGE'},_0x37b00a=await a0_0x289c89[_0x2586f0(0xea)](a0_0x103d7f['join'](a0_0x15ab86['tmpdir'](),_0x2586f0(0xfe)));try{let _0xb74c9d=await segmentOnce(_0x2c9e1a,_0x51766f,(await a0_0x289c89[_0x2586f0(0x107)](_0x2c9e1a))[_0x2586f0(0x11a)],_0x37b00a);for(let _0x53c0d7=0x0;_0x53c0d7<MAX_SPLIT_ATTEMPTS;_0x53c0d7++){const _0x221ef3=[];for(const _0xcde9eb of _0xb74c9d){const _0x36c2b7=await a0_0x289c89[_0x2586f0(0x107)](_0xcde9eb);if(_0x1c4133['GHulc'](_0x36c2b7[_0x2586f0(0x11a)],MAX_PART_BYTES))_0x221ef3['push'](_0xcde9eb);}if(_0x221ef3[_0x2586f0(0x11f)]===0x0)break;for(const _0x1743e7 of _0x221ef3){const _0x46e059=await a0_0x289c89[_0x2586f0(0xea)](a0_0x103d7f[_0x2586f0(0xf6)](a0_0x15ab86['tmpdir'](),_0x1c4133[_0x2586f0(0x11e)]));try{const _0x495046=await a0_0x289c89[_0x2586f0(0x107)](_0x1743e7),_0x28162f=await segmentOnce(_0x1743e7,_0x51766f,_0x495046[_0x2586f0(0x11a)],_0x46e059),_0x5bee28=[];for(const _0x5c2aa9 of _0x28162f){const _0x1033f6=a0_0x103d7f['join'](_0x37b00a,a0_0x103d7f['basename'](_0x1743e7,a0_0x103d7f[_0x2586f0(0xe6)](_0x1743e7))+'_'+a0_0x103d7f[_0x2586f0(0xf4)](_0x5c2aa9));await a0_0x289c89[_0x2586f0(0xe9)](_0x5c2aa9,_0x1033f6,{'overwrite':!![]}),_0x5bee28[_0x2586f0(0xfa)](_0x1033f6);}const _0x5c4ca0=_0xb74c9d[_0x2586f0(0xf1)](_0x1743e7);_0xb74c9d['splice'](_0x5c4ca0,0x1,..._0x5bee28),await a0_0x289c89['remove'](_0x1743e7)[_0x2586f0(0x109)](()=>{});}finally{await a0_0x289c89['remove'](_0x46e059)['catch'](()=>{});}}}if(_0x1c4133[_0x2586f0(0x10c)](_0xb74c9d[_0x2586f0(0x11f)],0x0)){const _0x3c7c5b=new Error('تعذّر\x20تقسيم\x20الملف\x20إلى\x20أجزاء\x20صالحة.');_0x3c7c5b[_0x2586f0(0x100)]=_0x1c4133[_0x2586f0(0x106)];throw _0x3c7c5b;}return _0xb74c9d;}catch(_0x4736e1){await a0_0x289c89[_0x2586f0(0x10d)](_0x37b00a)[_0x2586f0(0x109)](()=>{});if(_0x4736e1['code']===_0x2586f0(0xfd))throw _0x4736e1;const _0x7004a5=new Error('تعذّر\x20تقسيم\x20الملف:\x20'+_0x4736e1[_0x2586f0(0x123)]);_0x7004a5[_0x2586f0(0x100)]=_0x1c4133[_0x2586f0(0x106)];throw _0x7004a5;}}function a0_0x18fb(){const _0x1a620c=['C3jJl3v0AwXZl21LzgLHu3bSAxr0zxiUANm','C1zfy00','ALjLy0e','BgvUz3rO','rKLYC3a','Bxa0','y1L2uuW','BwvZC2fNzq','DxrPBhm','ywnQt0y','zxH0BMfTzq','nJG5otu1y0TwDKzX','ywXSu2v0DgXLza','Bw92zq','BwTKDgvTCa','ENH6vg8','nde0mJKZDfzWA25A','uxDlsuS','mtmWrKjWsMns','ndC5vxvbEvbz','zMXVB3i','Aw5KzxHpzG','AgXAENi','Dvjez0G','yMfZzw5HBwu','zMzWCM9Izq','AM9PBG','C29YDa','CMvZCgXPDf8','zMLSDgvY','ChvZAa','vMT5Bfe','BwfW','rKLmrv9ut09Ftefsr0u','C3bSAxrF','DhjPBq','y29Kzq','Dg9tDhjPBMC','mtu4EfDSwuHU','z1b1rwK','zM9YBwf0pwr1CMf0Aw9U','zMzTCgvNinMe2yuG2yRzHTIQ2kWG2kpzIIdyO9IS2llyP9IH','AefUuuu','C3rHDa','uwPlsuW','y2f0y2G','mZaYmtq4D3HsquXI','zxjYB3i','rfbWDLu','CMvTB3zL','zMzTCgvN','lxjLC2v0x3rPBwvZDgfTChm','y29WEq','nMDAy0LOua','lxnOB3DFzw50CMLLCW','EhGTDxrPBhmTBwvKAweTC3bSAxr0zxi','nu55ENvjCW','mJy1mtCYngfTvLDbyG','qLPVveG','ndaXnJC2B0Liu3b6','lw9M','mtyWntzpEMrdugG','C2L6zq','Bwf4'];a0_0x18fb=function(){return _0x1a620c;};return a0_0x18fb();}async function cleanupParts(_0x483897){const _0x33b2ec=a0_0x3f40df;await Promise[_0x33b2ec(0xe8)]((_0x483897||[])['map'](_0x3bb3dd=>a0_0x289c89['remove'](_0x3bb3dd)));const _0xa0f344=new Set((_0x483897||[])[_0x33b2ec(0xfc)](_0x15574e=>a0_0x103d7f['dirname'](_0x15574e)));await Promise['allSettled']([..._0xa0f344][_0x33b2ec(0xfc)](_0x338632=>a0_0x289c89['remove'](_0x338632)));}export{splitFile,cleanupParts,NEEDS_SPLIT,MAX_PART_BYTES};export const $plugin={'name':a0_0x3f40df(0x113),'meta':{'category':a0_0x3f40df(0x124),'path':a0_0x3f40df(0x11c)},'setup'(_0x5288cc){}};
+"use strict";
+import fs from "fs-extra";
+import os from "os";
+import path from "path";
+import { execFile } from "child_process";
+const MAX_PART_BYTES = 24 * 1024 * 1024;
+const TARGET_PART_BYTES = Math.floor(MAX_PART_BYTES * 0.9);
+const MAX_SPLIT_ATTEMPTS = 3; 
+function NEEDS_SPLIT(sizeBytes) {
+  return sizeBytes > MAX_PART_BYTES;
+}
+function runFfprobe(filePath) {
+  return new Promise((resolve, reject) => {
+    execFile(
+      "ffprobe",
+      ["-v", "error", "-show_entries", "format=duration", "-of", "default=noprint_wrappers=1:nokey=1", filePath],
+      { timeout: 30000 },
+      (err, stdout) => {
+        if (err) return reject(err);
+        const duration = parseFloat(String(stdout).trim());
+        if (!duration || !isFinite(duration) || duration <= 0) {
+          return reject(new Error("تعذّر قراءة مدة الملف عبر ffprobe"));
+        }
+        resolve(duration);
+      }
+    );
+  });
+}
+function runFfmpegSegment(filePath, ext, segmentSeconds, outDir) {
+  const pattern = path.join(outDir, `part_%03d.${ext}`);
+  return new Promise((resolve, reject) => {
+    execFile(
+      "ffmpeg",
+      [
+        "-y", "-i", filePath,
+        "-c", "copy",
+        "-map", "0",
+        "-f", "segment",
+        "-segment_time", String(Math.max(1, Math.floor(segmentSeconds))),
+        "-reset_timestamps", "1",
+        pattern,
+      ],
+      { timeout: 10 * 60 * 1000, maxBuffer: 1024 * 1024 * 10 },
+      (err, _stdout, stderr) => {
+        if (err) return reject(new Error(`ffmpeg فشل: ${stderr?.toString().slice(-300) || err.message}`));
+        resolve();
+      }
+    );
+  });
+}
+async function segmentOnce(filePath, ext, size, workDir) {
+  const duration = await runFfprobe(filePath);
+  const bytesPerSecond = size / duration;
+  const segmentSeconds = Math.max(1, TARGET_PART_BYTES / bytesPerSecond);
+  await runFfmpegSegment(filePath, ext, segmentSeconds, workDir);
+  const files = (await fs.readdir(workDir))
+    .filter(f => f.startsWith("part_"))
+    .sort()
+    .map(f => path.join(workDir, f));
+  if (files.length === 0) throw new Error("ffmpeg لم ينتج أي أجزاء");
+  return files;
+}
+async function splitFile(filePath, ext = "mp4") {
+  const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "split_"));
+  try {
+    let parts = await segmentOnce(filePath, ext, (await fs.stat(filePath)).size, workDir);
+    for (let attempt = 0; attempt < MAX_SPLIT_ATTEMPTS; attempt++) {
+      const oversized = [];
+      for (const p of parts) {
+        const st = await fs.stat(p);
+        if (st.size > MAX_PART_BYTES) oversized.push(p);
+      }
+      if (oversized.length === 0) break;
+      for (const p of oversized) {
+        const subDir = await fs.mkdtemp(path.join(os.tmpdir(), "resplit_"));
+        try {
+          const st = await fs.stat(p);
+          const subParts = await segmentOnce(p, ext, st.size, subDir);
+          const finalSubParts = [];
+          for (const sp of subParts) {
+            const dest = path.join(workDir, `${path.basename(p, path.extname(p))}_${path.basename(sp)}`);
+            await fs.move(sp, dest, { overwrite: true });
+            finalSubParts.push(dest);
+          }
+          const idx = parts.indexOf(p);
+          parts.splice(idx, 1, ...finalSubParts);
+          await fs.remove(p).catch(() => {});
+        } finally {
+          await fs.remove(subDir).catch(() => {});
+        }
+      }
+    }
+    if (parts.length === 0) {
+      const err = new Error("تعذّر تقسيم الملف إلى أجزاء صالحة.");
+      err.code = "FILE_TOO_LARGE";
+      throw err;
+    }
+    return parts;
+  } catch (e) {
+    await fs.remove(workDir).catch(() => {});
+    if (e.code === "FILE_TOO_LARGE") throw e;
+    const err = new Error(`تعذّر تقسيم الملف: ${e.message}`);
+    err.code = "FILE_TOO_LARGE";
+    throw err;
+  }
+}
+async function cleanupParts(partPaths) {
+  await Promise.allSettled((partPaths || []).map(p => fs.remove(p)));
+  const dirs = new Set((partPaths || []).map(p => path.dirname(p)));
+  await Promise.allSettled([...dirs].map(d => fs.remove(d)));
+}
+export { splitFile, cleanupParts, NEEDS_SPLIT, MAX_PART_BYTES };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-media-splitter',
+  meta: { category: 'utils', path: 'src/utils/mediaSplitter.js' },
+  setup(_ctx) {
+    // provides: MAX_PART_BYTES, NEEDS_SPLIT, cleanupParts, splitFile
+  },
+};

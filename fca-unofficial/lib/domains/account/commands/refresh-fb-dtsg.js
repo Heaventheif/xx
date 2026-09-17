@@ -1,6 +1,6 @@
 import * as legacy from '../../../compat/legacy-promise.js';
+import * as constants from '../../../utils/constants.js';
 import * as request from '../../../utils/request/index.js';
-import { extractDtsg } from '../../../utils/extract-dtsg.js';
 
 // One refresh promise per FCA context prevents concurrent requests from overwriting tokens.
 const refreshLocks = new WeakMap();
@@ -32,9 +32,8 @@ function createRefreshFbDtsgCommand({ ctx }) {
       current = request
         .get('https://www.facebook.com/', ctx.jar, null, ctx.globalOptions, { noRef: true })
         .then(({ data }) => {
-          // extractDtsg: 8-pattern chain (DTSGInitData, fb_dtsg input, Comet, __d, etc.)
-          // + computes jazoest automatically if absent from the page.
-          const { fb_dtsg, jazoest } = extractDtsg(data);
+          const fb_dtsg = constants.getFrom(data, '["DTSGInitData",[],{"token":"', '",');
+          const jazoest = constants.getFrom(data, 'jazoest=', '",');
           if (!fb_dtsg) throw new Error('Could not find fb_dtsg in HTML after requesting Facebook.');
           // Update the live context atomically before resolving all waiting callers.
           ctx.fb_dtsg = fb_dtsg;

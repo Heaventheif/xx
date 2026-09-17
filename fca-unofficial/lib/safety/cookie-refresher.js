@@ -26,7 +26,7 @@ export class CookieRefresher {
     this.options = {
       enabled: opts.enabled !== false,
       intervalMs: opts.intervalMs ?? 18_000_000, 
-      backupEnabled: opts.backupEnabled === true,
+      backupEnabled: opts.backupEnabled !== false,
       maxBackups: opts.maxBackups ?? 5,
       appStatePath: opts.appStatePath ?? null,
       onAppStateUpdate: typeof opts.onAppStateUpdate === "function" ? opts.onAppStateUpdate : null,
@@ -138,9 +138,7 @@ export class CookieRefresher {
         this.options.onAppStateUpdate(state, serialized);
         logger("CookieRefresher: refreshed AppState published to the environment callback", "info");
       } else {
-        // Never print cookie values or AppState to logs. A log aggregator is
-        // not a session vault.
-        logger("CookieRefresher: refreshed AppState (no callback configured)", "info");
+        logger("CookieRefresher: refreshed AppState available: " + serialized, "info");
       }
     } catch (e) {
       logger(`CookieRefresher: failed to publish AppState — ${e?.message}`, "warn");

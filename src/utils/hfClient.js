@@ -1,1 +1,29 @@
-'use strict';const a0_0x31e28c=a0_0x2585;(function(_0x2ecf90,_0xa3250e){const _0x21fe55=a0_0x2585,_0x23889a=_0x2ecf90();while(!![]){try{const _0x36985c=parseInt(_0x21fe55(0x17f))/0x1*(parseInt(_0x21fe55(0x18d))/0x2)+-parseInt(_0x21fe55(0x180))/0x3*(-parseInt(_0x21fe55(0x181))/0x4)+-parseInt(_0x21fe55(0x187))/0x5*(-parseInt(_0x21fe55(0x183))/0x6)+-parseInt(_0x21fe55(0x186))/0x7+parseInt(_0x21fe55(0x188))/0x8*(-parseInt(_0x21fe55(0x18e))/0x9)+-parseInt(_0x21fe55(0x189))/0xa*(-parseInt(_0x21fe55(0x18b))/0xb)+-parseInt(_0x21fe55(0x18a))/0xc;if(_0x36985c===_0xa3250e)break;else _0x23889a['push'](_0x23889a['shift']());}catch(_0x853ceb){_0x23889a['push'](_0x23889a['shift']());}}}(a0_0x44d6,0x26b6e));function a0_0x44d6(){const _0x28a844=['DxrPBhm','mJy0otCYrKfWs0zV','mtq5mtnHDNPQDwO','mwjov09QCq','mJG3ngzgCLvLtq','nZy0vvHxt0Hq','CMvWBgfJzq','mty4mdeWoerowg9gyG','C3jJl3v0AwXZl2HMq2XPzw50lMPZ','EhGTDxrPBhmTAgyTy2XPzw50','mZK4ndrgtNDIEeW','nuvmCu5sra','mJa4wufSuejh','ntaWmhHsr05lCW','nJaXmZyWogPlBwDqzG','mJq4nMzMAMvPzW'];a0_0x44d6=function(){return _0x28a844;};return a0_0x44d6();}function getHfBase(){const _0x452302=a0_0x2585,_0x4614fe=(process.env.HF_SPACE_URL||'')['trim']();if(!_0x4614fe)throw new Error('HF_SPACE_URL\x20غير\x20مضبوط\x20في\x20متغيرات\x20البيئة\x20(Environment\x20Variables)');return _0x4614fe[_0x452302(0x182)](/\/+$/,'');}function getHfBaseOrNull(){try{return getHfBase();}catch(_0x11bd54){return null;}}function getInternalToken(){return process.env.INTERNAL_TOKEN||'';}function a0_0x2585(_0x32ad65,_0x1d9b98){_0x32ad65=_0x32ad65-0x17f;const _0x44d6d8=a0_0x44d6();let _0x25855b=_0x44d6d8[_0x32ad65];if(a0_0x2585['ONYCbb']===undefined){var _0x31770f=function(_0x1bdd04){const _0x1922a2='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x3b7fd2='',_0x485c45='';for(let _0x1615a7=0x0,_0x5be7dd,_0x1e7870,_0x24975a=0x0;_0x1e7870=_0x1bdd04['charAt'](_0x24975a++);~_0x1e7870&&(_0x5be7dd=_0x1615a7%0x4?_0x5be7dd*0x40+_0x1e7870:_0x1e7870,_0x1615a7++%0x4)?_0x3b7fd2+=String['fromCharCode'](0xff&_0x5be7dd>>(-0x2*_0x1615a7&0x6)):0x0){_0x1e7870=_0x1922a2['indexOf'](_0x1e7870);}for(let _0x1a0e5d=0x0,_0x3c2f1e=_0x3b7fd2['length'];_0x1a0e5d<_0x3c2f1e;_0x1a0e5d++){_0x485c45+='%'+('00'+_0x3b7fd2['charCodeAt'](_0x1a0e5d)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x485c45);};a0_0x2585['zIDlXh']=_0x31770f,a0_0x2585['aZeBli']={},a0_0x2585['ONYCbb']=!![];}const _0x591421=_0x44d6d8[0x0];a0_0x2585['dZuAYY']!==_0x591421&&(a0_0x2585['aZeBli']={},a0_0x2585['dZuAYY']=_0x591421);const _0x2a7dc7=a0_0x2585['aZeBli'][_0x32ad65];return _0x2a7dc7===undefined?(_0x25855b=a0_0x2585['zIDlXh'](_0x25855b),a0_0x2585['aZeBli'][_0x32ad65]=_0x25855b):_0x25855b=_0x2a7dc7,_0x25855b;}export{getHfBase,getHfBaseOrNull,getInternalToken};export const $plugin={'name':a0_0x31e28c(0x185),'meta':{'category':a0_0x31e28c(0x18c),'path':a0_0x31e28c(0x184)},'setup'(_0x4d641b){}};
+"use strict";
+function getHfBase() {
+  const url = (process.env.HF_SPACE_URL || "").trim();
+  if (!url) {
+    throw new Error("HF_SPACE_URL غير مضبوط في متغيرات البيئة (Environment Variables)");
+  }
+  return url.replace(/\/+$/, "");
+}
+/**
+ * نسخة لا ترمي خطأ — تُعيد null بدل ذلك، مفيدة عند رغبتك بمعالجة
+ * الغياب برسالة مخصصة للمستخدم بدل استثناء عام.
+ */
+function getHfBaseOrNull() {
+  try { return getHfBase(); } catch (_) { return null; }
+}
+function getInternalToken() {
+  return process.env.INTERNAL_TOKEN || "";
+}
+export { getHfBase, getHfBaseOrNull, getInternalToken  };
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-utils-hf-client',
+  meta: { category: 'utils', path: 'src/utils/hfClient.js' },
+  setup(_ctx) {
+    // provides: getHfBase, getHfBaseOrNull, getInternalToken
+  },
+};
