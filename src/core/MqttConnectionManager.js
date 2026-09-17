@@ -2,6 +2,7 @@ import { EventEmitter } from "node:events";
 
 const DEFAULTS = {
   staleAfterMs: 8 * 60_000,   // 8 min: gives ping (2 min) safe headroom under Bun timer drift
+  initialGraceMs: 2 * 60_000, // do not recycle a newly-started listener while transport state settles
   watchdogIntervalMs: 30_000,
   stableWindowMs: 5 * 60_000,
   reconnectBaseMs: 2_000,
@@ -280,7 +281,13 @@ export class MqttConnectionManager extends EventEmitter {
       try {
         const lastActivityAt = Math.max(this.lastEventAt, this.lastPingAt);
         const staleFor = Date.now() - lastActivityAt;
-        if (!this._socketAlive() || staleFor >= this.options.staleAfterMs) {
+        const settling = this.connectedSince > 0 &&
+          Date.now() - this.connectedSince < this.options.initialGraceMs;
+        // The FCA listener may expose its MQTT client a little after listenMqtt()
+        // returns. Do not tear down a new, otherwise error-free session during
+        // that settling window; the transport's own error/close handlers remain
+        // responsible for immediate failures.
+        if (!settling && (!this._socketAlive() || staleFor >= this.options.staleAfterMs)) {
           await this.reconnect(this._socketAlive() ? "stale" : "socket_not_alive");
         }
       } catch (error) {

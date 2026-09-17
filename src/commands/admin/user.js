@@ -17,7 +17,7 @@ module.exports = {
     guide: {
       ar:
         "{pn} id @شخص          — عرض UID الشخص\n" +
-        "{pn} name @شخص <اسم>  — تغيير اللقب\n" +
+        "{pn} name [رد/منشن/UID] <اسم> — تغيير اللقب\n" +
         "{pn} kick @شخص        — طرد من المجموعة\n" +
         "{pn} ban @شخص         — حظر المستخدم من البوت (مطور فقط)\n" +
         "{pn} add <UID>         — إضافة مستخدم للمجموعة",
@@ -81,21 +81,33 @@ async function handleID(api, event, Users) {
 //  user name  —  تغيير اللقب (nickname)
 // ═══════════════════════════════════════════════════════════════════
 async function handleName(api, event, args) {
-  const { threadID, messageID, mentions } = event;
+  const { threadID, messageID, mentions = {}, messageReply, senderID } = event;
 
-  const targets = Object.keys(mentions || {});
+  // الأولوية: منشن، ثم صاحب الرسالة المردود عليها، ثم UID مكتوب، ثم المرسل نفسه.
+  const mentionedTargets = Object.keys(mentions);
+  const replyTarget = messageReply?.senderID || messageReply?.participantID || messageReply?.authorID;
+  const explicitTargets = args.filter((a) => /^\d{10,}$/.test(String(a)));
+  const targets = mentionedTargets.length
+    ? mentionedTargets
+    : replyTarget
+      ? [String(replyTarget)]
+      : explicitTargets.length
+        ? [...new Set(explicitTargets.map(String))]
+        : senderID
+          ? [String(senderID)]
+          : [];
   if (!targets.length)
-    return api.sendMessage("⚠️ قم بمنشن الشخص المراد تغيير لقبه.", threadID, messageID);
+    return api.sendMessage("⚠️ تعذّر تحديد المستهدف. استخدم ردًا أو منشن أو UID.", threadID, messageID);
 
   // الاسم الجديد: كل النص بعد إزالة الأرقام والمنشن
   const newName = args
-    .filter((a) => !a.startsWith("@") && !/^\d+$/.test(a))
+    .filter((a) => !a.startsWith("@") && !/^\d{10,}$/.test(String(a)))
     .join(" ")
     .trim();
 
   if (!newName)
     return api.sendMessage(
-      "⚠️ أدخل الاسم الجديد بعد المنشن.\nمثال: user name @شخص الاسم الجديد",
+      `⚠️ أدخل الاسم الجديد.\nأمثلة: user name @شخص الاسم الجديد أو user name 123456789012 الاسم الجديد أو بالرد على رسالة الشخص`,
       threadID,
       messageID
     );
@@ -108,7 +120,7 @@ async function handleName(api, event, args) {
           err ? rej(err) : res()
         )
       );
-      const name = (mentions[uid] || "").replace("@", "") || uid;
+      const name = (mentions[uid] || "").replace("@", "") || (uid === String(senderID) ? "نفسك" : uid);
       results.push(`✅ تم تغيير لقب ${name} إلى "${newName}"`);
     } catch {
       results.push(`❌ فشل تغيير لقب ${uid}`);

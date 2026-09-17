@@ -21,7 +21,8 @@ module.exports = {
         "{pn} ban                — حظر المجموعة من البوت (مطور فقط)\n" +
         "{pn} rename <الاسم>     — تغيير اسم المجموعة\n" +
         "{pn} admin add @شخص    — إضافة مشرف\n" +
-        "{pn} admin remove @شخص — إزالة مشرف",
+        "{pn} admin remove @شخص — إزالة مشرف\n" +
+        "{pn} nickname [رد/منشن/UID] <اسم> — تغيير اللقب",
     },
   },
 
@@ -43,6 +44,9 @@ module.exports = {
         return handleRename(api, event, args.slice(1).join(" "));
       case "admin":
         return handleAdmin(api, event, args.slice(1));
+      case "nickname":
+      case "nick":
+        return handleNickname(api, event, args.slice(1));
       default:
         return api.sendMessage(
           `❓ الاستخدام:\n${module.exports.config.guide.ar.replace(/{pn}/g, prefix + "group")}`,
@@ -201,5 +205,51 @@ async function handleAdmin(api, event, args) {
     }
   }
 
+  api.sendMessage(results.join("\n"), threadID, messageID);
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// group nickname — تغيير لقب عضو بالرد أو المنشن أو UID، وإلا للمرسل
+// ═══════════════════════════════════════════════════════════════════
+async function handleNickname(api, event, args) {
+  const { threadID, messageID, mentions = {}, messageReply, senderID } = event;
+  const mentionedTargets = Object.keys(mentions);
+  const replyTarget = messageReply?.senderID || messageReply?.participantID || messageReply?.authorID;
+  const explicitTargets = args.filter((a) => /^\d{10,}$/.test(String(a)));
+  const targets = mentionedTargets.length
+    ? mentionedTargets
+    : replyTarget
+      ? [String(replyTarget)]
+      : explicitTargets.length
+        ? [...new Set(explicitTargets.map(String))]
+        : senderID
+          ? [String(senderID)]
+          : [];
+  const newName = args
+    .filter((a) => !a.startsWith("@") && !/^\d{10,}$/.test(String(a)))
+    .join(" ")
+    .trim();
+
+  if (!newName)
+    return api.sendMessage(
+      "⚠️ أدخل الاسم الجديد. استخدم ردًا أو منشن أو UID، أو اكتب الأمر وحده لتغيير لقبك.\nمثال: group nickname 123456789012 الاسم الجديد",
+      threadID,
+      messageID
+    );
+  if (!targets.length)
+    return api.sendMessage("⚠️ تعذّر تحديد المستهدف. استخدم ردًا أو منشن أو UID.", threadID, messageID);
+
+  const results = [];
+  for (const uid of targets) {
+    try {
+      await new Promise((res, rej) =>
+        api.changeNickname(newName, threadID, uid, (err) => (err ? rej(err) : res()))
+      );
+      const display = (mentions[uid] || "").replace("@", "") || (uid === String(senderID) ? "نفسك" : uid);
+      results.push(`✅ تم تغيير لقب ${display} إلى "${newName}"`);
+    } catch {
+      results.push(`❌ فشل تغيير لقب ${uid}`);
+    }
+  }
   api.sendMessage(results.join("\n"), threadID, messageID);
 }

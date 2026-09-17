@@ -1,7 +1,9 @@
 var U = Object.defineProperty;
 var n = (m, q) => U(m, 'name', { value: q, configurable: !0 });
 import { getMqttReconnectDelay as $ } from '../../safety/stealth-profiles.js';
-const j = 3600 * 1e3,
+// Keep a healthy MQTT session open. Reconnect remains enabled for real
+// transport/auth failures; periodic recycling is intentionally disabled.
+const j = 0,
   G = 2e3,
   B = 5e3,
   Q = { cycleMs: j, reconnectDelayMs: G, autoReconnect: !0, reconnectAfterStop: !1 };
