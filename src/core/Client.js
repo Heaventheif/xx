@@ -386,7 +386,6 @@ async function onBotReady(api, botIndex) {
     api.__appStateSaveTimer.unref?.();
   })();
   startListening(api, botIndex, sessionGuard);
-  // E2EE intentionally disabled: only ordinary group events are processed.
   if (isFirstBot) {
     startCleanupInterval();
   }

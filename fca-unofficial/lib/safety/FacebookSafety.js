@@ -10,18 +10,19 @@ import {
 } from '../utils/human-timing.js';
 import fs from 'fs';
 import path from 'path';
+import { canWriteBackup, encryptBackupString, decryptBackupString } from './backup-crypto.js';
 
 export default class FacebookSafety {
   constructor(opts = {}) {
     this.options = {
       enableSafeHeaders: true,
-      enableHumanBehavior: true,
-      enableAntiDetection: true,
-      enableAutoRefresh: true,
+      enableHumanBehavior: false,
+      enableAntiDetection: false,
+      enableAutoRefresh: false,
       enableLoginValidation: true,
-      enableSafeDelays: true,
-      bypassRegionLock: true,
-      ultraLowBanMode: true,
+      enableSafeDelays: false,
+      bypassRegionLock: false,
+      ultraLowBanMode: false,
       enableUAContinuity: true,
       ...opts,
     };
@@ -38,7 +39,9 @@ export default class FacebookSafety {
     ];
 
     this.regions = ['ASH', 'ATL', 'DFW', 'ORD', 'PHX', 'SJC', 'IAD'];
-    this.currentRegion = this.regions[Math.floor(Math.random() * this.regions.length)];
+    // Do not invent a region. Let Facebook and the authenticated session
+    // determine routing; mismatched region headers are brittle.
+    this.currentRegion = null;
 
     this.humanDelayPatterns = {
       typing: { min: 800, max: 2500 },
@@ -516,6 +519,7 @@ export default class FacebookSafety {
   _saveToSafetyStore() {
     if (!this.ctx?.fb_dtsg) return;
     try {
+      if (!canWriteBackup()) return;
       const data = JSON.stringify(
         {
           fb_dtsg: this.ctx.fb_dtsg,
@@ -528,7 +532,7 @@ export default class FacebookSafety {
       const dir = path.dirname(this.safetyStorePath);
       if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
       const tmp = `${this.safetyStorePath}.tmp.${process.pid}`;
-      fs.writeFileSync(tmp, data, { encoding: 'utf8', mode: 0o600 });
+      fs.writeFileSync(tmp, encryptBackupString(data), { encoding: 'utf8', mode: 0o600 });
       fs.renameSync(tmp, this.safetyStorePath);
     } catch {
       
@@ -538,7 +542,9 @@ export default class FacebookSafety {
   _loadFromSafetyStore() {
     try {
       if (!fs.existsSync(this.safetyStorePath)) return;
-      const stored = JSON.parse(fs.readFileSync(this.safetyStorePath, 'utf8'));
+      const decrypted = decryptBackupString(fs.readFileSync(this.safetyStorePath, 'utf8'));
+      if (!decrypted) return;
+      const stored = JSON.parse(decrypted);
       if (stored.fb_dtsg && this.ctx && !this.ctx.fb_dtsg)
         Object.assign(this.ctx, { fb_dtsg: stored.fb_dtsg, jazoest: stored.jazoest });
     } catch {

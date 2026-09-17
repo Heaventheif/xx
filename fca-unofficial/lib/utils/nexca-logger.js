@@ -90,6 +90,7 @@ const logger = {
             : `${C.bYellow}${userID}${C.reset}`;
 
         const reconnectStr = autoReconnect
+            ? `${ok}  ${C.bGreen}Enabled${C.reset}`
             : `${warn}  ${C.bYellow}Disabled${C.reset}`;
 
         const row = (content) => `  ${mid}  ${content}`;

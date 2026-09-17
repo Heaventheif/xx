@@ -44,9 +44,10 @@ function parseRetryAfter(raw) {
   const asInt  = Number(str);
 
   if (Number.isFinite(asInt) && asInt > 0) {
-    // Unix timestamp (ms أو s)؟
-    if (asInt > 1e10) return Math.max(0, Math.ceil((asInt - Date.now()) / 1000));
-    return asInt; // ثواني مباشرة
+    // Retry-After may be a delay in seconds or an absolute Unix timestamp.
+    if (asInt > 1e11) return Math.max(0, Math.ceil((asInt - Date.now()) / 1000));
+    if (asInt > 1e9) return Math.max(0, Math.ceil(asInt - Date.now() / 1000));
+    return asInt;
   }
 
   // تاريخ HTTP
@@ -127,6 +128,15 @@ export async function requestWithRetry(fn, maxRetries = 3, baseDelay = 1_000, ct
       const status  = err?.response?.status ?? err?.statusCode ?? 0;
       const url     = err?.config?.url      ?? '';
       const method  = String(err?.config?.method ?? '').toUpperCase();
+      const safeMethod = method === 'GET' || method === 'HEAD' || method === 'OPTIONS';
+      const allowUnsafeRetry = ctx?.globalOptions?.retryUnsafeRequests === true;
+
+      // A network timeout after a POST is ambiguous: the server may have
+      // accepted the operation before the client timed out. Do not replay
+      // mutating requests unless the caller explicitly opts in.
+      if (!safeMethod && !allowUnsafeRetry) {
+        return Promise.reject(err);
+      }
 
       // ── 429 Too Many Requests ──
       if (status === 429) {
@@ -138,7 +148,7 @@ export async function requestWithRetry(fn, maxRetries = 3, baseDelay = 1_000, ct
           err?.response?.headers?.['x-ratelimit-reset'];
 
         const waitSec = parseRetryAfter(retryAfterRaw);
-        if (waitSec > 0 && waitSec < MAX_RETRY_AFTER_SEC) {
+        if (waitSec > 0 && waitSec <= MAX_RETRY_AFTER_SEC) {
           await http.delay(waitSec * 1_000 + Math.random() * 500);
           continue;
         }

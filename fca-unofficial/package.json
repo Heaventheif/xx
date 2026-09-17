@@ -1,14 +1,16 @@
 {
   "name": "fca-unofficial",
-  "version": "1.0.0",
-  "description": "unofficial Facebook api experiment for The ethical trolling of the bug is in Meta's favor.",
+  "version": "1.0.1",
+  "description": "Unofficial Facebook/Messenger client with conservative session handling and transport resilience.",
   "main": "lib/index.js",
   "exports": {
     ".": "./lib/index.js",
     "./lib/*": "./lib/*"
   },
   "files": [
-    "README.md"],
+    "README.md",
+    "lib/"
+  ],
   "type": "module",
   "engines": {
     "node": ">=18.0.0",
@@ -33,16 +35,14 @@
     "fca",
     "mqtt",
     "appstate",
-    "anti-ban",
-    "stealth",
-    "e2ee",
-    "fingerprint",
     "webhook",
     "broadcast",
     "plugin",
     "circuit-breaker",
     "rate-limit",
-    "watchdog"
+    "watchdog",
+    "session-security",
+    "transport-resilience"
   ],
   "license": "MIT",
   "devDependencies": {
