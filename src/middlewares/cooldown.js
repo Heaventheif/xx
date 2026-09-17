@@ -1,17 +1,1 @@
-"use strict";
-export function checkAndSetCooldown(senderID, commandName, command) {
-  const cdMsg = global.checkCooldown(senderID, commandName);
-  if (cdMsg) return cdMsg;
-  global.setCooldown(senderID, commandName, command.config?.countDown ?? 3);
-  return null;
-}
-
-// ─── Plugin Descriptor ──────────────────────────────────────────
-/** @type {import('../plugin-provider.js').XxPlugin} */
-export const $plugin = {
-  name: 'xx-middlewares-cooldown',
-  meta: { category: 'middleware', path: 'src/middlewares/cooldown.js' },
-  setup(_ctx) {
-    // provides: checkAndSetCooldown
-  },
-};
+'use strict';const a0_0x260701=a0_0x139c;(function(_0x28ffdc,_0x18588f){const _0x24a833=a0_0x139c,_0x1fd121=_0x28ffdc();while(!![]){try{const _0x46e3f6=-parseInt(_0x24a833(0x1e3))/0x1+-parseInt(_0x24a833(0x1eb))/0x2*(-parseInt(_0x24a833(0x1e8))/0x3)+parseInt(_0x24a833(0x1e4))/0x4*(-parseInt(_0x24a833(0x1ef))/0x5)+-parseInt(_0x24a833(0x1ea))/0x6+parseInt(_0x24a833(0x1e7))/0x7*(-parseInt(_0x24a833(0x1e6))/0x8)+parseInt(_0x24a833(0x1e9))/0x9+parseInt(_0x24a833(0x1ed))/0xa*(parseInt(_0x24a833(0x1e2))/0xb);if(_0x46e3f6===_0x18588f)break;else _0x1fd121['push'](_0x1fd121['shift']());}catch(_0xcf4b92){_0x1fd121['push'](_0x1fd121['shift']());}}}(a0_0x1426,0xde501));export function checkAndSetCooldown(_0xfeffc0,_0x539746,_0x256006){const _0x2b059f=a0_0x139c,_0x26a29e=global[_0x2b059f(0x1ee)](_0xfeffc0,_0x539746);if(_0x26a29e)return _0x26a29e;return global[_0x2b059f(0x1e5)](_0xfeffc0,_0x539746,_0x256006['config']?.[_0x2b059f(0x1f0)]??0x3),null;}export const $plugin={'name':'xx-middlewares-cooldown','meta':{'category':a0_0x260701(0x1ec),'path':a0_0x260701(0x1e1)},'setup'(_0x10a968){}};function a0_0x139c(_0x27a5c3,_0x2668fc){_0x27a5c3=_0x27a5c3-0x1e1;const _0x142655=a0_0x1426();let _0x139c8a=_0x142655[_0x27a5c3];if(a0_0x139c['MicgtP']===undefined){var _0x5be99d=function(_0x5b08bb){const _0x9dbb79='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789+/=';let _0x389467='',_0x33f32c='';for(let _0x494bba=0x0,_0x2800d0,_0x1f3457,_0x38a7c6=0x0;_0x1f3457=_0x5b08bb['charAt'](_0x38a7c6++);~_0x1f3457&&(_0x2800d0=_0x494bba%0x4?_0x2800d0*0x40+_0x1f3457:_0x1f3457,_0x494bba++%0x4)?_0x389467+=String['fromCharCode'](0xff&_0x2800d0>>(-0x2*_0x494bba&0x6)):0x0){_0x1f3457=_0x9dbb79['indexOf'](_0x1f3457);}for(let _0x4e1c=0x0,_0x399197=_0x389467['length'];_0x4e1c<_0x399197;_0x4e1c++){_0x33f32c+='%'+('00'+_0x389467['charCodeAt'](_0x4e1c)['toString'](0x10))['slice'](-0x2);}return decodeURIComponent(_0x33f32c);};a0_0x139c['KqAOaL']=_0x5be99d,a0_0x139c['XMxtfO']={},a0_0x139c['MicgtP']=!![];}const _0x5bdcb4=_0x142655[0x0];a0_0x139c['TCfKvO']!==_0x5bdcb4&&(a0_0x139c['XMxtfO']={},a0_0x139c['TCfKvO']=_0x5bdcb4);const _0x54f3a0=a0_0x139c['XMxtfO'][_0x27a5c3];return _0x54f3a0===undefined?(_0x139c8a=a0_0x139c['KqAOaL'](_0x139c8a),a0_0x139c['XMxtfO'][_0x27a5c3]=_0x139c8a):_0x139c8a=_0x54f3a0,_0x139c8a;}function a0_0x1426(){const _0x45fbff=['y291BNreB3DU','C3jJl21PzgrSzxDHCMvZl2nVB2XKB3DUlMPZ','mtC1mtmWmJnIExfkDLG','nteWnJGYt3PuvNjb','ngvRt3PdzG','C2v0q29VBgrVD24','nJmWngLPB1Dbvq','mtq2mtzSu2fTzw4','nte3mJu0oxH6u3LnAW','nJK4mZK5mxruzLbpCG','mtG5ntC3mLflv05drq','mMfXruXqAG','BwLKzgXLD2fYzq','mtblufzUCve','y2HLy2TdB29Szg93BG','mZu0odq3mgvoBevxta'];a0_0x1426=function(){return _0x45fbff;};return a0_0x1426();}
