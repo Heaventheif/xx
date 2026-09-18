@@ -398,10 +398,32 @@ const LAZY_REGISTRY = [
   ['workers', () => import('./workers/delta-pool.js')],
 ];
 
+import fs from "node:fs";
+import { fileURLToPath } from "node:url";
+
 // ── Helper: تحميل مجموعة من الـ loaders بشكل متوازٍ ──────────────────────
+function loaderPath(loader) {
+  return loader.toString().match(/import\(\s*['"]([^'"]+)['"]\s*\)/)?.[1] || null;
+}
 
 async function loadPlugins(loaders) {
-  const results = await Promise.allSettled(loaders.map((fn) => fn()));
+  const available = [];
+  let skipped = 0;
+  for (const loader of loaders) {
+    const specifier = loaderPath(loader);
+    const filename = specifier
+      ? fileURLToPath(new URL(specifier, import.meta.url))
+      : null;
+    if (filename && !fs.existsSync(filename)) {
+      skipped++;
+      continue;
+    }
+    available.push(loader);
+  }
+  if (skipped > 0) {
+    console.warn(`[FCA PLUGINS] skipped ${skipped} stale registry entries`);
+  }
+  const results = await Promise.allSettled(available.map((fn) => fn()));
   const plugins = [];
   for (const r of results) {
     if (r.status === 'fulfilled' && r.value?.$plugin) {
@@ -428,7 +450,6 @@ export async function registerAll(pluginSystem, options = {}) {
   if (Array.isArray(categories) && categories.length > 0) {
     entries = entries.filter(([cat]) => categories.includes(cat));
   }
-
   const plugins = await loadPlugins(entries.map(([, loader]) => loader));
 
   // فلترة إضافية بعد التحميل

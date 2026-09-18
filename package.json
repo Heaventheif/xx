@@ -10,7 +10,8 @@
   "scripts": {
     "build": "bun install --production",
     "start": "bun --smol main.js",
-    "dev": "bun --watch main.js"
+    "dev": "bun --watch main.js",
+    "test": "bun test test/"
   },
   "dependencies": {
     "@vreden/youtube_scraper": "^1.2.9",

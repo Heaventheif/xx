@@ -1,7 +1,7 @@
 "use strict";
 
-var logger = require("../utils/nexca-logger");
-var EventEmitter = require("events");
+import logger from "../utils/nexca-logger.js";
+import { EventEmitter } from "node:events";
 
 /**
  * listenE2EE — يدمج رسائل E2EE مع تيار MQTT العادي
@@ -14,7 +14,7 @@ var EventEmitter = require("events");
  * FIX #2 — globalOptions?.selfListen: يتجنب crash إذا ctx.globalOptions undefined.
  * FIX #3 — E2EE disconnect صريح عند stopListening حتى لو !ctx.e2ee.connected.
  */
-module.exports = function createListenE2EE(api, ctx) {
+export default function createListenE2EE(api, ctx) {
     // ── FIX #1: guard ضد infinite recursion ─────────────────────────────────
     if (!api._listenMqttRaw) {
         throw new Error(
@@ -82,4 +82,4 @@ module.exports = function createListenE2EE(api, ctx) {
 
         return emitter;
     };
-};
+}

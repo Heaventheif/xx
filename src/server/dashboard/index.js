@@ -4,9 +4,15 @@ import path from "path";
 import express from "express";
 import {
   PROJECT_ROOT,
-  saveAppStateForBot,
   loginBotWithAppState,
 } from "../../core/Client.js";
+import {
+  dashboardIdentity,
+  initDashboardAuth,
+  loginDashboard,
+  logoutDashboard,
+  requireDashboardAuth,
+} from "./auth.js";
 
 const PUBLIC_DIR = path.join(import.meta.dir, "public");
 const BOT_ADMINS_PATH = path.join(PROJECT_ROOT, "botAdmins.json");
@@ -51,17 +57,29 @@ function listAppStateFiles() {
 }
 
 export function registerDashboard(app) {
+  initDashboardAuth(PROJECT_ROOT);
   const router = express.Router();
   router.use(express.json({ limit: "256kb", strict: true, type: "application/json" }));
+
+  // The static shell remains public so it can display a login prompt, but
+  // every state-changing or account-reading API is protected.
+  router.post("/api/login", loginDashboard);
+  router.post("/api/logout", logoutDashboard);
+  router.get("/api/me", requireDashboardAuth, (req, res) => {
+    res.json({ ok: true, username: dashboardIdentity(req) });
+  });
+  router.use("/api", requireDashboardAuth);
 
   const cleanId = (value) => {
     const id = String(value ?? "").trim();
     return /^[0-9]{1,32}$/.test(id) ? id : null;
   };
   const parseAppState = (value) => {
-    if (typeof value !== "string" || value.length > 250_000) return null;
-    let parsed;
-    try { parsed = JSON.parse(value); } catch { return null; }
+    let parsed = value;
+    if (typeof value === "string") {
+      if (value.length > 250_000) return null;
+      try { parsed = JSON.parse(value); } catch { return null; }
+    }
     if (!Array.isArray(parsed) || parsed.length === 0 || parsed.length > 100) return null;
     const allowed = new Set(["key", "value", "domain", "path", "secure", "httpOnly", "expirationDate", "expires"]);
     for (const cookie of parsed) {
@@ -120,24 +138,21 @@ export function registerDashboard(app) {
       if (global.botApi?.__botIndex === index) global.botApi = global.botApis[0] || null;
     }
 
-    saveAppStateForBot(parsed, index);
-
-    // حفظ admin ID
+    let loginError = null;
+    try {
+      await loginBotWithAppState(
+        { state: parsed, filePath: null, index, source: "APPSTATE (dashboard)" },
+        (errMsg) => { loginError = String(errMsg || "login failed").slice(0, 300); }
+      );
+    } catch (error) {
+      loginError ||= String(error?.message || "login failed").slice(0, 300);
+    }
+    if (loginError) return res.status(502).json({ error: `فشل تسجيل الدخول: ${loginError}`, ok: false });
+    // Persist the admin only after the bot login succeeds.
     if (adminId) {
       _setAdminId(index, safeAdminId);
       _syncAdminsToGlobal();
     }
-
-    const filePath = appStateFilePath(index);
-    let loginError = null;
-    await new Promise((resolve) => {
-      loginBotWithAppState(
-        { state: parsed, filePath: null, index: 1, source: "APPSTATE (dashboard)" },
-        (errMsg) => { loginError = String(errMsg || "login failed").slice(0, 300); resolve(); }
-      );
-      setTimeout(resolve, 8000);
-    });
-    if (loginError) return res.status(502).json({ error: `فشل تسجيل الدخول: ${loginError}`, ok: false });
     res.json({ ok: true, index, connectedNow: true });
   });
 
@@ -215,7 +230,7 @@ export function registerDashboard(app) {
   // ─── Static + router ─────────────────────────────────────────────────────
   app.use("/dashboard", router);
   app.use("/dashboard", express.static(PUBLIC_DIR));
-  console.log("[DASHBOARD] ✅ لوحة التحكم متاحة على /dashboard (بلا تسجيل دخول)");
+  console.log("[DASHBOARD] ✅ لوحة التحكم متاحة على /dashboard (المصادقة مفعّلة)");
 }
 
 export const $plugin = {

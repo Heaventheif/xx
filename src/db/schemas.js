@@ -60,9 +60,23 @@ const DashboardUserSchema = new Schema(
 const AppStateSchema = new Schema(
   {
     botIndex: { type: Number, required: true, unique: true, index: true },
-    appState: { type: Schema.Types.Mixed, required: true },
+    // Encrypted fcaenc2 string. The array type is retained for one-time
+    // backwards-compatible reads of legacy records.
+    appState: {
+      type: Schema.Types.Mixed,
+      required: true,
+      validate: {
+        validator(value) {
+          if (typeof value === "string") return value.length <= 350_000;
+          return Array.isArray(value) && value.length > 0 && value.length <= 100;
+        },
+        message: "appState must be an encrypted payload or a bounded cookie array",
+      },
+    },
     savedAt:  { type: Date, default: Date.now },
     source:   { type: String, default: "runtime" }, // "runtime" | "manual" | "startup"
+    cookieCount: { type: Number, min: 1, max: 100 },
+    lastActivity: { type: Date, default: null },
   },
   { timestamps: true, collection: "app_states" }
 );

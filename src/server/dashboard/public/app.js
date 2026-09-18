@@ -1,6 +1,7 @@
 "use strict";
 
 const API = "/dashboard/api";
+let loginInFlight = null;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 function qs(id) { return document.getElementById(id); }
@@ -12,14 +13,38 @@ function escapeHtml(str) {
 }
 
 async function apiFetch(path, opts = {}) {
+  const { _retried, ...requestOptions } = opts;
   const res = await fetch(API + path, {
     headers: { "Content-Type": "application/json" },
-    ...opts,
+    ...requestOptions,
   });
   let data = null;
   try { data = await res.json(); } catch (_) {}
+  if (res.status === 401 && path !== "/login" && !_retried) {
+    await requestLogin();
+    return apiFetch(path, { ...requestOptions, _retried: true });
+  }
   if (!res.ok) throw new Error(data?.error || `HTTP ${res.status}`);
   return data;
+}
+
+async function requestLogin() {
+  if (loginInFlight) return loginInFlight;
+  loginInFlight = (async () => {
+    const username = window.prompt("اسم مستخدم لوحة التحكم:");
+    if (username === null) throw new Error("تم إلغاء تسجيل الدخول");
+    const password = window.prompt("كلمة مرور لوحة التحكم:");
+    if (password === null) throw new Error("تم إلغاء تسجيل الدخول");
+    const res = await fetch(API + "/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    let data = null;
+    try { data = await res.json(); } catch (_) {}
+    if (!res.ok) throw new Error(data?.error || "فشل تسجيل الدخول");
+  })().finally(() => { loginInFlight = null; });
+  return loginInFlight;
 }
 
 function toast(msg, type = "info") {

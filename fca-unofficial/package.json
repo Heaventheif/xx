@@ -1,6 +1,6 @@
 {
   "name": "fca-unofficial",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "unofficial Facebook api experiment for The ethical trolling of the bug is in Meta's favor.",
   "main": "lib/index.js",
   "exports": {
@@ -8,7 +8,10 @@
     "./lib/*": "./lib/*"
   },
   "files": [
-    "README.md"],
+    "README.md",
+    "lib",
+    "test"
+  ],
   "type": "module",
   "engines": {
     "node": ">=18.0.0",
@@ -51,5 +54,8 @@
   "optionalDependencies": {
     "mime": "^3.0.0"
   },
-  "scripts": {}
+  "scripts": {
+    "test": "node --test test/",
+    "test:watch": "node --test --watch test/"
+  }
 }

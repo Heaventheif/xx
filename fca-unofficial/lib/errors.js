@@ -3,19 +3,22 @@
  *
  * الهرمية:
  *   Error
- *     └─ FcaError                  (أساس كل أخطاء FCA)
- *          ├─ FcaNetworkError       (أخطاء الشبكة العامة)
- *          │    ├─ FcaHttpError     (أخطاء HTTP بكود الحالة)
- *          │    ├─ FcaMqttError     (أخطاء MQTT العامة)
+ *     └─ FcaError                      (أساس كل أخطاء FCA)
+ *          ├─ FcaNetworkError          (أخطاء الشبكة العامة)
+ *          │    ├─ FcaHttpError        (أخطاء HTTP بكود الحالة)
+ *          │    ├─ FcaMqttError        (أخطاء MQTT العامة)
  *          │    │    ├─ FcaMqttTimeoutError
  *          │    │    └─ FcaMqttNotInitializedError
- *          ├─ FcaAuthError          (أخطاء المصادقة)
+ *          ├─ FcaAuthError             (أخطاء المصادقة)
  *          │    └─ FcaNotLoggedInError
- *          ├─ FcaRateLimitError     (تجاوز معدل الطلبات)
- *          └─ FcaCircuitOpenError   (الدائرة مفتوحة)
+ *          ├─ FcaSessionError          (أخطاء دورة حياة الجلسة)
+ *          │    ├─ FcaFingerprintMismatchError
+ *          │    └─ FcaStoreDecryptionError
+ *          ├─ FcaRateLimitError        (تجاوز معدل الطلبات)
+ *          └─ FcaCircuitOpenError      (الدائرة مفتوحة)
  */
 
-// ── أساس ─────────────────────────────────────────────────────────
+// ── أساس ─────────────────────────────────────────────────────────────────────
 
 export class FcaError extends Error {
   /**
@@ -31,7 +34,7 @@ export class FcaError extends Error {
   }
 }
 
-// ── شبكة ─────────────────────────────────────────────────────────
+// ── شبكة ─────────────────────────────────────────────────────────────────────
 
 export class FcaNetworkError extends FcaError {
   /**
@@ -66,7 +69,7 @@ export class FcaHttpError extends FcaNetworkError {
   }
 }
 
-// ── MQTT ──────────────────────────────────────────────────────────
+// ── MQTT ─────────────────────────────────────────────────────────────────────
 
 export class FcaMqttError extends FcaNetworkError {
   constructor(message, { cause, code } = {}) {
@@ -78,7 +81,10 @@ export class FcaMqttError extends FcaNetworkError {
 export class FcaMqttTimeoutError extends FcaMqttError {
   /** @param {number|string} requestId */
   constructor(requestId, { cause } = {}) {
-    super(`MQTT ACK timeout for request ${requestId}`, { cause, code: 'MQTT_TIMEOUT' });
+    super(`MQTT ACK timeout for request ${requestId}`, {
+      cause,
+      code: 'MQTT_TIMEOUT',
+    });
     this.name      = 'FcaMqttTimeoutError';
     this.requestId = requestId;
   }
@@ -86,12 +92,15 @@ export class FcaMqttTimeoutError extends FcaMqttError {
 
 export class FcaMqttNotInitializedError extends FcaMqttError {
   constructor({ cause } = {}) {
-    super('MQTT client is not initialized', { cause, code: 'MQTT_NOT_INITIALIZED' });
+    super('MQTT client is not initialized', {
+      cause,
+      code: 'MQTT_NOT_INITIALIZED',
+    });
     this.name = 'FcaMqttNotInitializedError';
   }
 }
 
-// ── مصادقة ───────────────────────────────────────────────────────
+// ── مصادقة ───────────────────────────────────────────────────────────────────
 
 export class FcaAuthError extends FcaError {
   constructor(message, { cause, code } = {}) {
@@ -102,12 +111,72 @@ export class FcaAuthError extends FcaError {
 
 export class FcaNotLoggedInError extends FcaAuthError {
   constructor({ cause } = {}) {
-    super('Not logged in — session may have expired', { cause, code: 'NOT_LOGGED_IN' });
+    super('Not logged in — session may have expired', {
+      cause,
+      code: 'NOT_LOGGED_IN',
+    });
     this.name = 'FcaNotLoggedInError';
   }
 }
 
-// ── حماية ────────────────────────────────────────────────────────
+// ── دورة حياة الجلسة ─────────────────────────────────────────────────────────
+
+export class FcaSessionError extends FcaError {
+  /**
+   * @param {string} message
+   * @param {object} [opts]
+   * @param {Error}  [opts.cause]
+   * @param {string} [opts.code]
+   */
+  constructor(message, { cause, code } = {}) {
+    super(message, { cause, code: code ?? 'SESSION_ERROR' });
+    this.name = 'FcaSessionError';
+  }
+}
+
+/**
+ * Raised when the stored fingerprint does not match the one being used.
+ * A mismatch means either a store corruption or a user mixing two accounts.
+ */
+export class FcaFingerprintMismatchError extends FcaSessionError {
+  /**
+   * @param {string} expected
+   * @param {string} actual
+   * @param {object} [opts]
+   * @param {Error}  [opts.cause]
+   */
+  constructor(expected, actual, { cause } = {}) {
+    super(`Fingerprint mismatch: stored=${expected}, current=${actual}`, {
+      cause,
+      code: 'FINGERPRINT_MISMATCH',
+    });
+    this.name     = 'FcaFingerprintMismatchError';
+    this.expected = expected;
+    this.actual   = actual;
+  }
+}
+
+/**
+ * Raised when the encrypted session store cannot be read.
+ * Common causes: missing/wrong FCA_SESSION_KEY, truncated file, tampered bytes.
+ */
+export class FcaStoreDecryptionError extends FcaSessionError {
+  /**
+   * @param {string} filePath
+   * @param {object} [opts]
+   * @param {Error}  [opts.cause]
+   */
+  constructor(filePath, { cause } = {}) {
+    super(`Cannot decrypt session store: ${filePath}`, {
+      cause,
+      code: 'STORE_DECRYPT_FAILED',
+    });
+    this.name     = 'FcaStoreDecryptionError';
+    this.filePath = filePath;
+  }
+}
+
+// ── حماية ────────────────────────────────────────────────────────────────────
 
 export class FcaRateLimitError extends FcaError {
   /**
@@ -143,7 +212,7 @@ export class FcaCircuitOpenError extends FcaError {
   }
 }
 
-// ── تصدير موحَّد ──────────────────────────────────────────────────
+// ── تصدير موحَّد ──────────────────────────────────────────────────────────────
 
 export default {
   FcaError,
@@ -154,11 +223,14 @@ export default {
   FcaMqttNotInitializedError,
   FcaAuthError,
   FcaNotLoggedInError,
+  FcaSessionError,
+  FcaFingerprintMismatchError,
+  FcaStoreDecryptionError,
   FcaRateLimitError,
   FcaCircuitOpenError,
 };
 
-// ─── Plugin Descriptor ──────────────────────────────────────────
+// ─── Plugin Descriptor ──────────────────────────────────────────────────────
 /** @type {import('./plugin-provider.js').FcaPlugin} */
 export const $plugin = {
   name: 'fca-errors',
@@ -166,6 +238,8 @@ export const $plugin = {
   setup(_ctx) {
     // provides: FcaError, FcaNetworkError, FcaHttpError, FcaMqttError,
     //           FcaMqttTimeoutError, FcaMqttNotInitializedError,
-    //           FcaAuthError, FcaNotLoggedInError, FcaRateLimitError, FcaCircuitOpenError
+    //           FcaAuthError, FcaNotLoggedInError, FcaSessionError,
+    //           FcaFingerprintMismatchError, FcaStoreDecryptionError,
+    //           FcaRateLimitError, FcaCircuitOpenError
   },
 };

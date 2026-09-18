@@ -16,8 +16,14 @@
  *  FIX #7 — إضافة تعليق توضيحي لـ replyDM / senderID كـ threadID في DM.
  */
 
-const path = require("path");
-const logger = require("../utils/nexca-logger");
+import path from "node:path";
+import fs from "node:fs";
+import { createRequire } from "node:module";
+import { fileURLToPath } from "node:url";
+import logger from "../utils/nexca-logger.js";
+
+const require = createRequire(import.meta.url);
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // bridge.js is CommonJS; resolve the optional MIME package once, safely.
 let mime = null;
 try { mime = require("mime"); } catch (_) { /* fallback MIME map is used below */ }
@@ -69,7 +75,6 @@ class E2EEBridge {
     }
 
     async _doConnect(deviceStorePath, userId) {
-        const fs = require("fs");
         userId = userId || this.ctx.userID;
 
         if (!deviceStorePath) {
@@ -336,4 +341,4 @@ function _guessMime(fileName) {
     return map[ext] || "application/octet-stream";
 }
 
-module.exports = { E2EEBridge };
+export { E2EEBridge };

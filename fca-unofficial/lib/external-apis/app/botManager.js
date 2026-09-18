@@ -185,9 +185,9 @@ class d extends p {
     return e;
   }
   stopAll() {
-    utils.log('\u{1F6D1} Stopping all bots...');
+    u('\u{1F6D1} Stopping all bots...');
     for (const [t] of this.bots.entries()) this.removeBot(t);
-    (this.emit('allStopped'), utils.log('\u2705 All bots stopped'));
+    (this.emit('allStopped'), u('\u2705 All bots stopped'));
   }
 }
 var D = d;
