@@ -2,7 +2,6 @@
 process.env.TZ = 'Europe/Berlin';
 import path from "path";
 import { checkEnv } from "./src/utils/envCheck.js";
-import { bugLog, isDevEnabled } from "./src/utils/runtimeEnv.js";
 
 global.__critLogLast = 0;
 process.on("uncaughtException", (err) => {
@@ -44,8 +43,6 @@ global.client              = { reactionListener: reactionListenerProxy };
 global._reactionTimestamps = _reactionTimestamps;
 global.Kagenou             = { replies: {} };
 global.config              = { admins: [], moderators: [], developers: [], vips: [], Prefix: ["."], botName: "Sunken Bot" };
-// Per-bot admin map: botIndex (Number) → fbId (String)
-// Populated from local configuration or botAdmins.json fallback.
 global._botAdminIds        = new Map();
 global.globalData          = new Map();
 global.usersData           = new Map();
@@ -58,9 +55,11 @@ global.botApis             = [];
 global.scheduler           = null;
 global.perfManager         = null;
 global.sessionGuard        = null;
+// قاعدة بيانات معطّلة
+global.db                  = null;
 
 import "./src/utils/safeSend.js";
-import { startWebServer } from "./src/server/webServer.js";
+import { startWebServer } from "./src/webServer.js";
 import { loadConfig } from "./src/config/index.js";
 import { loadCommands } from "./src/core/Loader.js";
 import {
@@ -69,19 +68,15 @@ import {
   loginBotWithAppState,
 } from "./src/core/Client.js";
 import { cleanupOrphanTempFiles } from "./src/utils/tempCleanup.js";
-import { connectDB, flushAllAndDisconnect } from "./src/db/index.js";
 
 try { await import("dotenv/config"); } catch (_) {}
-// Install detailed Render diagnostics only when DEV=on.
-await import("./src/utils/debug.js");
-bugLog("startup", "Runtime diagnostics initialized", { dev: isDevEnabled(), node: process.version });
 
 checkEnv(PROJECT_ROOT);
 
 global.log = {
   info:    msg => console.log("[INFO]",    msg),
-  warn:    msg => console.log("[WARN]",  msg),
-  error:   msg => console.log("[ERROR]",    msg),
+  warn:    msg => console.log("[WARN]",    msg),
+  error:   msg => console.log("[ERROR]",   msg),
   success: msg => console.log("[SUCCESS]", msg),
 };
 
@@ -89,44 +84,32 @@ loadConfig(PROJECT_ROOT);
 
 const COMMANDS_DIR = path.join(PROJECT_ROOT, "src", "commands");
 
-// reloadCommands لا تعيد تشغيل scheduledCommands لأنها محذوفة
 global.reloadCommands = () => loadCommands(COMMANDS_DIR);
 
 ["SIGTERM", "SIGINT"].forEach(sig => {
   process.on(sig, async () => {
-    console.log(`[SHUTDOWN] ${sig} — جاري حفظ البيانات...`);
+    console.log(`[SHUTDOWN] ${sig} — جاري إيقاف الجلسات...`);
     for (const botApi of global.botApis) {
       try { await botApi.__stopSessionLifecycle?.(); } catch (_) {}
       botApi._scheduler?.destroy();
-      // تحرير ملف القفل حتى لا يبقى orphan lock عند إعادة التشغيل
       try { botApi.__sessionLock?.release(); } catch (_) {}
     }
-    try { await flushAllAndDisconnect(); } catch (_) {}
     process.exit(0);
   });
 });
 
-function reportNoLoginCredentials() {
-  console.error("[LOGIN] ❌ لا يوجد أي appstate (لم يُضَف أي حساب بعد).");
-  console.error("[LOGIN] ➜ افتح لوحة التحكم (/dashboard) وأضف حساب فيسبوك من تبويب AppState، ثم ستتصل الجلسة فوراً.");
-}
-
 const startBot = async () => {
-  // MongoDB remains available for AI sessions, commands, users, bans, and dashboard data.
-  connectDB().catch((error) => console.error("[DB] Database startup failed:", error.message));
   startWebServer();
   cleanupOrphanTempFiles();
 
-  // تحميل الأوامر أولاً قبل أي login لتجنب race condition
   await loadCommands(COMMANDS_DIR);
 
   const accounts = loadAllAppStates();
   console.log(`[MULTI] 🚀 وجد ${accounts.length} حساب للتشغيل`);
 
   if (accounts.length === 0) {
-    reportNoLoginCredentials();
+    console.error("[LOGIN] ❌ لا يوجد أي appstate — أضف APPSTATE في متغيرات البيئة.");
   } else {
-    // [FIX P2] نُشغّل الحسابات بالتوازي مع انتظار النتائج لكشف الفشل
     const results = await Promise.allSettled(
       accounts.map(account => loginBotWithAppState(account, null))
     );

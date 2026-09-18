@@ -1,6 +1,8 @@
 "use strict";
 import { handleMessage, handleEvent, handleReaction, invalidateThreadInfoCache } from "../core/Router.js";
-import { recordStoryEvent, recordFriendEvent } from "../server/dashboard/facebook-store.js";
+// dashboard مُزال — stub functions
+const recordStoryEvent  = () => {};
+const recordFriendEvent = () => {};
 
 /**
  * Detect and capture story events from MQTT stream

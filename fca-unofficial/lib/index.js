@@ -49,3 +49,6 @@ export {
 } from "./safety/persistent-fingerprint.js";
 
 export * from "./errors.js";
+
+// ── إعداد البوت (نُقل من src/core/Client.js) ─────────────────────────────────
+export { startMqttListener, initBotLifecycle } from "./app/bot-init.js";

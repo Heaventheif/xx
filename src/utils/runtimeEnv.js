@@ -17,10 +17,8 @@ function redact(value, key = "") {
   return value;
 }
 
-export function bugLog(scope, message, details) {
-  if (!isDevEnabled()) return;
-  const safeDetails = details === undefined ? "" : ` ${JSON.stringify(redact(details))}`;
-  console.error(`[BUG][${new Date().toISOString()}][${scope}] ${String(message)}${safeDetails}`);
+export function bugLog(_scope, _message, _details) {
+  // مُعطَّل — لا يطبع أي شيء في الإنتاج
 }
 
 export function readAppStateFromEnv({ required = false } = {}) {
@@ -55,7 +53,6 @@ export function updateAppStateInMemory(nextState) {
   if (!Array.isArray(nextState) || nextState.length === 0) throw new TypeError("Updated APPSTATE must be a non-empty array.");
   process.env.APPSTATE = JSON.stringify(nextState);
   globalThis.appState = nextState;
-  bugLog("APPSTATE", "Updated APPSTATE in memory", { cookieCount: nextState.length });
   return process.env.APPSTATE;
 }
 
