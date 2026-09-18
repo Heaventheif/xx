@@ -8,7 +8,7 @@
  * @example
  *   import { registerAll } from './lib/plugin-provider.js';
  *   await registerAll(ps);
- *   await registerAll(ps, { categories: ['safety', 'database'] });
+ *   await registerAll(ps, { categories: ['safety'] });
  *   await registerAll(ps, { exclude: ['fca-workers-delta-pool'] });
  *
  * @typedef {{
@@ -53,14 +53,6 @@ const LAZY_REGISTRY = [
   ['core', () => import('./core/request.js')],
   ['core', () => import('./core/state.js')],
   ['core', () => import('./core/thread-info-realtime-sync.js')],
-  // database
-  ['database', () => import('./database/helpers.js')],
-  ['database', () => import('./database/jsonStore.js')],
-  ['database', () => import('./database/models/index.js')],
-  ['database', () => import('./database/mongoStore.js')],
-  ['database', () => import('./database/postgresStore.js')],
-  ['database', () => import('./database/threadData.js')],
-  ['database', () => import('./database/userData.js')],
   // domain-account
   ['domain-account', () => import('./domains/account/account.types.js')],
   ['domain-account', () => import('./domains/account/commands/add-external-module.js')],
@@ -168,7 +160,6 @@ const LAZY_REGISTRY = [
   ['external-action',  () => import('./external-apis/action/changeUsername.js')],
   ['external-action',  () => import('./external-apis/action/createCommentPost.js')],
   ['external-action',  () => import('./external-apis/action/createPost.js')],
-  ['external-action',  () => import('./external-apis/action/enableAutoSaveAppState.js')],
   ['external-action',  () => import('./external-apis/action/follow.js')],
   ['external-action',  () => import('./external-apis/action/getCurrentUserID.js')],
   ['external-action',  () => import('./external-apis/action/handleFriendRequest.js')],
@@ -188,7 +179,6 @@ const LAZY_REGISTRY = [
   ['external-action',  () => import('./external-apis/action/unfriend.js')],
   ['external-app',     () => import('./external-apis/app/botManager.js')],
   ['external-command', () => import('./external-apis/command/CommandSystem.js')],
-  ['external-database',() => import('./external-apis/database/DatabaseManager.js')],
   ['external-error',   () => import('./external-apis/error/ErrorHandler.js')],
   ['external-index',   () => import('./external-apis/index.js')],
   ['external-messaging',() => import('./external-apis/messaging/addUserToGroup.js')],

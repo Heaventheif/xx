@@ -7,7 +7,7 @@
  * @example
  *   import { registerAll, getPlugin, listCategories } from './plugin-provider.js';
  *   await registerAll(pluginSystem);
- *   await registerAll(ps, { categories: ['core', 'db'] });
+ *   await registerAll(ps, { categories: ['core'] });
  *   await registerAll(ps, { exclude: ['xx-src-utils-bot-enhancer'] });
  *
  * @typedef {{
@@ -61,8 +61,6 @@ const LAZY_REGISTRY = [
   ['core',     () => import('./src/core/Context.js')],
   ['core',     () => import('./src/core/Loader.js')],
   ['core',     () => import('./src/core/Router.js')],
-  ['db',       () => import('./src/db/index.js')],
-  ['db',       () => import('./src/db/schemas.js')],
   ['events',   () => import('./src/events/onMessage.js')],
   ['events',   () => import('./src/events/onReady.js')],
   ['middleware',() => import('./src/middlewares/auth.js')],
