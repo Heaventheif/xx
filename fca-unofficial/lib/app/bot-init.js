@@ -26,7 +26,8 @@ let _mqttManagerFactory = null;
 async function getMqttManagerFactory() {
   if (_mqttManagerFactory) return _mqttManagerFactory;
   try {
-    const mod = await import("../../src/core/MqttConnectionManager.js").catch(
+    // من fca-unofficial/lib/app/ → ../../../src/core/
+    const mod = await import("../../../src/core/MqttConnectionManager.js").catch(
       () => import("../transport/MqttConnectionManager.js").catch(() => null)
     );
     _mqttManagerFactory = mod?.createMqttConnectionManager ?? null;
@@ -41,7 +42,8 @@ let _sessionExtenderFactory = null;
 async function getSessionExtenderFactory() {
   if (_sessionExtenderFactory) return _sessionExtenderFactory;
   try {
-    const mod = await import("../../src/safety/session-extender.js").catch(() => null);
+    // من fca-unofficial/lib/app/ → ../../../src/safety/
+    const mod = await import("../../../src/safety/session-extender.js").catch(() => null);
     _sessionExtenderFactory = mod?.createSessionExtender ?? null;
   } catch {
     _sessionExtenderFactory = null;
@@ -54,7 +56,8 @@ let _botEnhancer = null;
 async function getBotEnhancer() {
   if (_botEnhancer) return _botEnhancer;
   try {
-    const mod = await import("../../src/utils/bot-enhancer.js").catch(() => null);
+    // من fca-unofficial/lib/app/ → ../../../src/utils/
+    const mod = await import("../../../src/utils/bot-enhancer.js").catch(() => null);
     _botEnhancer = mod?.default ?? null;
   } catch {
     _botEnhancer = null;

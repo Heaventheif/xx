@@ -180,7 +180,12 @@ export function loginBotWithAppState(account, onFallback) {
         await sessionMgr.save(api, { label: "post-login", trigger: "boot" });
         console.log(`[SESSION:${label}] 🔐 AppState محفوظ محلياً`);
       } catch (e) {
-        console.warn(`[SESSION:${label}] ⚠️ تعذّر حفظ الجلسة: ${e.message}`);
+        // FCA_SESSION_KEY غير مضبوط — طبيعي في بيئة Render
+        if (!process.env.FCA_SESSION_KEY) {
+          console.log(`[SESSION:${label}] ℹ️ FCA_SESSION_KEY غير مضبوط — الجلسة في الذاكرة فقط`);
+        } else {
+          console.warn(`[SESSION:${label}] ⚠️ تعذّر حفظ الجلسة: ${e.message}`);
+        }
       }
 
       console.log(`[LOGIN:${label}] ✅ AppState نجح`);
