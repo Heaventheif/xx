@@ -21,22 +21,6 @@ import {
   StealthMode,
 } from "../index.js";
 
-// ── MqttConnectionManager يُستورَد بشكل lazy لتفادي التبعيات الدائرية ─────────
-let _mqttManagerFactory = null;
-async function getMqttManagerFactory() {
-  if (_mqttManagerFactory) return _mqttManagerFactory;
-  try {
-    // من fca-unofficial/lib/app/ → ../../../src/core/
-    const mod = await import("../../../src/core/MqttConnectionManager.js").catch(
-      () => import("../transport/MqttConnectionManager.js").catch(() => null)
-    );
-    _mqttManagerFactory = mod?.createMqttConnectionManager ?? null;
-  } catch {
-    _mqttManagerFactory = null;
-  }
-  return _mqttManagerFactory;
-}
-
 // ── SessionExtender يُستورَد بشكل lazy ────────────────────────────────────────
 let _sessionExtenderFactory = null;
 async function getSessionExtenderFactory() {
@@ -73,23 +57,23 @@ async function getBotEnhancer() {
  *
  * @param {object} api
  * @param {{
- *   label:        string,
- *   botIndex:     number,
- *   sessionGuard: object|null,
- *   onEvent:      (event: object) => void,
+ *   label:                      string,
+ *   botIndex:                   number,
+ *   sessionGuard:               object|null,
+ *   onEvent:                    (event: object) => void,
+ *   createMqttConnectionManager: Function,   ← يُمرَّر من Client.js
  * }} opts
  */
 export async function startMqttListener(api, opts = {}) {
-  const { label, botIndex, sessionGuard, onEvent } = opts;
+  const { label, botIndex, sessionGuard, onEvent, createMqttConnectionManager } = opts;
 
   if (api.__mqttManager) {
     console.warn(`[MQTT:${label}] manager موجود؛ طلب إعادة اتصال single-flight.`);
     return api.__mqttManager.reconnect("duplicate_start");
   }
 
-  const createMqttConnectionManager = await getMqttManagerFactory();
-  if (!createMqttConnectionManager) {
-    console.error(`[MQTT:${label}] ❌ لم يُعثر على MqttConnectionManager`);
+  if (typeof createMqttConnectionManager !== "function") {
+    console.error(`[MQTT:${label}] ❌ createMqttConnectionManager غير مُمرَّر`);
     return null;
   }
 
@@ -143,11 +127,12 @@ export async function startMqttListener(api, opts = {}) {
  * @param {object} api
  * @param {number} botIndex
  * @param {{
- *   saveAppState:    (state: Array, idx: number, src: string) => void,
- *   onMqttEvent:     (event, api, threads) => void,
- *   onFirstBotReady: () => void,
- *   getBotName:      (idx: number) => string|null,
- *   saveBotName:     (idx: number, name: string) => void,
+ *   saveAppState:                (state: Array, idx: number, src: string) => void,
+ *   onMqttEvent:                 (event, api, threads) => void,
+ *   onFirstBotReady:             () => void,
+ *   getBotName:                  (idx: number) => string|null,
+ *   saveBotName:                 (idx: number, name: string) => void,
+ *   createMqttConnectionManager: Function,   ← من Client.js
  * }} opts
  */
 export async function initBotLifecycle(api, botIndex, opts = {}) {
@@ -157,6 +142,7 @@ export async function initBotLifecycle(api, botIndex, opts = {}) {
     onFirstBotReady = () => {},
     getBotName     = () => null,
     saveBotName    = () => {},
+    createMqttConnectionManager,
   } = opts;
 
   const label      = `Bot-${botIndex}`;
@@ -373,6 +359,7 @@ export async function initBotLifecycle(api, botIndex, opts = {}) {
     botIndex,
     sessionGuard,
     onEvent: onMqttEvent,
+    createMqttConnectionManager,
   });
 
   // ── أول بوت جاهز ─────────────────────────────────────────────────────────

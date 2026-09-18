@@ -18,6 +18,7 @@ import path from "path";
 import { readAppStateFromEnv, updateAppStateInMemory } from "../utils/runtimeEnv.js";
 import { dispatchMqttEvent }   from "../events/onMessage.js";
 import { startCleanupInterval } from "../events/onReady.js";
+import { createMqttConnectionManager } from "./MqttConnectionManager.js";
 
 import * as fcaModule from "fca-unofficial";
 
@@ -194,12 +195,13 @@ export function loginBotWithAppState(account, onFallback) {
       // ── تهيئة حياة البوت (MQTT / SessionGuard / Stealth …) ───────────────
       //    كل هذا في fca-unofficial/lib/app/bot-init.js
       await initBotLifecycle(api, index, {
-        saveAppState:    saveAppStateForBot,
-        onMqttEvent:     (event, _api, threads) =>
+        saveAppState:                saveAppStateForBot,
+        onMqttEvent:                 (event, _api, threads) =>
           dispatchMqttEvent(_api, event, label, threads),
-        onFirstBotReady: () => startCleanupInterval(),
+        onFirstBotReady:             () => startCleanupInterval(),
         getBotName,
         saveBotName,
+        createMqttConnectionManager,   // ← يُمرَّر مباشرة بدلاً من import داخلي
       });
 
     } catch (err) {
