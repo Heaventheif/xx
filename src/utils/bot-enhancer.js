@@ -1,8 +1,13 @@
 "use strict";
-import { nextLogNormal } from '../../fca-unofficial/lib/utils/human-timing.js';
 
-// مدة الكتابة غير حتمية باستخدام توزيع Log-Normal من fca-unofficial/human-timing
-// أكثر واقعية من الحساب اليدوي: يُحاكي التوزيع الطبيعي لسرعات الكتابة البشرية
+// Log-Normal distribution — محاكاة سرعات الكتابة البشرية (بدون fca-unofficial)
+function nextLogNormal(median, sigma) {
+  // Box-Muller transform
+  const u1 = Math.random() || 1e-10;
+  const u2 = Math.random() || 1e-10;
+  const z  = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+  return median * Math.exp(sigma * z);
+}
 function getTypingDuration(text) {
   if (typeof text !== "string") text = (text && typeof text.body === "string") ? text.body : "";
   if (!text) return 0;

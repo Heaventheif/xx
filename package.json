@@ -1,7 +1,7 @@
 {
   "name": "SunkenBot",
   "version": "3.0.0",
-  "description": "SunkenBot - Messenger Bot v3 (Fully Upgraded)",
+  "description": "SunkenBot - Messenger Bot v3",
   "main": "main.js",
   "type": "module",
   "engines": {
@@ -20,14 +20,9 @@
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
-    "fca-unofficial": "file:./fca-unofficial",
+    "fca-nx": "file:./fca-nx",
     "fs-extra": "^11.3.6",
     "google-translate-api-x": "^10.7.3",
-    "mongoose": "^9.7.4",
-    "pg": "^8.13.1",
     "youtube-sr": "^4.3.12"
-  },
-  "overrides": {
-    "bson": "7.2.0"
   }
 }
