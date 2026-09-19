@@ -8,7 +8,7 @@ RUN apk add --no-cache python3 make g++ gcc git py3-setuptools
 COPY package.json bun.lock* ./
 COPY fca-nx ./fca-nx
 
-RUN bun add -g node-gyp@latest && bun install --production --frozen-lockfile
+RUN bun add -g node-gyp@latest && bun install --production --frozen-lockfile --ignore-scripts=canvas
 
 # ── Stage 2: Runtime image ───────────────────────────────────────
 FROM oven/bun:1-alpine AS runner
