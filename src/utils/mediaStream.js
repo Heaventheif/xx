@@ -5,8 +5,16 @@ import path from "path";
 import https from "https";
 import http from "http";
 import { splitFile, cleanupParts, NEEDS_SPLIT } from "./mediaSplitter.js";
+import { assertSafeUrl } from "./fetchHttp.js";
 import { directSend, directSendParts } from "./directSend.js";
-function fetchStream(url, redirectCount = 0) {
+// Hard cap: abort downloads that exceed this size to avoid OOM / disk exhaustion.
+// Facebook Messenger's max attachment is 25 MB; 200 MB covers legitimate large videos.
+const MAX_DOWNLOAD_BYTES = 200 * 1024 * 1024;
+
+async function fetchStream(url, redirectCount = 0) {
+  // SSRF guard on every URL, including redirect destinations.
+  // Prevents a malicious CDN redirect chain from reaching internal cloud metadata.
+  await assertSafeUrl(url);
   return new Promise((resolve, reject) => {
     if (redirectCount > 5) return reject(new Error("تجاوز الحد الأقصى لإعادة التوجيه"));
     const isHttps = url.startsWith("https");
@@ -30,9 +38,27 @@ function fetchStream(url, redirectCount = 0) {
 }
 async function downloadToTemp(url, ext = "mp4") {
   const { stream, contentLength } = await fetchStream(url);
+
+  // Reject before writing anything if Content-Length already exceeds the cap.
+  if (contentLength > 0 && contentLength > MAX_DOWNLOAD_BYTES) {
+    stream.resume(); // drain socket
+    throw new Error(`حجم الملف (${Math.round(contentLength / 1024 / 1024)}MB) يتجاوز الحد المسموح (${Math.round(MAX_DOWNLOAD_BYTES / 1024 / 1024)}MB)`);
+  }
+
   const tmpPath = path.join(os.tmpdir(), `media_${Date.now()}.${ext}`);
   const writer = fs.createWriteStream(tmpPath);
+  let bytesReceived = 0;
+
   await new Promise((resolve, reject) => {
+    stream.on("data", (chunk) => {
+      bytesReceived += chunk.length;
+      if (bytesReceived > MAX_DOWNLOAD_BYTES) {
+        stream.destroy();
+        writer.destroy();
+        fs.remove(tmpPath).catch(() => {});
+        reject(new Error(`الملف تجاوز الحد الأقصى (${Math.round(MAX_DOWNLOAD_BYTES / 1024 / 1024)}MB) أثناء التحميل`));
+      }
+    });
     stream.pipe(writer);
     writer.on("finish", resolve);
     writer.on("error", reject);

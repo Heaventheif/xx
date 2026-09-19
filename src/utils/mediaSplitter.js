@@ -62,8 +62,9 @@ async function segmentOnce(filePath, ext, size, workDir) {
 }
 async function splitFile(filePath, ext = "mp4") {
   const workDir = await fs.mkdtemp(path.join(os.tmpdir(), "split_"));
+  let parts = [];
   try {
-    let parts = await segmentOnce(filePath, ext, (await fs.stat(filePath)).size, workDir);
+    parts = await segmentOnce(filePath, ext, (await fs.stat(filePath)).size, workDir);
     for (let attempt = 0; attempt < MAX_SPLIT_ATTEMPTS; attempt++) {
       const oversized = [];
       for (const p of parts) {
@@ -97,11 +98,15 @@ async function splitFile(filePath, ext = "mp4") {
     }
     return parts;
   } catch (e) {
+    // On error: clean up the entire work dir (parts are unusable)
     await fs.remove(workDir).catch(() => {});
     if (e.code === "FILE_TOO_LARGE") throw e;
     const err = new Error(`تعذّر تقسيم الملف: ${e.message}`);
     err.code = "FILE_TOO_LARGE";
     throw err;
+    // On success: workDir is NOT removed here — callers use cleanupParts()
+    // which correctly removes each part file and then the containing directory.
+    // This ensures the caller has time to consume the files before cleanup.
   }
 }
 async function cleanupParts(partPaths) {

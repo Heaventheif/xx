@@ -1,22 +1,43 @@
-# Production image for SunkenBot — Bun-only runtime.
-FROM oven/bun:1 AS base
+# ── Stage 1: Install production dependencies ─────────────────────
+FROM oven/bun:1-alpine AS deps
 WORKDIR /app
 
-# ffmpeg مطلوب لتقسيم الملفات الكبيرة
-RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+# Build tools needed for native modules (e.g. better-sqlite3)
+RUN apk add --no-cache python3 make g++ gcc git
 
-# نسخ package.json و fca-nx (المكتبة المحلية) أولاً
 COPY package.json bun.lock* ./
 COPY fca-nx ./fca-nx
 
-# تثبيت الحزم (fca-nx تُحلّ من ./fca-nx)
-RUN bun install --production
+RUN bun install --production --frozen-lockfile
 
-# نسخ بقية الكود
-COPY . .
+# ── Stage 2: Runtime image ───────────────────────────────────────
+FROM oven/bun:1-alpine AS runner
+WORKDIR /app
+
+# ffmpeg required for media splitting
+RUN apk add --no-cache ffmpeg
 
 ENV NODE_ENV=production
+ENV PORT=10000
+
+# Non-privileged user — reduces attack surface
+RUN addgroup -S botgroup && adduser -S botuser -G botgroup
+
+# Copy only what is needed from the deps stage
+COPY --chown=botuser:botgroup --from=deps /app/node_modules ./node_modules
+COPY --chown=botuser:botgroup --from=deps /app/fca-nx       ./fca-nx
+
+# Copy application source
+COPY --chown=botuser:botgroup . .
+
+# Writable runtime directories — appstate, db, tmp media
+RUN mkdir -p /app/data /app/temp && chown -R botuser:botgroup /app/data /app/temp
+
+USER botuser
+
 EXPOSE 10000
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://localhost:10000/health || exit 1
 
 CMD ["bun", "run", "start"]

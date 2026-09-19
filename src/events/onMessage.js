@@ -4,6 +4,31 @@ import { handleMessage, handleEvent, handleReaction, invalidateThreadInfoCache }
 const recordStoryEvent  = () => {};
 const recordFriendEvent = () => {};
 
+// ─── Bounded concurrency queue ───────────────────────────────────
+// Prevents unbounded concurrent command execution that can cause
+// unhandled-rejection crashes under Node 20+ and Meta rate-limiting.
+const MAX_CONCURRENT = parseInt(process.env.MAX_CONCURRENT_COMMANDS || "5", 10);
+let _activeSlots = 0;
+const _pendingQueue = [];
+
+function _enqueue(fn) {
+  return new Promise((resolve, reject) => {
+    _pendingQueue.push({ fn, resolve, reject });
+    _drainQueue();
+  });
+}
+
+function _drainQueue() {
+  while (_activeSlots < MAX_CONCURRENT && _pendingQueue.length > 0) {
+    const { fn, resolve, reject } = _pendingQueue.shift();
+    _activeSlots++;
+    fn()
+      .then(resolve, reject)
+      .finally(() => { _activeSlots--; _drainQueue(); });
+  }
+}
+// ────────────────────────────────────────────────────────────────
+
 /**
  * Detect and capture story events from MQTT stream
  * FCA passes through raw events — stories may appear with certain types or attachment structures
@@ -117,10 +142,26 @@ export function dispatchMqttEvent(api, event, label, acceptedThreads) {
         }
       }, 800);
     }
-    handleEvent(api, event).catch(e => console.error(`[EVENT ERR:${label}]`, e.message));
-    handleMessage(api, event).catch(e => console.error(`[EVENT ERR:${label}]`, e.message));
+    // Route through bounded queue — prevents unbounded parallelism and ensures
+    // every async path has a top-level catch that never terminates the process.
+    _enqueue(async () => {
+      try {
+        await handleEvent(api, event);
+      } catch (e) {
+        console.error(`[EVENT ERR:${label}]`, e?.message ?? e);
+      }
+      try {
+        await handleMessage(api, event);
+      } catch (e) {
+        console.error(`[MSG ERR:${label}]`, e?.message ?? e);
+      }
+    }).catch(e => console.error(`[QUEUE ERR:${label}]`, e?.message ?? e));
   } else if (event.type === "message_reaction") {
-    handleReaction(api, event);
+    try {
+      handleReaction(api, event);
+    } catch (e) {
+      console.error(`[REACTION ERR:${label}]`, e?.message ?? e);
+    }
   }
 }
 

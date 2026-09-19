@@ -530,11 +530,20 @@ async function resolveMedia(url) {
   }
 }
 async function downloadImages(urls) {
+  // Stream each image directly to a temp file to avoid loading
+  // potentially large payloads into the V8 heap as ArrayBuffers.
+  const { fetchStream } = await import("../../utils/mediaStream.js");
   const files = await Promise.all(
     urls.map(async (imgUrl, i) => {
       const tmpFile = path.join(os.tmpdir(), `autodl_img_${Date.now()}_${i}.jpg`);
-      const res = await http.get(imgUrl, { responseType: "arraybuffer", timeout: 30000 });
-      await fs.writeFile(tmpFile, Buffer.from(res.data));
+      const { stream } = await fetchStream(imgUrl); // SSRF-guarded + size-capped
+      const writer = fs.createWriteStream(tmpFile);
+      await new Promise((resolve, reject) => {
+        stream.pipe(writer);
+        writer.on("finish", resolve);
+        writer.on("error", reject);
+        stream.on("error", reject);
+      });
       return tmpFile;
     })
   );
@@ -562,8 +571,16 @@ async function downloadAndSend(api, event, url) {
     }
     if (media.imageUrl && !media.videoUrl && !media.audioUrl) {
       const tmpFile = path.join(os.tmpdir(), `autodl_img_${Date.now()}.jpg`);
-      const res = await http.get(media.imageUrl, { responseType: "arraybuffer", timeout: 30000 });
-      await fs.writeFile(tmpFile, Buffer.from(res.data));
+      // Stream to disk — avoids V8 heap buffering for large images.
+      const { fetchStream: _fetchStream } = await import("../../utils/mediaStream.js");
+      const { stream: _imgStream } = await _fetchStream(media.imageUrl);
+      const _imgWriter = fs.createWriteStream(tmpFile);
+      await new Promise((resolve, reject) => {
+        _imgStream.pipe(_imgWriter);
+        _imgWriter.on("finish", resolve);
+        _imgWriter.on("error", reject);
+        _imgStream.on("error", reject);
+      });
       await directSend(api, threadID, { body: `📥 ${media.title}`, attachment: fs.createReadStream(tmpFile) }, messageID);
       await fs.remove(tmpFile).catch(() => {});
       return true;

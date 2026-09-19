@@ -26,16 +26,10 @@ function startWebServer() {
   });
 
   // ── Health endpoints ──────────────────────────────────────────────────────
+  // NOTE: Returns only {"status":"ok"} — no system memory, uptime, user IDs,
+  //       command counts, or connection state exposed to unauthenticated callers.
   function healthHandler(_req, res) {
-    res.json({
-      status: "ok",
-      ready: !!global.botApi,
-      bot: global.botApi ? "connected" : "connecting",
-      commands: global.commands.size,
-      uptime: Math.floor(process.uptime()),
-      memory: `${Math.round(process.memoryUsage().rss / 1024 / 1024)} MB`,
-      timestamp: new Date().toISOString(),
-    });
+    res.json({ status: "ok" });
   }
   app.get("/health", healthHandler);
   app.get("/api/health", healthHandler);

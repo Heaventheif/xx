@@ -1,6 +1,10 @@
 "use strict";
-const MIN_SEND_GAP_MS      = 200; 
-const PRIORITY_SEND_GAP_MS = 100; 
+// ── Anti-abuse send pacing ─────────────────────────────────────────
+// Meta's automated-behaviour detection flags metronomic send patterns.
+// A 1500ms base with ±200ms jitter looks organic; priority sends use 800ms.
+const MIN_SEND_GAP_MS      = 1_500;
+const PRIORITY_SEND_GAP_MS =   800;
+const JITTER_RANGE_MS      =   400; // ±200 ms applied to every outgoing message
 const _threadGates = new Map();
 function _gate(key, gapMs) {
   let gate = _threadGates.get(key);
@@ -56,7 +60,8 @@ function _gatedSendRaw(api, body, threadID, callback, messageID) {
   const key    = String(threadID);
   const gate   = _gate(key, MIN_SEND_GAP_MS);
   const resultPromise = gate.promise.then(async () => {
-    const wait = MIN_SEND_GAP_MS - (Date.now() - gate.lastSendAt);
+    const _jitter = Math.floor(Math.random() * JITTER_RANGE_MS) - (JITTER_RANGE_MS >> 1);
+    const wait = (MIN_SEND_GAP_MS + _jitter) - (Date.now() - gate.lastSendAt);
     if (wait > 0) await new Promise(r => setTimeout(r, wait));
     if (rawApi.__stealth) {
       try {
@@ -68,9 +73,22 @@ function _gatedSendRaw(api, body, threadID, callback, messageID) {
       } catch (_) {}
     }
     gate.lastSendAt = Date.now();
-    const result = messageID !== undefined
-      ? await rawApi.sendMessage(body, threadID, callback, messageID)
-      : await rawApi.sendMessage(body, threadID, callback);
+    let result;
+    try {
+      result = messageID !== undefined
+        ? await rawApi.sendMessage(body, threadID, callback, messageID)
+        : await rawApi.sendMessage(body, threadID, callback);
+    } catch (sendErr) {
+      // On HTTP 429 / 405 back the gate off by 30–60 s so subsequent
+      // messages in this thread don't pile on and worsen the rate-limit.
+      const errMsg = String(sendErr?.message ?? sendErr ?? "");
+      if (/429|405|rate.?limit|too many/i.test(errMsg)) {
+        const backoffMs = 30_000 + Math.floor(Math.random() * 30_000);
+        gate.lastSendAt = Date.now() + backoffMs;
+        console.warn(`[SEND] ⚠️ rate-limited — cooldown ${Math.round(backoffMs / 1000)}s`);
+      }
+      throw sendErr;
+    }
     rawApi.__stealth?.recordRequest?.();
     return result;
   });
@@ -83,7 +101,8 @@ function prioritySend(api, body, threadID, callback, messageID) {
   const key    = String(threadID);
   const gate   = _gate(key, PRIORITY_SEND_GAP_MS);
   const resultPromise = gate.promise.then(async () => {
-    const wait = PRIORITY_SEND_GAP_MS - (Date.now() - gate.lastSendAt);
+    const _jitter = Math.floor(Math.random() * JITTER_RANGE_MS) - (JITTER_RANGE_MS >> 1);
+    const wait = (PRIORITY_SEND_GAP_MS + _jitter) - (Date.now() - gate.lastSendAt);
     if (wait > 0) await new Promise(r => setTimeout(r, wait));
     if (rawApi.__stealth) {
       try {

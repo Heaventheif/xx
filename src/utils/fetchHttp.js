@@ -2,6 +2,54 @@
 import { Readable } from "stream";
 import { Agent as HttpAgent } from "http";
 import { Agent as HttpsAgent } from "https";
+import { promises as dns } from "dns";
+import net from "net";
+
+// ─── SSRF Guard ─────────────────────────────────────────────────
+function _isPrivateIp(ip) {
+  if (net.isIPv6(ip)) {
+    return ip === "::1" || ip.startsWith("fc00") || ip.startsWith("fe80") || ip === "::" ;
+  }
+  const parts = ip.split(".").map(Number);
+  if (parts.length !== 4 || parts.some(isNaN)) return true; // malformed → block
+  if (parts[0] === 10) return true;                                  // 10.0.0.0/8
+  if (parts[0] === 127) return true;                                 // 127.0.0.0/8
+  if (parts[0] === 172 && parts[1] >= 16 && parts[1] <= 31) return true; // 172.16.0.0/12
+  if (parts[0] === 192 && parts[1] === 168) return true;            // 192.168.0.0/16
+  if (parts[0] === 169 && parts[1] === 254) return true;            // 169.254.0.0/16 (link-local / cloud metadata)
+  if (parts[0] === 100 && parts[1] >= 64 && parts[1] <= 127) return true; // 100.64.0.0/10 (CGNAT)
+  if (parts[0] === 0) return true;                                   // 0.0.0.0/8
+  return false;
+}
+
+async function _assertSafeUrl(rawUrl) {
+  let parsed;
+  try {
+    parsed = new URL(rawUrl);
+  } catch {
+    throw new Error(`[SSRF] Invalid URL: ${rawUrl}`);
+  }
+  if (!["http:", "https:"].includes(parsed.protocol)) {
+    throw new Error(`[SSRF] Disallowed protocol: ${parsed.protocol}`);
+  }
+  // Block bare IP literals in the hostname
+  if (net.isIP(parsed.hostname) && _isPrivateIp(parsed.hostname)) {
+    throw new Error(`[SSRF] Direct private IP blocked: ${parsed.hostname}`);
+  }
+  // DNS pre-resolution — block hostnames that resolve to private ranges
+  let records;
+  try {
+    records = await dns.lookup(parsed.hostname, { all: true });
+  } catch (e) {
+    throw new Error(`[SSRF] DNS resolution failed for ${parsed.hostname}: ${e.message}`);
+  }
+  for (const { address } of records) {
+    if (_isPrivateIp(address)) {
+      throw new Error(`[SSRF] Hostname ${parsed.hostname} resolves to private IP ${address} — blocked.`);
+    }
+  }
+}
+// ────────────────────────────────────────────────────────────────
 const _keepAliveAgents = {
   http:  new HttpAgent({ keepAlive: true, maxSockets: 20 }),
   https: new HttpsAgent({ keepAlive: true, maxSockets: 20 }),
@@ -72,6 +120,7 @@ async function performRequest(config) {
   } = config;
   if (!url) throw new Error("fetchHttp: 'url' مطلوب");
   const finalUrl = buildUrl(url, params, baseURL);
+  await _assertSafeUrl(finalUrl);
   const finalHeaders = { ...defaults.headers, ...headers };
   let body;
   const upper = method.toUpperCase();
@@ -188,6 +237,8 @@ function put(url, data, config = {}) {
 function del(url, config = {}) {
   return request({ ...config, url, method: "DELETE" });
 }
+// Named export so other modules (mediaStream, etc.) can reuse the SSRF guard.
+export { _assertSafeUrl as assertSafeUrl };
 export default Object.assign(request, {
   get,
   post,
