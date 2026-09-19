@@ -1323,39 +1323,6 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
             });
           }, 86400000);
         }
-        // ✅ fca-nx core features register
-        try {
-          const e2eeModule = require("../src/api/socket/e2ee");
-          api.e2ee = new e2eeModule.E2EEBridge(ctxMain, api, defaultFuncs);
-          ctxMain.e2ee = api.e2ee;
-          api.connectE2EE = (deviceStorePath) => api.e2ee.connect(deviceStorePath, ctxMain.userID);
-          api.listenE2EE = require("../src/api/socket/listenE2EE")(defaultFuncs, api, ctxMain);
-
-          // Auto-connect E2EE and make it the default listener so existing
-          // bots calling api.listen() OR api.listenMqtt() directly also
-          // receive E2EE (Secret Conversation) messages without any extra
-          // setup or changes on the bot side.
-          //
-          // [Fixed by xalman] IMPORTANT: assign api.listen/api.listenMqtt to the combined
-          // listener SYNCHRONOUSLY, before connectE2EE() resolves. Bots
-          // commonly call api.listenMqtt(callback) immediately in the login
-          // callback - if we waited for the async connectE2EE() promise to
-          // swap these over, that call would already have captured the old
-          // plain-MQTT-only function, permanently missing E2EE (inbox)
-          // messages even after E2EE finished connecting moments later.
-          api.listen = api.listenE2EE;
-          api.listenMqtt = api.listenE2EE;
-          api.connectE2EE()
-            .then(() => {
-              logger("E2EE auto-connected and merged into api.listen()/api.listenMqtt()");
-            })
-            .catch((e) => {
-              logger(`E2EE auto-connect failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
-            });
-        } catch (e) {
-          logger(`E2EE init failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
-        }
-
         try {
           api.sessionGuard = require("../src/api/messaging/sessionGuard")(defaultFuncs, api, ctxMain);
         } catch (e) {

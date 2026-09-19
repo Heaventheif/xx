@@ -244,43 +244,19 @@ module.exports = function (defaultFuncs, api, ctx) {
             isSingleUser = ctx.threadTypes[String(threadID)] === 'dm';
         }
 
-        // DM attachment sends — skip MQTT entirely.
-        // For E2EE DMs: route through the E2EE bridge (Noise WebSocket, Signal Protocol).
-        //   Facebook strips attachment_fbids from MQTT messages in E2EE threads
-        //   (can't re-encrypt CDN attachments on the fly), so MQTT silently drops them.
-        //   The vendor's client.sendImage/sendVideo/sendAudio encrypts the file data
-        //   and sends via the Noise WebSocket — the only path that actually delivers
-        //   attachments in E2EE threads.
-        // For non-E2EE DMs: use OldMessage.
+        // DM attachment sends — skip MQTT entirely, use OldMessage.
         //   /messaging/send/ with other_user_fbid routing works for plain DMs.
-        //   (For E2EE DMs it returns 404 because the endpoint is deprecated for those.)
         if (isSingleUser && msg.attachment) {
-            var useE2EE = api.e2ee && typeof api.e2ee.isConnected === "function" && api.e2ee.isConnected();
-            if (useE2EE) {
-                try {
-                    var e2eeResult = await api.e2ee.sendMessage(String(threadID), msg, replyToMessage);
-                    var wrapped = e2eeResult && e2eeResult.messageId
-                        ? { threadID: String(threadID), messageID: String(e2eeResult.messageId) }
-                        : e2eeResult;
-                    if (callback) callback(null, wrapped);
-                    else resolve(wrapped);
-                } catch (e2eeErr) {
-                    logger.error("sendMessage", "E2EE DM attachment send failed: " + (e2eeErr.message || e2eeErr));
-                    if (callback) callback(e2eeErr);
-                    else reject(e2eeErr);
-                }
-            } else {
-                try {
-                    var omResult = await new Promise((res2, rej2) => {
-                        api.OldMessage(msg, threadID, (err2, data2) => err2 ? rej2(err2) : res2(data2), replyToMessage, true);
-                    });
-                    if (callback) callback(null, omResult);
-                    else resolve(omResult);
-                } catch (omErr) {
-                    logger.error("sendMessage", "DM attachment via OldMessage failed: " + (omErr.error || omErr.message || omErr));
-                    if (callback) callback(omErr);
-                    else reject(omErr);
-                }
+            try {
+                var omResult = await new Promise((res2, rej2) => {
+                    api.OldMessage(msg, threadID, (err2, data2) => err2 ? rej2(err2) : res2(data2), replyToMessage, true);
+                });
+                if (callback) callback(null, omResult);
+                else resolve(omResult);
+            } catch (omErr) {
+                logger.error("sendMessage", "DM attachment via OldMessage failed: " + (omErr.error || omErr.message || omErr));
+                if (callback) callback(omErr);
+                else reject(omErr);
             }
             return promise;
         }

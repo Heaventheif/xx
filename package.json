@@ -13,6 +13,9 @@
     "dev": "bun --watch main.js",
     "test": "bun test test/"
   },
+  "overrides": {
+    "node-gyp": "^10.3.1"
+  },
   "dependencies": {
     "@vreden/youtube_scraper": "^1.2.9",
     "@tobyg74/tiktok-api-dl": "latest",
