@@ -1,13 +1,14 @@
 import { EventEmitter } from "node:events";
 
 const DEFAULTS = {
-  staleAfterMs: 8 * 60_000,   // 8 min: gives ping (2 min) safe headroom under Bun timer drift
-  initialGraceMs: 2 * 60_000, // do not recycle a newly-started listener while transport state settles
+  staleAfterMs: 8 * 60_000,
+  initialGraceMs: 2 * 60_000,
   watchdogIntervalMs: 30_000,
   stableWindowMs: 5 * 60_000,
   reconnectBaseMs: 2_000,
   reconnectCapMs: 5 * 60_000,
   cooldownMs: 15 * 60_000,
+  authBlockCooldownMs: 90 * 60_000,  // ← 90 دقيقة انتظار عند login_blocked
   maxFastAttempts: 10,
   pingIntervalMs: 120_000,
 };
@@ -22,11 +23,12 @@ export function classifyMqttError(error) {
   const text = getErrorText(error).toLowerCase();
   const status = Number(error?.statusCode ?? error?.status ?? error?.code);
 
+  // login_blocked = حجب مؤقت من فيسبوك — يُعالَج بانتظار طويل لا بإيقاف دائم
+  if (/login_blocked/.test(text)) return "AUTH_FAILED";
+
   if (
     status === 401 || status === 403 ||
-    // Keep the pattern specific: avoid matching transient strings like "authorization timeout"
-    // or "auth error" that appear in normal WebSocket errors and are NOT real session failures.
-    /not logged in|login_blocked|blocked the login|checkpoint|invalid.*session|not.*authenticated|session.*expired|credentials.*invalid/.test(text)
+    /not logged in|blocked the login|checkpoint|invalid.*session|not.*authenticated|session.*expired|credentials.*invalid/.test(text)
   ) return "AUTH_FAILED";
 
   if (/rate.?limit|too many requests|429/.test(text)) return "RATE_LIMITED";
@@ -198,11 +200,29 @@ export class MqttConnectionManager extends EventEmitter {
   async _reconnect(reason) {
     if (this.stopped) return false;
     const kind = this.lastErrorClass;
+
+    // عند login_blocked: توقف تام لمدة 90 دقيقة ثم إعادة محاولة واحدة
     if (kind === "AUTH_FAILED") {
-      this.state = "AUTH_FAILED";
-      this._emitState();
-      this.emit("auth_failed", this.health());
-      return false;
+      const now = Date.now();
+      if (!this._authBlockedUntil) {
+        this._authBlockedUntil = now + this.options.authBlockCooldownMs;
+        const waitMin = Math.round(this.options.authBlockCooldownMs / 60_000);
+        console.warn(`[MQTT:${this.label}] 🔒 login_blocked — إيقاف مؤقت ${waitMin} دقيقة ثم إعادة محاولة`);
+        this.state = "AUTH_FAILED";
+        this._emitState();
+        this.emit("auth_failed", this.health());
+        // جدول إعادة محاولة واحدة بعد الانتظار
+        setTimeout(() => {
+          if (this.stopped) return;
+          console.log(`[MQTT:${this.label}] ⏰ انتهى وقت الانتظار — إعادة محاولة الاتصال`);
+          this._authBlockedUntil = null;
+          this.lastErrorClass = null;
+          this.reconnectAttempts = 0;
+          void this._connectOnce("auth_block_retry");
+        }, this.options.authBlockCooldownMs);
+        return false;
+      }
+      if (now < this._authBlockedUntil) return false; // لا تزال في فترة الانتظار
     }
 
     if (Date.now() < this.cooldownUntil) {

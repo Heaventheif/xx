@@ -125,13 +125,14 @@ export function loginBotWithAppState(account, onFallback) {
     let loginSucceeded = false;
     try {
 
-      // ── بصمة جديدة في كل اتصال (rotateOnStart: true) ────────────────────
+      // ── بصمة ثابتة (تتجدد تلقائياً كل 7 أيام فقط) ──────────────────────
       const deviceManager = new DeviceManager({
         filePath:      path.join(PROJECT_ROOT, `.device-profile${suffix}.json`),
-        rotateOnStart: true,   // 🔄 بصمة عشوائية جديدة عند كل تشغيل
+        rotateOnStart: false,   // ✅ بصمة ثابتة — لا تغيير عند كل إعادة تشغيل
+        maxAgeMs:      7 * 24 * 60 * 60 * 1000, // تجديد تلقائي بعد 7 أيام
       });
       await deviceManager.init();
-      console.log(`[DEVICE:${label}] 🔄 بصمة جديدة: ${deviceManager.deviceId.slice(0, 12)}…`);
+      console.log(`[DEVICE:${label}] ✅ بصمة ثابتة: ${deviceManager.deviceId.slice(0, 12)}…`);
 
       // ── تسجيل الدخول ──────────────────────────────────────────────────────
       const ctx = await loginAsync(

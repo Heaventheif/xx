@@ -249,8 +249,8 @@ export async function initBotLifecycle(api, botIndex, opts = {}) {
   if (typeof createSessionGuard === "function") {
     sessionGuard = createSessionGuard({
       enabled:            true,
-      watchdogIdleMs:     30 * 60 * 1000,
-      watchdogIntervalMs: 60_000,
+      watchdogIdleMs:     90 * 60 * 1000,   // ← 90 دقيقة بدلاً من 30
+      watchdogIntervalMs: 5 * 60_000,        // ← فحص كل 5 دقائق بدلاً من كل دقيقة
     });
     if (api._ctx) {
       sessionGuard.attach(api._ctx, {
