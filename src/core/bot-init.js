@@ -3,7 +3,7 @@
  * src/core/bot-init.js
  * ────────────────────
  * تهيئة البوت بعد تسجيل الدخول عبر fca-nx.
- * مستقل تماماً — لا يعتمد على fca-unofficial.
+ * مستقل تماماً — يستخدم fca-nx فقط.
  */
 
 import { createRequire } from "node:module";

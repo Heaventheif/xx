@@ -16,7 +16,7 @@
     "install": false,
     "allowInstall": false,
     "notifyIfCurrent": false,
-    "packageName": "fca-unofficial",
+    "packageName": "fca-nx",
     "registryUrl": "https://registry.npmjs.org",
     "timeoutMs": 10000
   },

@@ -1,6 +1,6 @@
 "use strict";
 
-// Log-Normal distribution — محاكاة سرعات الكتابة البشرية (بدون fca-unofficial)
+// Log-Normal distribution — محاكاة سرعات الكتابة البشرية
 function nextLogNormal(median, sigma) {
   // Box-Muller transform
   const u1 = Math.random() || 1e-10;
