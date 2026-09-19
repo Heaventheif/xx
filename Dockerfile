@@ -2,13 +2,13 @@
 FROM oven/bun:1-alpine AS deps
 WORKDIR /app
 
-# Build tools needed for native modules (e.g. better-sqlite3)
-RUN apk add --no-cache python3 make g++ gcc git py3-setuptools
+# Build tools needed for native modules (e.g. sqlite3)
+RUN apk add --no-cache python3 make g++ gcc git
 
 COPY package.json bun.lock* ./
 COPY fca-nx ./fca-nx
 
-RUN bun add -g node-gyp@latest && bun install --production --frozen-lockfile --ignore-scripts=canvas
+RUN bun install --production
 
 # ── Stage 2: Runtime image ───────────────────────────────────────
 FROM oven/bun:1-alpine AS runner
