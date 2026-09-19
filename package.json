@@ -23,6 +23,7 @@
     "fca-nx": "file:./fca-nx",
     "fs-extra": "^11.3.6",
     "google-translate-api-x": "^10.7.3",
+    "mongoose": "^9.7.4",
     "youtube-sr": "^4.3.12"
   }
 }
