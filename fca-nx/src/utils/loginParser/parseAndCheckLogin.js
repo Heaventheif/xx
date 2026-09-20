@@ -103,7 +103,20 @@ function parseAndCheckLogin(ctx, http, retryCount = 0) {
       }
     }
 
-    if (status === 404) return;
+    if (status === 404) {
+      const url = buildUrl(res?.config);
+      const method = String(res?.config?.method || "GET").toUpperCase();
+      const err = new Error(
+        `parseAndCheckLogin got status code: 404. [${method}] ${url || "(no url)"} was not found - the endpoint may have changed or been removed by Facebook.`
+      );
+      err.statusCode = 404;
+      err.res = res?.data;
+      logger(
+        `parseAndCheckLogin: [${method}] ${url || "(no url)"} -> 404 Not Found`,
+        "error"
+      );
+      throw err;
+    }
     if (status !== 200) {
       const err = new Error(
         "parseAndCheckLogin got status code: " +

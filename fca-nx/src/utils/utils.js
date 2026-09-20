@@ -245,7 +245,6 @@ function decodeClientPayload(payload) {
 
 function parseAndCheckLogin(ctx, defaultFuncs) {
     return function (res) {
-        // NOTE: this used to read res.statusCode/res.body, which are the old
         // `request`/`request-promise` library's property names. The actual
         // HTTP client here (src/utils/request) is axios-based, whose
         // responses use res.status/res.data instead - res.body was always

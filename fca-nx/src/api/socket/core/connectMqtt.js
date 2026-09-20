@@ -9,6 +9,7 @@ const { getSessionIdentity } = require("../../../utils/clientIdentity");
 const DEFAULT_RECONNECT_DELAY_MS = 2000;
 const MAX_RECONNECT_DELAY_MS = 60000;
 const MAX_RECONNECT_ATTEMPTS = 10; // cap consecutive network-failure reconnects; does not apply to confirmed auth failures (those never reconnect)
+const MAX_RECONNECT_COOLDOWN_MS = 10 * 60 * 1000; // after exhausting fast retries, wait this long before trying again (never give up permanently)
 const T_MS_WAIT_TIMEOUT_MS = 5000;
 
 // Exponential backoff with jitter, based on how many *consecutive* reconnect
@@ -44,8 +45,19 @@ module.exports = function createListenMqtt(deps) {
       }
       ctx._reconnectAttempts = (ctx._reconnectAttempts || 0) + 1;
       if (ctx._reconnectAttempts > MAX_RECONNECT_ATTEMPTS) {
-        logger(`mqtt reconnect attempts exceeded (${MAX_RECONNECT_ATTEMPTS}); giving up and surfacing error`, "error");
-        globalCallback({ type: "stop_listen", error: "Max reconnect attempts exceeded" }, null);
+        // temporary outage (hosting network blip, FB-side hiccup), not a
+        // dead account. Back off to a long, FB-friendly cooldown and reset
+        // the counter so normal exponential backoff resumes after that.
+        const cooldownMs = MAX_RECONNECT_COOLDOWN_MS;
+        logger(`mqtt reconnect attempts exceeded (${MAX_RECONNECT_ATTEMPTS}); backing off ${Math.round(cooldownMs / 60000)}min before trying again (not giving up)`, "error");
+        globalCallback({ type: "stop_listen", error: "Max reconnect attempts exceeded - will retry after cooldown" }, null);
+        ctx._reconnectAttempts = 0;
+        ctx._reconnectTimer = setTimeout(() => {
+          ctx._reconnectTimer = null;
+          if (!ctx._ending) {
+            listenMqtt(defaultFuncs, api, ctx, globalCallback);
+          }
+        }, cooldownMs);
         return;
       }
       const ms = typeof delayMs === "number" ? delayMs : computeBackoff(ctx, base);
@@ -182,10 +194,6 @@ module.exports = function createListenMqtt(deps) {
     });
 
     mqttClient.on("connect", function () {
-      if (process.env.OnStatus === undefined) {
-        logger("fca-unofficial", "info");
-        process.env.OnStatus = true;
-      }
       ctx._cycling = false;
       // A successful connect means the session/identity/network are fine -
       // reset the backoff counter so a later transient failure starts a
@@ -202,10 +210,9 @@ module.exports = function createListenMqtt(deps) {
       };
       const topic = ctx.syncToken ? "/messenger_sync_get_diffs" : "/messenger_sync_create_queue";
       if (ctx.syncToken) { queue.last_seq_id = ctx.lastSeqId; queue.sync_token = ctx.syncToken; }
-      // QoS 0 — FB edge-chat sends malformed PUBACKs for QoS-1 publishes; stalls mqtt.js queue.
-      mqttClient.publish(topic, JSON.stringify(queue), { qos: 0, retain: false });
-      mqttClient.publish("/foreground_state", JSON.stringify({ foreground: chatOn }), { qos: 0 });
-      mqttClient.publish("/set_client_settings", JSON.stringify({ make_user_available_when_in_foreground: true }), { qos: 0 });
+      mqttClient.publish(topic, JSON.stringify(queue), { qos: 1, retain: false });
+      mqttClient.publish("/foreground_state", JSON.stringify({ foreground: chatOn }), { qos: 1 });
+      mqttClient.publish("/set_client_settings", JSON.stringify({ make_user_available_when_in_foreground: true }), { qos: 1 });
       let rTimeout = setTimeout(function () {
         rTimeout = null;
         if (ctx._ending) {

@@ -24,6 +24,7 @@ const CYCLE_MS_DEFAULT = 60 * 60 * 1000;
 const RECONNECT_DELAY_MS_DEFAULT = 3000;
 const UNSUB_ALL_TIMEOUT_MS = 5000;
 const MAX_MQTT_RECONNECT_DELAY_MS = 60000;
+const MAX_MQTT_RECONNECT_COOLDOWN_MS = 10 * 60 * 1000; // long cooldown after exhausting fast retries - never give up permanently
 const MAX_MQTT_RECONNECT_ATTEMPTS = 10;
 const HEARTBEAT_INTERVAL_MS = 30000;
 const HEARTBEAT_TIMEOUT_MS = 10000;
@@ -154,8 +155,16 @@ module.exports = function (defaultFuncs, api, ctx, opts) {
                     const maxAttempts = conf.maxReconnectAttempts || MAX_MQTT_RECONNECT_ATTEMPTS;
 
                     if (reconnectAttempts > maxAttempts) {
-                        logger("mqtt getSeqID: max reconnect attempts exceeded", "error");
-                        globalCallback({ type: "stop_listen", error: "Max reconnect attempts exceeded" }, null);
+                        const cooldownMs = MAX_MQTT_RECONNECT_COOLDOWN_MS;
+                        logger(`mqtt getSeqID: max reconnect attempts exceeded, backing off ${Math.round(cooldownMs / 60000)}min before trying again (not giving up)`, "error");
+                        globalCallback({ type: "stop_listen", error: "Max reconnect attempts exceeded - will retry after cooldown" }, null);
+                        reconnectAttempts = 0;
+                        ctx._reconnectTimer = setTimeout(() => {
+                            if (!ctx._ending) {
+                                isReconnecting = false;
+                                getSeqIDWrapper();
+                            }
+                        }, cooldownMs);
                         return;
                     }
 
@@ -397,7 +406,6 @@ module.exports = function (defaultFuncs, api, ctx, opts) {
         ctx.mqttClient.removeAllListeners("close");
         ctx.mqttClient.removeAllListeners("error");
 
-        // [Fixed by xalman] mqtt.js does NOT emit a "pong" event - that was never firing,
         // so lastPongTime was never refreshed and the heartbeat below kept
         // force-reconnecting the account roughly every minute (this is what
         // looked like periodic auto logout). The library's own keepalive

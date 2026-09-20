@@ -4,7 +4,6 @@ function getType(obj) {
   return Object.prototype.toString.call(obj).slice(8, -1);
 }
 
-// [Fixed by xalman] formatID now coerces id to String before .replace() -
 // previously crashed with "id.replace is not a function" whenever a numeric
 // userID was passed (e.g. addFriend), since Number has no .replace method.
 function formatID(id) {
@@ -38,7 +37,6 @@ function arrToForm(form) {
   );
 }
 
-// [Fixed by xalman] Stt was previously incremented ("Stt++") on every
 // recursive call, which silently coerced any non-numeric default value
 // (string/null/object - the normal case) to NaN one level deep. It's a
 // static fallback value, so it's now passed through unchanged.
@@ -56,7 +54,6 @@ function getData_Path(Obj, Arr, Stt) {
   return getData_Path(Obj[head], tail, Stt);
 }
 
-// [Fixed by xalman] Rewritten - the old version reassigned a local variable
 // instead of the actual object property, so updating an EXISTING truthy
 // value silently did nothing. Also stopped mutating the caller's path array.
 function setData_Path(obj, path, value) {

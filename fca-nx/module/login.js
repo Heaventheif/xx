@@ -46,14 +46,13 @@ if (!global.fca._errorHandlersInstalled) {
         }
       }
 
-      // [Fixed by xalman] For other unhandled rejections, log but don't crash.
       // Include the stack (when available) - logging only `.message` made
       // real bugs impossible to trace back to where they were thrown.
       const errorDetail = reason && reason.stack ? reason.stack : (reason && reason.message ? reason.message : String(reason));
       logger(`Unhandled promise rejection (non-fatal): ${errorDetail}`, "error");
     } catch (e) {
       // Logger itself failed - fall back to stderr so this isn't silently lost.
-      try { console.error("[fca-nx] logger failed while handling unhandledRejection:", e, reason); } catch { }
+      try { console.error("logger failed while handling unhandledRejection:", e, reason); } catch { }
     }
   });
 
@@ -77,7 +76,6 @@ if (!global.fca._errorHandlersInstalled) {
         return; // Don't crash
       }
 
-      // [Fixed by xalman] For other uncaught exceptions, log but try to continue.
       // Include the stack trace - without it these were undebuggable in production.
       logger(`Uncaught exception (attempting to continue): ${error && error.stack ? error.stack : errorMessage}`, "error");
       // Note: We don't exit here to allow bot to continue running.
@@ -87,7 +85,7 @@ if (!global.fca._errorHandlersInstalled) {
       // process.exit(1) here instead for a clean restart on truly unknown errors.
     } catch (e) {
       // Logger itself failed - fall back to stderr so this isn't silently lost.
-      try { console.error("[fca-nx] logger failed while handling uncaughtException:", e, error); } catch { }
+      try { console.error("logger failed while handling uncaughtException:", e, error); } catch { }
     }
   });
 }

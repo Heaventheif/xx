@@ -10,7 +10,7 @@ const { CookieJar } = require("tough-cookie");
 const { saveCookies, getAppState } = require("../src/utils/client");
 const { getFrom } = require("../src/utils/constants");
 const { loadConfig } = require("./config");
-const { createRemoteClient } = require("../src/remote/remoteClient");
+
 const { config } = loadConfig();
 const axiosBase = require("axios");
 const regions = [
@@ -1143,7 +1143,7 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
               logger(`Database connection failed: ${errorMsg}`, "warn");
             }
           });
-        logger(chalk.italic("⚡ fca-nx | github.com/xalmandevv ⚡"), "info");
+
         const emitter = new EventEmitter();
         const ctxMain = {
           userID,
@@ -1170,7 +1170,6 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
         ctxMain.bypassAutomation = ctx.bypassAutomation.bind(ctxMain);
         ctxMain.performAutoLogin = async () => {
           try {
-            // [Fixed by xalman] First check whether the existing cookie session is actually
             // still usable. A checkpoint/redirect seen on one request
             // doesn't always mean the whole session is dead (transient FB
             // blips, rate limiting, etc). Cookie/appstate-only logins have
@@ -1179,11 +1178,27 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
             // the bot (via emitAuth) and force a brand new cookie every
             // time instead of just continuing on the still-good session.
             try {
-              const check = await get("https://www.facebook.com/", jar, null, globalOptions).then(saveCookies(jar));
-              const html = check && check.data ? String(check.data) : "";
-              const stillCheckpointed = html.includes("/checkpoint/block/?next") || html.includes("XCheckpointFBScrapingWarningController");
-              const uidMatch = html.match(/"USER_ID"\s*:\s*"(\d+)"/);
-              if (!stillCheckpointed && uidMatch && uidMatch[1] && uidMatch[1] !== "0") {
+              // hiccup during THIS check alone used to be treated the same
+              // as a dead session and fall through to requiring credentials.
+              let stillCheckpointed = true;
+              let uid = null;
+              for (let attempt = 0; attempt < 3 && !uid; attempt++) {
+                try {
+                  const check = await get("https://www.facebook.com/", jar, null, globalOptions).then(saveCookies(jar));
+                  const html = check && check.data ? String(check.data) : "";
+                  stillCheckpointed = html.includes("/checkpoint/block/?next") || html.includes("XCheckpointFBScrapingWarningController");
+                  const uidMatch = html.match(/"USER_ID"\s*:\s*"(\d+)"/);
+                  if (!stillCheckpointed && uidMatch && uidMatch[1] && uidMatch[1] !== "0") {
+                    uid = uidMatch[1];
+                    break;
+                  }
+                } catch {
+                  // network hiccup on this attempt - retry below instead of
+                  // immediately assuming the session is dead
+                }
+                if (!uid && attempt < 2) await new Promise((r) => setTimeout(r, 1500 * (attempt + 1)));
+              }
+              if (uid) {
                 logger("performAutoLogin: existing cookie session is still valid, continuing without re-login", "info");
                 return true;
               }
@@ -1265,18 +1280,6 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
           // If DB layer is unavailable, skip realtime thread updates
         }
 
-        // Attach remote control client if enabled in config
-        let remote = null;
-        try {
-          if (config && config.remoteControl && config.remoteControl.enabled) {
-            remote = createRemoteClient(api, ctxMain, config.remoteControl);
-          }
-        } catch (e) {
-          logger(`Remote control initialization failed: ${e && e.message ? e.message : String(e)}`, "warn");
-        }
-        if (remote) {
-          api.remote = remote;
-        }
         const srcRoot = path.join(__dirname, "../src/api");
         let loaded = 0;
         let skipped = 0;
@@ -1335,7 +1338,7 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
           logger(`sendBroadcast init failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
         }
 
-        // sendMessage override with fca-nx version (better MQTT + HTTP fallback)
+        // sendMessage override
         try {
           const fcanxSendMsg = require("../src/api/socket/sendMessage")(defaultFuncs, api, ctxMain);
           api.sendMessage = fcanxSendMsg;
@@ -1343,22 +1346,17 @@ function loginHelper(appState, Cookie, email, password, globalOptions, callback)
           api.OldMessage = require("../src/api/socket/OldMessage")(defaultFuncs, api, ctxMain);
           api.sendMessageDM = (msg, threadID, cb, replyTo) => api.OldMessage(msg, threadID, cb, replyTo, true);
         } catch (e) {
-          logger(`sendMessage fca-nx override failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
+          logger(`sendMessage override failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
         }
 
-        // listenMqtt override with fca-nx version (better MQTT stability)
+        // listenMqtt override
         try {
           api.listenMqtt = require("../src/api/socket/listenMqtt")(defaultFuncs, api, ctxMain);
           api.listen = api.listenMqtt;
         } catch (e) {
-          logger(`listenMqtt fca-nx override failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
+          logger(`listenMqtt override failed (non-fatal): ${e && e.message ? e.message : String(e)}`, "warn");
         }
 
-        try {
-          const { checkForUpdate } = require("../src/utils/versionCheck");
-          checkForUpdate(logger);
-        } catch (_) {}
-        logger(chalk.italic("👾 Login successful! Bot is ready. ✨"));
         callback(null, api);
       })
       .catch(function (e) {

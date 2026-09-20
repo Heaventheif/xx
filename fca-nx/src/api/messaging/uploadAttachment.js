@@ -61,6 +61,8 @@ function respFinalUrl(res) {
 }
 
 function detectCheckpoint(res) {
+  // root cause as the parseAndCheckLogin fix in src/utils/utils.js - this
+  // was silently always reading undefined and never detecting checkpoints.
   const url = String(respFinalUrl(res) || "");
   const body = typeof res?.data === "string" ? res.data : "";
   const hit =

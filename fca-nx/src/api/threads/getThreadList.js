@@ -61,7 +61,7 @@ function formatParticipants(participants) {
       default:
         log.warn(
           "getThreadList",
-          "Found participant with unsupported typename. Please open an issue at https://github.com/Schmavery/facebook-chat-api/issues\n" +
+          "Found participant with unsupported typename. " +
             JSON.stringify(p, null, 2)
         );
         return {

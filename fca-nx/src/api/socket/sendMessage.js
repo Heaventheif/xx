@@ -69,9 +69,26 @@ function extractIdsFromPayload(payload) {
 function publishLsRequestWithAck(mqttClient, content, requestId, timeout) {
     timeout = timeout || 15000;
     return new Promise((resolve, reject) => {
-        var timer = setTimeout(() => {
+        var settled = false;
+
+        function finish(err, val) {
+            if (settled) return;
+            settled = true;
+            clearTimeout(timer);
             mqttClient.removeListener('message', onMessage);
-            reject(new Error('MQTT sendMessage timed out after ' + timeout + 'ms'));
+            if (err) reject(err);
+            else resolve(val);
+        }
+
+        // [Fixed] Use a single settled flag so the listener is always removed
+        // exactly once, even when both a timeout and a real response arrive
+        // within the same tick. Without this, the listener leaked on the
+        // mqttClient EventEmitter and accumulated with every sent message,
+        // eventually causing Node's MaxListenersExceededWarning and making
+        // every subsequent /ls_resp fan out to O(n) stale handlers — each
+        // one attempting to re-resolve or re-reject an already-settled promise.
+        var timer = setTimeout(() => {
+            finish(new Error('MQTT sendMessage timed out after ' + timeout + 'ms'));
         }, timeout);
 
         function onMessage(topic, message) {
@@ -79,21 +96,15 @@ function publishLsRequestWithAck(mqttClient, content, requestId, timeout) {
             try {
                 var data = JSON.parse(message.toString());
                 if (String(data.request_id) === String(requestId)) {
-                    clearTimeout(timer);
-                    mqttClient.removeListener('message', onMessage);
                     var extracted = extractIdsFromPayload(data.payload ? JSON.parse(data.payload) : {});
-                    resolve({ threadID: extracted.threadID, messageID: extracted.messageID });
+                    finish(null, { threadID: extracted.threadID, messageID: extracted.messageID });
                 }
             } catch (_) { }
         }
 
         mqttClient.on('message', onMessage);
         mqttClient.publish('/ls_req', JSON.stringify(content), { qos: 1 }, err => {
-            if (err) {
-                clearTimeout(timer);
-                mqttClient.removeListener('message', onMessage);
-                reject(err);
-            }
+            if (err) finish(err);
         });
     });
 }
@@ -111,7 +122,12 @@ module.exports = function (defaultFuncs, api, ctx) {
         if (!mqttClient) throw new Error('MQTT client not available');
 
         var baseBody = msg.body != null ? String(msg.body) : "";
-        var requestId = Math.floor(100 + Math.random() * 900);
+        // [Fixed] Use shared ctx counter (same as sendTypingIndicator/changeAdminStatus)
+        // so request_ids never collide between concurrent sends.
+        // The old Math.floor(100 + random * 900) gave only 900 possible values,
+        // making collisions likely under rapid command usage.
+        if (typeof ctx.wsReqNumber !== "number") ctx.wsReqNumber = 0;
+        var requestId = ++ctx.wsReqNumber;
         var epoch = (BigInt(Date.now()) << 22n).toString();
 
         var payload0 = {
@@ -186,12 +202,16 @@ module.exports = function (defaultFuncs, api, ctx) {
             if (!payload0.attachment_fbids.length) delete payload0.attachment_fbids;
         }
 
+        // [Fixed] Use incrementing task_id per-session so concurrent sends
+        // to the same thread don't produce duplicate task_ids in the same queue.
+        if (typeof ctx.wsTaskNumber !== "number") ctx.wsTaskNumber = 0;
+        var taskBase = (ctx.wsTaskNumber += 2);
         var tasks = [
             {
                 label: '46',
                 payload: JSON.stringify(payload0),
                 queue_name: String(threadID),
-                task_id: 400,
+                task_id: taskBase,
                 failure_count: null
             },
             {
@@ -202,7 +222,7 @@ module.exports = function (defaultFuncs, api, ctx) {
                     sync_group: 1
                 }),
                 queue_name: String(threadID),
-                task_id: 401,
+                task_id: taskBase + 1,
                 failure_count: null
             }
         ];
@@ -238,14 +258,7 @@ module.exports = function (defaultFuncs, api, ctx) {
             }
         }
 
-        // Auto-detect isSingleUser from ctx.threadTypes if not explicitly provided.
-        // parseDelta in listenMqtt.js populates ctx.threadTypes[senderID] = 'dm' | 'group'
-        if (isSingleUser === undefined && ctx.threadTypes) {
-            isSingleUser = ctx.threadTypes[String(threadID)] === 'dm';
-        }
-
-        // DM attachment sends — skip MQTT entirely, use OldMessage.
-        //   /messaging/send/ with other_user_fbid routing works for plain DMs.
+        // DM attachment sends — use OldMessage (HTTP) instead of MQTT.
         if (isSingleUser && msg.attachment) {
             try {
                 var omResult = await new Promise((res2, rej2) => {

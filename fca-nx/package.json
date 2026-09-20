@@ -1,25 +1,19 @@
 {
   "name": "fca-nx",
-  "version": "6.7.0",
-  "description": "Facebook Messenger API for Node.js — Fast, Secure, and Feature-Rich",
+  "version": "6.7.1",
+  "description": "Facebook Messenger API for Node.js",
   "main": "index.js",
-  "types": "index.d.ts",
   "exports": {
     ".": {
-      "types": "./index.d.ts",
       "require": "./index.js",
       "default": "./index.js"
     }
   },
   "files": [
     "index.js",
-    "index.d.ts",
     "module/",
     "func/",
-    "src/",
-    "DOCS.md",
-    "README.md",
-    "src/app/"
+    "src/"
   ],
   "scripts": {
     "test": "mocha",
@@ -28,9 +22,8 @@
   "engines": {
     "node": ">=18.0.0"
   },
+  "license": "MIT",
   "dependencies": {
-    "@noble/curves": "^2.2.0",
-    "@noble/hashes": "^2.2.0",
     "axios": "^1.13.5",
     "axios-cookiejar-support": "^5.0.5",
     "bluebird": "^3.7.2",
@@ -41,7 +34,6 @@
     "https-proxy-agent": "^4.0.0",
     "mime": "^3.0.0",
     "mqtt": "^5.10.1",
-    "protobufjs": "^8.4.0",
     "request": "^2.88.2",
     "sequelize": "^6.37.8",
     "sqlite3": "^5.1.7",
@@ -52,9 +44,5 @@
   "devDependencies": {
     "eslint": "^8.50.0",
     "mocha": "^10.2.0"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
   }
 }
