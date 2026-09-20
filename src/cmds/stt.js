@@ -1,6 +1,6 @@
 "use strict";
-import http from "../../utils/fetchHttp.js";
-import { getHfBase, getInternalToken } from "../../utils/hfClient.js";
+import http from "../utils/fetchHttp.js";
+import { getHfBase, getInternalToken } from "../utils/hfClient.js";
 const AUDIO_EXTS = ["mp3", "m4a", "ogg", "wav", "flac", "aac"];
 function detectAudioAttachment(event) {
   const sources = [

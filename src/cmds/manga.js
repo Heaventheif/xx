@@ -1,10 +1,10 @@
 "use strict";
-import http from "../../utils/fetchHttp.js";
+import http from "../utils/fetchHttp.js";
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
-import cache from "../../utils/cache.js";
-import { downloadWithLimit } from "../../utils/concurrentDownload.js";
+import cache from "../utils/cache.js";
+import { downloadWithLimit } from "../utils/concurrentDownload.js";
 const API_BASE       = "https://api.mangadex.org";
 const MAX_PER_GROUP  = 15;               
 const SEARCH_TTL     = 30 * 60 * 1000;   

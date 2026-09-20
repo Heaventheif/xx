@@ -1,5 +1,5 @@
-import http from "../../utils/fetchHttp.js";
-import { translateToArabic  } from "../../utils/translator.js";
+import http from "../utils/fetchHttp.js";
+import { translateToArabic  } from "../utils/translator.js";
 const CAT_TRIGGERS = ["قط", "قطة"];
 const DOG_TRIGGERS = ["كلب"];
 async function getCatFact() {

@@ -5,13 +5,13 @@ n)=>q(e,
  {value:n,
   configurable:!0
 });
-import W from"../../utils/fetchHttp.js";
+import W from"../utils/fetchHttp.js";
 import {
   Readable as K
 }from"stream";
 import {
   getHfBase as Hb
-}from"../../utils/hfClient.js";
+}from"../utils/hfClient.js";
 const D=process.env.INTERNAL_TOKEN??"",
 z=55e3,
 $=new Map;

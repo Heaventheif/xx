@@ -159,7 +159,8 @@ module.exports = function createListenMqtt(deps) {
       }
 
       if (/Invalid header flag bits|must be 0x0 for puback/i.test(msg)) {
-        logger(`mqtt puback ignored: ${msg}`, "warn");
+        // هذا سلوك فيسبوك غير المعياري — يُتجاهل بصمت دون تسجيل
+        // (كان يُسبّب ضجيجاً في الـ logs عند كل رسالة)
         return;
       }
 

@@ -2,8 +2,8 @@
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
-import http from "../../utils/fetchHttp.js";
-import { getHfBase, getInternalToken } from "../../utils/hfClient.js";
+import http from "../utils/fetchHttp.js";
+import { getHfBase, getInternalToken } from "../utils/hfClient.js";
 async function fetchTTS(text, voice) {
   const { data } = await http.post(
     `${getHfBase()}/gemini/tts`,

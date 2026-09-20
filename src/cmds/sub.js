@@ -1,8 +1,8 @@
-import http from '../../utils/fetchHttp.js';
+import http from '../utils/fetchHttp.js';
 import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
-import { getHfBaseOrNull, getInternalToken  } from '../../utils/hfClient.js';
+import { getHfBaseOrNull, getInternalToken  } from '../utils/hfClient.js';
 export default {
   config: {
     name: "sub",

@@ -1,8 +1,8 @@
-import http from "../../utils/fetchHttp.js";
+import http from "../utils/fetchHttp.js";
 import * as cheerio from "cheerio";
-import { translateToArabic } from "../../utils/translator.js";
-import { getHfBaseOrNull, getInternalToken } from "../../utils/hfClient.js";
-import cache from "../../utils/cache.js";
+import { translateToArabic } from "../utils/translator.js";
+import { getHfBaseOrNull, getInternalToken } from "../utils/hfClient.js";
+import cache from "../utils/cache.js";
 const CACHE_TTL = 3600 * 1000;
 const cacheGet = (k) => cache.get(k);
 const cacheSet = (k, v) => cache.set(k, v, CACHE_TTL);

@@ -2,7 +2,7 @@
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
-import { searchImagesWithFallback, downloadImagesWithLimit } from "../../utils/pinterestProviders.js";
+import { searchImagesWithFallback, downloadImagesWithLimit } from "../utils/pinterestProviders.js";
 const BATCH_SIZE = 15;
 function parseArgs(args) {
   const raw = args.join(" ").trim();

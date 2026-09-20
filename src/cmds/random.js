@@ -1,4 +1,4 @@
-import http from "../../utils/fetchHttp.js";
+import http from "../utils/fetchHttp.js";
 import fs from "fs";
 import path from "path";
 import os from "os";

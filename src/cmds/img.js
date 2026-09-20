@@ -1,9 +1,9 @@
 "use strict";
-import http from "../../utils/fetchHttp.js";
+import http from "../utils/fetchHttp.js";
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
-import { translateToEnglish } from "../../utils/translator.js";
+import { translateToEnglish } from "../utils/translator.js";
 const API_BASE = "https://t2i.anbuinfosec.workers.dev";
 const STYLE_PRESETS = {
   "anime":    "anime style, vibrant colors",

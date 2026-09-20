@@ -1,7 +1,7 @@
  import fs   from "fs-extra";
 import path from "path";
 import os   from "os";
-import { translateToEnglish } from "../../utils/translator.js";
+import { translateToEnglish } from "../utils/translator.js";
 const MODELS = {
   flux:           "flux",
   "flux-realism": "flux-realism",

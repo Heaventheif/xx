@@ -1,14 +1,14 @@
 "use strict";
 import Tiktok from "@tobyg74/tiktok-api-dl";
-import http from "../../utils/fetchHttp.js";
+import http from "../utils/fetchHttp.js";
 import fs from "fs-extra";
 import os from "os";
 import path from "path";
-import { streamAndSend } from "../../utils/mediaStream.js";
-import { directSend, directSendParts } from "../../utils/directSend.js";
-import { downloadWithFallback, cleanTemp } from "../../utils/ytProviders.js";
-import { normalizeMediaUrl } from "../../utils/urlNormalizer.js";
-import { splitFile, cleanupParts, NEEDS_SPLIT } from "../../utils/mediaSplitter.js";
+import { streamAndSend } from "../utils/mediaStream.js";
+import { directSend, directSendParts } from "../utils/directSend.js";
+import { downloadWithFallback, cleanTemp } from "../utils/ytProviders.js";
+import { normalizeMediaUrl } from "../utils/urlNormalizer.js";
+import { splitFile, cleanupParts, NEEDS_SPLIT } from "../utils/mediaSplitter.js";
 const PLATFORM_HOSTS = {
   tiktok: [
     "tiktok.com", "vm.tiktok.com", "vt.tiktok.com", "tiktokv.com", "m.tiktok.com",
@@ -532,7 +532,7 @@ async function resolveMedia(url) {
 async function downloadImages(urls) {
   // Stream each image directly to a temp file to avoid loading
   // potentially large payloads into the V8 heap as ArrayBuffers.
-  const { fetchStream } = await import("../../utils/mediaStream.js");
+  const { fetchStream } = await import("../utils/mediaStream.js");
   const files = await Promise.all(
     urls.map(async (imgUrl, i) => {
       const tmpFile = path.join(os.tmpdir(), `autodl_img_${Date.now()}_${i}.jpg`);
@@ -572,7 +572,7 @@ async function downloadAndSend(api, event, url) {
     if (media.imageUrl && !media.videoUrl && !media.audioUrl) {
       const tmpFile = path.join(os.tmpdir(), `autodl_img_${Date.now()}.jpg`);
       // Stream to disk — avoids V8 heap buffering for large images.
-      const { fetchStream: _fetchStream } = await import("../../utils/mediaStream.js");
+      const { fetchStream: _fetchStream } = await import("../utils/mediaStream.js");
       const { stream: _imgStream } = await _fetchStream(media.imageUrl);
       const _imgWriter = fs.createWriteStream(tmpFile);
       await new Promise((resolve, reject) => {

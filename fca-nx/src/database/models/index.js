@@ -1,12 +1,19 @@
 const { Sequelize } = require("sequelize");
-const fs = require("fs");
+const fs   = require("fs");
 const path = require("path");
+const os   = require("os");
 
 let sequelize = null;
 let models = {};
 
 try {
-  const databasePath = path.join(process.cwd(), "Fca_Database");
+  // FIX: استخدم /tmp بدلاً من process.cwd() — على Render و Docker يكون /app
+  // للقراءة فقط، مما يُسبّب EACCES عند محاولة إنشاء Fca_Database.
+  // /tmp مكتوب دائماً في أي بيئة.
+  const databasePath = path.join(
+    process.env.FCA_DB_PATH || os.tmpdir(),
+    "Fca_Database"
+  );
   if (!fs.existsSync(databasePath)) {
     fs.mkdirSync(databasePath, { recursive: true });
   }

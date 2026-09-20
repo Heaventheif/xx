@@ -1,4 +1,4 @@
-import http from "../../utils/fetchHttp.js";
+import http from "../utils/fetchHttp.js";
 export default {
   config: {
     name: "tr",

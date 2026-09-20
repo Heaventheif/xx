@@ -1,7 +1,7 @@
 "use strict";
 import fs from "fs-extra";
-import { searchWithFallback, downloadWithFallback, cleanTemp } from "../../utils/ytProviders.js";
-import { buildListText, attachReactionPicker } from "../../utils/reactionPicker.js";
+import { searchWithFallback, downloadWithFallback, cleanTemp } from "../utils/ytProviders.js";
+import { buildListText, attachReactionPicker } from "../utils/reactionPicker.js";
 async function downloadAndSend(api, threadID, messageID, ytUrl, wantMp4, listMsgId = null) {
   let filePath = null;
   try {

@@ -1,9 +1,9 @@
-import http from '../../utils/fetchHttp.js';
+import http from '../utils/fetchHttp.js';
 import fs from 'fs-extra';
 import os from 'os';
 import path from 'path';
-import { getHfBase, getInternalToken } from '../../utils/hfClient.js';
-import { downloadWithLimit } from '../../utils/concurrentDownload.js';
+import { getHfBase, getInternalToken } from '../utils/hfClient.js';
+import { downloadWithLimit } from '../utils/concurrentDownload.js';
 const BASE_URL = 'https://arcomixverse.blogspot.com';
 const BATCH_SIZE = 15;       
 const BATCH_DELAY_MS = 1500; 
