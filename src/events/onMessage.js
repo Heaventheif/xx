@@ -137,7 +137,14 @@ export function dispatchMqttEvent(api, event, label, acceptedThreads) {
         try {
           if (typeof api.markAsRead === "function") {
             api.markAsRead(event.threadID, true, (err) => {
-              if (err) console.warn(`[MARK-READ:${label}]`, err.message || err);
+              // Suppress "Connection closed" noise — these are expected during MQTT
+              // reconnect cycles and carry no actionable information. Any other
+              // markAsRead error is still worth surfacing.
+              if (err) {
+                const msg = err.message || String(err);
+                if (!/connection closed/i.test(msg))
+                  console.warn(`[MARK-READ:${label}]`, msg);
+              }
             });
           }
         } catch (e) {

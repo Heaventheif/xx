@@ -137,10 +137,15 @@ module.exports = function (defaultFuncs, api, ctx, opts) {
         logger("mqtt getSeqID call", "info");
         return getSeqIDFactory(defaultFuncs, api, ctx, globalCallback, form)
             .then(() => {
-                logger("mqtt getSeqID done", "info");
+                logger("mqtt getSeqID ok -> listenMqtt()", "info");
                 ctx._cycling = false;
                 reconnectAttempts = 0;
                 isReconnecting = false;
+                // FIX: attachClientListeners() must be called here (after getSeqID path)
+                // so "packetreceive" refreshes lastPongTime. Without this, the heartbeat
+                // timer never sees any incoming packets and calls forceCycle() ~60 s after
+                // every connect — causing the ~2-min reconnect loop visible in the logs.
+                attachClientListeners();
                 startHeartbeat();
             })
             .catch(e => {
