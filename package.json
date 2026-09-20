@@ -13,13 +13,15 @@
     "dev": "bun --watch main.js",
     "test": "bun test test/"
   },
+  "overrides": {
+    "cheerio": "^1.2.0"
+  },
   "dependencies": {
     "@vreden/youtube_scraper": "^1.2.9",
     "@tobyg74/tiktok-api-dl": "1.2.3",
     "bing-translate-api": "^4.2.0",
     "cheerio": "^1.2.0",
     "dotenv": "^17.4.2",
-    "express": "^5.2.1",
     "fca-nx": "file:./fca-nx",
     "fs-extra": "^11.3.6",
     "google-translate-api-x": "^10.7.3",

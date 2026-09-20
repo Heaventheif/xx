@@ -1,5 +1,9 @@
 "use strict";
 process.env.TZ = 'Europe/Berlin';
+
+// ── BUG-01 FIX: علَم يمنع fca-nx من تسجيل معالجات أخطاء مكررة ──────────────
+global.__mainErrorHandlersInstalled = true;
+
 import path from "path";
 import { checkEnv } from "./src/utils/envCheck.js";
 
@@ -42,7 +46,7 @@ const reactionListenerProxy = new Proxy(_reactionListenerRaw, {
 global.client              = { reactionListener: reactionListenerProxy };
 global._reactionTimestamps = _reactionTimestamps;
 global.Kagenou             = { replies: {} };
-global.config              = { admins: [], moderators: [], developers: [], vips: [], Prefix: ["."], botName: "Sunken Bot" };
+global.config              = { admins: [], moderators: [], developers: [], vips: [], Prefix: [""], botName: "Sunken Bot" };
 global._botAdminIds        = new Map();
 global.globalData          = new Map();
 global.usersData           = new Map();
@@ -51,21 +55,21 @@ global.commands            = new Map();
 global.eventCommands       = [];
 global.appState            = {};
 global.botApi              = null;
+// botApis kept as array for compatibility with shutdown logic (single element)
 global.botApis             = [];
 global.scheduler           = null;
 global.perfManager         = null;
 global.sessionGuard        = null;
-// قاعدة بيانات معطّلة
 global.db                  = null;
 
 import "./src/utils/safeSend.js";
-import { startWebServer } from "./src/webServer.js";
-import { loadConfig } from "./src/config/index.js";
-import { loadCommands } from "./src/core/Loader.js";
+import { startWebServer }    from "./src/webServer.js";
+import { loadConfig }        from "./src/config/index.js";
+import { loadCommands }      from "./src/core/Loader.js";
 import {
   PROJECT_ROOT,
-  loadAllAppStates,
-  loginBotWithAppState,
+  loadAppState,
+  loginBot,
 } from "./src/core/Client.js";
 import { cleanupOrphanTempFiles } from "./src/utils/tempCleanup.js";
 
@@ -82,17 +86,18 @@ global.log = {
 
 loadConfig(PROJECT_ROOT);
 
-const COMMANDS_DIR = path.join(PROJECT_ROOT, "src", "commands");
+const COMMANDS_DIR = path.join(PROJECT_ROOT, "src", "cmds");
 
 global.reloadCommands = () => loadCommands(COMMANDS_DIR);
 
 ["SIGTERM", "SIGINT"].forEach(sig => {
   process.on(sig, async () => {
-    console.log(`[SHUTDOWN] ${sig} — جاري إيقاف الجلسات...`);
-    for (const botApi of global.botApis) {
-      try { await botApi.__stopSessionLifecycle?.(); } catch (_) {}
-      botApi._scheduler?.destroy();
-      try { botApi.__sessionLock?.release(); } catch (_) {}
+    console.log(`[SHUTDOWN] ${sig} — إيقاف الجلسة...`);
+    const api = global.botApi;
+    if (api) {
+      try { await api.__stopSessionLifecycle?.(); } catch (_) {}
+      api._scheduler?.destroy();
+      try { api.__sessionLock?.release(); } catch (_) {}
     }
     process.exit(0);
   });
@@ -104,19 +109,20 @@ const startBot = async () => {
 
   await loadCommands(COMMANDS_DIR);
 
-  const accounts = loadAllAppStates();
-  console.log(`[MULTI] 🚀 وجد ${accounts.length} حساب للتشغيل`);
+  // ── حساب بوت واحد فقط ────────────────────────────────────────────────────
+  const account = loadAppState();
 
-  if (accounts.length === 0) {
-    console.error("[LOGIN] ❌ لا يوجد أي appstate — أضف APPSTATE في متغيرات البيئة.");
-  } else {
-    const results = await Promise.allSettled(
-      accounts.map(account => loginBotWithAppState(account, null))
-    );
-    const failed  = results.filter(r => r.status === "rejected");
-    const succeed = results.filter(r => r.status === "fulfilled");
-    if (succeed.length > 0) console.log(`[MULTI] ✅ ${succeed.length}/${accounts.length} حساب متصل`);
-    if (failed.length  > 0) console.warn(`[MULTI] ⚠️ ${failed.length}/${accounts.length} حساب فشل الدخول`);
+  if (!account) {
+    console.error("[LOGIN] ❌ لا يوجد APPSTATE — أضف APPSTATE في متغيرات البيئة.");
+    return;
+  }
+
+  console.log("[BOT] 🚀 تسجيل الدخول بحساب واحد...");
+  try {
+    await loginBot(account);
+    console.log("[BOT] ✅ البوت متصل وجاهز.");
+  } catch (err) {
+    console.error("[BOT] ❌ فشل الدخول:", err.message);
   }
 };
 

@@ -12,12 +12,13 @@ module.exports = function (defaultFuncs, api, ctx) {
             return Promise.reject(err);
         }
 
-        ctx.wsReqNumber = (ctx.wsReqNumber || 0) + 1;
-        ctx.wsTaskNumber = (ctx.wsTaskNumber || 0) + 1;
+        ctx.wsReqNumber  = (ctx.wsReqNumber  || 0) + 1;
+        ctx.wsTaskNumber = (ctx.wsTaskNumber || 0) + 2; // +2 لأن لدينا taskBase و taskBase+1
 
         var baseBody = msg.body != null ? String(msg.body) : "";
         var hasLinks = typeof baseBody === "string" && /(https?:\/\/|www\.|t\.me\/|fb\.me\/|youtu\.be\/|facebook\.com\/|youtube\.com\/)/i.test(baseBody);
         var requestId = ctx.wsReqNumber;
+        var taskBase  = ctx.wsTaskNumber;
 
         var payload0 = {
             thread_id: String(threadID),
@@ -42,18 +43,33 @@ module.exports = function (defaultFuncs, api, ctx) {
             };
         }
 
+        payload0.metadata_dataclass = JSON.stringify({ media_accessibility_metadata: { alt_text: null } });
+
         var content = {
             app_id: '2220391788200892',
             payload: JSON.stringify({
-                tasks: [{
-                    failure_count: null,
-                    label: '46',
-                    payload: JSON.stringify(payload0),
-                    queue_name: String(threadID),
-                    task_id: ctx.wsTaskNumber
-                }],
+                tasks: [
+                    {
+                        failure_count: null,
+                        label: '46',
+                        payload: JSON.stringify(payload0),
+                        queue_name: String(threadID),
+                        task_id: taskBase
+                    },
+                    {
+                        failure_count: null,
+                        label: '21',
+                        payload: JSON.stringify({
+                            thread_id: String(threadID),
+                            last_read_watermark_ts: Date.now(),
+                            sync_group: 1
+                        }),
+                        queue_name: String(threadID),
+                        task_id: taskBase + 1
+                    }
+                ],
                 epoch_id: utils.generateOfflineThreadingID(),
-                version_id: '7214102258676893'
+                version_id: '24804310205905615'
             }),
             request_id: requestId,
             type: 3

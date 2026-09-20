@@ -49,12 +49,13 @@ async function fetchAdminIDsFallback(api, threadID) {
 }
 
 // تنظيف الإدخالات المنتهية كل 10 دقائق لمنع تراكم الذاكرة
+// BUG-04 FIX: .unref() يسمح لـ Bun/Node بالخروج الطبيعي عند SIGTERM
 setInterval(() => {
   const now = Date.now();
   for (const [id, entry] of _threadInfoCache) {
     if (entry.expiresAt <= now) _threadInfoCache.delete(id);
   }
-}, 10 * 60 * 1000);
+}, 10 * 60 * 1000).unref();
 
 // [FIX ADMIN CACHE] عند تغيير مشرفي المجموعة نُبطل cache الـ threadInfo فوراً
 // حتى لا يبقى البوت يرفض المشرف الجديد لـ 5 دقائق
@@ -178,6 +179,7 @@ export const handleMessage = async (rawApi, event) => {
     return;
   }
   const t0 = Date.now();
+  // BUG-05 FIX: .catch() يمنع unhandled rejection إذا فشل الـ IIFE خارج try/catch
   (async () => {
     const timer = timing.start(`command:${commandName}`);
     try {
@@ -192,7 +194,7 @@ export const handleMessage = async (rawApi, event) => {
       console.error(`[command:${commandName}]`, err.message);
       api.sendMessage("⚠️ حدث خطأ أثناء تنفيذ الأمر — تم إبلاغ المطوّر تلقائياً.", threadID, null, messageID);
     }
-  })();
+  })().catch(err => console.error(`[ROUTER:IIFE:${commandName}]`, err.message));
 };
 export const handleReaction = (api, event) => {
   const msgID = event.messageID;

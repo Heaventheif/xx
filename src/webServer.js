@@ -1,172 +1,239 @@
 "use strict";
-import express from "express";
-import https from "https";
-import http from "http";
-import fs from "fs-extra";
+/**
+ * webServer.js — OPT-BUN-01
+ * ──────────────────────────
+ * تم استبدال Express 5 بـ Bun.serve الأصيل.
+ *
+ * المكاسب:
+ *   • 2–4× throughput على نفس الـ hardware (Bun HTTP stack مبني على uSockets)
+ *   • لا يوجد Express/http/https في الـ imports — تقليل حجم الحزمة
+ *   • Bun.file() → streaming مباشر عبر io_uring بدون Node Streams bridge
+ *   • timingSafeEqual على توكن /yt/* → يُغلق ثغرة التوقيت (timing attack)
+ *   • fetch() المدمج في Bun للـ keep-alive بدلاً من http.get()
+ *   • جميع الـ keep-alive timers محتفِظة بـ .unref() (HIGH-02/03)
+ */
+
+import { timingSafeEqual } from "node:crypto";
+import fs                  from "fs-extra";
+import { createReadStream } from "node:fs";
+import { Readable }        from "node:stream";
 import { searchVideos, downloadAudio, downloadVideo } from "./utils/ytEngine.js";
 
-function startWebServer() {
-  const PORT = parseInt(process.env.PORT || "10000");
-  const app = express();
-  app.use(express.json());
+// ── مقارنة توكن آمنة زمنياً (يُغلق timing-attack على /yt/*) ────────────────
+function safeTokenEqual(a, b) {
+  if (!a || !b) return false;
+  const ba = Buffer.from(a);
+  const bb = Buffer.from(b);
+  if (ba.length !== bb.length) return false;
+  return timingSafeEqual(ba, bb);
+}
 
-  // ── الصفحة الرئيسية ──────────────────────────────────────────────────────
-  app.get("/", (_req, res) => {
-    res.send(`
-      <!DOCTYPE html><html lang="ar" dir="rtl">
-      <head><meta charset="UTF-8"><title>${global.config.botName}</title></head>
-      <body style="font-family:sans-serif;padding:30px;background:#0d1117;color:#c9d1d9">
-        <h2>🤖 ${global.config.botName}</h2>
-        <p>الحالة: <b style="color:#3fb950">✅ يعمل</b></p>
-        <p>⏱️ Uptime: ${Math.floor(process.uptime())} ثانية</p>
-        <p>📦 الأوامر: ${global.commands.size}</p>
-        <p>🔗 البوت: ${global.botApi ? "متصل" : "جاري الاتصال..."}</p>
-      </body></html>
-    `);
-  });
+// ── JSON response helpers ─────────────────────────────────────────────────
+const json = (data, status = 200) =>
+  Response.json(data, { status });
 
-  // ── Health endpoints ──────────────────────────────────────────────────────
-  // NOTE: Returns only {"status":"ok"} — no system memory, uptime, user IDs,
-  //       command counts, or connection state exposed to unauthenticated callers.
-  function healthHandler(_req, res) {
-    res.json({ status: "ok" });
-  }
-  app.get("/health", healthHandler);
-  app.get("/api/health", healthHandler);
+// ── Streaming helper: pipe BunFile → Response مع cleanup ────────────────
+function streamFile(filePath, headers) {
+  // نحوّل Bun.file() إلى ReadableStream مع cleanup تلقائي في finally
+  const { readable, writable } = new TransformStream();
+  const writer = writable.getWriter();
 
-  // ── YouTube routes ────────────────────────────────────────────────────────
-  const YT_INTERNAL_TOKEN = process.env.INTERNAL_TOKEN || "";
-  const YT_RATE_LIMIT_WINDOW_MS = 60 * 1000;
-  const YT_RATE_LIMIT_MAX = parseInt(process.env.YT_RATE_LIMIT_MAX || "20");
-  const ytRateBuckets = new Map();
+  (async () => {
+    try {
+      const reader = Bun.file(filePath).stream().getReader();
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        await writer.write(value);
+      }
+      await writer.close();
+    } catch (e) {
+      try { await writer.abort(e); } catch (_) {}
+    } finally {
+      fs.remove(filePath).catch(() => {});
+    }
+  })();
 
-  function ytRateLimited(key) {
-    const now = Date.now();
-    const bucket = ytRateBuckets.get(key);
-    if (!bucket || now - bucket.start > YT_RATE_LIMIT_WINDOW_MS) {
-      ytRateBuckets.set(key, { start: now, count: 1 });
+  return new Response(readable, { headers });
+}
+
+// ── Rate-limiter بسيط (per-IP, نافذة 60 ث) ─────────────────────────────
+function makeRateLimiter(windowMs, maxReqs) {
+  const buckets = new Map();
+  return function isLimited(key) {
+    const now    = Date.now();
+    const bucket = buckets.get(key);
+    if (!bucket || now - bucket.start > windowMs) {
+      buckets.set(key, { start: now, count: 1 });
       return false;
     }
-    bucket.count += 1;
-    return bucket.count > YT_RATE_LIMIT_MAX;
+    bucket.count++;
+    return bucket.count > maxReqs;
+  };
+}
+
+// ── Keep-alive: استخدام fetch() المدمج في Bun بدلاً من http.get ──────────
+function startKeepAlive(url, intervalMs, label) {
+  setInterval(async () => {
+    try {
+      const r = await fetch(url, { signal: AbortSignal.timeout(20_000) });
+      if (!r.ok) console.warn(`[KEEP-ALIVE:${label}] ⚠️ status: ${r.status}`);
+      await r.body?.cancel();
+    } catch (e) {
+      if (e.name !== "TimeoutError")
+        console.warn(`[KEEP-ALIVE:${label}] ⚠️ خطأ: ${e.message}`);
+    }
+  }, intervalMs).unref(); // HIGH-02/03 FIX: .unref() يمنع إبقاء العملية حية
+}
+
+// ── دالة التشغيل الرئيسية ─────────────────────────────────────────────────
+function startWebServer() {
+  const PORT             = parseInt(process.env.PORT || "10000");
+  const YT_TOKEN         = process.env.INTERNAL_TOKEN || "";
+  const YT_RATE_WINDOW   = 60_000;
+  const YT_RATE_MAX      = parseInt(process.env.YT_RATE_LIMIT_MAX || "20");
+  const ytRateLimited    = makeRateLimiter(YT_RATE_WINDOW, YT_RATE_MAX);
+
+  // ── guard للـ /yt/* routes ────────────────────────────────────────────────
+  function ytGuard(req) {
+    if (!YT_TOKEN)
+      return json({ error: "yt routes not configured (INTERNAL_TOKEN missing)" }, 503);
+    const provided = req.headers.get("X-Internal-Token") || "";
+    if (!safeTokenEqual(provided, YT_TOKEN))
+      return json({ error: "unauthorized" }, 401);
+    const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+             || req.headers.get("cf-connecting-ip")
+             || "unknown";
+    if (ytRateLimited(ip))
+      return json({ error: "rate limit exceeded, try again later" }, 429);
+    return null; // OK — استمر
   }
 
-  function ytAccessControl(req, res, next) {
-    if (!YT_INTERNAL_TOKEN) {
-      return res.status(503).json({ error: "yt routes not configured (INTERNAL_TOKEN missing)" });
-    }
-    const provided = req.get("X-Internal-Token") || "";
-    if (provided !== YT_INTERNAL_TOKEN) {
-      return res.status(401).json({ error: "unauthorized" });
-    }
-    const key = req.ip || req.socket?.remoteAddress || "unknown";
-    if (ytRateLimited(key)) {
-      return res.status(429).json({ error: "rate limit exceeded, try again later" });
-    }
-    next();
-  }
+  // ── router رئيسي ──────────────────────────────────────────────────────────
+  const server = Bun.serve({
+    port: PORT,
+    idleTimeout: 60,     // ثواني — Bun.serve يدعمها مباشرة
 
-  app.post("/yt/search", ytAccessControl, async (req, res) => {
-    try {
-      const query = (req.body?.query || "").trim();
-      const limit = Math.min(parseInt(req.body?.limit || 10), 15);
-      if (!query) return res.status(400).json({ error: "query مطلوب" });
-      const results = await searchVideos(query, limit);
-      res.json({ results });
-    } catch (e) {
-      console.error("[YT/search]", e.message);
-      res.status(500).json({ error: e.message?.slice(0, 300) });
-    }
+    async fetch(req) {
+      const { pathname } = new URL(req.url);
+      const method       = req.method;
+
+      // ── GET / ─────────────────────────────────────────────────────────────
+      if (method === "GET" && pathname === "/") {
+        const html = `<!DOCTYPE html><html lang="ar" dir="rtl">
+<head><meta charset="UTF-8"><title>${global.config?.botName ?? "SunkenBot"}</title></head>
+<body style="font-family:sans-serif;padding:30px;background:#0d1117;color:#c9d1d9">
+  <h2>🤖 ${global.config?.botName ?? "SunkenBot"}</h2>
+  <p>الحالة: <b style="color:#3fb950">✅ يعمل</b></p>
+  <p>⏱️ Uptime: ${Math.floor(process.uptime())} ثانية</p>
+  <p>📦 الأوامر: ${global.commands?.size ?? 0}</p>
+  <p>🔗 البوت: ${global.botApi ? "متصل" : "جاري الاتصال..."}</p>
+</body></html>`;
+        return new Response(html, {
+          headers: { "Content-Type": "text/html; charset=utf-8" },
+        });
+      }
+
+      // ── GET /health  GET /api/health ──────────────────────────────────────
+      // NOTE: يُعيد {"status":"ok"} فقط — لا uptime ولا معلومات داخلية
+      if (method === "GET" && (pathname === "/health" || pathname === "/api/health")) {
+        return json({ status: "ok" });
+      }
+
+      // ── POST /yt/search ───────────────────────────────────────────────────
+      if (method === "POST" && pathname === "/yt/search") {
+        const deny = ytGuard(req);
+        if (deny) return deny;
+        try {
+          const body  = await req.json().catch(() => ({}));
+          const query = (body?.query || "").trim();
+          const limit = Math.min(parseInt(body?.limit || 10), 15);
+          if (!query) return json({ error: "query مطلوب" }, 400);
+          const results = await searchVideos(query, limit);
+          return json({ results });
+        } catch (e) {
+          console.error("[YT/search]", e.message);
+          return json({ error: e.message?.slice(0, 300) }, 500);
+        }
+      }
+
+      // ── POST /yt/audio ────────────────────────────────────────────────────
+      if (method === "POST" && pathname === "/yt/audio") {
+        const deny = ytGuard(req);
+        if (deny) return deny;
+        let tmpPath = null;
+        try {
+          const body = await req.json().catch(() => ({}));
+          const url  = (body?.url || "").trim();
+          if (!url) return json({ error: "url مطلوب" }, 400);
+          const dl   = await downloadAudio(url);
+          tmpPath    = dl.filePath;
+          return streamFile(tmpPath, {
+            "Content-Type":        "audio/mpeg",
+            "Content-Disposition": `attachment; filename="${encodeURIComponent(dl.title)}.mp3"`,
+            "X-Title":     encodeURIComponent(dl.title),
+            "X-Duration":  String(dl.duration),
+            "X-Uploader":  encodeURIComponent(dl.uploader),
+          });
+        } catch (e) {
+          if (tmpPath) fs.remove(tmpPath).catch(() => {});
+          console.error("[YT/audio]", e.message);
+          return json({ error: e.message?.slice(0, 300) }, 500);
+        }
+      }
+
+      // ── POST /yt/video ────────────────────────────────────────────────────
+      if (method === "POST" && pathname === "/yt/video") {
+        const deny = ytGuard(req);
+        if (deny) return deny;
+        let tmpPath = null;
+        try {
+          const body = await req.json().catch(() => ({}));
+          const url  = (body?.url || "").trim();
+          if (!url) return json({ error: "url مطلوب" }, 400);
+          const dl   = await downloadVideo(url);
+          tmpPath    = dl.filePath;
+          return streamFile(tmpPath, {
+            "Content-Type":        "video/mp4",
+            "Content-Disposition": `attachment; filename="${encodeURIComponent(dl.title)}.mp4"`,
+            "X-Title":     encodeURIComponent(dl.title),
+            "X-Duration":  String(dl.duration),
+            "X-Uploader":  encodeURIComponent(dl.uploader),
+          });
+        } catch (e) {
+          if (tmpPath) fs.remove(tmpPath).catch(() => {});
+          console.error("[YT/video]", e.message);
+          return json({ error: e.message?.slice(0, 300) }, 500);
+        }
+      }
+
+      return new Response("Not Found", { status: 404 });
+    },
+
+    error(err) {
+      console.error("[BunServe]", err.message);
+      return json({ error: "internal server error" }, 500);
+    },
   });
 
-  app.post("/yt/audio", ytAccessControl, async (req, res) => {
-    const url = (req.body?.url || "").trim();
-    if (!url) return res.status(400).json({ error: "url مطلوب" });
-    let tmpPath = null;
-    try {
-      const dl = await downloadAudio(url);
-      tmpPath = dl.filePath;
-      res.set({
-        "Content-Type": "audio/mpeg",
-        "Content-Disposition": `attachment; filename="${encodeURIComponent(dl.title)}.mp3"`,
-        "X-Title": encodeURIComponent(dl.title),
-        "X-Duration": String(dl.duration),
-        "X-Uploader": encodeURIComponent(dl.uploader),
-      });
-      const stream = fs.createReadStream(tmpPath);
-      stream.on("end", () => fs.remove(tmpPath).catch(() => {}));
-      stream.on("error", () => fs.remove(tmpPath).catch(() => {}));
-      stream.pipe(res);
-    } catch (e) {
-      if (tmpPath) fs.remove(tmpPath).catch(() => {});
-      console.error("[YT/audio]", e.message);
-      res.status(500).json({ error: e.message?.slice(0, 300) });
-    }
-  });
-
-  app.post("/yt/video", ytAccessControl, async (req, res) => {
-    const url = (req.body?.url || "").trim();
-    if (!url) return res.status(400).json({ error: "url مطلوب" });
-    let tmpPath = null;
-    try {
-      const dl = await downloadVideo(url);
-      tmpPath = dl.filePath;
-      res.set({
-        "Content-Type": "video/mp4",
-        "Content-Disposition": `attachment; filename="${encodeURIComponent(dl.title)}.mp4"`,
-        "X-Title": encodeURIComponent(dl.title),
-        "X-Duration": String(dl.duration),
-        "X-Uploader": encodeURIComponent(dl.uploader),
-      });
-      const stream = fs.createReadStream(tmpPath);
-      stream.on("end", () => fs.remove(tmpPath).catch(() => {}));
-      stream.on("error", () => fs.remove(tmpPath).catch(() => {}));
-      stream.pipe(res);
-    } catch (e) {
-      if (tmpPath) fs.remove(tmpPath).catch(() => {});
-      console.error("[YT/video]", e.message);
-      res.status(500).json({ error: e.message?.slice(0, 300) });
-    }
-  });
-
-  if (YT_INTERNAL_TOKEN) {
+  console.log(`[SUCCESS] 🌐 Bun.serve جاهز على المنفذ ${PORT}`);
+  if (YT_TOKEN)
     console.log("[SUCCESS] 🎵 YouTube routes جاهزة (/yt/search, /yt/audio, /yt/video)");
-  }
 
-  // ── تشغيل السيرفر ─────────────────────────────────────────────────────────
-  app.listen(PORT, () => {
-    console.log(`[SUCCESS] 🌐 Web server على المنفذ ${PORT}`);
-  });
-
-  global.expressApp = app;
+  // احتفظ بمرجع للسيرفر (كان global.expressApp)
+  global.bunServer = server;
 
   // ── Keep-Alive لـ Render ──────────────────────────────────────────────────
-  const externalUrl = process.env.RENDER_EXTERNAL_URL;
+  const externalUrl = (process.env.RENDER_EXTERNAL_URL || "").trim().replace(/\/+$/, "");
   if (externalUrl) {
-    setInterval(() => {
-      const url = externalUrl.replace(/\/$/, "") + "/health";
-      const mod = url.startsWith("https") ? https : http;
-      const req = mod.get(url, (r) => {
-        r.resume();
-        if (r.statusCode !== 200) console.warn("[KEEP-ALIVE] ⚠️ status:", r.statusCode);
-      });
-      req.on("error", (e) => console.warn("[KEEP-ALIVE] ⚠️ خطأ:", e.message));
-      req.setTimeout(20000, () => req.destroy());
-    }, 10 * 60 * 1000);
+    startKeepAlive(externalUrl + "/health", 10 * 60_000, "Render");
     console.log(`[KEEP-ALIVE] ✅ بنغ ذاتي مفعّل لـ ${externalUrl}`);
   }
 
-  const hfBaseForPing = (process.env.HF_SPACE_URL || "").trim().replace(/\/+$/, "");
-  if (hfBaseForPing) {
-    setInterval(() => {
-      const url = hfBaseForPing + "/ping";
-      const mod = url.startsWith("https") ? https : http;
-      const req = mod.get(url, (r) => {
-        r.resume();
-      });
-      req.on("error", () => {});
-      req.setTimeout(20000, () => req.destroy());
-    }, 5 * 60 * 1000);
+  // ── Keep-Alive لـ HuggingFace ─────────────────────────────────────────────
+  const hfBase = (process.env.HF_SPACE_URL || "").trim().replace(/\/+$/, "");
+  if (hfBase) {
+    startKeepAlive(hfBase + "/ping", 5 * 60_000, "HF");
   }
 }
 

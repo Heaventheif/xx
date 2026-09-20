@@ -1,8 +1,8 @@
 "use strict";
 /**
- * src/core/Client.js — fca-nx
- * ────────────────────────────
- * يستخدم fca-nx (CommonJS) عبر createRequire.
+ * src/core/Client.js
+ * ──────────────────
+ * حساب بوت واحد فقط — يستخدم fca-nx (CJS) عبر createRequire.
  */
 
 import fs   from "fs-extra";
@@ -21,7 +21,7 @@ import { initBotLifecycle }    from "./bot-init.js";
 
 export const PROJECT_ROOT = path.join(import.meta.dir, "..", "..");
 
-// ── أسماء البوتات ────────────────────────────────────────────────────────────
+// ── اسم البوت ─────────────────────────────────────────────────────────────────
 const BOT_NAMES_FILE = path.join(PROJECT_ROOT, "botNames.json");
 
 function loadBotNames() {
@@ -47,11 +47,21 @@ export function getBotName(botIndex) {
   return loadBotNames()[String(botIndex)] || null;
 }
 
-// ── AppState ──────────────────────────────────────────────────────────────────
-export function loadAllAppStates() {
+// ── AppState — حساب واحد فقط ─────────────────────────────────────────────────
+/**
+ * يقرأ الـ APPSTATE من البيئة ويعيد كائن { state, index, source }
+ * أو null إذا لم يوجد.
+ */
+export function loadAppState() {
   const state = readAppStateFromEnv();
-  if (!state) return [];
-  return [{ state, index: 1, source: "APPSTATE" }];
+  if (!state) return null;
+  return { state, index: 1, source: "APPSTATE" };
+}
+
+// للتوافق مع أي كود قديم يستدعي loadAllAppStates
+export function loadAllAppStates() {
+  const account = loadAppState();
+  return account ? [account] : [];
 }
 
 export function saveAppStateForBot(state, botIndex = 1, source = "runtime") {
@@ -60,7 +70,7 @@ export function saveAppStateForBot(state, botIndex = 1, source = "runtime") {
     const keys = new Set(state.map(c => String(c?.key ?? c?.name ?? "")));
     if (!keys.has("c_user") || !keys.has("xs")) throw new Error("cookies ناقصة");
     updateAppStateInMemory(state);
-    console.log(`[APPSTATE] ✅ تحديث في الذاكرة (${state.length} cookie | Bot-${botIndex})`);
+    console.log(`[APPSTATE] ✅ تحديث في الذاكرة (${state.length} cookie | Bot-1)`);
     return true;
   } catch (err) {
     console.warn(`[APPSTATE] ⚠️ ${err.message}`);
@@ -68,7 +78,7 @@ export function saveAppStateForBot(state, botIndex = 1, source = "runtime") {
   }
 }
 
-// ── خيارات fca-nx العامة ─────────────────────────────────────────────────────
+// ── خيارات fca-nx ─────────────────────────────────────────────────────────────
 const GLOBAL_OPTIONS = {
   selfListen:      false,
   listenEvents:    true,
@@ -82,8 +92,11 @@ const GLOBAL_OPTIONS = {
     "Chrome/127.0.0.0 Safari/537.36",
 };
 
-// ── تسجيل الدخول ─────────────────────────────────────────────────────────────
-export function loginBotWithAppState(account, onFallback) {
+// ── تسجيل الدخول — بوت واحد ──────────────────────────────────────────────────
+/**
+ * @param {{ state: object[], index: number, source: string }} account
+ */
+export function loginBot(account) {
   const { state, index } = account;
   const label = `Bot-${index}`;
 
@@ -96,7 +109,6 @@ export function loginBotWithAppState(account, onFallback) {
         console.error(`[LOGIN:${label}] ❌ فشل: ${msg}`);
         if (/checkpoint/i.test(msg))
           console.log(`[2FA:${label}] ⚡ أعد إنشاء APPSTATE من متصفح موثوق`);
-        onFallback?.(msg);
         return reject(new Error(msg));
       }
 
@@ -120,5 +132,8 @@ export function loginBotWithAppState(account, onFallback) {
     });
   });
 }
+
+// للتوافق مع الكود القديم
+export const loginBotWithAppState = loginBot;
 
 export { loadBotNames };

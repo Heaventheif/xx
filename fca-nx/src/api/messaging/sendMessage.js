@@ -85,7 +85,7 @@ module.exports = function (defaultFuncs, api, ctx) {
       setTimeout(() => {
         if (done) return;
         cleanup();
-        const err = { error: "Timeout waiting for ACK" };
+        const err = new Error("MQTT sendMessage timed out after 15000ms");
         callback && callback(err);
         reject(err);
       }, 15000);
@@ -101,27 +101,19 @@ module.exports = function (defaultFuncs, api, ctx) {
     const types = [];
     let cursor = 0;
     for (const m of msg.mentions) {
-      const raw = String(m.tag || "");
-      const name = raw.replace(/^@+/, "");
+      // Ensure tag always has @ prefix — Facebook counts @ in both offset and length
+      let tag = String(m.tag || "");
+      if (tag && !tag.startsWith("@")) tag = "@" + tag;
+      const name = tag.slice(1); // bare name without @
       const start = Number.isInteger(m.fromIndex) ? m.fromIndex : cursor;
-      let idx = base.indexOf(raw, start);
-      let adj = 0;
-      if (idx === -1) {
-        idx = base.indexOf(name, start);
-        adj = 0;
-      } else {
-        adj = raw.length - name.length;
-      }
-      if (idx < 0) {
-        idx = 0;
-        adj = 0;
-      }
-      const off = idx + adj;
+      let offset = base.indexOf(tag, start);
+      if (offset === -1) offset = base.indexOf(name, start);
+      if (offset < 0) offset = 0;
       ids.push(String(m.id || 0));
-      offsets.push(off);
-      lengths.push(name.length);
+      offsets.push(offset);
+      lengths.push(tag.length); // includes @ — matches Facebook's expectation
       types.push("p");
-      cursor = off + name.length;
+      cursor = offset + tag.length;
     }
     return {
       mention_ids: ids.join(","),
@@ -153,7 +145,8 @@ module.exports = function (defaultFuncs, api, ctx) {
 
     const m = coerceMsg(msg);
     const baseBody = m.body != null ? String(m.body) : "";
-    const reqID = Math.floor(100 + Math.random() * 900);
+    if (typeof ctx.wsReqNumber !== "number") ctx.wsReqNumber = 0;
+    const reqID = ++ctx.wsReqNumber;
     const epoch = (BigInt(Date.now()) << 22n).toString();
 
     const payload0 = {
@@ -243,6 +236,8 @@ module.exports = function (defaultFuncs, api, ctx) {
       }
     }
 
+    if (typeof ctx.wsTaskNumber !== "number") ctx.wsTaskNumber = 0;
+    const taskBase = (ctx.wsTaskNumber += 2);
     const content = {
       app_id: "2220391788200892",
       payload: {
@@ -251,7 +246,7 @@ module.exports = function (defaultFuncs, api, ctx) {
             label: "46",
             payload: payload0,
             queue_name: String(threadID),
-            task_id: 400,
+            task_id: taskBase,
             failure_count: null
           },
           {
@@ -262,7 +257,7 @@ module.exports = function (defaultFuncs, api, ctx) {
               sync_group: 1
             },
             queue_name: String(threadID),
-            task_id: 401,
+            task_id: taskBase + 1,
             failure_count: null
           }
         ],

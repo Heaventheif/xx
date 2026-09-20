@@ -301,6 +301,13 @@ export class MqttConnectionManager extends EventEmitter {
       try {
         const lastActivityAt = Math.max(this.lastEventAt, this.lastPingAt);
         const staleFor = Date.now() - lastActivityAt;
+        // CRITICAL-03 FIX: لا تُطلق الـ watchdog أثناء CONNECTING / AUTH_FAILED / STOPPED.
+        // المشكلة السابقة: إذا استغرق handshake MQTT أكثر من initialGraceMs (دقيقتان)،
+        // كان الـ watchdog يقتل الجلسة الصحيحة لأن _socketAlive() يعيد false ريثما
+        // يُكمل fca-nx إعداد مُوكّل الأحداث الداخلي.
+        if (this.state === "CONNECTING" || this.state === "AUTH_FAILED" || this.state === "STOPPED") {
+          return; // انتظر الدورة القادمة — المعالجات الداخلية ستُبلِّغ عن أي خطأ حقيقي
+        }
         const settling = this.connectedSince > 0 &&
           Date.now() - this.connectedSince < this.options.initialGraceMs;
         // The FCA listener may expose its MQTT client a little after listenMqtt()

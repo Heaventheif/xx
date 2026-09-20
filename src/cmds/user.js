@@ -3,37 +3,37 @@
 // ✅ لا حاجة لـ permission.js — الكور يتحقق من config.role تلقائياً قبل run()
 // role: 1 = مشرف المجموعة | 2 = مطور البوت فقط
 
-module.exports = {
-  config: {
-    name: "user",
-    version: "2.1.0",
-    author: "dev",
-    countDown: 5,
-    role: 1, // الكور يمنع الوصول تلقائياً إذا role < 1
-    description: {
-      ar: "إدارة المستخدمين: معرف، اسم، طرد، حظر، إضافة",
-    },
-    category: "admin",
-    guide: {
-      ar:
-        "{pn} id @شخص          — عرض UID الشخص\n" +
-        "{pn} name @شخص <اسم>  — تغيير اللقب\n" +
-        "{pn} kick @شخص        — طرد من المجموعة\n" +
-        "{pn} ban @شخص         — حظر المستخدم من البوت (مطور فقط)\n" +
-        "{pn} add <UID>         — إضافة مستخدم للمجموعة",
-    },
+const _config = {
+  name: "user",
+  version: "2.1.0",
+  author: "dev",
+  countDown: 5,
+  role: 1,
+  description: {
+    ar: "إدارة المستخدمين: معرف، اسم، طرد، حظر، إضافة",
   },
+  category: "admin",
+  guide: {
+    ar:
+      "{pn} id @شخص          — عرض UID الشخص\n" +
+      "{pn} name @شخص <اسم>  — تغيير اللقب\n" +
+      "{pn} kick @شخص        — طرد من المجموعة\n" +
+      "{pn} ban @شخص         — حظر المستخدم من البوت (مطور فقط)\n" +
+      "{pn} add <UID>         — إضافة مستخدم للمجموعة",
+  },
+};
+
+export default {
+  config: _config,
 
   // ─── نقطة الدخول ────────────────────────────────────────────────
-  // الكور يمرر: role (0=عضو، 1=مشرف_مجموعة_فعلي، 2=مطور) + isGroupAdmin
   run: async function ({ api, event, args, role, Users, Threads, prefix }) {
     const { threadID, messageID } = event;
     const sub = (args[0] || "").toLowerCase();
 
-    // ── توجيه الأوامر الفرعية ──────────────────────────────────────
     switch (sub) {
       case "id":
-        return handleID(api, event, Users);
+        return handleID(api, event);
       case "name":
         return handleName(api, event, args.slice(1));
       case "kick":
@@ -44,8 +44,9 @@ module.exports = {
         return handleAdd(api, event, args.slice(1));
       default:
         return api.sendMessage(
-          `❓ الاستخدام:\n${module.exports.config.guide.ar.replace(/{pn}/g, prefix + "user")}`,
+          `❓ الاستخدام:\n${_config.guide.ar.replace(/{pn}/g, prefix + "user")}`,
           threadID,
+          null,
           messageID
         );
     }
@@ -55,16 +56,16 @@ module.exports = {
 // ═══════════════════════════════════════════════════════════════════
 //  user id  —  عرض UID
 // ═══════════════════════════════════════════════════════════════════
-async function handleID(api, event, Users) {
+async function handleID(api, event) {
   const { threadID, messageID, mentions, senderID } = event;
 
   const targets = Object.keys(mentions || {});
 
-  // بدون منشن → عرض UID المرسِل
   if (!targets.length) {
     return api.sendMessage(
       `🆔 معرّفك (UID): ${senderID}`,
       threadID,
+      null,
       messageID
     );
   }
@@ -74,7 +75,7 @@ async function handleID(api, event, Users) {
     return `👤 ${name}\n🆔 UID: ${uid}`;
   });
 
-  api.sendMessage(lines.join("\n\n"), threadID, messageID);
+  api.sendMessage(lines.join("\n\n"), threadID, null, messageID);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -85,9 +86,8 @@ async function handleName(api, event, args) {
 
   const targets = Object.keys(mentions || {});
   if (!targets.length)
-    return api.sendMessage("⚠️ قم بمنشن الشخص المراد تغيير لقبه.", threadID, messageID);
+    return api.sendMessage("⚠️ قم بمنشن الشخص المراد تغيير لقبه.", threadID, null, messageID);
 
-  // الاسم الجديد: كل النص بعد إزالة الأرقام والمنشن
   const newName = args
     .filter((a) => !a.startsWith("@") && !/^\d+$/.test(a))
     .join(" ")
@@ -97,17 +97,14 @@ async function handleName(api, event, args) {
     return api.sendMessage(
       "⚠️ أدخل الاسم الجديد بعد المنشن.\nمثال: user name @شخص الاسم الجديد",
       threadID,
+      null,
       messageID
     );
 
   const results = [];
   for (const uid of targets) {
     try {
-      await new Promise((res, rej) =>
-        api.changeNickname(newName, threadID, uid, (err) =>
-          err ? rej(err) : res()
-        )
-      );
+      await api.changeNickname(newName, threadID, uid);
       const name = (mentions[uid] || "").replace("@", "") || uid;
       results.push(`✅ تم تغيير لقب ${name} إلى "${newName}"`);
     } catch {
@@ -115,7 +112,7 @@ async function handleName(api, event, args) {
     }
   }
 
-  api.sendMessage(results.join("\n"), threadID, messageID);
+  api.sendMessage(results.join("\n"), threadID, null, messageID);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -126,20 +123,15 @@ async function handleKick(api, event) {
 
   const targets = Object.keys(mentions || {});
   if (!targets.length)
-    return api.sendMessage("⚠️ قم بمنشن الشخص المراد طرده.", threadID, messageID);
+    return api.sendMessage("⚠️ قم بمنشن الشخص المراد طرده.", threadID, null, messageID);
 
-  // منع طرد النفس
   if (targets.includes(senderID))
-    return api.sendMessage("⚠️ لا يمكنك طرد نفسك.", threadID, messageID);
+    return api.sendMessage("⚠️ لا يمكنك طرد نفسك.", threadID, null, messageID);
 
   const results = [];
   for (const uid of targets) {
     try {
-      await new Promise((res, rej) =>
-        api.removeUserFromGroup(uid, threadID, (err) =>
-          err ? rej(err) : res()
-        )
-      );
+      await api.removeUserFromGroup(uid, threadID);
       const name = (mentions[uid] || "").replace("@", "") || uid;
       results.push(`✅ تم طرد ${name}`);
     } catch {
@@ -147,7 +139,7 @@ async function handleKick(api, event) {
     }
   }
 
-  api.sendMessage(results.join("\n"), threadID, messageID);
+  api.sendMessage(results.join("\n"), threadID, null, messageID);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -156,17 +148,17 @@ async function handleKick(api, event) {
 async function handleBan(api, event, Users, role) {
   const { threadID, messageID, mentions } = event;
 
-  // يتطلب مطور بوت (role 2) — يُحسب من getUserRole في الكور
   if (role < 2)
     return api.sendMessage(
       "⛔ حظر المستخدمين متاح لمطوري البوت فقط.",
       threadID,
+      null,
       messageID
     );
 
   const targets = Object.keys(mentions || {});
   if (!targets.length)
-    return api.sendMessage("⚠️ قم بمنشن الشخص المراد حظره.", threadID, messageID);
+    return api.sendMessage("⚠️ قم بمنشن الشخص المراد حظره.", threadID, null, messageID);
 
   const results = [];
   for (const uid of targets) {
@@ -184,7 +176,7 @@ async function handleBan(api, event, Users, role) {
     }
   }
 
-  api.sendMessage(results.join("\n"), threadID, messageID);
+  api.sendMessage(results.join("\n"), threadID, null, messageID);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -193,7 +185,6 @@ async function handleBan(api, event, Users, role) {
 async function handleAdd(api, event, args) {
   const { threadID, messageID, mentions } = event;
 
-  // قبول المنشن أو UID مكتوب مباشرة
   let targets = Object.keys(mentions || {});
   if (!targets.length) {
     targets = args.filter((a) => /^\d{10,}$/.test(a));
@@ -203,17 +194,14 @@ async function handleAdd(api, event, args) {
     return api.sendMessage(
       "⚠️ قم بمنشن الشخص أو أدخل UID الشخص المراد إضافته.\nمثال: user add 100012345678",
       threadID,
+      null,
       messageID
     );
 
   const results = [];
   for (const uid of targets) {
     try {
-      await new Promise((res, rej) =>
-        api.addUserToGroup(uid, threadID, (err) =>
-          err ? rej(err) : res()
-        )
-      );
+      await api.addUserToGroup(uid, threadID);
       const name = mentions?.[uid]
         ? (mentions[uid] || "").replace("@", "")
         : uid;
@@ -227,5 +215,15 @@ async function handleAdd(api, event, args) {
     }
   }
 
-  api.sendMessage(results.join("\n"), threadID, messageID);
+  api.sendMessage(results.join("\n"), threadID, null, messageID);
 }
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-admin-user',
+  meta: { category: 'command-admin', path: 'src/cmds/user.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};

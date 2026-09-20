@@ -7,43 +7,50 @@
  */
 
 // ── اتصال MongoDB (مُشترك بين جميع الأوامر) ─────────────────────────────────
-let _mongoose   = null;
-let _connected  = false;
-let _connecting = false;
+// HIGH-04 FIX: استبدال spin-wait (setTimeout 1500ms) بـ Promise barrier حقيقي.
+// المشكلة السابقة: إذا اتصل عدة أوامر بـ loadCtx/saveCtx قبل اكتمال اتصال MongoDB،
+// كل منها ينتظر 1500ms ثم يتحقق _connected. إذا استغرق الاتصال > 1500ms، كلهم
+// يعودون null ويستخدمون RAM — وهكذا تُفقد البيانات بصمت.
+// الحل: نُخزّن وعد الاتصال الجاري ونُعيده مباشرة لكل المتصلين المتزامنين.
+let _mongoose       = null;
+let _connected      = false;
+let _connectPromise = null;  // ← الـ Promise barrier
 
 async function getMongoose() {
   if (_connected) return _mongoose;
-  if (_connecting) {
-    // انتظر حتى ينتهي الاتصال الجاري
-    await new Promise(r => setTimeout(r, 1500));
-    return _connected ? _mongoose : null;
-  }
+
+  // إذا كان اتصال جارٍ، أعد نفس الوعد — لا spin-wait
+  if (_connectPromise) return _connectPromise;
 
   const uri = process.env.MONGO_URI || process.env.MONGODB_URI || "";
   if (!uri) return null;
 
-  try {
-    _connecting = true;
-    const mod   = await import("mongoose");
-    _mongoose   = mod.default ?? mod;
+  _connectPromise = (async () => {
+    try {
+      const mod   = await import("mongoose");
+      _mongoose   = mod.default ?? mod;
 
-    if (_mongoose.connection.readyState === 0) {
-      await _mongoose.connect(uri, {
-        dbName:             "sunkenbot",
-        serverSelectionTimeoutMS: 8000,
-        socketTimeoutMS:          30000,
-      });
+      if (_mongoose.connection.readyState === 0) {
+        await _mongoose.connect(uri, {
+          dbName:                   "sunkenbot",
+          serverSelectionTimeoutMS: 8000,
+          socketTimeoutMS:          30000,
+        });
+      }
+
+      _connected = true;
+      console.log("[SESSION] ✅ MongoDB متصل (جلسات AI)");
+      return _mongoose;
+    } catch (e) {
+      console.warn("[SESSION] ⚠️ MongoDB غير متاح — سيُستخدم RAM:", e.message);
+      return null;
+    } finally {
+      // امسح الوعد حتى يُعاد المحاولة عند الاستدعاء التالي بعد الفشل
+      if (!_connected) _connectPromise = null;
     }
+  })();
 
-    _connected  = true;
-    _connecting = false;
-    console.log("[SESSION] ✅ MongoDB متصل (جلسات AI)");
-    return _mongoose;
-  } catch (e) {
-    _connecting = false;
-    console.warn("[SESSION] ⚠️ MongoDB غير متاح — سيُستخدم RAM:", e.message);
-    return null;
-  }
+  return _connectPromise;
 }
 
 // ── نماذج Mongoose (cached) ───────────────────────────────────────────────────

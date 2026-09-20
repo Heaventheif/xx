@@ -7,11 +7,16 @@ const logger = require("../func/logger");
 const { DEFAULT_IDENTITY } = require("../src/utils/clientIdentity");
 
 const { config } = loadConfig();
-global.fca = { config };
+// HIGH-01 FIX: استخدم || {} بدلاً من الإسناد المباشر حتى لا تُمحى الخصائص
+// الموجودة مسبقاً مثل _errorHandlersInstalled، مما كان يُسبّب TypeError عند
+// قراءة global.fca._errorHandlersInstalled في الـ guard التالي.
+global.fca = global.fca || {};
+global.fca.config = config;
 
 // Global error handlers to prevent bot crashes
 // Handle unhandled promise rejections (e.g., fetch timeouts, network errors)
-if (!global.fca._errorHandlersInstalled) {
+// BUG-01 FIX: إذا سجَّل main.js handlers بالفعل، لا نسجِّل مجدداً
+if (!global.fca._errorHandlersInstalled && !global.__mainErrorHandlersInstalled) {
   global.fca._errorHandlersInstalled = true;
 
   process.on("unhandledRejection", (reason, promise) => {

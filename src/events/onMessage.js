@@ -130,7 +130,10 @@ export function dispatchMqttEvent(api, event, label, acceptedThreads) {
   if (["message", "message_reply", "log", "event"].includes(event.type)) {
     // تمييز الرسالة كمقروءة — نؤخّره 800ms لضمان أن mqttClient جاهز بعد listenMqtt
     if (["message", "message_reply"].includes(event.type) && event.threadID) {
+      // BUG-06 FIX: فحص __lifecycleStopped يمنع race condition إذا أُوقف البوت
+      // خلال الـ 800ms قبل تنفيذ markAsRead
       setTimeout(() => {
+        if (api.__lifecycleStopped) return;
         try {
           if (typeof api.markAsRead === "function") {
             api.markAsRead(event.threadID, true, (err) => {

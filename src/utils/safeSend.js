@@ -148,10 +148,11 @@ global.cleanupIdleThreadGates = cleanupIdleThreadGates;
 
 // Auto-schedule cleanup every 30 min — prevents _threadGates from growing
 // unbounded when the bot is in many groups over a long uptime period.
+// BUG-04 FIX: .unref() يسمح بالخروج الطبيعي عند SIGTERM دون انتظار هذا المؤقت
 setInterval(() => {
   const removed = cleanupIdleThreadGates();
   if (removed > 0) console.log(`[SEND] 🧹 أُزيل ${removed} gate خامل من الذاكرة.`);
-}, 30 * 60 * 1000);
+}, 30 * 60 * 1000).unref();
 export { gatedSend, prioritySend, wrapApiForSafety, cleanupIdleThreadGates };
 
 // ─── Plugin Descriptor ──────────────────────────────────────────

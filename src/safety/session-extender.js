@@ -20,10 +20,11 @@
  */
 
 import { EventEmitter } from "node:events";
+// BUG-03 FIX: saveAppStateToMongo كانت stub تعيد false دائماً.
+// الحفظ الفعلي يتم عبر onAppStateSave callback المُمرَّر من bot-init.js.
 import {
   checkAppStateExpiry,
   EXPIRY_WARNING_MS,
-  saveAppStateToMongo,
 } from "../utils/appStatePersist.js";
 
 // ── ثوابت ────────────────────────────────────────────────────────────────────
@@ -350,10 +351,11 @@ export class SessionExtender extends EventEmitter {
       const state = this._api?.getAppState?.();
       if (!state?.length) return;
 
+      // BUG-03 FIX: نستخدم onAppStateSave callback دائماً (تمرَّر من bot-init.js)
       if (this._onAppStateSave) {
         this._onAppStateSave(state);
       } else {
-        await saveAppStateToMongo(state, this._botIndex, reason);
+        console.warn(`[EXTENDER:${this._label}] ⚠️ onAppStateSave غير مُمرَّر — AppState لن يُحفظ (${reason})`);
       }
     } catch (e) {
       console.warn(`[EXTENDER:${this._label}] ⚠️ فشل حفظ AppState (${reason}): ${e.message}`);

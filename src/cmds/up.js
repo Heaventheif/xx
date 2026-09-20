@@ -1,7 +1,9 @@
 import fs from "fs-extra";
 import path from "path";
 import { pathToFileURL } from "url";
-const CACHE_ROOT = path.join(import.meta.dir, "..", "..", "..", "cache");
+// CRITICAL-02 FIX: كان "..\\..\\..\\" يخرج من جذر المشروع — صحّحنا إلى "../.."
+// src/cmds/up.js  →  src/  →  project_root/cache
+const CACHE_ROOT = path.join(import.meta.dir, "..", "..", "cache");
 const AI_DIRS    = ["ai_sessions_gptx"];
 const MEDIA_DIRS = [];
 const GLOBAL_SESSIONS = [];

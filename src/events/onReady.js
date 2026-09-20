@@ -38,7 +38,9 @@ export function startCleanupInterval() {
       (pm ? ` | Cache: ${pm.cacheSize} (hit ${(pm.cacheHitRate * 100).toFixed(0)}%) | avg: ${pm.avgResponseTimeMs}ms` : "") +
       ` | Bots: ${global.botApis.length}`
     );
-  }, 10 * 60 * 1000);
+  // HIGH-03 FIX: .unref() يمنع دورة cleanup (التي تشمل Bun.gc(true)) من
+  // إبقاء العملية حية بعد SIGTERM في حالة التخلص اللطيف من الموارد.
+}, 10 * 60 * 1000).unref();
 }
 // ─── Plugin Descriptor ──────────────────────────────────────────
 /** @type {import('../plugin-provider.js').XxPlugin} */

@@ -31,11 +31,10 @@ function resolveModule(raw, file) {
 function collectCommandFiles(commandsDir) {
   const out = [];
   if (!fs.existsSync(commandsDir)) return out;
-  for (const category of fs.readdirSync(commandsDir)) {
-    const catDir = path.join(commandsDir, category);
-    if (!fs.statSync(catDir).isDirectory()) continue;
-    for (const file of fs.readdirSync(catDir)) {
-      if (file.endsWith(".js")) out.push(path.join(catDir, file));
+  for (const file of fs.readdirSync(commandsDir)) {
+    const fullPath = path.join(commandsDir, file);
+    if (file.endsWith(".js") && fs.statSync(fullPath).isFile()) {
+      out.push(fullPath);
     }
   }
   return out;

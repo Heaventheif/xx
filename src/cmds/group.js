@@ -3,40 +3,40 @@
 // ✅ لا حاجة لـ permission.js — الكور يتحقق من config.role تلقائياً قبل run()
 // role: 1 = مشرف المجموعة | 2 = مطور البوت فقط
 
-module.exports = {
-  config: {
-    name: "group",
-    version: "2.1.0",
-    author: "dev",
-    countDown: 5,
-    role: 1, // الكور يمنع الوصول تلقائياً إذا role < 1
-    description: {
-      ar: "إدارة المجموعة: معلومات، إحصائيات، حظر، تغيير الاسم، إدارة المشرفين",
-    },
-    category: "admin",
-    guide: {
-      ar:
-        "{pn} info               — معلومات المجموعة (GID + الأعضاء)\n" +
-        "{pn} stats              — إحصائيات المجموعة\n" +
-        "{pn} ban                — حظر المجموعة من البوت (مطور فقط)\n" +
-        "{pn} rename <الاسم>     — تغيير اسم المجموعة\n" +
-        "{pn} admin add @شخص    — إضافة مشرف\n" +
-        "{pn} admin remove @شخص — إزالة مشرف",
-    },
+const _config = {
+  name: "group",
+  version: "2.1.0",
+  author: "dev",
+  countDown: 5,
+  role: 1,
+  description: {
+    ar: "إدارة المجموعة: معلومات، إحصائيات، حظر، تغيير الاسم، إدارة المشرفين",
   },
+  category: "admin",
+  guide: {
+    ar:
+      "{pn} info               — معلومات المجموعة (GID + الأعضاء)\n" +
+      "{pn} stats              — إحصائيات المجموعة\n" +
+      "{pn} ban                — حظر المجموعة من البوت (مطور فقط)\n" +
+      "{pn} rename <الاسم>     — تغيير اسم المجموعة\n" +
+      "{pn} admin add @شخص    — إضافة مشرف\n" +
+      "{pn} admin remove @شخص — إزالة مشرف",
+  },
+};
+
+export default {
+  config: _config,
 
   // ─── نقطة الدخول ────────────────────────────────────────────────
-  // الكور يمرر: role (0=عضو، 1=مشرف_مجموعة_فعلي، 2=مطور) + isGroupAdmin
   run: async function ({ api, event, args, role, Threads, Users, prefix }) {
-    const { threadID, senderID, messageID } = event;
+    const { threadID, messageID } = event;
     const sub = (args[0] || "").toLowerCase();
 
-    // ── توجيه الأوامر الفرعية ──────────────────────────────────────
     switch (sub) {
       case "info":
-        return handleInfo(api, event, Threads, Users);
+        return handleInfo(api, event);
       case "stats":
-        return handleStats(api, event, Threads);
+        return handleStats(api, event);
       case "ban":
         return handleBan(api, event, Threads, role);
       case "rename":
@@ -45,8 +45,9 @@ module.exports = {
         return handleAdmin(api, event, args.slice(1));
       default:
         return api.sendMessage(
-          `❓ الاستخدام:\n${module.exports.config.guide.ar.replace(/{pn}/g, prefix + "group")}`,
+          `❓ الاستخدام:\n${_config.guide.ar.replace(/{pn}/g, prefix + "group")}`,
           threadID,
+          null,
           messageID
         );
     }
@@ -56,16 +57,14 @@ module.exports = {
 // ═══════════════════════════════════════════════════════════════════
 //  group info  —  GID + قائمة الأعضاء
 // ═══════════════════════════════════════════════════════════════════
-async function handleInfo(api, event, Threads, Users) {
+async function handleInfo(api, event) {
   const { threadID, messageID } = event;
 
   let info;
   try {
-    info = await new Promise((res, rej) =>
-      api.getThreadInfo(threadID, (err, d) => (err ? rej(err) : res(d)))
-    );
+    info = await api.getThreadInfo(threadID);
   } catch {
-    return api.sendMessage("❌ فشل جلب معلومات المجموعة.", threadID, messageID);
+    return api.sendMessage("❌ فشل جلب معلومات المجموعة.", threadID, null, messageID);
   }
 
   const memberList = info.participantIDs
@@ -84,22 +83,20 @@ async function handleInfo(api, event, Threads, Users) {
       ? `\n  … و ${info.participantIDs.length - 30} آخرين`
       : "");
 
-  api.sendMessage(msg, threadID, messageID);
+  api.sendMessage(msg, threadID, null, messageID);
 }
 
 // ═══════════════════════════════════════════════════════════════════
 //  group stats  —  إحصائيات
 // ═══════════════════════════════════════════════════════════════════
-async function handleStats(api, event, Threads) {
+async function handleStats(api, event) {
   const { threadID, messageID } = event;
 
   let info;
   try {
-    info = await new Promise((res, rej) =>
-      api.getThreadInfo(threadID, (err, d) => (err ? rej(err) : res(d)))
-    );
+    info = await api.getThreadInfo(threadID);
   } catch {
-    return api.sendMessage("❌ فشل جلب إحصائيات المجموعة.", threadID, messageID);
+    return api.sendMessage("❌ فشل جلب إحصائيات المجموعة.", threadID, null, messageID);
   }
 
   const approvalMode = info.approvalMode ? "مفعّل ✅" : "معطّل ❌";
@@ -114,7 +111,7 @@ async function handleStats(api, event, Threads) {
     `🔒 موافقة    : ${approvalMode}\n` +
     `📅 آخر نشاط  : ${new Date(info.timestamp).toLocaleString("ar-EG")}`;
 
-  api.sendMessage(msg, threadID, messageID);
+  api.sendMessage(msg, threadID, null, messageID);
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -123,27 +120,28 @@ async function handleStats(api, event, Threads) {
 async function handleBan(api, event, Threads, role) {
   const { threadID, messageID } = event;
 
-  // يتطلب مطور بوت (role 2) — يُحسب من getUserRole في الكور
   if (role < 2)
     return api.sendMessage(
       "⛔ حظر المجموعة متاح لمطوري البوت فقط.",
       threadID,
+      null,
       messageID
     );
 
   try {
     const data = await Threads.getData(threadID);
     if (data.banned)
-      return api.sendMessage("⚠️ المجموعة محظورة بالفعل.", threadID, messageID);
+      return api.sendMessage("⚠️ المجموعة محظورة بالفعل.", threadID, null, messageID);
 
     await Threads.setData(threadID, { banned: true });
     api.sendMessage(
       `🚫 تم حظر المجموعة بنجاح.\nGID: ${threadID}`,
       threadID,
+      null,
       messageID
     );
   } catch {
-    api.sendMessage("❌ فشل حظر المجموعة.", threadID, messageID);
+    api.sendMessage("❌ فشل حظر المجموعة.", threadID, null, messageID);
   }
 }
 
@@ -154,17 +152,13 @@ async function handleRename(api, event, newName) {
   const { threadID, messageID } = event;
 
   if (!newName.trim())
-    return api.sendMessage("⚠️ أدخل الاسم الجديد للمجموعة.", threadID, messageID);
+    return api.sendMessage("⚠️ أدخل الاسم الجديد للمجموعة.", threadID, null, messageID);
 
   try {
-    await new Promise((res, rej) =>
-      api.setTitle(newName.trim(), threadID, (err) =>
-        err ? rej(err) : res()
-      )
-    );
-    api.sendMessage(`✅ تم تغيير اسم المجموعة إلى:\n"${newName.trim()}"`, threadID, messageID);
+    await api.setTitle(newName.trim(), threadID);
+    api.sendMessage(`✅ تم تغيير اسم المجموعة إلى:\n"${newName.trim()}"`, threadID, null, messageID);
   } catch {
-    api.sendMessage("❌ فشل تغيير اسم المجموعة.", threadID, messageID);
+    api.sendMessage("❌ فشل تغيير اسم المجموعة.", threadID, null, messageID);
   }
 }
 
@@ -179,21 +173,18 @@ async function handleAdmin(api, event, args) {
     return api.sendMessage(
       "⚠️ الاستخدام:\ngroup admin add @شخص\ngroup admin remove @شخص",
       threadID,
+      null,
       messageID
     );
 
   const targets = Object.keys(mentions || {});
   if (!targets.length)
-    return api.sendMessage("⚠️ قم بمنشن الشخص المراد إضافته/إزالته.", threadID, messageID);
+    return api.sendMessage("⚠️ قم بمنشن الشخص المراد إضافته/إزالته.", threadID, null, messageID);
 
   const results = [];
   for (const uid of targets) {
     try {
-      await new Promise((res, rej) =>
-        api.changeAdminStatus(threadID, uid, action === "add", (err) =>
-          err ? rej(err) : res()
-        )
-      );
+      await api.changeAdminStatus(threadID, uid, action === "add");
       const name = mentions[uid]?.replace("@", "") || uid;
       results.push(`✅ ${action === "add" ? "تمت إضافة" : "تمت إزالة"} ${name}`);
     } catch {
@@ -201,5 +192,15 @@ async function handleAdmin(api, event, args) {
     }
   }
 
-  api.sendMessage(results.join("\n"), threadID, messageID);
+  api.sendMessage(results.join("\n"), threadID, null, messageID);
 }
+
+// ─── Plugin Descriptor ──────────────────────────────────────────
+/** @type {import('../../plugin-provider.js').XxPlugin} */
+export const $plugin = {
+  name: 'xx-commands-admin-group',
+  meta: { category: 'command-admin', path: 'src/cmds/group.js' },
+  setup(_ctx) {
+    // see module exports
+  },
+};
