@@ -137,15 +137,24 @@ module.exports = function (defaultFuncs, api, ctx, opts) {
         logger("mqtt getSeqID call", "info");
         return getSeqIDFactory(defaultFuncs, api, ctx, globalCallback, form)
             .then(() => {
-                logger("mqtt getSeqID ok -> listenMqtt()", "info");
+                logger("mqtt getSeqID done", "info");
                 ctx._cycling = false;
                 reconnectAttempts = 0;
                 isReconnecting = false;
-                // FIX: attachClientListeners() must be called here (after getSeqID path)
-                // so "packetreceive" refreshes lastPongTime. Without this, the heartbeat
-                // timer never sees any incoming packets and calls forceCycle() ~60 s after
-                // every connect — causing the ~2-min reconnect loop visible in the logs.
-                attachClientListeners();
+                // FIX: after getSeqID completes, connectMqtt.js has already set up
+                // its own close/error handlers internally — we must NOT call the full
+                // attachClientListeners() here (that would remove those handlers and
+                // cause the puback/double-connection bug seen in the logs).
+                // We only need "packetreceive" to keep lastPongTime fresh so the
+                // heartbeat does not call forceCycle() every ~60s due to a stale timestamp.
+                if (ctx.mqttClient) {
+                    ctx.mqttClient.removeAllListeners("packetreceive");
+                    ctx.mqttClient.on("packetreceive", (packet) => {
+                        lastPongTime = Date.now();
+                        if (packet && packet.cmd === "pingresp")
+                            logger("mqtt pong received", "debug");
+                    });
+                }
                 startHeartbeat();
             })
             .catch(e => {
